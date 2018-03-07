@@ -16,13 +16,18 @@ public class MetarialSpawner : MonoBehaviour
 
     private void Awake()
     {
+        Vector3 temp = Vector3.zero;
+        bool isNotTooClose = true;
+
         positions = new Vector3[count];
         objects = new GameObject[count];
 
+        // positions 초기화
         for(int i = 0; i < count; i++)
         {
-            Vector3 temp = new Vector3(Random.Range(0.0f, x_max), Random.Range(0.0f, y_max));
-            bool isNotTooClose = true;
+            isNotTooClose = true;
+            temp.x = Random.Range(0.0f, x_max);
+            temp.y = Random.Range(0.0f, y_max);
 
             for(int j = 0; j < i; j++)
             {
@@ -33,10 +38,10 @@ public class MetarialSpawner : MonoBehaviour
             else i--;
         }
 
+        // 인스턴스화
         for(int i = 0; i < count; i++)
         {
-            Debug.Log("count = " + count + ", i = " + i);
-            Debug.Log("positions[" + i + "] = " + positions[i]);
+            Debug.Log("count = " + count + ", i = " + i +  " // positions[" + i + "] = " + positions[i]);
             objects[i] = Instantiate(prefabs[0], transform.position + positions[i], Quaternion.identity, transform);
         }
     }
