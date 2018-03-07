@@ -13,14 +13,23 @@ public class MetarialSpawner : MonoBehaviour
 
     Vector3[] positions;
     GameObject[] objects;
+    Dictionary<string, int> metarialNumbers;
 
     private void Awake()
     {
+        // 변수 초기화
         Vector3 temp = Vector3.zero;
         bool isNotTooClose = true;
 
+        // 배열 할당
         positions = new Vector3[count];
         objects = new GameObject[count];
+        
+        // metarialNumbers 초기화
+        for(int i = 0; i < prefabs.Length; i++)
+        {
+            metarialNumbers.Add(prefabs[i].name, 0);
+        }
 
         // positions 초기화
         for(int i = 0; i < count; i++)
@@ -31,7 +40,7 @@ public class MetarialSpawner : MonoBehaviour
 
             for(int j = 0; j < i; j++)
             {
-                if ((positions[j] - temp).sqrMagnitude < 1) isNotTooClose = false;
+                if ((positions[j] - temp).sqrMagnitude < (minDistance * minDistance)) isNotTooClose = false;
             }
 
             if (isNotTooClose == true) positions[i] = temp;
@@ -41,8 +50,12 @@ public class MetarialSpawner : MonoBehaviour
         // 인스턴스화
         for(int i = 0; i < count; i++)
         {
-            Debug.Log("count = " + count + ", i = " + i +  " // positions[" + i + "] = " + positions[i]);
-            objects[i] = Instantiate(prefabs[0], transform.position + positions[i], Quaternion.identity, transform);
+            int index = Random.Range(0, prefabs.Length);
+
+            //Debug.Log(string.Format("count = {0}, i = {1}, positions[{1}] = {2}", count, i, positions[i]));
+            objects[i] = Instantiate(prefabs[index], transform.position + positions[i], Quaternion.identity, transform);
+
+            // Key의 인덱스를 받아와서 그 Value를 1 증가시키는 코드를 짜야 합니다.
         }
     }
 }
