@@ -898,10 +898,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   metarials:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: eb05098e03320344da533510ea764c7a, type: 3}
+  - {fileID: 21300000, guid: c053d429bb714f14aa50ad2d9e28370a, type: 3}
+  - {fileID: 21300000, guid: 0fd35512df99e0a44a1bcc00343fa839, type: 3}
+  - {fileID: 21300000, guid: fe8be79f5712e5a45b264df1e1041d2c, type: 3}
+  - {fileID: 21300000, guid: 112bf24404394e847819f3bd8ebfbeab, type: 3}
 --- !u!1 &1497229594
 GameObject:
   m_ObjectHideFlags: 0

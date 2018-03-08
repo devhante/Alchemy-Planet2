@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class SlotController : MonoBehaviour
 {
-    enum Metarial { Red, Yellow, Green, Blue }
-
     int slotSize;
 
     GameObject[] slots;
     GameObject[] stars;
+    Dictionary<string, int> metarialNumbers;
 
     public Sprite[] metarials;
 
@@ -21,6 +20,7 @@ public class SlotController : MonoBehaviour
         // slot 배열,star 배열 할당
         slots = new GameObject[slotSize];
         stars = new GameObject[slotSize];
+        metarialNumbers = new Dictionary<string, int>();
         
         // 배열에 오브젝트 대입
         for (int i = 0; i < slotSize; i++)
@@ -38,11 +38,19 @@ public class SlotController : MonoBehaviour
     private void SetSlotSprite()
     {
         int index;
+        string name;
 
         for(int i = 0; i < slotSize; i++)
         {
             index = Random.Range(0, metarials.Length);
-            slots[i].GetComponent<SpriteRenderer>().sprite = metarials[index];
+            name = metarials[index].name;
+            if (metarialNumbers.ContainsKey(name) == false) metarialNumbers.Add(name, 0);
+
+            if(metarialNumbers[name] < MetarialSpawner.Instance.GetMetarialNumber(name))
+            {
+                slots[i].GetComponent<SpriteRenderer>().sprite = metarials[index];
+                metarialNumbers[name]++;
+            }
         }
     }
 }

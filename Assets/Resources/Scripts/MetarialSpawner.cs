@@ -15,6 +15,26 @@ public class MetarialSpawner : MonoBehaviour
     GameObject[] objects;
     Dictionary<string, int> metarialNumbers;
 
+    static MetarialSpawner instance = null;
+
+    public static MetarialSpawner Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType(typeof(MetarialSpawner)) as MetarialSpawner;
+
+                if(instance == null)
+                {
+                    Debug.Log("MetarialSpawner doesn't exist.");
+                }
+            }
+
+            return instance;
+        }
+    }
+
     private void Awake()
     {
         // 변수 초기화
@@ -22,6 +42,7 @@ public class MetarialSpawner : MonoBehaviour
         bool isNotTooClose = true;
 
         // 배열 할당
+        metarialNumbers = new Dictionary<string, int>();
         positions = new Vector3[count];
         objects = new GameObject[count];
         
@@ -55,7 +76,12 @@ public class MetarialSpawner : MonoBehaviour
             //Debug.Log(string.Format("count = {0}, i = {1}, positions[{1}] = {2}", count, i, positions[i]));
             objects[i] = Instantiate(prefabs[index], transform.position + positions[i], Quaternion.identity, transform);
 
-            // Key의 인덱스를 받아와서 그 Value를 1 증가시키는 코드를 짜야 합니다.
+            metarialNumbers[prefabs[index].name]++;
         }
+    }
+
+    public int GetMetarialNumber(string name)
+    {
+        return metarialNumbers[name];
     }
 }
