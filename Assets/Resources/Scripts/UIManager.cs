@@ -8,9 +8,14 @@ public enum Gages { Oxygen, Purify }
 public class UIManager : MonoBehaviour {
     public UIManager Instance = null;
 
+    public Canvas canvas;
+
     public Image OxygenGageMask;
     public Image PurifyGageMask;
     public Button PauseButton;
+
+    public Button PauseLayoutPrefeb;
+    public Button PauseLayout;
 
     public void Awake()
     {
@@ -19,8 +24,14 @@ public class UIManager : MonoBehaviour {
             Instance = this;
         }
 
-        PauseButton.onClick.AddListener(() => {
+        PauseButton.onClick.AddListener(() =>
+        {
             Time.timeScale = 0;
+            PauseLayout = Instantiate(PauseLayoutPrefeb, canvas.transform);
+            PauseLayout.onClick.AddListener(() => {
+                Destroy(PauseLayout.gameObject);
+                Time.timeScale = 1;
+            });
         });
     }
 
