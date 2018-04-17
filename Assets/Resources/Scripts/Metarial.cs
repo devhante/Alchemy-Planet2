@@ -11,6 +11,7 @@ public class Metarial : MonoBehaviour
 	{
 		string recipe = RecipeController.Instance.GetQueuePeekName();
 
+		Debug.Log(recipe + " " + prefabName);
 		if (recipe == prefabName) RecipeController.Instance.DestroyQueuePeek();
 
 		MetarialSpawner.Instance.DecreaseMetarialNumber(prefabName);

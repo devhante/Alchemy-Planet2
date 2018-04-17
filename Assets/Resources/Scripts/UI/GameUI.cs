@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public enum Gages { Oxygen, Purify }
 
 public class GameUI : MonoBehaviour {
+
+
     public Image OxygenGageMask;
     public Image PurifyGageMask;
     public Button PauseButton;
@@ -24,7 +26,7 @@ public class GameUI : MonoBehaviour {
 
     public void Start()
     {
-        UpdateGage(Gages.Purify, 100);
+        UpdateGage(Gages.Purify, 0);
 
         GameManager.Instance.StartGame();
 
@@ -89,9 +91,9 @@ public class GameUI : MonoBehaviour {
     {
         while (true)
         {
-            UpdateGage(Gages.Oxygen, -10);
-            UpdateGage(Gages.Purify, -10);
-            yield return new WaitForSeconds(1);
+			yield return new WaitForSeconds(1);
+			UpdateGage(Gages.Oxygen, -10);
+            UpdateGage(Gages.Purify, -10);   
         }
     }
 }

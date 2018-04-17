@@ -37,12 +37,12 @@ public class RecipeController : MonoBehaviour
 
 	public string GetQueuePeekName()
 	{
-		return queue.Peek().name;
+		return queue.Peek().name.Substring(5, queue.Peek().name.Length - 12);
 	}
 
 	public void DestroyQueuePeek()
 	{
-		Destroy(queue.Peek());
+		Destroy(queue.Dequeue());
 	}
 
 	IEnumerator CreateRecipe()

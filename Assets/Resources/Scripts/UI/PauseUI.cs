@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PauseUI : MonoBehaviour {
@@ -16,11 +17,14 @@ public class PauseUI : MonoBehaviour {
             Time.timeScale = 1;
             Destroy(this.gameObject);
         });
+
         Restart.onClick.AddListener(() => {
+			Time.timeScale = 1;
+			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+		});
 
-        });
         Exit.onClick.AddListener(() => {
-
-        });
+			Application.Quit();
+		});
     }
 }
