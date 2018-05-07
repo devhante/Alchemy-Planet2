@@ -31,13 +31,12 @@ public class RecipeController : MonoBehaviour
 
 	private void Start()
 	{
-		StartCoroutine("CreateRecipe");
-		StartCoroutine("MoveRecipe");
+        AddRecipe();
 	}
 
 	public string GetQueuePeekName()
 	{
-		return queue.Peek().name.Substring(5, queue.Peek().name.Length - 12);
+		return queue.Peek().name.Substring(6, queue.Peek().name.Length - 13);
 	}
 
 	public void DestroyQueuePeek()
@@ -45,39 +44,48 @@ public class RecipeController : MonoBehaviour
 		Destroy(queue.Dequeue());
 	}
 
-	IEnumerator CreateRecipe()
-	{
-		int index;
-		GameObject temp;
+    private void AddRecipe()
+    {
+        int index = Random.Range(0, prefabs.Length);
+        GameObject temp = Instantiate(prefabs[index], transform);
 
-		while(true)
-		{
-			index = Random.Range(0, prefabs.Length);
-			temp = Instantiate(prefabs[index], transform);
+        queue.Enqueue(temp);
+        temp.transform.position = new Vector2(760.0f, 0.0f + 732.0f);
+    }
 
-			queue.Enqueue(temp);
-			temp.transform.position = new Vector2(730.0f, 0.0f + 732.0f);
+	//IEnumerator CreateRecipe()
+	//{
+	//	int index;
+	//	GameObject temp;
 
-			yield return new WaitForSeconds(1.0f);
-		}
-	}
+	//	while(true)
+	//	{
+	//		index = Random.Range(0, prefabs.Length);
+	//		temp = Instantiate(prefabs[index], transform);
 
-	IEnumerator MoveRecipe()
-	{
-		Vector3 speed = new Vector3(60.0f, 0.0f);
-		Vector3 target;
+	//		queue.Enqueue(temp);
+	//		temp.transform.position = new Vector2(730.0f, 0.0f + 732.0f);
 
-		while (true)
-		{
-			foreach (var item in queue)
-			{
-				target = item.transform.position - speed;
-				item.transform.position = Vector3.Lerp(item.transform.position, target, Time.deltaTime);
-			}
+	//		yield return new WaitForSeconds(1.0f);
+	//	}
+	//}
 
-			if (queue.Peek().transform.position.x <= -30.0f) Destroy(queue.Dequeue());
+	//IEnumerator MoveRecipe()
+	//{
+	//	Vector3 speed = new Vector3(60.0f, 0.0f);
+	//	Vector3 target;
 
-			yield return null;
-		}
-	}
+	//	while (true)
+	//	{
+	//		foreach (var item in queue)
+	//		{
+	//			target = item.transform.position - speed;
+	//			item.transform.position = Vector3.Lerp(item.transform.position, target, Time.deltaTime);
+	//		}
+
+	//		if (queue.Peek().transform.position.x <= -30.0f) Destroy(queue.Dequeue());
+
+	//		yield return null;
+	//	}
+	//}
 }
