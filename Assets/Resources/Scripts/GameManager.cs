@@ -32,4 +32,5 @@ public class GameManager : MonoBehaviour {
         }
     }
     //GM은 너무나 무능합니다. 기능을 주세요..
+
 }
