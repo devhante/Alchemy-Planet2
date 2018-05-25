@@ -20,6 +20,7 @@ public class DataManager : MonoBehaviour {
         Test();
     }
 
+    #region PlayerData_Not_Using
     /*
 
     //현재 이용중인 플레이어 데이터
@@ -106,6 +107,7 @@ public class DataManager : MonoBehaviour {
         return DialogScene;
     }
     */
+    #endregion /
 
     public void Test()
     {
