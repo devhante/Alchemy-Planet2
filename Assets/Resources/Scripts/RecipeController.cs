@@ -7,7 +7,7 @@ public class RecipeController : MonoBehaviour
 	public GameObject[] prefabs;
 
 	GameObject[] objects;
-	Queue<GameObject> queue = new Queue<GameObject>();
+	Queue<Recipe> queue = new Queue<Recipe>();
 
 	static RecipeController instance = null;
 
@@ -31,7 +31,7 @@ public class RecipeController : MonoBehaviour
 
 	private void Start()
 	{
-        AddRecipe();
+        StartCoroutine("CreateRecipe");
 	}
 
 	public string GetQueuePeekName()
@@ -41,16 +41,32 @@ public class RecipeController : MonoBehaviour
 
 	public void DestroyQueuePeek()
 	{
-		Destroy(queue.Dequeue());
+        GameUI.Instance.UpdateGage(Gages.Purify, 5);
+        Destroy(queue.Dequeue().gameObject);
+
+        int index = 0;
+        foreach(var item in queue)
+        {
+            item.SetDestination(index);
+            index++;
+        }
 	}
 
     private void AddRecipe()
     {
         int index = Random.Range(0, prefabs.Length);
-        GameObject temp = Instantiate(prefabs[index], transform);
-
+        Recipe temp = Instantiate(prefabs[index], transform).GetComponent<Recipe>();
         queue.Enqueue(temp);
-        temp.transform.position = new Vector2(760.0f, 0.0f + 732.0f);
+        temp.SetDestination(queue.Count - 1);
+    }
+
+    IEnumerator CreateRecipe()
+    {
+        while (true)
+        {
+            if (queue.Count < 14) AddRecipe();
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
 	//IEnumerator CreateRecipe()

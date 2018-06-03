@@ -17,7 +17,7 @@ public class EndUI : MonoBehaviour
         timetext.text = string.Format("{0}:{1}",(int)GameManager.Instance.PlayTime/60, GameManager.Instance.PlayTime % 60);
 
         Restart.onClick.AddListener(() => {
-			Time.timeScale = 0;
+			Time.timeScale = 1;
 			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         });
 

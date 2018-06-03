@@ -8,9 +8,9 @@ public class SlotController : MonoBehaviour
 
     GameObject[] slots;
     GameObject[] stars;
-    Dictionary<string, int> metarialNumbers;
+    Dictionary<string, int> materialNumbers;
 
-    public Sprite[] metarials;
+    public Sprite[] materials;
 
     private void Awake()
     {
@@ -20,7 +20,7 @@ public class SlotController : MonoBehaviour
         // slot 배열,star 배열 할당
         slots = new GameObject[slotSize];
         stars = new GameObject[slotSize];
-        metarialNumbers = new Dictionary<string, int>();
+        materialNumbers = new Dictionary<string, int>();
         
         // 배열에 오브젝트 대입
         for (int i = 0; i < slotSize; i++)
@@ -42,14 +42,14 @@ public class SlotController : MonoBehaviour
 
         for(int i = 0; i < slotSize; i++)
         {
-            index = Random.Range(0, metarials.Length);
-            name = metarials[index].name;
-            if (metarialNumbers.ContainsKey(name) == false) metarialNumbers.Add(name, 0);
+            index = Random.Range(0, materials.Length);
+            name = materials[index].name;
+            if (materialNumbers.ContainsKey(name) == false) materialNumbers.Add(name, 0);
 
-            if(metarialNumbers[name] < MetarialSpawner.Instance.GetMetarialNumber(name))
+            if(materialNumbers[name] < MaterialSpawner.Instance.GetmaterialNumber(name))
             {
-                slots[i].GetComponent<SpriteRenderer>().sprite = metarials[index];
-                metarialNumbers[name]++;
+                slots[i].GetComponent<SpriteRenderer>().sprite = materials[index];
+                materialNumbers[name]++;
             }
         }
     }

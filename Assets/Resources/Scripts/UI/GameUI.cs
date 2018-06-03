@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public enum Gages { Oxygen, Purify }
 
 public class GameUI : MonoBehaviour {
-
+    public static GameUI Instance;
 
     public Image OxygenGageMask;
     public Image PurifyGageMask;
@@ -17,6 +17,8 @@ public class GameUI : MonoBehaviour {
 
     public void Awake()
     {
+        Instance = this;
+
         Correction = 1;
         PauseButton.onClick.AddListener(() =>
         {
@@ -30,7 +32,8 @@ public class GameUI : MonoBehaviour {
 
         GameManager.Instance.StartGame();
 
-        StartCoroutine("TimeMinus");
+        StartCoroutine("PurifyMinus");
+        StartCoroutine("OxygenMinus");
     }
 
     public void UpdateGage(Gages kind, float persent)
@@ -68,6 +71,19 @@ public class GameUI : MonoBehaviour {
         }
     }
 
+    public float GetGage(Gages kind)
+    {
+        float ret = 0;
+
+        switch(kind)
+        {
+            case Gages.Oxygen: ret = OxygenGageMask.transform.localScale.x; break;
+            case Gages.Purify: ret = PurifyGageMask.transform.localScale.x; break;
+        }
+
+        return ret;
+    }
+
     void UpdateCurrection()
     {
         int gage_Per = Mathf.RoundToInt(PurifyGageMask.transform.localScale.x * 100);
@@ -87,13 +103,21 @@ public class GameUI : MonoBehaviour {
         }
     }
 
-    IEnumerator TimeMinus()
+    IEnumerator PurifyMinus()
     {
         while (true)
         {
-			yield return new WaitForSeconds(1);
-			UpdateGage(Gages.Oxygen, -10);
-            UpdateGage(Gages.Purify, -10);   
+            yield return new WaitForSeconds(0.1f);
+            UpdateGage(Gages.Purify, -0.5f);
+        }
+    }
+
+    IEnumerator OxygenMinus()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1f * (1 + (GetGage(Gages.Purify) / 2)));
+			UpdateGage(Gages.Oxygen, -2);
         }
     }
 }
