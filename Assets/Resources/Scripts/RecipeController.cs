@@ -41,7 +41,7 @@ public class RecipeController : MonoBehaviour
 
 	public void DestroyQueuePeek()
 	{
-        GameUI.Instance.UpdateGage(Gages.Purify, 5);
+        GameMenu.Instance.UpdateGage(Gages.PURIFY, 5);
         Destroy(queue.Dequeue().gameObject);
 
         int index = 0;
