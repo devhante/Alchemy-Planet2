@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 
@@ -110,33 +112,33 @@ public class DataManager : MonoBehaviour {
 
     public void Test()
     {
-        Dialog dialog = new Dialog("Test", "Test내용", new Illust[] { new Illust("a"), new Illust("b")});
+        /*
+        List<Dialog> script = new List<Dialog> {
+            new Dialog("사람A", "첫번째 대사야.", new Illust[] { new Illust("A", IllistPos.Left, IllustMode.Front), new Illust("B", IllistPos.Right, IllustMode.Back) }),
+            new Dialog("사람B", "두번째 대사는 이거.", new Illust[] { new Illust("A", IllistPos.Left, IllustMode.Back), new Illust("B", IllistPos.Right, IllustMode.Front) }),
+            new Dialog("사람A", "이게 마지막 대사.", new Illust[] { new Illust("A", IllistPos.Left, IllustMode.Front), new Illust("B", IllistPos.Right, IllustMode.Back) })
+        };
 
-        //string s_data = System.Text.Encoding.Default.GetString(data);
-        //TextAsset asset = Resources.Load<TextAsset>("Datas/Dialogs/DialogScene_01");
-        //string data = System.Text.Encoding.Default.GetString(asset.bytes);
-        //foreach (Illust ill in dialog.illusts)
-        //{
-        //    Debug.Log(ill.a);
-        //}
-
-        using (StreamWriter file = File.CreateText(string.Format("{0}/{1}.json", "Assets/Resources/Datas/Dialogs/", dialog.name)))
+        using (StreamWriter file = File.CreateText(string.Format("{0}/{1}.json", "Assets/Resources/Datas/Dialogs/", "Test")))
         {
             JsonSerializer serializer = new JsonSerializer();
-            serializer.Serialize(file, dialog);
+            serializer.Serialize(file, script);
         }
+        */
         
-        using (StreamReader file = File.OpenText("Assets/Resources/Datas/Dialogs/Test.json"))
+        using (StreamReader file = File.OpenText("Assets/Resources/Datas/Dialogs/Sample.json"))
         {
             JsonSerializer serializer = new JsonSerializer();
-            Dialog d = (Dialog)serializer.Deserialize(file, typeof(Dialog));
-            Debug.Log(d.name + d.content + d.illusts[0].a + d.illusts[1].a);
+            List<Dialog> s = (List<Dialog>)serializer.Deserialize(file, typeof(List<Dialog>));
+            foreach (Dialog d in s)
+            {
+                Debug.Log(d.name + " : " + d.content);
+            }
         }
 
     }
 }
 
-[System.Serializable]
 public class Dialog
 {
     public string name;
@@ -151,30 +153,18 @@ public class Dialog
     }
 }
 
-public enum IllistPos { Left, Center, Right }
+public enum IllistPos { Left = 0, Center, Right }
 public enum IllustMode { Front = 0 , Back }
-
-[System.Serializable]
 public struct Illust
 {
-    public string a;
+    public string name;
+    public IllistPos pos;
+    public IllustMode mode;
 
-    public Illust(string a)
+    public Illust(string name, IllistPos pos, IllustMode mode)
     {
-        this.a = a;
-    }
-}
-
-/*
-public struct Illust
-{
-    IllistPos pos;
-    IllustMode mode;
-
-    public Illust(IllistPos pos, IllustMode mode)
-    {
+        this.name = name;
         this.pos = pos;
         this.mode = mode;
     }
 }
-*/
