@@ -2,7 +2,9 @@
   "name": "asd",
   "content": "zxv~~¤±asf",
   "illusts": [
+    0,
     { "a": "aa" },
+    1,
     { "a": "ba" }
   ]
 }

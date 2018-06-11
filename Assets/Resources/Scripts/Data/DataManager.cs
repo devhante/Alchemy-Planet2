@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+﻿using System.IO;
 using UnityEngine;
+using Newtonsoft.Json;
 
 public class DataManager : MonoBehaviour {
 
     public static DataManager Instance { get; private set; }
+    
 
     private void Awake()
     {
@@ -111,41 +110,54 @@ public class DataManager : MonoBehaviour {
 
     public void Test()
     {
-        TextAsset asset = Resources.Load<TextAsset>("Datas/Dialogs/DialogScene_01");
-        string data = System.Text.Encoding.Default.GetString(asset.bytes);
-        Debug.Log(data);
-        Dialog dialog = JsonUtility.FromJson<Dialog>(data);
-        Debug.Log(string.Format("{0} :: {1} :: {2}", dialog.name, dialog.content, dialog.illusts));
+        Dialog dialog = new Dialog("Test", "Test내용", new Illust[] { new Illust("a"), new Illust("b")});
+
+        //string s_data = System.Text.Encoding.Default.GetString(data);
+        //TextAsset asset = Resources.Load<TextAsset>("Datas/Dialogs/DialogScene_01");
+        //string data = System.Text.Encoding.Default.GetString(asset.bytes);
+        //foreach (Illust ill in dialog.illusts)
+        //{
+        //    Debug.Log(ill.a);
+        //}
+
+        using (StreamWriter file = File.CreateText(string.Format("{0}/{1}.json", "Assets/Resources/Datas/Dialogs/", dialog.name)))
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.Serialize(file, dialog);
+        }
+        
+        using (StreamReader file = File.OpenText("Assets/Resources/Datas/Dialogs/Test.json"))
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            Dialog d = (Dialog)serializer.Deserialize(file, typeof(Dialog));
+            Debug.Log(d.name + d.content + d.illusts[0].a + d.illusts[1].a);
+        }
+
     }
 }
 
-
-public struct Dialog
+[System.Serializable]
+public class Dialog
 {
     public string name;
     public string content;
-    public Illust[] illusts { get; set; }
-
+    public Illust[] illusts = new Illust[2];
+    
     public Dialog(string name, string content, Illust[] illusts)
     {
         this.name = name;
         this.content = content;
-
-        this.illusts = new Illust[illusts.Length];
-        for (int i=0; i< illusts.Length; i++)
-        {
-            this.illusts[i] = illusts[i];
-            Debug.Log(illusts[i]);
-        }
+        this.illusts = illusts;
     }
 }
 
 public enum IllistPos { Left, Center, Right }
 public enum IllustMode { Front = 0 , Back }
 
+[System.Serializable]
 public struct Illust
 {
-    string a;
+    public string a;
 
     public Illust(string a)
     {
