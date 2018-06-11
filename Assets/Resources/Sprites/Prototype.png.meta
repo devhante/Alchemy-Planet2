@@ -1,24 +1,22 @@
 fileFormatVersion: 2
 guid: 2ce2e309646369048bf427e380195f0d
-timeCreated: 1523626284
-licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Prototype_0
-    21300002: Prototype_1
-    21300004: Prototype_2
-    21300006: Prototype_3
-    21300008: Prototype_4
-    21300010: Prototype_5
-    21300012: Prototype_6
-    21300014: Prototype_7
-    21300016: Prototype_8
-    21300018: Prototype_9
-    21300020: Prototype_10
-    21300022: Prototype_11
-    21300024: Prototype_12
+    21300000: Prototype_PurifyBar
+    21300002: Prototype_OxygenFrame
+    21300004: Prototype_PurifyFrame
+    21300006: Prototype_RecipeFrame
+    21300008: Prototype_OxygenBase
+    21300010: Prototype_MaterialFrame
+    21300012: Prototype_OxygenBar
+    21300014: Prototype_PauseBUtton
+    21300016: Prototype_YellowMaterial
+    21300018: Prototype_BlueMaterial
+    21300020: Prototype_RedMaterial
+    21300022: Prototype_GreenMaterial
+    21300024: Prototype_PurpleMaterial
   externalObjects: {}
-  serializedVersion: 4
+  serializedVersion: 5
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -58,18 +56,21 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
+  singleChannelComponent: 0
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
-  - buildTarget: DefaultTexturePlatform
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -79,7 +80,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - buildTarget: Standalone
+  - serializedVersion: 2
+    buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -89,7 +91,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - buildTarget: Android
+  - serializedVersion: 2
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -103,7 +106,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Prototype_0
+      name: Prototype_PurifyBar
       rect:
         serializedVersion: 2
         x: 25
@@ -111,13 +114,19 @@ TextureImporter:
         width: 720
         height: 17
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 745416da2bf492f428011ac6c690cf3a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Prototype_1
+      name: Prototype_OxygenFrame
       rect:
         serializedVersion: 2
         x: 772
@@ -125,13 +134,19 @@ TextureImporter:
         width: 394
         height: 100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: eaf2c15cac5556241808c98e8824eb7e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Prototype_2
+      name: Prototype_PurifyFrame
       rect:
         serializedVersion: 2
         x: 25
@@ -139,13 +154,19 @@ TextureImporter:
         width: 720
         height: 19
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 688c7daec7f18ad428a78c685a0550cb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Prototype_3
+      name: Prototype_RecipeFrame
       rect:
         serializedVersion: 2
         x: 25
@@ -153,13 +174,19 @@ TextureImporter:
         width: 720
         height: 61
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 87e0429b77ab0e34da28b5f0800ad077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Prototype_4
+      name: Prototype_OxygenBase
       rect:
         serializedVersion: 2
         x: 818
@@ -167,13 +194,19 @@ TextureImporter:
         width: 336
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 3c8aa39699f776a41a629b8ca77604a8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Prototype_5
+      name: Prototype_MaterialFrame
       rect:
         serializedVersion: 2
         x: 23
@@ -181,13 +214,19 @@ TextureImporter:
         width: 720
         height: 580
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: eca8ad244e614444a9c2ee60efb62339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Prototype_6
+      name: Prototype_OxygenBar
       rect:
         serializedVersion: 2
         x: 821
@@ -195,13 +234,19 @@ TextureImporter:
         width: 329
         height: 35
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: bfc9a1a5d117d8a4e97af57cb7bdd056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Prototype_7
+      name: Prototype_PauseBUtton
       rect:
         serializedVersion: 2
         x: 810
@@ -209,13 +254,19 @@ TextureImporter:
         width: 55
         height: 54
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: bf13fd1e06aec9b41b389d81ae382dc0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Prototype_8
+      name: Prototype_YellowMaterial
       rect:
         serializedVersion: 2
         x: 888
@@ -223,13 +274,19 @@ TextureImporter:
         width: 64
         height: 70
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: da93207b32058d84ba601a8967b5c4ce
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Prototype_9
+      name: Prototype_BlueMaterial
       rect:
         serializedVersion: 2
         x: 976
@@ -237,13 +294,19 @@ TextureImporter:
         width: 44
         height: 62
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: a7a69057c43e1fc4e93cd1dd227b303b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Prototype_10
+      name: Prototype_RedMaterial
       rect:
         serializedVersion: 2
         x: 1046
@@ -251,13 +314,19 @@ TextureImporter:
         width: 67
         height: 74
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 7c8cf4ed0d2ff1d478e437d1d7672ee4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Prototype_11
+      name: Prototype_GreenMaterial
       rect:
         serializedVersion: 2
         x: 810
@@ -265,13 +334,19 @@ TextureImporter:
         width: 61
         height: 54
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 6bcc49b4a6f15474d91a15e94214f126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Prototype_12
+      name: Prototype_PurpleMaterial
       rect:
         serializedVersion: 2
         x: 888
@@ -279,13 +354,25 @@ TextureImporter:
         width: 64
         height: 63
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: a83f217f1c728c14a80f799d4d59b1d0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
+    bones: []
+    spriteID: 6e12a9a6b1214e54791cdb48abf8b49a
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
   spritePackingTag: 
   userData: 
   assetBundleName: 

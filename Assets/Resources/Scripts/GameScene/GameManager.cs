@@ -9,6 +9,7 @@ namespace AlchemyPlanet.GameScene
         public static GameManager Instance { get; private set; }
 
         public float PlayTime;
+        
 
         private void Awake()
         {

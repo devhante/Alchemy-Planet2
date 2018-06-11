@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace AlchemyPlanet.GameScene
 {
-    public class NewBehaviourScript : MonoBehaviour
+    public class CharacterManager : MonoBehaviour
     {
 
     }

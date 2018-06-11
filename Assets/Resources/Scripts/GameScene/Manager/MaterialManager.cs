@@ -106,7 +106,7 @@ namespace AlchemyPlanet.GameScene
 
             foreach (var item in MaterialNumbers)
             {
-                if (item.Value <= MinMaterialNumber) return true;
+                if (item.Value < MinMaterialNumber) return true;
                 index++;
             }
 
