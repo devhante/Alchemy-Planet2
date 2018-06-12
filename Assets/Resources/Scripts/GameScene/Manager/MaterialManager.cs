@@ -11,15 +11,16 @@ namespace AlchemyPlanet.GameScene
         public static MaterialManager Instance { get; private set; }
         public Dictionary<Vector3, GameObject> Objects { get; private set; }
         public Dictionary<string, int> MaterialNumbers { get; private set; }
+        public List<Material> MaterialCombo { get; private set; }
 
         public int Count { get; private set; }
         public int MinMaterialNumber { get; private set; }
         public float MinDistance { get; private set; }
-        const float x_min = 70.0f;
-        const float x_max = 640.0f;
-        const float y_min = 80.0f;
-        const float y_max = 510.0f;
-        
+        public bool IsClicked { get; set; }
+        const float x_min = 80.0f;
+        const float x_max = 630.0f;
+        const float y_min = 90.0f;
+        const float y_max = 500.0f;
 
         private void OnDestroy()
         {
@@ -31,16 +32,18 @@ namespace AlchemyPlanet.GameScene
             if (Instance == null) Instance = this;
             else Destroy(this);
 
+            Objects = new Dictionary<Vector3, GameObject>();
+            MaterialNumbers = new Dictionary<string, int>();
+            MaterialCombo = new List<Material>();
+
             Count = 13;
             MinMaterialNumber = 2;
             MinDistance = 100;
+            IsClicked = false;
         }
 
         private void Start()
         {
-            // 배열 할당
-            MaterialNumbers = new Dictionary<string, int>();
-            Objects = new Dictionary<Vector3, GameObject>();
 
             SetPositions(Count);
 
@@ -89,8 +92,6 @@ namespace AlchemyPlanet.GameScene
             Objects[key].transform.position = new Vector3(key.x, key.y);
 
             material = Objects[key].GetComponent<Material>();
-            Objects[key].GetComponent<Button>().onClick.AddListener(material.Onclick);
-
             MaterialNumbers[material.materialName]++;
         }
 
@@ -106,7 +107,7 @@ namespace AlchemyPlanet.GameScene
 
             foreach (var item in MaterialNumbers)
             {
-                if (item.Value <= MinMaterialNumber) return true;
+                if (item.Value < MinMaterialNumber) return true;
                 index++;
             }
 
