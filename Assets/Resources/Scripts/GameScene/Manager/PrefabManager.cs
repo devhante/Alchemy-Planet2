@@ -10,6 +10,9 @@ namespace AlchemyPlanet.GameScene
         public GameObject[] materialPrefabs;
         public GameObject[] recipePrefabs;
 
+        public Sprite UnselectedBubble;
+        public Sprite SelectedBubble;
+
         private void OnDestroy()
         {
             Instance = null;

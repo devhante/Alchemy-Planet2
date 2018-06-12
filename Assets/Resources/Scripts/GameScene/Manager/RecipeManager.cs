@@ -6,6 +6,8 @@ namespace AlchemyPlanet.GameScene
 {
     public class RecipeManager : MonoBehaviour
     {
+        public List<string> RecipeNameList { get; private set; }
+
         GameObject[] objects;
         Queue<Recipe> queue = new Queue<Recipe>();
 
@@ -20,6 +22,8 @@ namespace AlchemyPlanet.GameScene
         {
             if (Instance == null) Instance = this;
             else Destroy(this);
+
+            RecipeNameList = new List<string>();
         }
 
         private void Start()
@@ -45,7 +49,15 @@ namespace AlchemyPlanet.GameScene
             }
         }
 
-        private void AddRecipe()
+        public void UpdateRecipeNameList()
+        {
+            RecipeNameList.Clear();
+
+            foreach (var item in queue)
+                RecipeNameList.Add(item.recipeName);
+        }
+
+        void AddRecipe()
         {
             int index = Random.Range(0, PrefabManager.Instance.recipePrefabs.Length);
             Recipe temp = Instantiate(PrefabManager.Instance.recipePrefabs[index], transform).GetComponent<Recipe>();
