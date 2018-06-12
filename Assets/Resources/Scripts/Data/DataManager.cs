@@ -17,8 +17,6 @@ public class DataManager : MonoBehaviour {
             Destroy(gameObject);
 
         DontDestroyOnLoad(this.gameObject);
-
-        Test();
     }
 
     #region PlayerData_Not_Using
@@ -109,7 +107,7 @@ public class DataManager : MonoBehaviour {
     }
     */
     #endregion /
-
+    
     public void Test()
     {
         /*
@@ -125,19 +123,30 @@ public class DataManager : MonoBehaviour {
             serializer.Serialize(file, script);
         }
         */
-        
-        using (StreamReader file = File.OpenText("Assets/Resources/Datas/Dialogs/Sample.json"))
-        {
-            JsonSerializer serializer = new JsonSerializer();
-            List<Dialog> s = (List<Dialog>)serializer.Deserialize(file, typeof(List<Dialog>));
-            foreach (Dialog d in s)
-            {
-                Debug.Log(d.name + " : " + d.content);
-            }
-        }
+    }
+
+    public void SavePlayerData()
+    {
 
     }
+
+    public static List<Dialog> LoadDialog(string dialog_name)
+    {
+        using (StreamReader file = File.OpenText(string.Format("Assets/Resources/Datas/Dialogs/{0}.json", dialog_name)))
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            List<Dialog> script = (List<Dialog>)serializer.Deserialize(file, typeof(List<Dialog>));
+            return script;
+        }
+    }
 }
+
+public class PlayerData {
+    public string player_code;
+    public string name;
+    /*플레이어 내부 데이터 정의 필요*/
+}
+
 
 public class Dialog
 {
