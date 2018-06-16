@@ -9,6 +9,7 @@ namespace AlchemyPlanet.GameScene
         public GameObject tilePrefab;
         public GameObject[] materialPrefabs;
         public GameObject[] recipePrefabs;
+        public GameObject monster;
 
         public Sprite UnselectedBubble;
         public Sprite SelectedBubble;
