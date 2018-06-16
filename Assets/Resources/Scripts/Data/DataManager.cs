@@ -130,6 +130,15 @@ public class DataManager : MonoBehaviour {
 
     }
 
+    //이건 GooglePlay 내부 동작 정의 후에 해야 하지 않나?
+    public void LoadPlayerData(string player_name)
+    {
+        using (StreamReader file = File.OpenText(string.Format("{0}/PlayerData/{1}", Application.persistentDataPath, player_name)))
+        {
+
+        }
+    }
+
     public static List<Dialog> LoadDialog(string dialog_name)
     {
         using (StreamReader file = File.OpenText(string.Format("Assets/Resources/Datas/Dialogs/{0}.json", dialog_name)))
