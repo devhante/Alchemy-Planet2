@@ -64,6 +64,9 @@ namespace AlchemyPlanet.GameScene
                 Destroy(item.gameObject);
             }
 
+            if (MaterialManager.Instance.MaterialCombo.Count > 0)
+                CharacterManager.Instance.Attack();
+
             MaterialManager.Instance.MaterialCombo.Clear();
         }
 
