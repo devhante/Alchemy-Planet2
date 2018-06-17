@@ -1,10 +1,9 @@
-﻿namespace AlchemyPlanet.GameScene
+﻿using UnityEngine;
+
+namespace AlchemyPlanet.GameScene
 {
-    public class Player : Character
+    public class Player : MonoBehaviour
     {
-        protected override void Awake()
-        {
-            base.Awake();
-        }
+        public static Player Instance { get; private set; }
     }
 }

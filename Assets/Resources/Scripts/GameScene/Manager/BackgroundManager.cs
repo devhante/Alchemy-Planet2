@@ -15,7 +15,7 @@ namespace AlchemyPlanet.GameScene
 
         private void Start()
         {
-            TileSpeed = 1;
+            TileSpeed = 2;
             TileNumber = 12;
             TileWidth = 1;
             TileOffset = new Vector3(6, 1.8f);

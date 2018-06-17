@@ -1,26 +1,47 @@
-﻿namespace AlchemyPlanet.GameScene
-{
-    public class Monster : Character, IAttackable
-    {
-        public float AttackCoolTime { get; private set; }
-        public bool CanAttack { get; private set; }
+﻿using System.Collections;
+using UnityEngine;
 
-        protected override void Awake()
+namespace AlchemyPlanet.GameScene
+{
+    public class Monster : MonoBehaviour
+    {
+        public float attackCoolTime;
+        public float attackRange;
+        public float moveSpeed;
+
+        private void Start()
         {
-            base.Awake();
+            StartCoroutine("MoveTowardCoroutine");
         }
 
-        protected virtual void Update()
+        private void Update()
         {
-            if (CanAttack == true)
-            {
 
+        }
+
+        IEnumerator MoveTowardCoroutine()
+        {
+            while(GetDistanceBetweenPlayer() > attackRange)
+            {
+                MoveToward();
+                yield return null;
             }
+            
+        }
+
+        float GetDistanceBetweenPlayer()
+        {
+            return transform.position.x - Player.Instance.transform.position.x;
+        }
+
+        void MoveToward()
+        {
+            transform.position += new Vector3(-moveSpeed * Time.deltaTime, 0, 0);
         }
 
         public void Attack()
         {
-
+            
         }
     }
 }

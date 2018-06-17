@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,8 +15,8 @@ namespace AlchemyPlanet.GameScene
         public Image PurifyGageMask;
         public Button PauseButton;
 
-        float oxygenReduceRate = 5;
-        float purifyReduceRate = 5;
+        float oxygenReduceRate = 1;
+        float purifyReduceRate = 2;
 
         protected override void Awake()
         {
