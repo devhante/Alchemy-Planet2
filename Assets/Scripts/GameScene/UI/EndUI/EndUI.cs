@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 namespace AlchemyPlanet.GameScene
 {
-    public class EndUI : UI<EndUI>
+    public class EndUI : Common.UI<EndUI>
     {
         public Button Restart;
         public Button Exit;

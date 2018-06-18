@@ -6,7 +6,7 @@ namespace AlchemyPlanet.GameScene
 {
     public enum Gages { OXYGEN, PURIFY }
 
-    public class GameUI : UI<GameUI>
+    public class GameUI : Common.UI<GameUI>
     {
         public static new GameUI Instance;
 

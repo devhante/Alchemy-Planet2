@@ -11,7 +11,7 @@ namespace AlchemyPlanet.GameScene
         public PauseUI pauseMenuPrefeb;
         public EndUI endMenuPreFeb;
 
-        public Stack<UI> menuStack = new Stack<UI>();
+        public Stack<Common.UI> menuStack = new Stack<Common.UI>();
 
         private void Awake()
         {
@@ -24,18 +24,10 @@ namespace AlchemyPlanet.GameScene
             Instance = null;
         }
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Escape) && menuStack.Count > 0)
-            {
-                menuStack.Peek().OnBackPressed();
-            }
-        }
-
-        public void OpenMenu<T>() where T : UI
+        public void OpenMenu<T>() where T : Common.UI
         {
             var prefab = GetPrefab<T>();
-            var instance = Instantiate<UI>(prefab, transform);
+            var instance = Instantiate<Common.UI>(prefab, transform);
 
             menuStack.Push(instance);
         }
@@ -46,7 +38,7 @@ namespace AlchemyPlanet.GameScene
             Destroy(instance.gameObject);
         }
 
-        public T GetPrefab<T>() where T : UI
+        public T GetPrefab<T>() where T : Common.UI
         {
             if (typeof(T) == typeof(GameUI))
                 return gameMenuPrefeb as T;

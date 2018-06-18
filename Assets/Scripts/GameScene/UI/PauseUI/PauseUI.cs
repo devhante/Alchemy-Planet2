@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace AlchemyPlanet.GameScene
 {
-    public class PauseUI : UI<PauseUI>
+    public class PauseUI : Common.UI<PauseUI>
     {
         public Button Resume;
         public Button Restart;

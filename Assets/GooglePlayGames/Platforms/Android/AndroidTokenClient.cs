@@ -330,11 +330,7 @@ namespace GooglePlayGames.Android
             }
         }
 
-        public
-#if UNITY_2017
-        override
-#endif
-        string toString()
+        public override string toString()
         {
             return ToString();
         }

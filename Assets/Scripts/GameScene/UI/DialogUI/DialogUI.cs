@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace AlchemyPlanet.GameScene
 {
-    public class DialogUI : UI<DialogUI>
+    public class DialogUI : Common.UI<DialogUI>
     {
         [SerializeField] private Text d_name;
         [SerializeField] private Text d_script;
@@ -73,11 +73,6 @@ namespace AlchemyPlanet.GameScene
                 d_illust[2].color = new Color32(255, 255, 255, 120);
             else
                 d_illust[2].color = new Color32(255, 255, 255, 255);
-        }
-
-        public override void OnBackPressed()
-        {
-
         }
     }
 }
