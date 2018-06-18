@@ -12,6 +12,7 @@ namespace AlchemyPlanet.GameScene
         public Dictionary<Vector3, GameObject> Objects { get; private set; }
         public Dictionary<string, int> MaterialNumbers { get; private set; }
         public List<Material> MaterialCombo { get; private set; }
+        public List<Line> Lines { get; private set; }
 
         public int Count { get; private set; }
         public int MinMaterialNumber { get; private set; }
@@ -35,6 +36,7 @@ namespace AlchemyPlanet.GameScene
             Objects = new Dictionary<Vector3, GameObject>();
             MaterialNumbers = new Dictionary<string, int>();
             MaterialCombo = new List<Material>();
+            Lines = new List<Line>();
 
             Count = 13;
             MinMaterialNumber = 2;
