@@ -8,6 +8,7 @@ public class PlayGamesScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
         PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().Build();
         // enables saving game progress.
         PlayGamesPlatform.InitializeInstance(config);
