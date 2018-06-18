@@ -7,6 +7,7 @@ public class SceneChangeManager : MonoBehaviour {
     public void Awake()
     {
         Instance = this;
+        DontDestroyOnLoad(this.gameObject);
     }
 
     public void ChangeScene(int scene_no)
