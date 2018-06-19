@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace AlchemyPlanet.GameScene
+namespace AlchemyPlanet.TownScene
 {
     public class DialogUI : Common.UI<DialogUI>
     {
