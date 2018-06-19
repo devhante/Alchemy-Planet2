@@ -15,6 +15,11 @@ namespace AlchemyPlanet.GameScene
             SpawnPoint = new Vector3(6, 2.6f, 0);
         }
 
+        private void Start()
+        {
+            StartCoroutine("SpawnMonsterCoroutine");
+        }
+
         public void SpawnMonster()
         {
             monsters.Enqueue(Instantiate(PrefabManager.Instance.monster, SpawnPoint, Quaternion.identity).GetComponent<Monster>());
@@ -22,8 +27,11 @@ namespace AlchemyPlanet.GameScene
 
         IEnumerator SpawnMonsterCoroutine()
         {
-            SpawnMonster();
-            yield return new WaitForSeconds(10.0f);
+            while (true)
+            {
+                SpawnMonster();
+                yield return new WaitForSeconds(10.0f);
+            }
         }
     }
 }

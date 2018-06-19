@@ -14,11 +14,6 @@ namespace AlchemyPlanet.GameScene
             StartCoroutine("MoveTowardCoroutine");
         }
 
-        private void Update()
-        {
-
-        }
-
         IEnumerator MoveTowardCoroutine()
         {
             while(GetDistanceBetweenPlayer() > attackRange)
@@ -26,7 +21,17 @@ namespace AlchemyPlanet.GameScene
                 MoveToward();
                 yield return null;
             }
-            
+
+            StartCoroutine("AttackCoroutine");
+        }
+
+        IEnumerator AttackCoroutine()
+        {
+            while(true)
+            {
+                Attack();
+                yield return new WaitForSeconds(attackCoolTime);
+            }
         }
 
         float GetDistanceBetweenPlayer()
