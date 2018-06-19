@@ -7,7 +7,20 @@ namespace AlchemyPlanet.GameScene
     {
         public float attackCoolTime;
         public float attackRange;
+        public float attackPower;
         public float moveSpeed;
+        public int maxHealth;
+
+        private int health;
+        public int Health
+        {
+            get { return health; }
+            set
+            {
+                health = Mathf.Clamp(value, 0, maxHealth);
+                if (health == 0) MonsterManager.Instance.KillMonster(MonsterManager.Instance.GetKeyByValue(this));
+            }
+        }
 
         private void Start()
         {
@@ -46,7 +59,7 @@ namespace AlchemyPlanet.GameScene
 
         public void Attack()
         {
-            
+            GameUI.Instance.UpdateGage(Gages.PURIFY, -attackPower);
         }
     }
 }

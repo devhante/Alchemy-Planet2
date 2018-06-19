@@ -10,13 +10,13 @@ namespace AlchemyPlanet.GameScene
         public string materialName;
         Image bubble;
         Button button;
-        bool isComboSelected;
+        bool isChainSelected;
 
         private void Awake()
         {
             bubble = transform.GetChild(0).GetComponent<Image>();
             button = GetComponent<Button>();
-            isComboSelected = false;
+            isChainSelected = false;
         }
 
         private void Update()
@@ -30,14 +30,14 @@ namespace AlchemyPlanet.GameScene
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            if (Time.timeScale == 0) return; 
-            bubble.sprite = PrefabManager.Instance.selectedBubble;
+            if (Time.timeScale == 0) return;
+            ChangeBubbleToSelectedBubble();
 
             if (RecipeManager.Instance.GetQueuePeekName() == materialName)
             {
-                MaterialManager.Instance.IsClicked = true;
+                MaterialManager.Instance.IsClickedRightMaterial = true;
                 RecipeManager.Instance.UpdateRecipeNameList();
-                isComboSelected = true;
+                isChainSelected = true;
                 MaterialManager.Instance.Lines.Add(Instantiate(PrefabManager.Instance.line, transform.parent).GetComponent<Line>());
                 MaterialManager.Instance.Lines[MaterialManager.Instance.Lines.Count - 1].start = transform.position;
                 MaterialManager.Instance.Lines[MaterialManager.Instance.Lines.Count - 1].transform.SetAsFirstSibling();
@@ -48,45 +48,40 @@ namespace AlchemyPlanet.GameScene
         {
             if (Time.timeScale == 0) return;
 
-            MaterialManager.Instance.DecreaseMaterialNumber(materialName);
-            MaterialManager.Instance.StartCoroutine("ReInstantiatematerial", transform.position);
-            Destroy(gameObject);
+            MaterialManager.Instance.ReinstantiateMaterial(this);
 
             if (RecipeManager.Instance.GetQueuePeekName() == materialName)
                 RecipeManager.Instance.DestroyQueuePeek();
             else GameUI.Instance.UpdateGage(Gages.PURIFY, -5);
 
-            if (!MaterialManager.Instance.IsClicked) return;
-            MaterialManager.Instance.IsClicked = false;
+            if (!MaterialManager.Instance.IsClickedRightMaterial) return;
+            MaterialManager.Instance.IsClickedRightMaterial = false;
 
-            foreach (var item in MaterialManager.Instance.MaterialCombo)
+            foreach (var item in MaterialManager.Instance.MaterialChain)
             {
-                item.bubble.sprite = PrefabManager.Instance.unselectedBubble;
-                MaterialManager.Instance.DecreaseMaterialNumber(item.materialName);
-                MaterialManager.Instance.StartCoroutine("ReInstantiatematerial", item.transform.position);
-                RecipeManager.Instance.DestroyQueuePeek();
+                item.ChangeBubbleToUnselectedBubble();
+                MaterialManager.Instance.ReinstantiateMaterial(item);
                 Destroy(item.gameObject);
             }
 
-            if (MaterialManager.Instance.MaterialCombo.Count > 0)
-                CharacterManager.Instance.Attack();
-
-            MaterialManager.Instance.MaterialCombo.Clear();
+            if (MaterialManager.Instance.MaterialChain.Count > 0)
+                Player.Instance.Attack(MaterialManager.Instance.MaterialChain.Count);
 
             foreach(var item in MaterialManager.Instance.Lines)
                 Destroy(item.gameObject);
 
+            MaterialManager.Instance.MaterialChain.Clear();
             MaterialManager.Instance.Lines.Clear();
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (MaterialManager.Instance.IsClicked && !isComboSelected && MaterialManager.Instance.MaterialCombo.Count < 4)
-                if(RecipeManager.Instance.RecipeNameList[MaterialManager.Instance.MaterialCombo.Count + 1] == materialName)
+            if (MaterialManager.Instance.IsClickedRightMaterial && !isChainSelected && MaterialManager.Instance.MaterialChain.Count < MaterialManager.Instance.MaxChainNumber - 1)
+                if(RecipeManager.Instance.RecipeNameList[MaterialManager.Instance.MaterialChain.Count + 1] == materialName)
                 {
-                    bubble.sprite = PrefabManager.Instance.selectedBubble;
-                    MaterialManager.Instance.MaterialCombo.Add(this);
-                    isComboSelected = true;
+                    ChangeBubbleToSelectedBubble();
+                    MaterialManager.Instance.MaterialChain.Add(this);
+                    isChainSelected = true;
 
                     MaterialManager.Instance.Lines[MaterialManager.Instance.Lines.Count - 1].end = transform.position;
                     MaterialManager.Instance.Lines[MaterialManager.Instance.Lines.Count - 1].StopCoroutine("DrawCoroutine");
@@ -95,6 +90,16 @@ namespace AlchemyPlanet.GameScene
                     MaterialManager.Instance.Lines[MaterialManager.Instance.Lines.Count - 1].transform.SetAsFirstSibling();
                     MaterialManager.Instance.Lines[MaterialManager.Instance.Lines.Count - 1].start = transform.position;
                 }
+        }
+
+        public void ChangeBubbleToSelectedBubble()
+        {
+            bubble.sprite = PrefabManager.Instance.selectedBubble;
+        }
+
+        public void ChangeBubbleToUnselectedBubble()
+        {
+            bubble.sprite = PrefabManager.Instance.unselectedBubble;
         }
     }
 }

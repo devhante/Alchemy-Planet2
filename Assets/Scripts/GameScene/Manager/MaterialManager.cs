@@ -11,13 +11,14 @@ namespace AlchemyPlanet.GameScene
         public static MaterialManager Instance { get; private set; }
         public Dictionary<Vector3, GameObject> Objects { get; private set; }
         public Dictionary<string, int> MaterialNumbers { get; private set; }
-        public List<Material> MaterialCombo { get; private set; }
+        public List<Material> MaterialChain { get; private set; }
         public List<Line> Lines { get; private set; }
 
+        public int MaxChainNumber { get; private set; }
         public int Count { get; private set; }
         public int MinMaterialNumber { get; private set; }
         public float MinDistance { get; private set; }
-        public bool IsClicked { get; set; }
+        public bool IsClickedRightMaterial { get; set; }
         const float x_min = 80.0f;
         const float x_max = 630.0f;
         const float y_min = 90.0f;
@@ -35,13 +36,14 @@ namespace AlchemyPlanet.GameScene
 
             Objects = new Dictionary<Vector3, GameObject>();
             MaterialNumbers = new Dictionary<string, int>();
-            MaterialCombo = new List<Material>();
+            MaterialChain = new List<Material>();
             Lines = new List<Line>();
 
+            MaxChainNumber = 5;
             Count = 13;
             MinMaterialNumber = 2;
             MinDistance = 100;
-            IsClicked = false;
+            IsClickedRightMaterial = false;
         }
 
         private void Start()
@@ -97,7 +99,14 @@ namespace AlchemyPlanet.GameScene
             MaterialNumbers[material.materialName]++;
         }
 
-        public IEnumerator ReInstantiatematerial(Vector3 key)
+        public void ReinstantiateMaterial(Material material)
+        {
+            DecreaseMaterialNumber(material.materialName);
+            StartCoroutine("ReinstantiateMaterial", material.transform.position);
+            Destroy(material.gameObject);
+        }
+
+        private IEnumerator ReinstantiateMaterial(Vector3 key)
         {
             yield return new WaitForSeconds(1.0f);
             InstantiateMaterial(key);
