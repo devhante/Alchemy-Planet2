@@ -49,8 +49,7 @@ namespace AlchemyPlanet.TownScene
             {
                 count = 1;
                 Time.timeScale = 1;
-                //MenuManager.Instance.CloseMenu();
-                Destroy(this.gameObject);
+                UIManager.Instance.CloseMenu();
             }
             else
             {
