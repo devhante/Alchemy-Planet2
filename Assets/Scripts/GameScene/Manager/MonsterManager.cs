@@ -23,7 +23,7 @@ namespace AlchemyPlanet.GameScene
             Monsters = new Dictionary<int, Monster>();
             SpawnPoint = new Vector3(6, 2.6f, 0);
             Key = 0;
-            SpawnCooltime = 10;
+            SpawnCooltime = 20;
         }
 
         private void Start()

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace AlchemyPlanet.GameScene
 {
@@ -11,6 +12,7 @@ namespace AlchemyPlanet.GameScene
         public float moveSpeed;
         public int maxHealth;
 
+        private Image healthBar;
         private int health;
         public int Health
         {
@@ -18,12 +20,14 @@ namespace AlchemyPlanet.GameScene
             set
             {
                 health = Mathf.Clamp(value, 0, maxHealth);
+                UpdateHealthBar();
                 if (health == 0) MonsterManager.Instance.KillMonster(MonsterManager.Instance.GetKeyByValue(this));
             }
         }
 
         private void Awake()
         {
+            healthBar = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>();
             health = maxHealth;
         }
 
@@ -52,12 +56,12 @@ namespace AlchemyPlanet.GameScene
             }
         }
 
-        float GetDistanceBetweenPlayer()
+        private float GetDistanceBetweenPlayer()
         {
             return transform.position.x - Player.Instance.transform.position.x;
         }
 
-        void MoveToward()
+        private void MoveToward()
         {
             transform.position += new Vector3(-moveSpeed * Time.deltaTime, 0, 0);
         }
@@ -65,6 +69,11 @@ namespace AlchemyPlanet.GameScene
         public void Attack()
         {
             GameUI.Instance.UpdateGage(Gages.PURIFY, -attackPower);
+        }
+
+        private void UpdateHealthBar()
+        {
+            healthBar.fillAmount = (float)health / maxHealth;
         }
     }
 }
