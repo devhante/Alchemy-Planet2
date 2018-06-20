@@ -1,20 +1,26 @@
 fileFormatVersion: 2
-guid: 2ce2e309646369048bf427e380195f0d
+guid: 1ae705314f8e53541996cda9aa1d7c71
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Prototype_PurifyBar
-    21300002: Prototype_OxygenFrame
-    21300004: Prototype_PurifyFrame
-    21300006: Prototype_RecipeFrame
-    21300008: Prototype_OxygenBase
-    21300010: Prototype_MaterialFrame
-    21300012: Prototype_OxygenBar
-    21300014: Prototype_PauseBUtton
-    21300016: Prototype_YellowMaterial
-    21300018: Prototype_BlueMaterial
-    21300020: Prototype_RedMaterial
-    21300022: Prototype_GreenMaterial
-    21300024: Prototype_PurpleMaterial
+    21300000: UI_Score
+    21300002: UI_OxygenGageFrame
+    21300004: UI_PurifyGageFill
+    21300006: UI_PurifyGageBackground
+    21300008: UI_PurifyGageFrame
+    21300010: UI_OxygenGageBackground
+    21300012: UI_RecipeBackground
+    21300014: UI_OxygenGageFill
+    21300016: UI_MaterialBackground
+    21300018: UI_ButtonPause
+    21300020: UI_MaterialYellow
+    21300022: UI_MaterialBlue
+    21300024: UI_MaterialRed
+    21300026: UI_MaterialGreen
+    21300028: UI_MaterialPurple
+    21300030: UI_BubbleUnselected
+    21300032: UI_BubbleSelected
+    21300034: UI_Unicoin
+    21300036: UI_ChainLine
   externalObjects: {}
   serializedVersion: 5
   mipmaps:
@@ -106,261 +112,381 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Prototype_PurifyBar
+      name: UI_Score
       rect:
         serializedVersion: 2
-        x: 25
-        y: 751
+        x: 13
+        y: 885
+        width: 65
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a65ab827a2effc543bdac3ba63604cf1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_OxygenGageFrame
+      rect:
+        serializedVersion: 2
+        x: 762
+        y: 811
+        width: 393
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b79466cda3290d4e99f4c9b09546318
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_PurifyGageFill
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 860
+        width: 705
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce8bd6f3ee2c2ef4187ff93ba4e2bc9c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_PurifyGageBackground
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 828
+        width: 701
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51d4e9dfe2357e2469695ed625b9ea01
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_PurifyGageFrame
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 783
         width: 720
-        height: 17
+        height: 37
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 745416da2bf492f428011ac6c690cf3a
+      spriteID: 75017f88410a97d438d0684754e1fa40
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Prototype_OxygenFrame
+      name: UI_OxygenGageBackground
       rect:
         serializedVersion: 2
-        x: 772
-        y: 664
-        width: 394
-        height: 100
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: eaf2c15cac5556241808c98e8824eb7e
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Prototype_PurifyFrame
-      rect:
-        serializedVersion: 2
-        x: 25
-        y: 712
-        width: 720
-        height: 19
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 688c7daec7f18ad428a78c685a0550cb
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Prototype_RecipeFrame
-      rect:
-        serializedVersion: 2
-        x: 25
-        y: 634
-        width: 720
-        height: 61
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 87e0429b77ab0e34da28b5f0800ad077
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Prototype_OxygenBase
-      rect:
-        serializedVersion: 2
-        x: 818
-        y: 614
-        width: 336
+        x: 807
+        y: 760
+        width: 337
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3c8aa39699f776a41a629b8ca77604a8
+      spriteID: b3fd0380ea5ab8f4abf0342fe29adf7c
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Prototype_MaterialFrame
+      name: UI_RecipeBackground
       rect:
         serializedVersion: 2
-        x: 23
-        y: 32
+        x: 15
+        y: 705
         width: 720
-        height: 580
+        height: 56
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eca8ad244e614444a9c2ee60efb62339
+      spriteID: e822262349dadf24f825db319f0be18f
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Prototype_OxygenBar
-      rect:
-        serializedVersion: 2
-        x: 821
-        y: 561
-        width: 329
-        height: 35
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bfc9a1a5d117d8a4e97af57cb7bdd056
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Prototype_PauseBUtton
+      name: UI_OxygenGageFill
       rect:
         serializedVersion: 2
         x: 810
-        y: 475
+        y: 708
+        width: 329
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30a2746bd1e29be4ab5bf977a45e8428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_MaterialBackground
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 68
+        width: 719
+        height: 620
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aafeb236629fbf446b33ec41c8e09d31
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_ButtonPause
+      rect:
+        serializedVersion: 2
+        x: 799
+        y: 620
         width: 55
-        height: 54
+        height: 55
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bf13fd1e06aec9b41b389d81ae382dc0
+      spriteID: 292578d6c3c0942488c0a179297c9e7a
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Prototype_YellowMaterial
+      name: UI_MaterialYellow
       rect:
         serializedVersion: 2
-        x: 888
-        y: 466
-        width: 64
-        height: 70
+        x: 876
+        y: 612
+        width: 65
+        height: 69
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: da93207b32058d84ba601a8967b5c4ce
+      spriteID: e0fd808f3e45f9641b623442ad91a4c6
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Prototype_BlueMaterial
+      name: UI_MaterialBlue
       rect:
         serializedVersion: 2
-        x: 976
-        y: 470
+        x: 965
+        y: 616
         width: 44
-        height: 62
+        height: 59
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a7a69057c43e1fc4e93cd1dd227b303b
+      spriteID: 0c15e0f14cbe7aa40b7a702b4f56ad8f
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Prototype_RedMaterial
+      name: UI_MaterialRed
       rect:
         serializedVersion: 2
-        x: 1046
-        y: 463
+        x: 1035
+        y: 609
         width: 67
         height: 74
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7c8cf4ed0d2ff1d478e437d1d7672ee4
+      spriteID: d9c39c3959f36624ab092d587a75681b
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Prototype_GreenMaterial
+      name: UI_MaterialGreen
       rect:
         serializedVersion: 2
-        x: 810
-        y: 395
+        x: 799
+        y: 541
         width: 61
         height: 54
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6bcc49b4a6f15474d91a15e94214f126
+      spriteID: c80a457ca558d7e40a01ab97cefb229a
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Prototype_PurpleMaterial
+      name: UI_MaterialPurple
       rect:
         serializedVersion: 2
-        x: 888
-        y: 390
+        x: 878
+        y: 536
         width: 64
         height: 63
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a83f217f1c728c14a80f799d4d59b1d0
+      spriteID: 258fb4969d504844fae8f8b1c0cac9bc
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_BubbleUnselected
+      rect:
+        serializedVersion: 2
+        x: 788
+        y: 418
+        width: 85
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df65a532cb6b5384393cf917eba1e5d4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_BubbleSelected
+      rect:
+        serializedVersion: 2
+        x: 890
+        y: 412
+        width: 98
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e70fcf52b385a447bce0827421e3b38
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Unicoin
+      rect:
+        serializedVersion: 2
+        x: 1020
+        y: 424
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a472975157fe2c148bb115f74e4b6f08
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_ChainLine
+      rect:
+        serializedVersion: 2
+        x: 774
+        y: 372
+        width: 456
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50734bda16e3d7442b09c0747bcd289e
       vertices: []
       indices: 
       edges: []
@@ -368,7 +494,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 6e12a9a6b1214e54791cdb48abf8b49a
+    spriteID: bac644ed0ea12524882d63430ecadbe5
     vertices: []
     indices: 
     edges: []
