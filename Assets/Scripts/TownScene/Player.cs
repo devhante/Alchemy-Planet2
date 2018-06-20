@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace AlchemyPlanet.TownScene
 {
@@ -30,7 +31,7 @@ namespace AlchemyPlanet.TownScene
                 for (int i = 0; i < Input.touchCount; i++)
                 {
                     tempTouchs = Input.GetTouch(i);
-                    if (tempTouchs.phase == TouchPhase.Began)
+                    if (tempTouchs.phase == TouchPhase.Began && EventSystem.current.IsPointerOverGameObject() == false)
                     {
                         touchOn = true;
                         touchedPos = Camera.main.ScreenToWorldPoint(tempTouchs.position);
@@ -53,7 +54,7 @@ namespace AlchemyPlanet.TownScene
                 touchOn = true;
                 touchedPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);
-                if (hit)
+                if (hit && EventSystem.current.IsPointerOverGameObject() == false)
                 {
                     if (hit.collider.tag == "Road" || hit.collider.tag == "NPC")
                     {
