@@ -7,7 +7,8 @@ namespace AlchemyPlanet.TownScene
     {
         public static UIManager Instance { get; private set; }
 
-        public DialogUI DialogUIPrefab;
+        [SerializeField] private TownUI TownUIPrefab;
+        [SerializeField] private DialogUI DialogUIPrefab;
 
         public Stack<Common.UI> menuStack = new Stack<Common.UI>();
 

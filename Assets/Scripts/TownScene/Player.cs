@@ -6,11 +6,11 @@ namespace AlchemyPlanet.TownScene
 {
     public class Player : MonoBehaviour {
 
-        public float speed;
+        public float speed;         // 속도
 
-        private Touch tempTouchs;
-        private Vector3 touchedPos;
-        private bool touchOn;
+        private Touch tempTouchs;   // 터치들
+        private Vector3 touchedPos; // 터치위치
+        private bool touchOn;       // 터치유무
 
 
         // Use this for initialization
@@ -23,7 +23,7 @@ namespace AlchemyPlanet.TownScene
             Click();
         }
 
-        void Touch()
+        void Touch()    // 터치감지
         {
             if (Input.touchCount > 0)
             {
@@ -46,7 +46,7 @@ namespace AlchemyPlanet.TownScene
             }
         }
 
-        void Click()
+        void Click()    // 클릭감지
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -64,17 +64,15 @@ namespace AlchemyPlanet.TownScene
             }
         }
 
-        IEnumerator Move(GameObject obj)
+        IEnumerator Move(GameObject obj)    //캐릭터 움직이기
         {
             Debug.Log(transform.position.x - obj.transform.position.x);
             if (obj.tag == "NPC")
             {
-                obj.SendMessage("Talk");
-                // NPC 이동멈추기
+              //  obj.SendMessage("Talk");
 
                 UIManager.Instance.OpenMenu<DialogUI>();
             }
-            Debug.Log(transform.position.x - obj.transform.position.x);
             while (transform.position.x - obj.transform.position.x > 0.1f || transform.position.x - obj.transform.position.x < -0.1f)
             {
                 if (transform.position.x - obj.transform.position.x < 0)

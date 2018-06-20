@@ -54,7 +54,6 @@ public class NPC : MonoBehaviour {
                 StopCoroutine("StopMove");
                 break;
         }
-        moving = true;
     }
 
     IEnumerator LeftMove()
