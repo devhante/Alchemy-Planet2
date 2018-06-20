@@ -22,6 +22,11 @@ namespace AlchemyPlanet.GameScene
             }
         }
 
+        private void Awake()
+        {
+            health = maxHealth;
+        }
+
         private void Start()
         {
             StartCoroutine("MoveTowardCoroutine");

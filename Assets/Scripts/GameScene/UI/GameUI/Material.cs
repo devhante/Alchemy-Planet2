@@ -61,7 +61,7 @@ namespace AlchemyPlanet.GameScene
             {
                 item.ChangeBubbleToUnselectedBubble();
                 MaterialManager.Instance.ReinstantiateMaterial(item);
-                Destroy(item.gameObject);
+                RecipeManager.Instance.DestroyQueuePeek();
             }
 
             if (MaterialManager.Instance.MaterialChain.Count > 0)

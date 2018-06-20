@@ -1,4 +1,7 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
 
 namespace AlchemyPlanet.GameScene
 {
@@ -21,8 +24,11 @@ namespace AlchemyPlanet.GameScene
         public void Attack(int chainNumber)
         {
             PlayAttackAnimation();
-            Debug.Log(MonsterManager.Instance.Monsters.Values.GetEnumerator().MoveNext());
-            MonsterManager.Instance.Monsters.Values.GetEnumerator().Current.Health -= (int)(AttackPower * chainNumber * (1 + chainNumber * 0.1));
+
+            if (MonsterManager.Instance.Monsters.Count > 0)
+            {
+                MonsterManager.Instance.Monsters.Values.First().Health -= (int)(AttackPower * chainNumber * (1 + chainNumber * 0.1));
+            }
         }
 
         public void PlayAttackAnimation()
