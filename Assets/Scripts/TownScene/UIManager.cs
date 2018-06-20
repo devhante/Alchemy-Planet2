@@ -9,13 +9,14 @@ namespace AlchemyPlanet.TownScene
 
         [SerializeField] private TownUI TownUIPrefab;
         [SerializeField] private DialogUI DialogUIPrefab;
+        [SerializeField] private EmptyUI EmptyUIPrefab;
 
         public Stack<Common.UI> menuStack = new Stack<Common.UI>();
 
         private void Awake()
         {
             Instance = this;
-            //OpenMenu<TownUI>();
+            OpenMenu<TownUI>();
         }
 
         private void OnDestroy()
@@ -31,16 +32,29 @@ namespace AlchemyPlanet.TownScene
             menuStack.Push(instance);
         }
 
+        //public void OpenMenu<T>(bool disablePrev) where T : Common.UI
+        //{
+        //    var prefab = GetPrefab<T>();
+        //    var instance = Instantiate<Common.UI>(prefab, transform);
+
+        //    menuStack.Push(instance);
+        //}
+
         public void CloseMenu()
         {
             var instance = menuStack.Pop();
             Destroy(instance.gameObject);
+            menuStack.Peek().gameObject.SetActive(true);
         }
 
         public T GetPrefab<T>() where T : Common.UI
         {
             if (typeof(T) == typeof(DialogUI))
                 return DialogUIPrefab as T;
+            if (typeof(T) == typeof(TownUI))
+                return TownUIPrefab as T;
+            if (typeof(T) == typeof(EmptyUI))
+                return EmptyUIPrefab as T;
 
             throw new MissingReferenceException();
         }

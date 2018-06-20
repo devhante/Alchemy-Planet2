@@ -4,34 +4,46 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace AlchemyPlanet.TownScene {
-    public class TownUI : MonoBehaviour {
+    public class TownUI : Common.UI
+    {
 
         [SerializeField] private Button buildingbutton;
         [SerializeField] private GameObject buildBar;
+        [SerializeField] private Button UIOffButton;
+
+        private bool turnOnBuildBar;
 
         private void Awake()
         {
+            turnOnBuildBar = false;
             buildingbutton.onClick.AddListener(() => {
                 StartCoroutine("MoveBar");
             });
+            UIOffButton.onClick.AddListener(() =>
+            {
+                UIManager.Instance.menuStack.Peek().gameObject.SetActive(false);
+                UIManager.Instance.OpenMenu<EmptyUI>();
+            });
         }
-
-        // Use this for initialization
-        void Start() {
-
-        }
-
-        // Update is called once per frame
-        void Update() {
-
-        }
-
+        
         IEnumerator MoveBar()
         {
-            while (buildBar.transform.position.x > 300)
+            if (!turnOnBuildBar) { 
+                while (buildBar.transform.position.x > 535)
+                {
+                    buildBar.transform.Translate(Vector2.left * 500 * Time.deltaTime);
+                    yield return new WaitForFixedUpdate();
+                }
+                turnOnBuildBar = true;
+            }
+            else
             {
-                buildBar.transform.Translate(Vector2.left * 1200 * Time.deltaTime);
-                yield return new WaitForFixedUpdate();
+                while (buildBar.transform.position.x < 900)
+                {
+                    buildBar.transform.Translate(Vector2.right * 500 * Time.deltaTime);
+                    yield return new WaitForFixedUpdate();
+                }
+                turnOnBuildBar = false;
             }
         }
     }

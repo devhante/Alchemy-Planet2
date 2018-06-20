@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace AlchemyPlanet.GameScene
 {
@@ -102,11 +101,11 @@ namespace AlchemyPlanet.GameScene
         public void ReinstantiateMaterial(Material material)
         {
             DecreaseMaterialNumber(material.materialName);
-            StartCoroutine("ReinstantiateMaterial", material.transform.position);
+            StartCoroutine("ReinstantiateMaterialCoroutine", material.transform.position);
             Destroy(material.gameObject);
         }
 
-        private IEnumerator ReinstantiateMaterial(Vector3 key)
+        private IEnumerator ReinstantiateMaterialCoroutine(Vector3 key)
         {
             yield return new WaitForSeconds(1.0f);
             InstantiateMaterial(key);

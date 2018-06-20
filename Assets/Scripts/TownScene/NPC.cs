@@ -40,22 +40,6 @@ public class NPC : MonoBehaviour {
         }
     }
 
-    void Talk()
-    {
-        switch (moveChoice)
-        {
-            case 0:
-                StopCoroutine("LeftMove");
-                break;
-            case 1:
-                StopCoroutine("RightMove");
-                break;
-            case 2:
-                StopCoroutine("StopMove");
-                break;
-        }
-    }
-
     IEnumerator LeftMove()
     {
         moving = true;

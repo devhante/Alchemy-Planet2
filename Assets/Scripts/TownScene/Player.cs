@@ -69,8 +69,6 @@ namespace AlchemyPlanet.TownScene
             Debug.Log(transform.position.x - obj.transform.position.x);
             if (obj.tag == "NPC")
             {
-              //  obj.SendMessage("Talk");
-
                 UIManager.Instance.OpenMenu<DialogUI>();
             }
             while (transform.position.x - obj.transform.position.x > 0.1f || transform.position.x - obj.transform.position.x < -0.1f)
