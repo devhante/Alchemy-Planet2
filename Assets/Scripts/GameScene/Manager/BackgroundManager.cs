@@ -17,21 +17,21 @@ namespace AlchemyPlanet.GameScene
         {
             TileSpeed = 2;
             TileNumber = 12;
-            TileWidth = 1;
-            TileOffset = new Vector3(6, 1.8f);
+            TileWidth = 1.04f;
+            TileOffset = new Vector3(6.24f, 0.96f);
             tileParent = new GameObject("Tiles");
 
             InitTiles();
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             foreach (GameObject item in tileQueue)
             {
                 item.transform.position += new Vector3(-1 * TileSpeed * Time.deltaTime, 0.0f, 0.0f);
             }
 
-            if (tileQueue.Peek().transform.position.x <= -6)
+            if (tileQueue.Peek().transform.position.x <= -6.24f)
             {
                 Destroy(tileQueue.Dequeue());
                 AddTile(TileOffset);

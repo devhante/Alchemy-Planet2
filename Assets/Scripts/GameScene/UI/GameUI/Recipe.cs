@@ -13,8 +13,8 @@ namespace AlchemyPlanet.GameScene
 
         private void Awake()
         {
-            transform.position = new Vector2(760, 732);
-            destination = new Vector3(36, 732);
+            transform.position = new Vector2(760, 658);
+            destination = new Vector3(36, 658);
         }
 
         private void Update()

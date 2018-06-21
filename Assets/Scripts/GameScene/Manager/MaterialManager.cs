@@ -18,10 +18,10 @@ namespace AlchemyPlanet.GameScene
         public int MinMaterialNumber { get; private set; }
         public float MinDistance { get; private set; }
         public bool IsClickedRightMaterial { get; set; }
-        const float x_min = 80.0f;
-        const float x_max = 630.0f;
-        const float y_min = 90.0f;
-        const float y_max = 500.0f;
+        const float x_min = 62.0f;
+        const float x_max = 660.0f;
+        const float y_min = 62.0f;
+        const float y_max = 574.0f;
 
         private void OnDestroy()
         {
@@ -39,7 +39,7 @@ namespace AlchemyPlanet.GameScene
             Lines = new List<Line>();
 
             MaxChainNumber = 5;
-            Count = 13;
+            Count = 17;
             MinMaterialNumber = 2;
             MinDistance = 100;
             IsClickedRightMaterial = false;
@@ -55,7 +55,7 @@ namespace AlchemyPlanet.GameScene
                 MaterialNumbers.Add(item.GetComponent<Material>().materialName, 0);
 
             foreach (var item in Objects.Keys.ToList())
-                InstantiateMaterial(item + new Vector3(0, 130));
+                InstantiateMaterial(item);
         }
 
         public void SetPositions(int count)
