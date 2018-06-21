@@ -21,7 +21,7 @@ namespace AlchemyPlanet.GameScene
         {
             Instance = this;
             Monsters = new Dictionary<int, Monster>();
-            SpawnPoint = new Vector3(6, 2.6f, 0);
+            SpawnPoint = new Vector3(6, 2, 0);
             Key = 0;
             SpawnCooltime = 20;
         }

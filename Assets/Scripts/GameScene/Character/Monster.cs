@@ -12,6 +12,7 @@ namespace AlchemyPlanet.GameScene
         public float moveSpeed;
         public int maxHealth;
 
+        private Animator animator;
         private Image healthBar;
         private int health;
         public int Health
@@ -27,6 +28,7 @@ namespace AlchemyPlanet.GameScene
 
         private void Awake()
         {
+            animator = GetComponent<Animator>();
             healthBar = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>();
             health = maxHealth;
         }
@@ -68,12 +70,40 @@ namespace AlchemyPlanet.GameScene
 
         public void Attack()
         {
+            PlayAttackAnimation();
             GameUI.Instance.UpdateGage(Gages.PURIFY, -attackPower);
         }
-
+        
         private void UpdateHealthBar()
         {
             healthBar.fillAmount = (float)health / maxHealth;
         }
+
+        public void Hit(int damage)
+        {
+            health -= damage;
+            PlayHitAnimation();
+        }
+
+        public void Die()
+        {
+            PlayDieAnimation();
+        }
+
+        private void PlayAttackAnimation()
+        {
+            animator.SetTrigger("Attack");
+        }
+
+        private void PlayHitAnimation()
+        {
+            animator.SetTrigger("Hit");
+        }
+
+        private void PlayDieAnimation()
+        {
+            animator.SetTrigger("Die");
+        }
+
     }
 }
