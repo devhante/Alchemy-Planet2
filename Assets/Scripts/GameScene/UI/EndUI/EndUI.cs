@@ -8,25 +8,29 @@ namespace AlchemyPlanet.GameScene
 {
     public class EndUI : Common.UI<EndUI>
     {
-        public Button Restart;
-        public Button Exit;
-        public Text timetext;
+        public Button ButtonRestart;
+        public Button ButtonWorldMap;
+        public Text Score;
+        public Text Unicoin;
 
         protected override void Awake()
         {
             Time.timeScale = 0;
             GameManager.Instance.EndGame();
-            timetext.text = string.Format("{0}:{1}", (int)GameManager.Instance.PlayTime / 60, GameManager.Instance.PlayTime % 60);
 
-            Restart.onClick.AddListener(() =>
+            Score.text = GameManager.Instance.Score.ToString("#,##0");
+            Unicoin.text = GameManager.Instance.UniCoin.ToString("#,##0");
+
+            ButtonRestart.onClick.AddListener(() =>
             {
                 Time.timeScale = 1;
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             });
 
-            Exit.onClick.AddListener(() =>
+            ButtonWorldMap.onClick.AddListener(() =>
             {
-                Application.Quit();
+                Time.timeScale = 1;
+                LoadingSceneManager.LoadScene("PlaySceneSelect");
             });
         }
     }
