@@ -13,7 +13,7 @@ public class Line : MonoBehaviour
     {
         rt = GetComponent<RectTransform>();
         isMouseButtonDown = true;
-        width = 4;
+        width = 20;
     }
 
     private void Start()

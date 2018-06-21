@@ -12,8 +12,12 @@ namespace AlchemyPlanet.GameScene
         public float moveSpeed;
         public int maxHealth;
 
+        public GameObject BulletSpawnPoint { get; private set; }
+        public bool IsAttackCoroutinePlaying { get; private set; }
+
         private Animator animator;
         private Image healthBar;
+        private Rigidbody2D rigidbody2d;
         private int health;
         public int Health
         {
@@ -22,15 +26,25 @@ namespace AlchemyPlanet.GameScene
             {
                 health = Mathf.Clamp(value, 0, maxHealth);
                 UpdateHealthBar();
-                if (health == 0) MonsterManager.Instance.KillMonster(MonsterManager.Instance.GetKeyByValue(this));
+
+                if (health == 0)
+                    Die();
             }
+        }
+
+        private void UpdateHealthBar()
+        {
+            healthBar.fillAmount = (float)Health / maxHealth;
         }
 
         private void Awake()
         {
             animator = GetComponent<Animator>();
             healthBar = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>();
-            health = maxHealth;
+            rigidbody2d = GetComponent<Rigidbody2D>();
+            BulletSpawnPoint = transform.GetChild(2).gameObject;
+            IsAttackCoroutinePlaying = false;
+            Health = maxHealth;
         }
 
         private void Start()
@@ -38,23 +52,26 @@ namespace AlchemyPlanet.GameScene
             StartCoroutine("MoveTowardCoroutine");
         }
 
-        IEnumerator MoveTowardCoroutine()
-        {
-            while(GetDistanceBetweenPlayer() > attackRange)
-            {
-                MoveToward();
-                yield return null;
-            }
-
-            StartCoroutine("AttackCoroutine");
-        }
-
-        IEnumerator AttackCoroutine()
+        private IEnumerator MoveTowardCoroutine()
         {
             while(true)
             {
-                Attack();
-                yield return new WaitForSeconds(attackCoolTime);
+                if (rigidbody2d.velocity.y == 0)
+                {
+                    if (GetDistanceBetweenPlayer() > attackRange)
+                    {
+                        StopCoroutine("AttackCoroutine");
+                        IsAttackCoroutinePlaying = false;
+                        MoveToward();
+                    }
+                    else
+                    {
+                        if(!IsAttackCoroutinePlaying)
+                            StartCoroutine("AttackCoroutine");
+                    }
+                }
+
+                yield return null;
             }
         }
 
@@ -68,26 +85,58 @@ namespace AlchemyPlanet.GameScene
             transform.position += new Vector3(-moveSpeed * Time.deltaTime, 0, 0);
         }
 
+        private IEnumerator AttackCoroutine()
+        {
+            IsAttackCoroutinePlaying = true;
+
+            while(true)
+            {
+                yield return new WaitForSeconds(attackCoolTime);
+                Attack();
+            }
+        }
+
         public void Attack()
         {
             PlayAttackAnimation();
-            GameUI.Instance.UpdateGage(Gages.PURIFY, -attackPower);
+            SpawnBullet();
         }
-        
-        private void UpdateHealthBar()
+
+        private void SpawnBullet()
         {
-            healthBar.fillAmount = (float)health / maxHealth;
+            StartCoroutine("SpawnBulletCoroutine");
+        }
+
+        private IEnumerator SpawnBulletCoroutine()
+        {
+            yield return new WaitForSeconds(0.8f);
+            Instantiate(PrefabManager.Instance.harpRadishealBullet, BulletSpawnPoint.transform.position, Quaternion.identity);
         }
 
         public void Hit(int damage)
         {
-            health -= damage;
+            Health -= damage;
+            rigidbody2d.AddForce(new Vector2(100, 100));
             PlayHitAnimation();
         }
 
         public void Die()
         {
+            StopCoroutine("MoveTowardCoroutine");
+            StartCoroutine("DieCoroutine");
+        }
+
+        private IEnumerator DieCoroutine()
+        {
             PlayDieAnimation();
+
+            while (!animator.GetCurrentAnimatorStateInfo(0).IsName("HarpRadishealDie"))
+                yield return new WaitForEndOfFrame();
+
+            while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
+                yield return new WaitForEndOfFrame();
+
+            MonsterManager.Instance.KillMonster(MonsterManager.Instance.GetKeyByValue(this));
         }
 
         private void PlayAttackAnimation()
