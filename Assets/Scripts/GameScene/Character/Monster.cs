@@ -122,6 +122,7 @@ namespace AlchemyPlanet.GameScene
 
         public void Die()
         {
+            GameManager.Instance.GainScore(ScoreType.KillMonster);
             StopCoroutine("MoveTowardCoroutine");
             StartCoroutine("DieCoroutine");
         }
@@ -129,6 +130,8 @@ namespace AlchemyPlanet.GameScene
         private IEnumerator DieCoroutine()
         {
             PlayDieAnimation();
+            yield return new WaitForSeconds(0.2f);
+            CoinManager.Instance.GenerateCoin(transform.position);
 
             while (!animator.GetCurrentAnimatorStateInfo(0).IsName("HarpRadishealDie"))
                 yield return new WaitForEndOfFrame();

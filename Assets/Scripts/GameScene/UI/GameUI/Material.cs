@@ -51,7 +51,10 @@ namespace AlchemyPlanet.GameScene
             MaterialManager.Instance.ReinstantiateMaterial(this);
 
             if (RecipeManager.Instance.GetQueuePeekName() == materialName)
+            {
+                GameManager.Instance.GainScore(ScoreType.TouchRightRecipe);
                 RecipeManager.Instance.DestroyQueuePeek();
+            }
             else GameUI.Instance.UpdateGage(Gages.PURIFY, -5);
 
             if (!MaterialManager.Instance.IsClickedRightMaterial) return;

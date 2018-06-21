@@ -14,6 +14,8 @@ namespace AlchemyPlanet.GameScene
         public Image OxygenGageMask;
         public Image PurifyGageMask;
         public Button PauseButton;
+        public Text Score;
+        public Text Unicoin;
 
         float oxygenReduceRate = 1;
         float purifyReduceRate = 2;
@@ -31,6 +33,7 @@ namespace AlchemyPlanet.GameScene
         {
             UpdateGage(Gages.PURIFY, 0);
             GameManager.Instance.StartGame();
+            GameManager.Instance.StartCoroutine("GainScoreByTimeCoroutine");
 
             StartCoroutine("PurifyMinus");
             StartCoroutine("OxygenMinus");

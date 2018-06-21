@@ -13,6 +13,7 @@ namespace AlchemyPlanet.GameScene
         public GameObject popinBullet;
         public GameObject harpRadishealBullet;
         public GameObject line;
+        public GameObject coin;
 
         public Sprite unselectedBubble;
         public Sprite selectedBubble;
