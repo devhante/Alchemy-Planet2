@@ -10,7 +10,8 @@ namespace AlchemyPlanet.GameScene
         public GameObject[] materialPrefabs;
         public GameObject[] recipePrefabs;
         public GameObject monster;
-        public GameObject bullet;
+        public GameObject popinBullet;
+        public GameObject harpRadishealBullet;
         public GameObject line;
 
         public Sprite unselectedBubble;

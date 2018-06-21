@@ -9,13 +9,14 @@ public class SceneChangeManager : MonoBehaviour {
         Instance = this;
         DontDestroyOnLoad(this.gameObject);
     }
-
-    public void ChangeScene(int scene_no)
-    {
-        SceneManager.LoadScene(scene_no);
-    }
+    
     public void ChangeScene(string scene_name)
     {
         SceneManager.LoadScene(scene_name);
+    }
+
+    public void ChangeSceneWithLoading(string scene_name)
+    {
+        LoadingSceneManager.LoadScene(scene_name);
     }
 }
