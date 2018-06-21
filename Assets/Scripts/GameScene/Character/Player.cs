@@ -46,7 +46,7 @@ namespace AlchemyPlanet.GameScene
         IEnumerator SpawnBulletCoroutine(int damage)
         {
             yield return new WaitForSeconds(0.3f);
-            Instantiate(PrefabManager.Instance.bullet, BulletSpawnPoint.transform.position, Quaternion.identity).GetComponent<Bullet>().Damage = damage;
+            Instantiate(PrefabManager.Instance.popinBullet, BulletSpawnPoint.transform.position, Quaternion.identity).GetComponent<Bullet>().Damage = damage;
         }
     }
 }
