@@ -7,6 +7,7 @@ public class PlayManager : MonoBehaviour {
     private void Awake()
     {
         Instance = this;
+        DontDestroyOnLoad(this.gameObject);
     }
 
     public void IncrementCounter()

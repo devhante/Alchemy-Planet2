@@ -141,7 +141,7 @@ public class DataManager : MonoBehaviour {
 
     public static List<Dialog> LoadDialog(string dialog_name)
     {
-        using (StreamReader file = File.OpenText(string.Format("Assets/Resources/Datas/Dialogs/{0}.json", dialog_name)))
+        using (StreamReader file = File.OpenText(string.Format("{0}/Resources/Datas/Dialogs/{1}.json", Application.dataPath,dialog_name)))
         {
             JsonSerializer serializer = new JsonSerializer();
             List<Dialog> script = (List<Dialog>)serializer.Deserialize(file, typeof(List<Dialog>));

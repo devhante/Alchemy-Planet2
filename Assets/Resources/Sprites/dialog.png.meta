@@ -4,6 +4,7 @@ TextureImporter:
   fileIDToRecycleName:
     21300000: dialog_0
     21300002: dialog_1
+    21300004: dialog_box
   externalObjects: {}
   serializedVersion: 5
   mipmaps:
@@ -103,7 +104,7 @@ TextureImporter:
         width: 581
         height: 1139
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -123,13 +124,33 @@ TextureImporter:
         width: 468
         height: 899
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: ecfd6689afc4b6d48bfd9941416ad77f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialog_box
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 1271
+        width: 611
+        height: 345
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2dfb849b82a99614285afa78ed18fbbb
       vertices: []
       indices: 
       edges: []
