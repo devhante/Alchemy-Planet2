@@ -12,16 +12,17 @@ namespace AlchemyPlanet.TownScene
         private Touch tempTouchs;   // 터치들
         private Vector3 touchedPos; // 터치위치
         private bool touchOn;       // 터치유무
-
+        private Animator animator;  // 애니메이터
 
         // Use this for initialization
         void Start() {
             touchOn = false;
+            animator = GetComponent<Animator>();
         }
 
         // Update is called once per frame
         void Update() {
-            Click();
+            Touch();
         }
 
         void Touch()    // 터치감지
@@ -56,7 +57,7 @@ namespace AlchemyPlanet.TownScene
                 RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);
                 if (hit && EventSystem.current.IsPointerOverGameObject() == false)
                 {
-                    if (hit.collider.tag == "Road" || hit.collider.tag == "NPC")
+                    if (hit.collider.tag == "Road" || hit.collider.tag == "NPC" || hit.collider.tag == "Building")
                     {
                         StopCoroutine("Move");
                         StartCoroutine("Move", hit.collider.gameObject);
@@ -67,24 +68,26 @@ namespace AlchemyPlanet.TownScene
 
         IEnumerator Move(GameObject obj)    //캐릭터 움직이기
         {
+            animator.SetBool("Run", true);
             Debug.Log(transform.position.x - obj.transform.position.x);
             if (obj.tag == "NPC")
             {
                 UIManager.Instance.OpenMenu<DialogUI>();
             }
+            if (transform.position.x - obj.transform.position.x < 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+            else if (transform.position.x - obj.transform.position.x > 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
             while (transform.position.x - obj.transform.position.x > 0.1f || transform.position.x - obj.transform.position.x < -0.1f)
             {
-                if (transform.position.x - obj.transform.position.x < 0)
-                {
-                    transform.Translate(Vector2.right * speed * Time.deltaTime);
-                    yield return new WaitForFixedUpdate();
-                }
-                else if (transform.position.x - obj.transform.position.x > 0)
-                {
-                    transform.Translate(Vector2.left * speed * Time.deltaTime);
-                    yield return new WaitForFixedUpdate();
-                }
+                transform.Translate(Vector2.right * speed * Time.deltaTime);
+                yield return new WaitForFixedUpdate();
             }
+            animator.SetBool("Run", false);
             yield return null;
         }
     }
