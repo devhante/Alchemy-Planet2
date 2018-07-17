@@ -149,8 +149,8 @@ namespace AlchemyPlanet.GameScene
 
         public void ChangeSortingLayer(int bodyLayerNumber, int faceLayerNumber)
         {
-            bodySpriteRenderer.sorting
-            faceLayerNumber
+            bodySpriteRenderer.sortingOrder = bodyLayerNumber;
+            faceSpriteRenderer.sortingOrder = faceLayerNumber;
         }
 
         private void PlayAttackAnimation()
