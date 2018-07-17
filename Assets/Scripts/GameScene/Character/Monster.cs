@@ -14,10 +14,13 @@ namespace AlchemyPlanet.GameScene
 
         public GameObject BulletSpawnPoint { get; private set; }
         public bool IsAttackCoroutinePlaying { get; private set; }
+        public int Index { get; set; }
 
         private Animator animator;
         private Image healthBar;
         private Rigidbody2D rigidbody2d;
+        private SpriteRenderer bodySpriteRenderer;
+        private SpriteRenderer faceSpriteRenderer;
         private int health;
         public int Health
         {
@@ -42,6 +45,8 @@ namespace AlchemyPlanet.GameScene
             animator = GetComponent<Animator>();
             healthBar = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>();
             rigidbody2d = GetComponent<Rigidbody2D>();
+            bodySpriteRenderer = GetComponent<SpriteRenderer>();
+            faceSpriteRenderer = transform.GetChild(1).GetComponent<SpriteRenderer>();
             BulletSpawnPoint = transform.GetChild(2).gameObject;
             IsAttackCoroutinePlaying = false;
             Health = maxHealth;
@@ -58,7 +63,7 @@ namespace AlchemyPlanet.GameScene
             {
                 if (rigidbody2d.velocity.y == 0)
                 {
-                    if (GetDistanceBetweenPlayer() > attackRange)
+                    if (GetDistanceBetweenPlayer() > attackRange + (Index * 0.5f))
                     {
                         StopCoroutine("AttackCoroutine");
                         IsAttackCoroutinePlaying = false;
@@ -140,6 +145,12 @@ namespace AlchemyPlanet.GameScene
                 yield return new WaitForEndOfFrame();
 
             MonsterManager.Instance.KillMonster(MonsterManager.Instance.GetKeyByValue(this));
+        }
+
+        public void ChangeSortingLayer(int bodyLayerNumber, int faceLayerNumber)
+        {
+            bodySpriteRenderer.sorting
+            faceLayerNumber
         }
 
         private void PlayAttackAnimation()

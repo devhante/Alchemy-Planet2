@@ -33,7 +33,10 @@ namespace AlchemyPlanet.GameScene
 
         public void SpawnMonster()
         {
-            Monsters.Add(Key, Instantiate(PrefabManager.Instance.monster, SpawnPoint, Quaternion.identity).GetComponent<Monster>());
+            Monster monster = Instantiate(PrefabManager.Instance.monster, SpawnPoint, Quaternion.identity).GetComponent<Monster>();
+            Monsters.Add(Key, monster);
+            monster.Index = Monsters.Count - 1;
+            monster.ChangeSortingLayer(monster.Index * -2, monster.Index * -2 + 1);
             Key++;
         }
 
@@ -50,6 +53,7 @@ namespace AlchemyPlanet.GameScene
         {
             DestroyMonster(key);
             Monsters.Remove(key);
+            ReallocateMonsterIndex();
         }
 
         private void DestroyMonster(int key)
@@ -57,6 +61,16 @@ namespace AlchemyPlanet.GameScene
             Monster monster;
             Monsters.TryGetValue(key, out monster);
             Destroy(monster.gameObject);
+        }
+
+        private void ReallocateMonsterIndex()
+        {
+            int index = 0;
+            foreach(var item in Monsters)
+            {
+                item.Value.Index = index;
+                index++;
+            }
         }
 
         public int GetKeyByValue(Monster monster)

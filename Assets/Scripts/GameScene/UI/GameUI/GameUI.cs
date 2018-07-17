@@ -17,7 +17,7 @@ namespace AlchemyPlanet.GameScene
         public Text Score;
         public Text Unicoin;
 
-        float oxygenReduceRate = 4;
+        float oxygenReduceRate = 0.4f;
         float purifyReduceRate = 2;
 
         protected override void Awake()
