@@ -32,7 +32,6 @@ namespace AlchemyPlanet.GameScene
         public void Start()
         {
             UpdateGage(Gages.PURIFY, 0);
-            GameManager.Instance.StartGame();
             GameManager.Instance.StartCoroutine("GainScoreByTimeCoroutine");
 
             StartCoroutine("PurifyMinus");

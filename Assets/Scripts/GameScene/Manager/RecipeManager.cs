@@ -8,8 +8,8 @@ namespace AlchemyPlanet.GameScene
     {
         public List<string> RecipeNameList { get; private set; }
 
-        GameObject[] objects;
-        Queue<Recipe> queue = new Queue<Recipe>();
+        private GameObject[] objects;
+        private Queue<Recipe> queue;
 
         public static RecipeManager Instance { get; private set; }
 
@@ -24,6 +24,7 @@ namespace AlchemyPlanet.GameScene
             else Destroy(this);
 
             RecipeNameList = new List<string>();
+            queue = new Queue<Recipe>();
         }
 
         private void Start()

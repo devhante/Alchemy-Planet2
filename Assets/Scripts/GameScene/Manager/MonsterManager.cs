@@ -33,10 +33,10 @@ namespace AlchemyPlanet.GameScene
 
         public void SpawnMonster()
         {
-            Monster monster = Instantiate(PrefabManager.Instance.monster, SpawnPoint, Quaternion.identity).GetComponent<Monster>();
-            Monsters.Add(Key, monster);
-            monster.Index = Monsters.Count - 1;
-            monster.ChangeSortingLayer(monster.Index * -2, monster.Index * -2 + 1);
+            HarpRadisheal harpRadisheal = Instantiate(PrefabManager.Instance.monster, SpawnPoint, Quaternion.identity).GetComponent<HarpRadisheal>();
+            Monsters.Add(Key, harpRadisheal);
+            harpRadisheal.index = Monsters.Count - 1;
+            harpRadisheal.ChangeSortingLayer(harpRadisheal.index * -2, harpRadisheal.index * -2 + 1);
             Key++;
         }
 
@@ -68,7 +68,7 @@ namespace AlchemyPlanet.GameScene
             int index = 0;
             foreach(var item in Monsters)
             {
-                item.Value.Index = index;
+                item.Value.index = index;
                 index++;
             }
         }

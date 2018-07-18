@@ -29,15 +29,15 @@ namespace AlchemyPlanet.GameScene
             Instantiate(PrefabManager.Instance.coin, spawnPoint, Quaternion.identity);
         }
 
-        public void GainCoin(int coin)
+        public void GainCoin(int value)
         {
-            GameManager.Instance.UniCoin += coin;
+            GameManager.Instance.coin += value;
             UpdateCoin();
         }
         
         private void UpdateCoin()
         {
-            GameUI.Instance.Unicoin.text = GameManager.Instance.UniCoin.ToString("#,##0");
+            GameUI.Instance.Unicoin.text = GameManager.Instance.coin.ToString("#,##0");
         }
     }
 }

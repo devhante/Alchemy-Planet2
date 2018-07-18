@@ -1,24 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace AlchemyPlanet.GameScene
 {
-    public class Bullet : MonoBehaviour
+    public class PopinBullet : MonoBehaviour
     {
-        public int Damage { get; set; }
-        public int Speed { get; private set; }
+        [HideInInspector]
+        public float damage;
+        private int speed;
 
         private void Awake()
         {
-            Speed = 5;
+            Debug.Log("Bullet");
+            speed = 5;
         }
 
         private void Update()
         {
-            transform.position += new Vector3(Speed * Time.deltaTime, 0, 0);
+            transform.position += new Vector3(speed * Time.deltaTime, 0, 0);
         }
 
+        // 카메라 밖으로 나가면 파괴
         private void OnBecameInvisible()
         {
             Destroy(gameObject);
@@ -28,7 +29,7 @@ namespace AlchemyPlanet.GameScene
         {
             if (collision.tag == "Monster")
             {
-                collision.GetComponent<Monster>().Hit(Damage);
+                collision.GetComponent<Monster>().Hit(damage);
                 Destroy(gameObject);
             }
         }

@@ -1,20 +1,19 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace AlchemyPlanet.GameScene
 {
     public class HarpRadishealBullet : MonoBehaviour
     {
-        public int Speed { get; private set; }
-        public int Damage { get; private set; }
+        private int speed;
+        private int damage;
 
         private Animator animator;
 
         private void Awake()
         {
-            Speed = 3;
-            Damage = 5;
+            speed = 3;
+            damage = 5;
 
             animator = GetComponent<Animator>();
         }
@@ -28,7 +27,7 @@ namespace AlchemyPlanet.GameScene
         {
             while (true)
             {
-                transform.position += new Vector3(-Speed * Time.deltaTime, 0, 0);
+                transform.position += new Vector3(-speed * Time.deltaTime, 0, 0);
                 yield return null;
             }
         }
@@ -43,7 +42,7 @@ namespace AlchemyPlanet.GameScene
             if (collision.tag == "Player")
             {
                 StopCoroutine("MoveCoroutine");
-                GameUI.Instance.UpdateGage(Gages.PURIFY, -Damage);
+                GameUI.Instance.UpdateGage(Gages.PURIFY, -damage);
                 Explode();
             }
         }

@@ -16,10 +16,9 @@ namespace AlchemyPlanet.GameScene
         protected override void Awake()
         {
             Time.timeScale = 0;
-            GameManager.Instance.EndGame();
 
-            Score.text = GameManager.Instance.Score.ToString("#,##0");
-            Unicoin.text = GameManager.Instance.UniCoin.ToString("#,##0");
+            Score.text = GameManager.Instance.score.ToString("#,##0");
+            Unicoin.text = GameManager.Instance.coin.ToString("#,##0");
 
             ButtonRestart.onClick.AddListener(() =>
             {

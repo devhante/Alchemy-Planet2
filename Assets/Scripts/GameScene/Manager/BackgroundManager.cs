@@ -5,20 +5,20 @@ namespace AlchemyPlanet.GameScene
 {
     public class BackgroundManager : MonoBehaviour
     {
-        public int TileSpeed { get; set; }
-        public int TileNumber { get; set; }
-        public float TileWidth { get; set; }
-        public Vector3 TileOffset { get; set; }
+        private int tileSpeed;
+        private int tileNumber;
+        private float tileWidth;
+        private Vector3 tileOffset;
 
         Queue<GameObject> tileQueue = new Queue<GameObject>();
         GameObject tileParent;
 
         private void Start()
         {
-            TileSpeed = 2;
-            TileNumber = 12;
-            TileWidth = 1.04f;
-            TileOffset = new Vector3(6.24f, 0.96f);
+            tileSpeed = 2;
+            tileNumber = 12;
+            tileWidth = 1.04f;
+            tileOffset = new Vector3(6.24f, 0.96f);
             tileParent = new GameObject("Tiles");
 
             InitTiles();
@@ -28,21 +28,21 @@ namespace AlchemyPlanet.GameScene
         {
             foreach (GameObject item in tileQueue)
             {
-                item.transform.position += new Vector3(-1 * TileSpeed * Time.deltaTime, 0.0f, 0.0f);
+                item.transform.position += new Vector3(-1 * tileSpeed * Time.deltaTime, 0.0f, 0.0f);
             }
 
             if (tileQueue.Peek().transform.position.x <= -6.24f)
             {
                 Destroy(tileQueue.Dequeue());
-                AddTile(TileOffset);
+                AddTile(tileOffset);
             }
         }
 
         void InitTiles()
         {
-            for(int i = TileNumber; i > 0; i--)
+            for(int i = tileNumber; i > 0; i--)
             {
-                AddTile(new Vector3(TileOffset.x - i * TileWidth, TileOffset.y));
+                AddTile(new Vector3(tileOffset.x - i * tileWidth, tileOffset.y));
             }
         }
 

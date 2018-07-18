@@ -8,9 +8,11 @@ namespace AlchemyPlanet.GameScene
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance { get; private set; }
-        public float PlayTime { get; private set; }
-        public int Score { get; private set; }
-        public int UniCoin { get; set; }
+
+        [HideInInspector]
+        public int score;
+        [HideInInspector]
+        public int coin;
 
         private void OnDestroy()
         {
@@ -20,28 +22,8 @@ namespace AlchemyPlanet.GameScene
         private void Awake()
         {
             Instance = this;
-            Score = 0;
-            UniCoin = 0;
-        }
-
-        public void StartGame()
-        {
-            PlayTime = 0;
-            StartCoroutine("TimeCount");
-        }
-
-        public void EndGame()
-        {
-            StopCoroutine("TimeCount");
-        }
-
-        private IEnumerator TimeCount()
-        {
-            while (true)
-            {
-                yield return new WaitForSeconds(1);
-                PlayTime++;
-            }
+            score = 0;
+            coin = 0;
         }
 
         public IEnumerator GainScoreByTimeCoroutine()
@@ -58,15 +40,15 @@ namespace AlchemyPlanet.GameScene
             switch (scoreType)
             {
                 case ScoreType.TimePass:
-                    Score += 1;
+                    score += 1;
                     break;
 
                 case ScoreType.TouchRightRecipe:
-                    Score += 100;
+                    score += 100;
                     break;
 
                 case ScoreType.KillMonster:
-                    Score += 1500;
+                    score += 1500;
                     break;
             }
 
@@ -75,7 +57,7 @@ namespace AlchemyPlanet.GameScene
 
         private void UpdateScore()
         {
-            GameUI.Instance.Score.text = Score.ToString("#,##0");
+            GameUI.Instance.Score.text = score.ToString("#,##0");
         }
     }
 }

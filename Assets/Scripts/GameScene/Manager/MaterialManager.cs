@@ -18,10 +18,11 @@ namespace AlchemyPlanet.GameScene
         public int MinMaterialNumber { get; private set; }
         public float MinDistance { get; private set; }
         public bool IsClickedRightMaterial { get; set; }
-        const float x_min = 62.0f;
-        const float x_max = 660.0f;
-        const float y_min = 62.0f;
-        const float y_max = 574.0f;
+
+        private const float x_min = 62.0f;
+        private const float x_max = 660.0f;
+        private const float y_min = 62.0f;
+        private const float y_max = 574.0f;
 
         private void OnDestroy()
         {
