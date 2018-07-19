@@ -29,7 +29,7 @@ namespace AlchemyPlanet.GameScene
             ButtonWorldMap.onClick.AddListener(() =>
             {
                 Time.timeScale = 1;
-                LoadingSceneManager.LoadScene("PlaySceneSelect");
+                LoadingSceneManager.LoadScene("PlanetSelect");
             });
         }
     }
