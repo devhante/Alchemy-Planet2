@@ -48,34 +48,56 @@ namespace AlchemyPlanet.GameScene
 
         private void Start()
         {
-
-            SetPositions(Count);
-
             // materialNumbers 초기화
             foreach (var item in PrefabManager.Instance.materialPrefabs)
                 MaterialNumbers.Add(item.GetComponent<Material>().materialName, 0);
 
-            foreach (var item in Objects.Keys.ToList())
-                InstantiateMaterial(item);
+            for (int i = 0; i < Count; i++)
+                CreateMaterial();
         }
 
-        public void SetPositions(int count)
+        public void CreateMaterial()
         {
-            Vector3 temp = Vector3.zero;
-            bool isNotTooClose = true;
+            //Vector3 position = Vector3.zero;
+            Vector3 position = GetNewPosition();
+            GameObject instance;
 
-            for(int i = 0; i < count; i++)
+            int materialIndex;
+            Material material;
+
+            if (FindFewMaterial(out materialIndex) == false)
+                materialIndex = Random.Range(0, PrefabManager.Instance.materialPrefabs.Length);
+
+            instance = Instantiate(PrefabManager.Instance.materialPrefabs[materialIndex], position, Quaternion.identity, transform);
+            Objects.Add(position, instance);
+
+            material = Objects[position].GetComponent<Material>();
+            MaterialNumbers[material.materialName]++;
+        }
+
+        private Vector3 GetNewPosition()
+        {
+            Vector3 position = new Vector3();
+            bool isTooClose = false;
+            do
             {
-                isNotTooClose = true;
-                temp.x = Random.Range(x_min, x_max);
-                temp.y = Random.Range(y_min, y_max);
+                isTooClose = false;
+                position.x = Random.Range(x_min, x_max);
+                position.y = Random.Range(y_min, y_max);
 
-                foreach(var item in Objects)
-                    if ((item.Key - temp).sqrMagnitude < (MinDistance * MinDistance)) isNotTooClose = false;
+                foreach (var item in Objects)
+                    if ((item.Key - position).sqrMagnitude < (MinDistance * MinDistance)) isTooClose = true;
+            } while (isTooClose);
 
-                if (isNotTooClose == true) Objects.Add(temp, null);
-                else i--;
-            }
+            return position;
+        }
+
+        public void RespawnMaterial(Material material)
+        {
+            DecreaseMaterialNumber(material.materialName);
+            StartCoroutine("RespawnMaterialCoroutine", material.transform.position);
+            Objects.Remove(material.transform.position);
+            Destroy(material.gameObject);
         }
 
         public void DecreaseMaterialNumber(string name)
@@ -83,33 +105,10 @@ namespace AlchemyPlanet.GameScene
             MaterialNumbers[name]--;
         }
 
-        private void InstantiateMaterial(Vector3 key)
-        {
-            int materialIndex;
-
-            if (FindFewMaterial(out materialIndex) == false)
-                materialIndex = Random.Range(0, PrefabManager.Instance.materialPrefabs.Length);
-
-            Material material;
-
-            Objects[key] = Instantiate(PrefabManager.Instance.materialPrefabs[materialIndex], transform);
-            Objects[key].transform.position = new Vector3(key.x, key.y);
-
-            material = Objects[key].GetComponent<Material>();
-            MaterialNumbers[material.materialName]++;
-        }
-
-        public void ReinstantiateMaterial(Material material)
-        {
-            DecreaseMaterialNumber(material.materialName);
-            StartCoroutine("ReinstantiateMaterialCoroutine", material.transform.position);
-            Destroy(material.gameObject);
-        }
-
-        private IEnumerator ReinstantiateMaterialCoroutine(Vector3 key)
+        private IEnumerator RespawnMaterialCoroutine(Vector3 key)
         {
             yield return new WaitForSeconds(1.0f);
-            InstantiateMaterial(key);
+            CreateMaterial();
         }
 
         private bool FindFewMaterial(out int index)

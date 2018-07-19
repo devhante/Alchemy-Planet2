@@ -48,7 +48,7 @@ namespace AlchemyPlanet.GameScene
         {
             if (Time.timeScale == 0) return;
 
-            MaterialManager.Instance.ReinstantiateMaterial(this);
+            MaterialManager.Instance.RespawnMaterial(this);
 
             if (RecipeManager.Instance.GetQueuePeekName() == materialName)
             {
@@ -63,7 +63,7 @@ namespace AlchemyPlanet.GameScene
             foreach (var item in MaterialManager.Instance.MaterialChain)
             {
                 item.ChangeBubbleToUnselectedBubble();
-                MaterialManager.Instance.ReinstantiateMaterial(item);
+                MaterialManager.Instance.RespawnMaterial(item);
                 RecipeManager.Instance.DestroyQueuePeek();
             }
 
