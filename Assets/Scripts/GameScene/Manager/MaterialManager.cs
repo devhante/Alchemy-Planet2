@@ -8,8 +8,8 @@ namespace AlchemyPlanet.GameScene
     public class MaterialManager : MonoBehaviour
     {
         public static MaterialManager Instance { get; private set; }
-        public Dictionary<Vector3, GameObject> Objects { get; private set; }
         public Dictionary<string, int> MaterialNumbers { get; private set; }
+        public List<GameObject> Objects { get; private set; }
         public List<Material> MaterialChain { get; private set; }
         public List<Line> Lines { get; private set; }
 
@@ -19,10 +19,10 @@ namespace AlchemyPlanet.GameScene
         public float MinDistance { get; private set; }
         public bool IsClickedRightMaterial { get; set; }
 
-        private const float x_min = 62.0f;
-        private const float x_max = 660.0f;
-        private const float y_min = 62.0f;
-        private const float y_max = 574.0f;
+        private const float x_min = 82.0f;
+        private const float x_max = 640.0f;
+        private const float y_min = 82.0f;
+        private const float y_max = 554.0f;
 
         private void OnDestroy()
         {
@@ -34,7 +34,7 @@ namespace AlchemyPlanet.GameScene
             if (Instance == null) Instance = this;
             else Destroy(this);
 
-            Objects = new Dictionary<Vector3, GameObject>();
+            Objects = new List<GameObject>();
             MaterialNumbers = new Dictionary<string, int>();
             MaterialChain = new List<Material>();
             Lines = new List<Line>();
@@ -58,7 +58,6 @@ namespace AlchemyPlanet.GameScene
 
         public void CreateMaterial()
         {
-            //Vector3 position = Vector3.zero;
             Vector3 position = GetNewPosition();
             GameObject instance;
 
@@ -69,9 +68,9 @@ namespace AlchemyPlanet.GameScene
                 materialIndex = Random.Range(0, PrefabManager.Instance.materialPrefabs.Length);
 
             instance = Instantiate(PrefabManager.Instance.materialPrefabs[materialIndex], position, Quaternion.identity, transform);
-            Objects.Add(position, instance);
+            Objects.Add(instance);
 
-            material = Objects[position].GetComponent<Material>();
+            material = Objects[Objects.Count - 1].GetComponent<Material>();
             MaterialNumbers[material.materialName]++;
         }
 
@@ -86,7 +85,7 @@ namespace AlchemyPlanet.GameScene
                 position.y = Random.Range(y_min, y_max);
 
                 foreach (var item in Objects)
-                    if ((item.Key - position).sqrMagnitude < (MinDistance * MinDistance)) isTooClose = true;
+                    if ((item.transform.position - position).sqrMagnitude < (MinDistance * MinDistance)) isTooClose = true;
             } while (isTooClose);
 
             return position;
@@ -96,7 +95,7 @@ namespace AlchemyPlanet.GameScene
         {
             DecreaseMaterialNumber(material.materialName);
             StartCoroutine("RespawnMaterialCoroutine", material.transform.position);
-            Objects.Remove(material.transform.position);
+            Objects.Remove(material.gameObject);
             Destroy(material.gameObject);
         }
 
