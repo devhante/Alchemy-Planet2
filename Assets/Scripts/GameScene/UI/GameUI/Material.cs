@@ -25,7 +25,7 @@ namespace AlchemyPlanet.GameScene
 
         private void Start()
         {
-            StartCoroutine("FadeIn");
+            StartCoroutine("Popup");
             StartCoroutine("Float");
         }
 
@@ -38,7 +38,7 @@ namespace AlchemyPlanet.GameScene
                 
         }
 
-        private IEnumerator FadeIn()
+        private IEnumerator Popup()
         {
             float speed = 5f;
 
@@ -67,6 +67,8 @@ namespace AlchemyPlanet.GameScene
                 rt.localScale = scale;
                 yield return new WaitForEndOfFrame();
             }
+
+            rt.localScale = new Vector3(1, 1, 1);
         }
 
         private IEnumerator Float()
@@ -81,10 +83,28 @@ namespace AlchemyPlanet.GameScene
             }
         }
 
+        private IEnumerator Shrink()
+        {
+            float speed = 0.5f;
+
+            RectTransform rt = GetComponent<RectTransform>();
+            Vector3 scale = new Vector3(1, 1, 1);
+
+            while (scale.x > 0.97f)
+            {
+                scale -= new Vector3(Time.deltaTime * speed, Time.deltaTime * speed);
+                rt.localScale = scale;
+
+                yield return new WaitForEndOfFrame();
+            }
+            rt.localScale = new Vector3(0.97f, 0.97f, 1);
+        }
+
         public void OnPointerDown(PointerEventData eventData)
         {
             if (Time.timeScale == 0) return;
             StopCoroutine("Float");
+            StartCoroutine("Shrink");
             ChangeBubbleToSelectedBubble();
 
             if (RecipeManager.Instance.GetQueuePeekName() == materialName)
@@ -137,6 +157,7 @@ namespace AlchemyPlanet.GameScene
                 if(RecipeManager.Instance.RecipeNameList[MaterialManager.Instance.MaterialChain.Count + 1] == materialName)
                 {
                     StopCoroutine("Float");
+                    StartCoroutine("Shrink");
                     ChangeBubbleToSelectedBubble();
                     MaterialManager.Instance.MaterialChain.Add(this);
                     isChainSelected = true;
