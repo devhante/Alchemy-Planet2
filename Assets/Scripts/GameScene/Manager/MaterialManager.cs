@@ -53,7 +53,15 @@ namespace AlchemyPlanet.GameScene
                 MaterialNumbers.Add(item.GetComponent<Material>().materialName, 0);
 
             for (int i = 0; i < Count; i++)
-                CreateMaterial();
+                StartCoroutine("CreateMaterialCoroutine");
+        }
+
+        public IEnumerator CreateMaterialCoroutine()
+        {
+            while (RecipeManager.Instance.recipeQueue.Count != RecipeManager.Instance.recipeNumber)
+                yield return new WaitForEndOfFrame();
+
+            CreateMaterial();
         }
 
         public void CreateMaterial()
@@ -116,7 +124,20 @@ namespace AlchemyPlanet.GameScene
 
             foreach (var item in MaterialNumbers)
             {
-                if (item.Value < MinMaterialNumber) return true;
+                int minNumber = 0;
+                Debug.Log(RecipeManager.Instance.recipeQueue.Count);
+                Recipe[] recipeArray = RecipeManager.Instance.recipeQueue.ToArray();
+                Debug.Log(recipeArray.Length);
+
+                for(int i = 0; i < 5; i++)
+                {
+                    if (item.Key == recipeArray[i].recipeName)
+                        minNumber++;
+                }
+
+                if (minNumber < MinMaterialNumber) minNumber = MinMaterialNumber;
+
+                if (item.Value < minNumber) return true;
                 index++;
             }
 

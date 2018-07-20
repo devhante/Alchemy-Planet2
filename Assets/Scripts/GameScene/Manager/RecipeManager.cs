@@ -8,6 +8,7 @@ namespace AlchemyPlanet.GameScene
     {
         public List<string> RecipeNameList { get; private set; }
         public Queue<Recipe> recipeQueue;
+        public int recipeNumber = 14;
 
         public static RecipeManager Instance { get; private set; }
 
@@ -28,6 +29,23 @@ namespace AlchemyPlanet.GameScene
         private void Start()
         {
             StartCoroutine("CreateRecipe");
+        }
+
+        IEnumerator CreateRecipe()
+        {
+            while (true)
+            {
+                if (recipeQueue.Count < recipeNumber) AddRecipe();
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+
+        private void AddRecipe()
+        {
+            int index = Random.Range(0, PrefabManager.Instance.recipePrefabs.Length);
+            Recipe temp = Instantiate(PrefabManager.Instance.recipePrefabs[index], transform).GetComponent<Recipe>();
+            recipeQueue.Enqueue(temp);
+            temp.SetDestination(recipeQueue.Count - 1);
         }
 
         public string GetQueuePeekName()
@@ -54,23 +72,6 @@ namespace AlchemyPlanet.GameScene
 
             foreach (var item in recipeQueue)
                 RecipeNameList.Add(item.recipeName);
-        }
-
-        void AddRecipe()
-        {
-            int index = Random.Range(0, PrefabManager.Instance.recipePrefabs.Length);
-            Recipe temp = Instantiate(PrefabManager.Instance.recipePrefabs[index], transform).GetComponent<Recipe>();
-            recipeQueue.Enqueue(temp);
-            temp.SetDestination(recipeQueue.Count - 1);
-        }
-
-        IEnumerator CreateRecipe()
-        {
-            while (true)
-            {
-                if (recipeQueue.Count < 14) AddRecipe();
-                yield return new WaitForSeconds(0.1f);
-            }
         }
     }
 }
