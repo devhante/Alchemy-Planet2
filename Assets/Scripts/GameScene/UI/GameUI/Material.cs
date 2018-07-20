@@ -25,6 +25,7 @@ namespace AlchemyPlanet.GameScene
 
         private void Start()
         {
+            StartCoroutine("FadeIn");
             StartCoroutine("Float");
         }
 
@@ -37,7 +38,38 @@ namespace AlchemyPlanet.GameScene
                 
         }
 
-        IEnumerator Float()
+        private IEnumerator FadeIn()
+        {
+            float speed = 5f;
+
+            RectTransform rt = GetComponent<RectTransform>();
+            Vector3 scale = new Vector3(0, 0, 1);
+            rt.localScale = scale;
+
+            while(scale.x < 1)
+            {
+                scale += new Vector3(Time.deltaTime * speed, Time.deltaTime * speed);
+                rt.localScale = scale;
+
+                yield return new WaitForEndOfFrame();
+            }
+
+            while(scale.x < 1.2f)
+            {
+                scale += new Vector3(Time.deltaTime * speed, Time.deltaTime * speed);
+                rt.localScale = scale;
+                yield return new WaitForEndOfFrame();
+            }
+
+            while(scale.x > 1)
+            {
+                scale -= new Vector3(Time.deltaTime * speed, Time.deltaTime * speed);
+                rt.localScale = scale;
+                yield return new WaitForEndOfFrame();
+            }
+        }
+
+        private IEnumerator Float()
         {
             float speed = 15;
             direction = Random.insideUnitCircle;
