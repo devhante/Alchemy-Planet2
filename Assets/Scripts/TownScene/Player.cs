@@ -9,50 +9,43 @@ namespace AlchemyPlanet.TownScene
 
         public float speed;         // 속도
 
-        private Touch tempTouchs;   // 터치들
+        private Touch tempTouch;   // 터치들
         private Vector3 touchedPos; // 터치위치
-        private bool touchOn;       // 터치유무
         private Animator animator;  // 애니메이터
 
         // Use this for initialization
         void Start() {
-            touchOn = false;
             animator = GetComponent<Animator>();
         }
 
         // Update is called once per frame
         void Update() {
-            Touch();
+            DetectTouch();
+            DetectClick();
         }
-
-        void Touch()    // 터치감지
+        
+        void DetectTouch()    // 터치감지
         {
             if (Input.touchCount > 0)
             {
-                for (int i = 0; i < Input.touchCount; i++)
+                tempTouch = Input.GetTouch(0);
+                if (tempTouch.phase == TouchPhase.Began && EventSystem.current.IsPointerOverGameObject() == false)
                 {
-                    tempTouchs = Input.GetTouch(i);
-                    if (tempTouchs.phase == TouchPhase.Began && EventSystem.current.IsPointerOverGameObject() == false)
+                    touchedPos = Camera.main.ScreenToWorldPoint(tempTouch.position);
+                    RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);
+                    if (hit.collider.tag == "Building" || hit.collider.tag == "Road" || hit.collider.tag == "NPC")
                     {
-                        touchOn = true;
-                        touchedPos = Camera.main.ScreenToWorldPoint(tempTouchs.position);
-                        RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);
-                        if (hit.collider.tag == "Road" || hit.collider.tag == "NPC")
-                        {
-                            StopCoroutine("Move");
-                            StartCoroutine("Move", hit.collider.gameObject);
-                        }
-                        break;
+                        StopCoroutine("Move");
+                        StartCoroutine("Move", hit.collider.gameObject);
                     }
                 }
             }
         }
 
-        void Click()    // 클릭감지
+        void DetectClick()    // 클릭감지
         {
             if (Input.GetMouseButtonDown(0))
             {
-                touchOn = true;
                 touchedPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);
                 if (hit && EventSystem.current.IsPointerOverGameObject() == false)
@@ -70,10 +63,6 @@ namespace AlchemyPlanet.TownScene
         {
             animator.SetBool("Run", true);
             Debug.Log(transform.position.x - obj.transform.position.x);
-            if (obj.tag == "NPC")
-            {
-                UIManager.Instance.OpenMenu<DialogUI>();
-            }
             if (transform.position.x - obj.transform.position.x < 0)
             {
                 transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -82,10 +71,24 @@ namespace AlchemyPlanet.TownScene
             {
                 transform.rotation = Quaternion.Euler(0, 180, 0);
             }
-            while (transform.position.x - obj.transform.position.x > 0.1f || transform.position.x - obj.transform.position.x < -0.1f)
+            if (obj.tag == "NPC")
             {
-                transform.Translate(Vector2.right * speed * Time.deltaTime);
-                yield return new WaitForFixedUpdate();
+                obj.SendMessage("stop");
+                while (transform.position.x - obj.transform.position.x > 1.5f || transform.position.x - obj.transform.position.x < -1.5f)
+                {
+                    transform.Translate(Vector2.right * speed * Time.deltaTime);
+                    yield return new WaitForFixedUpdate();
+                }
+                UIManager.Instance.OpenMenu<DialogUI>();
+                obj.SendMessage("remove");
+            }
+            else
+            {
+                while (transform.position.x - obj.transform.position.x > 0.1f || transform.position.x - obj.transform.position.x < -0.1f)
+                {
+                    transform.Translate(Vector2.right * speed * Time.deltaTime);
+                    yield return new WaitForFixedUpdate();
+                }
             }
             animator.SetBool("Run", false);
             yield return null;

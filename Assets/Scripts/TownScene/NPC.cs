@@ -39,8 +39,26 @@ public class NPC : MonoBehaviour {
             }
         }
     }
+    
+    void stop()
+    {
+        if (moving)
+        {
+            switch (moveChoice)
+            {
+                case 0:
+                    StopCoroutine("LeftMove");
+                    break;
+                case 1:
+                    StopCoroutine("RightMove");
+                    break;
+            }
+        }
+    }
 
-    IEnumerator LeftMove()
+    void remove() { moving = false; }
+
+    private IEnumerator LeftMove()
     {
         moving = true;
         for (int i=0; i<moveTime; i++)
@@ -53,7 +71,7 @@ public class NPC : MonoBehaviour {
         yield return null;
     }
     
-    IEnumerator RightMove()
+    private IEnumerator RightMove()
     {
         moving = true;
         for (int i = 0; i < moveTime; i++)
@@ -66,7 +84,7 @@ public class NPC : MonoBehaviour {
         yield return null;
     }
 
-    IEnumerator StopMove()
+    private IEnumerator StopMove()
     {
         moving = true;
         yield return new WaitForSeconds(2f);
