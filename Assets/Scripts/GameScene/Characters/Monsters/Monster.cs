@@ -14,6 +14,8 @@ namespace AlchemyPlanet.GameScene
         protected float attackPower;
         protected float moveSpeed;
         protected float maxHealth;
+        protected SpriteRenderer bodySpriteRenderer;
+        protected SpriteRenderer faceSpriteRenderer;
 
         protected bool isAttackCoroutinePlaying;
 
@@ -97,6 +99,12 @@ namespace AlchemyPlanet.GameScene
                 yield return new WaitForSeconds(attackCoolTime);
                 Attack();
             }
+        }
+
+        public virtual void ChangeSortingLayer(int bodyLayerNumber, int faceLayerNumber)
+        {
+            bodySpriteRenderer.sortingOrder = bodyLayerNumber;
+            faceSpriteRenderer.sortingOrder = faceLayerNumber;
         }
 
         public virtual void Attack()

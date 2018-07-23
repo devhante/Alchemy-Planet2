@@ -8,12 +8,9 @@ namespace AlchemyPlanet.GameScene
     {
         public static BackgroundManager Instance { get; private set; }
 
-        public float BackgroundSpeed;
-        public int BackgroundNumber;
-        public float BackgroundWidth;
+        public float BackgroundSpeed { get; set; }
 
-        private Queue<GameObject> backgroundQueue;
-        private GameObject backgroundParent;
+        public GameObject tileMap;
         private Vector3 startPoint;
         private Vector3 endPoint;
 
@@ -31,37 +28,16 @@ namespace AlchemyPlanet.GameScene
         private void Start()
         {
             BackgroundSpeed = 0.5f;
-            BackgroundNumber = 2;
-            BackgroundWidth = 7.2f;
-            backgroundQueue = new Queue<GameObject>();
-            backgroundParent = new GameObject("Backgrounds");
-            startPoint = new Vector3(7.2f, 3.84f, 0);
-            endPoint = new Vector3(-7.2f, 3.84f, 0);
-
-            InitBackgrounds();
+            startPoint = new Vector3(0.45f, 0, 0);
+            endPoint = new Vector3(-13.95f, 0, 0);
         }
 
         private void Update()
         {
-            foreach (var item in backgroundQueue)
-                item.transform.position += Vector3.left * BackgroundSpeed * Time.deltaTime;
+            tileMap.transform.position += Vector3.left * BackgroundSpeed * Time.deltaTime;
 
-            if(backgroundQueue.Peek().transform.position.x <= endPoint.x)
-            {
-                backgroundQueue.Peek().transform.position = startPoint;
-                backgroundQueue.Enqueue(backgroundQueue.Dequeue());
-            }
-        }
-
-        private void InitBackgrounds()
-        {
-            for (int i = BackgroundNumber; i > 0; i--)
-                AddBackground(startPoint + Vector3.left * BackgroundWidth * i);
-        }
-
-        private void AddBackground(Vector3 offset)
-        {
-            backgroundQueue.Enqueue(Instantiate(PrefabManager.Instance.backgroundPrefab, offset, Quaternion.identity, backgroundParent.transform)); 
+            if (tileMap.transform.position.x <= endPoint.x)
+                tileMap.transform.position = startPoint;
         }
     }
 }

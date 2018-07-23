@@ -61,8 +61,10 @@ namespace AlchemyPlanet.GameScene
         IEnumerator SprintCoroutine()
         {
             TileManager.Instance.TileSpeed *= 3f;
+            BackgroundManager.Instance.BackgroundSpeed *= 3f;
             yield return new WaitForSeconds(2);
             TileManager.Instance.TileSpeed /= 3f;
+            BackgroundManager.Instance.BackgroundSpeed /= 3f;
         }
     }
 }
