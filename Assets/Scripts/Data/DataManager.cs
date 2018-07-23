@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 
-public class DataManager : MonoBehaviour {
+public class DataManager : MonoBehaviour
+{
 
     public static DataManager Instance { get; private set; }
-    
+
 
     private void Awake()
     {
@@ -17,6 +18,7 @@ public class DataManager : MonoBehaviour {
             Destroy(gameObject);
 
         DontDestroyOnLoad(this.gameObject);
+        //CreateSampleDialog();
     }
 
     #region PlayerData_Not_Using
@@ -106,11 +108,12 @@ public class DataManager : MonoBehaviour {
         return DialogScene;
     }
     */
+
     #endregion /
-    
-    public void Test()
+
+    #region CreateSampleData
+    public void CreateSampleDialog()
     {
-        /*
         List<Dialog> script = new List<Dialog> {
             new Dialog("사람A", "첫번째 대사야.", new Illust[] { new Illust("A", IllistPos.Left, IllustMode.Front), new Illust("B", IllistPos.Right, IllustMode.Back) }),
             new Dialog("사람B", "두번째 대사는 이거.", new Illust[] { new Illust("A", IllistPos.Left, IllustMode.Back), new Illust("B", IllistPos.Right, IllustMode.Front) }),
@@ -122,15 +125,14 @@ public class DataManager : MonoBehaviour {
             JsonSerializer serializer = new JsonSerializer();
             serializer.Serialize(file, script);
         }
-        */
     }
+    #endregion CreateSampleData
 
     public void SavePlayerData()
     {
 
     }
 
-    //이건 GooglePlay 내부 동작 정의 후에 해야 하지 않나?
     public void LoadPlayerData(string player_name)
     {
         using (StreamReader file = File.OpenText(string.Format("{0}/PlayerData/{1}", Application.persistentDataPath, player_name)))
@@ -150,19 +152,58 @@ public class DataManager : MonoBehaviour {
     }
 }
 
-public class PlayerData {
-    public string player_code;
-    public string name;
-    /*플레이어 내부 데이터 정의 필요*/
+public class PlayerData
+{
+    public string player_id;
+    public string player_name;
+
+    //재화
+    public int unicoin;
+    public int cosmoston;
+
+
 }
 
+#region AlchemyData
+public class Meterial
+{
+    public string item_id;
+    public string item_name;
+    public string discription;
+    //더할 수 있는 재료의 코드를 저장하는 리스트
+    public List<string> combinable;
+}
 
+public class Formula
+{
+    public List<string[]> formula;
+}
+#endregion AlchemyData
+
+#region ShopData
+public enum CurrencyType
+{
+    Unicoin = 0, Cosmoston
+}
+
+public struct ShopItem
+{
+    public string item_id;
+    public string item_name;
+    public string discription;
+    public CurrencyType currencyType;
+    public int price;
+    public string image_address;
+}
+#endregion ShopData
+
+#region DialogData
 public class Dialog
 {
     public string name;
     public string content;
     public Illust[] illusts = new Illust[2];
-    
+
     public Dialog(string name, string content, Illust[] illusts)
     {
         this.name = name;
@@ -172,7 +213,7 @@ public class Dialog
 }
 
 public enum IllistPos { Left = 0, Center, Right }
-public enum IllustMode { Front = 0 , Back }
+public enum IllustMode { Front = 0, Back }
 public struct Illust
 {
     public string name;
@@ -186,3 +227,4 @@ public struct Illust
         this.mode = mode;
     }
 }
+#endregion DialogData
