@@ -8,6 +8,7 @@ namespace AlchemyPlanet.GameScene
 
         public GameObject tilePrefab;
         public GameObject[] materialPrefabs;
+        public GameObject[] itemPrefabs;
         public GameObject[] recipePrefabs;
         public GameObject monster;
         public GameObject popinBullet;

@@ -9,6 +9,7 @@ namespace AlchemyPlanet.GameScene
     public class Material : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler
     {
         public string materialName;
+        public bool isItem;
         public Vector3 originalPosition;
         public Vector3 direction;
         Image bubble;
@@ -122,12 +123,16 @@ namespace AlchemyPlanet.GameScene
         {
             if (Time.timeScale == 0) return;
 
-            MaterialManager.Instance.RespawnMaterial(this);
+            if(isItem) Destroy(gameObject);
+            else MaterialManager.Instance.RespawnMaterial(this);
 
             if (RecipeManager.Instance.GetQueuePeekName() == materialName)
             {
                 GameManager.Instance.GainScore(ScoreType.TouchRightRecipe);
                 RecipeManager.Instance.DestroyQueuePeek();
+
+                if (Random.Range(1, 100) <= 10)
+                    ItemManager.Instance.CreateItem();
             }
             else GameUI.Instance.UpdateGage(Gages.PURIFY, -5);
 
