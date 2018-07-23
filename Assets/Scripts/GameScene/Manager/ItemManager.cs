@@ -17,19 +17,20 @@ namespace AlchemyPlanet.GameScene
 
         private void Awake()
         {
-            if (Instance == null) Instance = this;
-            else Destroy(this);
+            Instance = this;
 
             Objects = new List<GameObject>();
         }
 
         public void CreateItem()
         {
-            Debug.Log("CreateItem");
-            Vector3 position = MaterialManager.Instance.GetNewMaterialPosition();
-            int itemIndex = Random.Range(0, PrefabManager.Instance.itemPrefabs.Length);
-            GameObject instance = Instantiate(PrefabManager.Instance.itemPrefabs[itemIndex], position, Quaternion.identity, transform);
-            Objects.Add(instance);
+            if (Objects.Count < 3)
+            {
+                Vector3 position = MaterialManager.Instance.GetNewMaterialPosition();
+                int itemIndex = Random.Range(0, PrefabManager.Instance.itemPrefabs.Length);
+                GameObject instance = Instantiate(PrefabManager.Instance.itemPrefabs[itemIndex], position, Quaternion.identity, transform);
+                Objects.Add(instance);
+            }
         }
     }
 }
