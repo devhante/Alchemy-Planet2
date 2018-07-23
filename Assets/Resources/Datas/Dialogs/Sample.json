@@ -6,7 +6,7 @@
         ]
     },
 
-    {"name":"사람B","content":"두번째 대사는 이거.",
+    {"name":"사람B","content":"두번째 대사는 이거.. 인데 좀 길어야 긴것도 되는 지 확인할 것 같은데 더럽게 빠르네",
         "illusts":[
             {"name":"dialog_0","pos":0,"mode":1},
             {"name":"dialog_1","pos":2,"mode":0}
