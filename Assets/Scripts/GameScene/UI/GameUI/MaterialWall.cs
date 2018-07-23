@@ -12,7 +12,7 @@ namespace AlchemyPlanet.GameScene
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.tag == "Material")
+            if (collision.tag == "Bubble")
             {
                 Vector3 direction = new Vector3();
                 switch(position)
@@ -33,8 +33,8 @@ namespace AlchemyPlanet.GameScene
                         direction = new Vector3(-(transform.position.y - collision.transform.position.y), 0);
                         break;
                 }
-                Vector3 collisionDirection = collision.GetComponent<Material>().direction;
-                collision.GetComponent<Material>().direction = Rotate(-collisionDirection, 2 * GetAngle(collisionDirection, direction));
+                Vector3 collisionDirection = collision.GetComponent<Bubble>().direction;
+                collision.GetComponent<Bubble>().direction = Rotate(-collisionDirection, 2 * GetAngle(collisionDirection, direction));
             }
         }
 
