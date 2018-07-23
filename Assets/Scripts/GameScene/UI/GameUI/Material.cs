@@ -42,7 +42,7 @@ namespace AlchemyPlanet.GameScene
                 GameManager.Instance.GainScore(ScoreType.TouchRightRecipe);
                 RecipeManager.Instance.DestroyQueuePeek();
 
-                if (Random.Range(1, 100) <= 100)
+                if (Random.Range(1, 100) <= 20)
                     ItemManager.Instance.CreateItem();
             }
             else GameUI.Instance.UpdateGage(Gages.PURIFY, -5);
