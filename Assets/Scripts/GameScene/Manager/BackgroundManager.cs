@@ -1,54 +1,67 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace AlchemyPlanet.GameScene
 {
     public class BackgroundManager : MonoBehaviour
     {
-        private int tileSpeed;
-        private int tileNumber;
-        private float tileWidth;
-        private Vector3 tileOffset;
+        public static BackgroundManager Instance { get; private set; }
 
-        Queue<GameObject> tileQueue = new Queue<GameObject>();
-        GameObject tileParent;
+        public float BackgroundSpeed;
+        public int BackgroundNumber;
+        public float BackgroundWidth;
+
+        private Queue<GameObject> backgroundQueue;
+        private GameObject backgroundParent;
+        private Vector3 startPoint;
+        private Vector3 endPoint;
+
+        private void OnDestroy()
+        {
+            Instance = null;
+        }
+
+        private void Awake()
+        {
+            if (Instance == null) Instance = this;
+            else Destroy(this);
+        }
 
         private void Start()
         {
-            tileSpeed = 2;
-            tileNumber = 12;
-            tileWidth = 1.04f;
-            tileOffset = new Vector3(6.24f, 0.96f);
-            tileParent = new GameObject("Tiles");
+            BackgroundSpeed = 0.5f;
+            BackgroundNumber = 2;
+            BackgroundWidth = 7.2f;
+            backgroundQueue = new Queue<GameObject>();
+            backgroundParent = new GameObject("Backgrounds");
+            startPoint = new Vector3(7.2f, 3.84f, 0);
+            endPoint = new Vector3(-7.2f, 3.84f, 0);
 
-            InitTiles();
+            InitBackgrounds();
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
-            foreach (GameObject item in tileQueue)
-            {
-                item.transform.position += new Vector3(-1 * tileSpeed * Time.deltaTime, 0.0f, 0.0f);
-            }
+            foreach (var item in backgroundQueue)
+                item.transform.position += Vector3.left * BackgroundSpeed * Time.deltaTime;
 
-            if (tileQueue.Peek().transform.position.x <= -6.24f)
+            if(backgroundQueue.Peek().transform.position.x <= endPoint.x)
             {
-                Destroy(tileQueue.Dequeue());
-                AddTile(tileOffset);
-            }
-        }
-
-        void InitTiles()
-        {
-            for(int i = tileNumber; i > 0; i--)
-            {
-                AddTile(new Vector3(tileOffset.x - i * tileWidth, tileOffset.y));
+                backgroundQueue.Peek().transform.position = startPoint;
+                backgroundQueue.Enqueue(backgroundQueue.Dequeue());
             }
         }
 
-        void AddTile(Vector3 offset)
+        private void InitBackgrounds()
         {
-            tileQueue.Enqueue(Instantiate(PrefabManager.Instance.tilePrefab, offset, Quaternion.identity, tileParent.transform));
+            for (int i = BackgroundNumber; i > 0; i--)
+                AddBackground(startPoint + Vector3.left * BackgroundWidth * i);
+        }
+
+        private void AddBackground(Vector3 offset)
+        {
+            backgroundQueue.Enqueue(Instantiate(PrefabManager.Instance.backgroundPrefab, offset, Quaternion.identity, backgroundParent.transform)); 
         }
     }
 }

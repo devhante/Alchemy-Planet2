@@ -32,5 +32,37 @@ namespace AlchemyPlanet.GameScene
                 Objects.Add(instance);
             }
         }
+
+        public void IncreasePurify()
+        {
+
+        }
+
+        public void NoReducedOxygen()
+        {
+
+        }
+
+        public void RainbowColorBall()
+        {
+
+        }
+
+        public void SlowReducedOxygen()
+        {
+
+        }
+
+        public void Sprint()
+        {
+            StartCoroutine("SprintCoroutine");
+        }
+
+        IEnumerator SprintCoroutine()
+        {
+            TileManager.Instance.TileSpeed *= 3f;
+            yield return new WaitForSeconds(2);
+            TileManager.Instance.TileSpeed /= 3f;
+        }
     }
 }
