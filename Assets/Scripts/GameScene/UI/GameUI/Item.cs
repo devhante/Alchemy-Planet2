@@ -11,6 +11,7 @@ namespace AlchemyPlanet.GameScene
 
         public void OnPointerUp(PointerEventData eventData)
         {
+            ItemManager.Instance.Objects.Remove(gameObject);
             Destroy(gameObject);
         }
     }
