@@ -8,17 +8,19 @@ namespace AlchemyPlanet.TownScene
     {
 
         public float speed;
-        public float moveTime;
+        public float moveDistance;
 
         private int moveChoice;         // 움직임
         private bool moving;            // 움직이는 중
-        private bool talking = false;           // 말하는 중
+        private bool talking = false;   // 말하는 중
+        private Animator animator;      // 애니메이터
 
         // Use this for initialization
         void Start()
         {
             moving = false;
             moveChoice = Random.Range(0, 3);
+            animator = GetComponent<Animator>();
         }
 
         // Update is called once per frame
@@ -31,13 +33,14 @@ namespace AlchemyPlanet.TownScene
         {
             if (!moving)
             {
+                moving = true;
                 switch (moveChoice)
                 {
                     case 0:
-                        StartCoroutine("LeftMove");
+                        StartCoroutine("RightMove");
                         break;
                     case 1:
-                        StartCoroutine("RightMove");
+                        StartCoroutine("LeftMove");
                         break;
                     case 2:
                         StartCoroutine("StopMove");
@@ -48,18 +51,9 @@ namespace AlchemyPlanet.TownScene
 
         void stop()
         {
-            if (moving)
-            {
-                switch (moveChoice)
-                {
-                    case 0:
-                        StopCoroutine("LeftMove");
-                        break;
-                    case 1:
-                        StopCoroutine("RightMove");
-                        break;
-                }
-            }
+            animator.SetBool("Run", false);
+            StopAllCoroutines();
+            moving = true;
         }
 
         void talk()
@@ -70,39 +64,45 @@ namespace AlchemyPlanet.TownScene
                 UIManager.Instance.OpenMenu<DialogUI>();
                 talking = false;
             }
-
-            moving = false;
-        }
-
-        private IEnumerator LeftMove()
-        {
-            moving = true;
-            for (int i = 0; i < moveTime; i++)
-            {
-                transform.Translate(Vector2.left * speed * Time.deltaTime);
-                yield return new WaitForFixedUpdate();
-            }
-            moving = false;
-            moveChoice = Random.Range(1, 3);
-            yield return null;
+            moveChoice = 2;
+            StartCoroutine("StopMove");
         }
 
         private IEnumerator RightMove()
         {
-            moving = true;
-            for (int i = 0; i < moveTime; i++)
+            float firstPosX = transform.position.x;
+            animator.SetBool("Run", true);
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            while (firstPosX + moveDistance > transform.position.x)
             {
                 transform.Translate(Vector2.right * speed * Time.deltaTime);
-                yield return new WaitForFixedUpdate();
+                yield return null;
             }
+            animator.SetBool("Run", false);
             moving = false;
-            moveChoice = Random.Range(0, 2) == 1 ? 2 : 0;
+            moveChoice = 2;
+            yield return null;
+        }
+
+        private IEnumerator LeftMove()
+        {
+            float firstPosX = transform.position.x;
+            animator.SetBool("Run", true);
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+            while (firstPosX - moveDistance < transform.position.x)
+            {
+                transform.Translate(Vector2.right * speed * Time.deltaTime);
+                yield return null;
+            }
+            animator.SetBool("Run", false);
+            moving = false;
+            moveChoice = 2;
             yield return null;
         }
 
         private IEnumerator StopMove()
         {
-            moving = true;
+            animator.SetBool("Run", false);
             yield return new WaitForSeconds(2f);
             moving = false;
             moveChoice = Random.Range(0, 2);
