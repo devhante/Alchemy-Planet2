@@ -10,7 +10,6 @@ namespace AlchemyPlanet.GameScene
 
         private void Awake()
         {
-            Debug.Log("Bullet");
             speed = 5;
         }
 
