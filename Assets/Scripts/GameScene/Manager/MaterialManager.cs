@@ -66,7 +66,7 @@ namespace AlchemyPlanet.GameScene
 
         public void CreateMaterial()
         {
-            Vector3 position = GetNewPosition();
+            Vector3 position = GetNewMaterialPosition();
             GameObject instance;
 
             int materialIndex;
@@ -82,7 +82,7 @@ namespace AlchemyPlanet.GameScene
             MaterialNumbers[material.materialName]++;
         }
 
-        private Vector3 GetNewPosition()
+        public Vector3 GetNewMaterialPosition()
         {
             Vector3 position = new Vector3();
             bool isTooClose = false;
@@ -94,6 +94,8 @@ namespace AlchemyPlanet.GameScene
 
                 foreach (var item in Objects)
                     if ((item.transform.position - position).sqrMagnitude < (MinDistance * MinDistance)) isTooClose = true;
+                    foreach (var item in ItemManager.Instance.Objects)
+                        if ((item.transform.position - position).sqrMagnitude < (MinDistance * MinDistance)) isTooClose = true;
             } while (isTooClose);
 
             return position;
@@ -125,9 +127,7 @@ namespace AlchemyPlanet.GameScene
             foreach (var item in MaterialNumbers)
             {
                 int minNumber = 0;
-                Debug.Log(RecipeManager.Instance.recipeQueue.Count);
                 Recipe[] recipeArray = RecipeManager.Instance.recipeQueue.ToArray();
-                Debug.Log(recipeArray.Length);
 
                 for(int i = 0; i < 5; i++)
                 {

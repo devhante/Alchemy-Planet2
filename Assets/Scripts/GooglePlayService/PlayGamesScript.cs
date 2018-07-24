@@ -5,6 +5,7 @@ using GooglePlayGames.BasicApi;
 using UnityEngine;
 
 public class PlayGamesScript : MonoBehaviour {
+    public GameObject g;
 
 	// Use this for initialization
 	void Start () {
@@ -20,7 +21,17 @@ public class PlayGamesScript : MonoBehaviour {
 
     void SignIn()
     {
-        Social.localUser.Authenticate(succcess => {});
+        Social.localUser.Authenticate((bool succcess) => {
+            if (succcess)
+            {
+                ShowAchievementsUI();
+                GameObject.Instantiate(g);
+            }
+            else
+            {
+                Debug.Log("Failed!");
+            }
+        });
     }
 
     #region Achievements

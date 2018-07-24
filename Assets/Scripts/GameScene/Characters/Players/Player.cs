@@ -9,6 +9,7 @@ namespace AlchemyPlanet.GameScene
     {
         public static Player Instance { get; private set; }
         protected float attackPower;
+        private Animator animator;
 
         private void OnDestroy()
         {
@@ -19,21 +20,20 @@ namespace AlchemyPlanet.GameScene
         {
             Instance = this;
             attackPower = 30;
+            animator = GetComponent<Animator>();
         }
 
         public virtual void Attack(int chainNumber)
         {
-            PlayAttackAnimation();
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("PopinAttack"))
+                animator.SetTrigger("StopAttack");
+
+            animator.SetTrigger("StartAttack");
         }
 
         protected float GetDamage(int chainNumber)
         {
             return attackPower * chainNumber * (1 + chainNumber * 0.1f);
-        }
-
-        private void PlayAttackAnimation()
-        {
-            GetComponent<Animator>().SetTrigger("Attack");
         }
     }
 }

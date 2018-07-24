@@ -69,6 +69,7 @@ namespace AlchemyPlanet.GameScene
             foreach(var item in Monsters)
             {
                 item.Value.index = index;
+                item.Value.ChangeSortingLayer(item.Value.index * -2, item.Value.index * -2 + 1);
                 index++;
             }
         }

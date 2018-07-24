@@ -7,7 +7,9 @@ namespace AlchemyPlanet.GameScene
         public static PrefabManager Instance { get; private set; }
 
         public GameObject tilePrefab;
+        public GameObject backgroundPrefab;
         public GameObject[] materialPrefabs;
+        public GameObject[] itemPrefabs;
         public GameObject[] recipePrefabs;
         public GameObject monster;
         public GameObject popinBullet;

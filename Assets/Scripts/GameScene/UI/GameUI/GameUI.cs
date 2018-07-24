@@ -17,6 +17,10 @@ namespace AlchemyPlanet.GameScene
         public Text Score;
         public Text Unicoin;
 
+        public bool IsIncreasingPurify { get; set; }
+        public bool IsNotReducingOxygen { get; set; }
+        public float OxygenReduceSpeed { get; set; }
+
         float oxygenReduceRate = 0.4f;
         float purifyReduceRate = 2;
 
@@ -31,6 +35,10 @@ namespace AlchemyPlanet.GameScene
 
         public void Start()
         {
+            IsIncreasingPurify = false;
+            IsNotReducingOxygen = false;
+            OxygenReduceSpeed = 1;
+
             UpdateGage(Gages.PURIFY, 0);
             GameManager.Instance.StartCoroutine("GainScoreByTimeCoroutine");
 
@@ -53,11 +61,21 @@ namespace AlchemyPlanet.GameScene
 
         public void UpdateGage(Gages kind, float percent)
         {
+            if (IsIncreasingPurify && kind == Gages.PURIFY) percent = 0;
+            if (IsNotReducingOxygen && kind == Gages.OXYGEN) percent = 0;
+
             Image mask = GetMask(kind);
             float x = Mathf.Clamp(mask.transform.localScale.x + (percent / 100), 0, 1);
             mask.transform.localScale = new Vector3(x, 1, 1);
 
             if (kind == Gages.OXYGEN && mask.transform.localScale.x == 0) UIManager.Instance.OpenMenu<EndUI>();
+        }
+
+        public void IncreasePurifyForItem(float percent)
+        {
+            Image mask = GetMask(Gages.PURIFY);
+            float x = Mathf.Clamp(mask.transform.localScale.x + (percent / 100), 0, 1);
+            mask.transform.localScale = new Vector3(x, 1, 1);
         }
 
         public float GetGage(Gages kind)
@@ -83,7 +101,7 @@ namespace AlchemyPlanet.GameScene
 
             while (true)
             {
-                yield return new WaitForSeconds(frame * (1 + (GetGage(Gages.PURIFY) / 2)));
+                yield return new WaitForSeconds(frame * (1 + (GetGage(Gages.PURIFY) / 2) * OxygenReduceSpeed));
                 UpdateGage(Gages.OXYGEN, -oxygenReduceRate * frame);
             }
         }
