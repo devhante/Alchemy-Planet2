@@ -6,7 +6,6 @@ using UnityEngine.UI;
 namespace AlchemyPlanet.TownScene {
     public class TownUI : Common.UI
     {
-
         [SerializeField] private Button buildingbutton;
         [SerializeField] private GameObject buildBar;
         [SerializeField] private Button UIOffButton;

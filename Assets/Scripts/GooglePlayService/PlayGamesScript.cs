@@ -5,7 +5,6 @@ using GooglePlayGames.BasicApi;
 using UnityEngine;
 
 public class PlayGamesScript : MonoBehaviour {
-    public GameObject g;
 
 	// Use this for initialization
 	void Start () {
@@ -25,7 +24,6 @@ public class PlayGamesScript : MonoBehaviour {
             if (succcess)
             {
                 ShowAchievementsUI();
-                GameObject.Instantiate(g);
             }
             else
             {
