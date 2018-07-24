@@ -17,6 +17,8 @@ namespace AlchemyPlanet.GameScene
         public Text Score;
         public Text Unicoin;
 
+        public bool isIncreasingPurify = false;
+
         float oxygenReduceRate = 0.4f;
         float purifyReduceRate = 2;
 
@@ -53,11 +55,20 @@ namespace AlchemyPlanet.GameScene
 
         public void UpdateGage(Gages kind, float percent)
         {
+            if (isIncreasingPurify) percent = 0;
+
             Image mask = GetMask(kind);
             float x = Mathf.Clamp(mask.transform.localScale.x + (percent / 100), 0, 1);
             mask.transform.localScale = new Vector3(x, 1, 1);
 
             if (kind == Gages.OXYGEN && mask.transform.localScale.x == 0) UIManager.Instance.OpenMenu<EndUI>();
+        }
+
+        public void IncreasePurifyForItem(float percent)
+        {
+            Image mask = GetMask(Gages.PURIFY);
+            float x = Mathf.Clamp(mask.transform.localScale.x + (percent / 100), 0, 1);
+            mask.transform.localScale = new Vector3(x, 1, 1);
         }
 
         public float GetGage(Gages kind)
