@@ -32,7 +32,7 @@ namespace AlchemyPlanet.GameScene
         private void Awake()
         {
             if (Instance == null) Instance = this;
-            else Destroy(this);
+            else Destroy(gameObject);
 
             Objects = new List<GameObject>();
             MaterialNumbers = new Dictionary<string, int>();

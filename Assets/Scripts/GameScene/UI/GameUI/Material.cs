@@ -39,6 +39,7 @@ namespace AlchemyPlanet.GameScene
 
             if (RecipeManager.Instance.GetQueuePeekName() == materialName)
             {
+                Player.Instance.GetMaterialMessage(materialName);
                 GameManager.Instance.GainScore(ScoreType.TouchRightRecipe);
                 RecipeManager.Instance.DestroyQueuePeek();
 
@@ -52,6 +53,7 @@ namespace AlchemyPlanet.GameScene
 
             foreach (var item in MaterialManager.Instance.MaterialChain)
             {
+                Player.Instance.GetMaterialMessage(item.materialName);
                 item.ChangeBubbleToUnselectedBubble();
                 MaterialManager.Instance.RespawnMaterial(item);
                 RecipeManager.Instance.DestroyQueuePeek();

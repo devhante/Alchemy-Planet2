@@ -141,5 +141,10 @@ namespace AlchemyPlanet.GameScene
                 yield return new WaitForSeconds(0.1f);
             }
         }
+
+        public void ChickenBox()
+        {
+            Debug.Log("ChickenBox");
+        }
     }
 }
