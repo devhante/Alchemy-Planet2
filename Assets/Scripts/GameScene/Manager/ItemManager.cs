@@ -46,7 +46,7 @@ namespace AlchemyPlanet.GameScene
             float duration = 5;
             float increaseRatio = 7;
 
-            GameUI.Instance.isIncreasingPurify = true;
+            GameUI.Instance.IsIncreasingPurify = true;
 
             for (int i = 0; i < duration; i++)
             {
@@ -54,7 +54,7 @@ namespace AlchemyPlanet.GameScene
                 yield return new WaitForSeconds(1);
             }
 
-            GameUI.Instance.isIncreasingPurify = false;
+            GameUI.Instance.IsIncreasingPurify = false;
         }
 
         public void NoReducedOxygen()
@@ -65,8 +65,9 @@ namespace AlchemyPlanet.GameScene
 
         IEnumerator NoReducedOxygenCoroutine()
         {
-            Debug.Log("NoReducedOxygen");
-            yield return null;
+            GameUI.Instance.IsNotReducingOxygen = true;
+            yield return new WaitForSeconds(7);
+            GameUI.Instance.IsNotReducingOxygen = false;
         }
 
         public void RainbowColorBall()
@@ -88,8 +89,11 @@ namespace AlchemyPlanet.GameScene
             }
 
             foreach (var item in materials)
+            {
                 MaterialManager.Instance.RespawnMaterial(item);
-
+                GameManager.Instance.GainScore(ScoreType.TouchRightRecipe);
+                GameUI.Instance.UpdateGage(Gages.PURIFY, 2.5f);
+            }
             yield return null;   
         }
 
@@ -101,8 +105,9 @@ namespace AlchemyPlanet.GameScene
 
         IEnumerator SlowReducedOxygenCoroutine()
         {
-            Debug.Log("SlowReducedOxygen");
-            yield return null;
+            GameUI.Instance.OxygenReduceSpeed *= 0.7f;
+            yield return new WaitForSeconds(10);
+            GameUI.Instance.OxygenReduceSpeed /= 0.7f;
         }
 
         public void Sprint()
