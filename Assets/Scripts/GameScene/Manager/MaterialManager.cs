@@ -94,8 +94,8 @@ namespace AlchemyPlanet.GameScene
 
                 foreach (var item in Objects)
                     if ((item.transform.position - position).sqrMagnitude < (MinDistance * MinDistance)) isTooClose = true;
-                foreach(var item in ItemManager.Instance.Objects)
-                    if ((item.transform.position - position).sqrMagnitude < (MinDistance * MinDistance)) isTooClose = true;
+                    foreach (var item in ItemManager.Instance.Objects)
+                        if ((item.transform.position - position).sqrMagnitude < (MinDistance * MinDistance)) isTooClose = true;
             } while (isTooClose);
 
             return position;

@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace AlchemyPlanet.GameScene
 {
-    public class BackgroundManager : MonoBehaviour
+    public class TileManager : MonoBehaviour
     {
-        public static BackgroundManager Instance { get; private set; }
+        public static TileManager Instance { get; private set; }
 
-        public float BackgroundSpeed { get; set; }
+        public float TileSpeed { get; set; }
 
         public GameObject tileMap;
         private Vector3 startPoint;
@@ -27,14 +26,14 @@ namespace AlchemyPlanet.GameScene
 
         private void Start()
         {
-            BackgroundSpeed = 0.5f;
-            startPoint = new Vector3(0.45f, 0, 0);
-            endPoint = new Vector3(-13.95f, 0, 0);
+            TileSpeed = 2;
+            startPoint = new Vector3(0, -0.1f, 0);
+            endPoint = new Vector3(-0.9f, -0.1f, 0);
         }
 
         private void Update()
         {
-            tileMap.transform.position += Vector3.left * BackgroundSpeed * Time.deltaTime;
+            tileMap.transform.position += Vector3.left * TileSpeed * Time.deltaTime;
 
             if (tileMap.transform.position.x <= endPoint.x)
                 tileMap.transform.position = startPoint;

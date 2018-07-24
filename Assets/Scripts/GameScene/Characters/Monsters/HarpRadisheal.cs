@@ -8,9 +8,6 @@ namespace AlchemyPlanet.GameScene
     {
         private GameObject bulletSpawnPoint;
 
-        private SpriteRenderer bodySpriteRenderer;
-        private SpriteRenderer faceSpriteRenderer;
-
         protected override void Awake()
         {
             base.Awake();
@@ -43,12 +40,6 @@ namespace AlchemyPlanet.GameScene
         {
             yield return new WaitForSeconds(0.8f);
             Instantiate(PrefabManager.Instance.harpRadishealBullet, bulletSpawnPoint.transform.position, Quaternion.identity);
-        }
-
-        public void ChangeSortingLayer(int bodyLayerNumber, int faceLayerNumber)
-        {
-            bodySpriteRenderer.sortingOrder = bodyLayerNumber;
-            faceSpriteRenderer.sortingOrder = faceLayerNumber;
         }
 
         protected override string GetNameOfDieAnimation()
