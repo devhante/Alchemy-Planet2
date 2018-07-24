@@ -161,7 +161,6 @@ public class PlayerData
     public int unicoin;
     public int cosmoston;
 
-
 }
 
 #region AlchemyData
