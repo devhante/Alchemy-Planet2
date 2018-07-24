@@ -116,11 +116,25 @@ namespace AlchemyPlanet.GameScene
             float duration = 2;
             float speed = 3;
 
+            StartCoroutine(SprintScoreCoroutine(duration, speed));
+
             TileManager.Instance.TileSpeed *= speed;
             BackgroundManager.Instance.BackgroundSpeed *= speed;
             yield return new WaitForSeconds(duration);
             TileManager.Instance.TileSpeed /= speed;
             BackgroundManager.Instance.BackgroundSpeed /= speed;
+        }
+
+        IEnumerator SprintScoreCoroutine(float duration, float speed)
+        {
+            while (duration > 0)
+            {
+                for(int i = 0; i < (int)speed - 1; i++)
+                    GameManager.Instance.GainScore(ScoreType.TimePass);
+
+                duration -= 0.1f;
+                yield return new WaitForSeconds(0.1f);
+            }
         }
     }
 }
