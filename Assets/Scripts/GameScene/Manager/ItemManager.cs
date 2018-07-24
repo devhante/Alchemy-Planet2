@@ -105,9 +105,9 @@ namespace AlchemyPlanet.GameScene
 
         IEnumerator SlowReducedOxygenCoroutine()
         {
-            GameUI.Instance.OxygenReduceSpeed *= 0.7f;
+            GameUI.Instance.OxygenReduceSpeed *= 0.5f;
             yield return new WaitForSeconds(10);
-            GameUI.Instance.OxygenReduceSpeed /= 0.7f;
+            GameUI.Instance.OxygenReduceSpeed /= 0.5f;
         }
 
         public void Sprint()
