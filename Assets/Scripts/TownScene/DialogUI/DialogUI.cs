@@ -11,7 +11,7 @@ namespace AlchemyPlanet.TownScene
         [SerializeField] private float w_interval = 0.02f;
         private WaitForSeconds write_interval;
         //대화->대화 시간 간격
-        [SerializeField] private float d_interval = 1f;
+        [SerializeField] private float d_interval = 0.5f;
         private WaitForSeconds dialog_interval;
 
         [SerializeField] private Text d_name;
@@ -25,7 +25,7 @@ namespace AlchemyPlanet.TownScene
         bool writting = false;
         bool touched = false;
 
-        int count = 1;
+        public int count = 0;
 
         //상단의 버튼
         [SerializeField] private Button SkipButton;
@@ -43,9 +43,11 @@ namespace AlchemyPlanet.TownScene
             write_interval = new WaitForSeconds(w_interval);
             dialog_interval = new WaitForSeconds(d_interval);
 
-            //SkipButton.onClick.AddListener(() => { Skip(); });
-            //AutoButton.onClick.AddListener(() => { AutoPlay(); });
-            //LogButton.onClick.AddListener(() => { GetLog(); });
+            SkipButton.onClick.AddListener(() => { Skip(); });
+            AutoButton.onClick.AddListener(() => { AutoPlay(); });
+            LogButton.onClick.AddListener(() => { GetLog(); });
+
+            count = 1;
         }
 
         private void Update()
@@ -70,20 +72,15 @@ namespace AlchemyPlanet.TownScene
                 if (!illusts.ContainsKey(d.illusts[1].name))
                     illusts.Add(d.illusts[1].name, sprites[1]);
             }
-            SetView(0);
+            StartCoroutine(SetView(0));
         }
 
         public void OnCliked()
         {
-            if (count >= dialogs.Count)
+            GetComponent<Animator>().cullingMode = AnimatorCullingMode.CullCompletely;
+            if (!writting)
             {
-                count = 1;
-                UIManager.Instance.CloseMenu();
-            }
-            else
-            {
-                if(!writting)
-                    StartCoroutine(SetView(count++));
+                StartCoroutine(SetView(count++));
             }
         }
 
@@ -97,7 +94,10 @@ namespace AlchemyPlanet.TownScene
             if (autoplay)
                 autoplay = false;
             else
+            {
+                StartCoroutine(SetView(count++));
                 autoplay = true;
+            }
         }
         public void GetLog()
         {
@@ -108,50 +108,60 @@ namespace AlchemyPlanet.TownScene
         {
             do
             {
-                writting = true;
-
-                d_name.text = dialogs[num].name;
-
-                d_illust[0].sprite = illusts[dialogs[num].illusts[0].name];
-                if (dialogs[num].illusts[0].mode == IllustMode.Back)
+                if (num >= dialogs.Count)
                 {
-                    d_illust[0].color = new Color32(255, 255, 255, 120);
+                    count = 1;
+                    UIManager.Instance.CloseMenu();
+                    StopCoroutine("SetView");
                 }
                 else
                 {
-                    d_illust[0].color = new Color32(255, 255, 255, 255);
-                }
+                    writting = true;
 
-                d_illust[2].sprite = illusts[dialogs[num].illusts[1].name];
+                    d_name.text = dialogs[num].name;
 
-                if (dialogs[num].illusts[1].mode == IllustMode.Back)
-                {
-                    d_illust[2].color = new Color32(255, 255, 255, 120);
-                }
-                else
-                {
-                    d_illust[2].color = new Color32(255, 255, 255, 255);
-                }
+                    d_illust[0].sprite = illusts[dialogs[num].illusts[0].name];
+                    if (dialogs[num].illusts[0].mode == IllustMode.Back)
+                    {
+                        d_illust[0].color = new Color32(255, 255, 255, 120);
+                    }
+                    else
+                    {
+                        d_illust[0].color = new Color32(255, 255, 255, 255);
+                    }
 
-                //다음 내용을 불러오고, Text를 초기화
-                string script = dialogs[num].content;
-                d_script.text = "";
+                    d_illust[2].sprite = illusts[dialogs[num].illusts[1].name];
 
-                touched = false;
-                //한 글자씩 불러오기
-                foreach (char c in script)
-                {
-                    //만약 터치를 받으면 중지
-                    if (touched) break;
-                    d_script.text += c;
-                    yield return write_interval;
+                    if (dialogs[num].illusts[1].mode == IllustMode.Back)
+                    {
+                        d_illust[2].color = new Color32(255, 255, 255, 120);
+                    }
+                    else
+                    {
+                        d_illust[2].color = new Color32(255, 255, 255, 255);
+                    }
+
+                    //다음 내용을 불러오고, Text를 초기화
+                    string script = dialogs[num].content;
+                    d_script.text = "";
+
+                    touched = false;
+                    //한 글자씩 불러오기
+                    foreach (char c in script)
+                    {
+                        //만약 터치를 받으면 중지
+                        if (touched) break;
+                        d_script.text += c;
+                        yield return write_interval;
+                    }
+                    //완성본으로 변경
+                    d_script.text = dialogs[num].content;
+
+                    yield return dialog_interval;
+                    writting = false;
                 }
-                //완성본으로 변경
-                d_script.text = dialogs[num].content;
                 
-                yield return dialog_interval;
-                writting = false;
-            } while (autoplay && count++ < dialogs.Count);
+            } while (autoplay && num++ < dialogs.Count);
         }
     }
 }
