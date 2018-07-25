@@ -9,11 +9,15 @@ namespace AlchemyPlanet.TownScene {
         [SerializeField] private Button buildingbutton;
         [SerializeField] private GameObject buildBar;
         [SerializeField] private Button UIOffButton;
+        [SerializeField] private Button TownManageButton;
+        [SerializeField] private Button TownUpgradeButton;
 
         private bool turnOnBuildBar;
+        private GameObject TownManager;
 
         private void Awake()
         {
+            //TownManager = GameObject.Find("TownManager");
             turnOnBuildBar = false;
             buildingbutton.onClick.AddListener(() => {
                 StartCoroutine("MoveBar");
@@ -22,6 +26,16 @@ namespace AlchemyPlanet.TownScene {
             {
                 UIManager.Instance.menuStack.Peek().gameObject.SetActive(false);
                 UIManager.Instance.OpenMenu<EmptyUI>();
+            });
+            TownManageButton.onClick.AddListener(() =>
+            {
+                UIManager.Instance.menuStack.Peek().gameObject.SetActive(false);
+               // TownManager.SetActive(true);
+            });
+            TownUpgradeButton.onClick.AddListener(() =>
+            {
+                UIManager.Instance.menuStack.Peek().gameObject.SetActive(false);
+
             });
         }
         
@@ -44,6 +58,16 @@ namespace AlchemyPlanet.TownScene {
                 }
                 turnOnBuildBar = false;
             }
+        }
+
+        void OnTownManager()
+        {
+            TownManager.SetActive(true);
+        }
+
+        void OffTownManager()
+        {
+            TownManager.SetActive(true);
         }
     }
 }
