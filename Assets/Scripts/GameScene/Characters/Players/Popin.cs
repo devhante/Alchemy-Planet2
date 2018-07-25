@@ -43,9 +43,9 @@ namespace AlchemyPlanet.GameScene
             instance.GetComponent<PopinBullet>().damage = damage;
         }
 
-        public override void GetMaterialMessage(string materialName)
+        public override void GetMaterialMessage(MaterialName materialName)
         {
-            if (materialName == "Chicken")
+            if (materialName == MaterialName.Chicken)
             {
                 chickenNumber--;
                 if (chickenNumber == 0)

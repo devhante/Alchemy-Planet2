@@ -8,7 +8,7 @@ namespace AlchemyPlanet.GameScene
     public class MaterialManager : MonoBehaviour
     {
         public static MaterialManager Instance { get; private set; }
-        public Dictionary<string, int> MaterialNumbers { get; private set; }
+        public Dictionary<MaterialName, int> MaterialNumbers { get; private set; }
         public List<GameObject> Objects { get; private set; }
         public List<Material> MaterialChain { get; private set; }
         public List<Line> Lines { get; private set; }
@@ -35,7 +35,7 @@ namespace AlchemyPlanet.GameScene
             else Destroy(gameObject);
 
             Objects = new List<GameObject>();
-            MaterialNumbers = new Dictionary<string, int>();
+            MaterialNumbers = new Dictionary<MaterialName, int>();
             MaterialChain = new List<Material>();
             Lines = new List<Line>();
 
@@ -109,7 +109,7 @@ namespace AlchemyPlanet.GameScene
             Destroy(material.gameObject);
         }
 
-        public void DecreaseMaterialNumber(string name)
+        public void DecreaseMaterialNumber(MaterialName name)
         {
             MaterialNumbers[name]--;
         }

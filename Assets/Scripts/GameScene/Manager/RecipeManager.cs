@@ -6,7 +6,7 @@ namespace AlchemyPlanet.GameScene
 {
     public class RecipeManager : MonoBehaviour
     {
-        public List<string> RecipeNameList { get; private set; }
+        public List<MaterialName> RecipeNameList { get; private set; }
         public Queue<Recipe> recipeQueue;
         public int recipeNumber = 14;
 
@@ -22,7 +22,7 @@ namespace AlchemyPlanet.GameScene
             if (Instance == null) Instance = this;
             else Destroy(gameObject);
 
-            RecipeNameList = new List<string>();
+            RecipeNameList = new List<MaterialName>();
             recipeQueue = new Queue<Recipe>();
         }
 
@@ -48,7 +48,7 @@ namespace AlchemyPlanet.GameScene
             temp.SetDestination(recipeQueue.Count - 1);
         }
 
-        public string GetQueuePeekName()
+        public MaterialName GetQueuePeekName()
         {
             return recipeQueue.Peek().recipeName;
         }

@@ -6,9 +6,11 @@ using System.Collections.Generic;
 
 namespace AlchemyPlanet.GameScene
 {
+    public enum MaterialName { Red, Yellow, Green, Blue, Purple, Chicken }
+
     public class Material : Bubble, IPointerUpHandler, IPointerEnterHandler
     {
-        public string materialName;
+        public MaterialName materialName;
         bool isChainSelected;
 
         protected override void Awake()

@@ -93,7 +93,7 @@ namespace AlchemyPlanet.GameScene
         public void RainbowColorBall()
         {
             int index = Random.Range(0, PrefabManager.Instance.materialPrefabs.Length);
-            string materialName = PrefabManager.Instance.materialPrefabs[index].GetComponent<Material>().materialName;
+            MaterialName materialName = PrefabManager.Instance.materialPrefabs[index].GetComponent<Material>().materialName;
             List<Material> materials = new List<Material>();
 
             foreach (var item in MaterialManager.Instance.Objects)
