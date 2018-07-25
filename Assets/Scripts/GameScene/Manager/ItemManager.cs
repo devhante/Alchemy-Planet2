@@ -11,6 +11,18 @@ namespace AlchemyPlanet.GameScene
         public List<GameObject> Objects { get; private set; }
         public int MaxItemNumber { get; private set; }
 
+        private Coroutine increasePurifyCoroutine = null;
+        private Coroutine noReducedOxygenCoroutine = null;
+        private Coroutine rainbowColorBallCoroutine = null;
+        private Coroutine slowReduceOxygenCoroutine = null;
+        private Coroutine sprintCoroutine = null;
+
+        private bool isIncreasePurifyPlaying = false;
+        private bool isNoReducedOxygenPlaying = false;
+        private bool isRainbowColorBallPlaying = false;
+        private bool isSlowReduceOxygenPlaying = false;
+        private bool isSprintPlaying = false;
+
         private void OnDestroy()
         {
             Instance = null;
@@ -37,7 +49,11 @@ namespace AlchemyPlanet.GameScene
 
         public void IncreasePurify()
         {
-            StopCoroutine("IncreasePurifyCoroutine");
+            if (isIncreasePurifyPlaying)
+            {
+                StopCoroutine("IncreasePurifyCoroutine");
+                StartCoroutine("increasePurifyEndCoroutine");
+            }
             StartCoroutine("IncreasePurifyCoroutine");
         }
 
@@ -48,31 +64,51 @@ namespace AlchemyPlanet.GameScene
 
             GameUI.Instance.IsIncreasingPurify = true;
 
+            isIncreasePurifyPlaying = true;
             for (int i = 0; i < duration; i++)
             {
                 GameUI.Instance.IncreasePurifyForItem(increaseRatio);
                 yield return new WaitForSeconds(1);
             }
+            isIncreasePurifyPlaying = false;
 
+            StartCoroutine("IncreasePurifyEndCoroutine");
+        }
+
+        IEnumerator IncreasePurifyEndCoroutine()
+        {
             GameUI.Instance.IsIncreasingPurify = false;
+            yield return null;
         }
 
         public void NoReducedOxygen()
         {
-            StopCoroutine("NoReducedOxygenCoroutine");
+            if (isNoReducedOxygenPlaying)
+            {
+                StopCoroutine("NoReducedOxygenCoroutine");
+                StartCoroutine("NoReducedOxygenEndCoroutine");
+            }
             StartCoroutine("NoReducedOxygenCoroutine");
         }
 
         IEnumerator NoReducedOxygenCoroutine()
         {
             GameUI.Instance.IsNotReducingOxygen = true;
+
+            isNoReducedOxygenPlaying = true;
             yield return new WaitForSeconds(7);
+            isNoReducedOxygenPlaying = false;
+            StartCoroutine("NoReducedOxygenEndCoroutine");
+        }
+
+        IEnumerator NoReducedOxygenEndCoroutine()
+        {
             GameUI.Instance.IsNotReducingOxygen = false;
+            yield return null;
         }
 
         public void RainbowColorBall()
         {
-            StopCoroutine("RainbowColorBallCoroutine");
             StartCoroutine("RainbowColorBallCoroutine");
         }
 
@@ -99,35 +135,61 @@ namespace AlchemyPlanet.GameScene
 
         public void SlowReducedOxygen()
         {
-            StopCoroutine("SlowReducedOxygenCoroutine");
+            if(isSlowReduceOxygenPlaying)
+            {
+                StopCoroutine("SlowReducedOxygenCoroutine");
+                StartCoroutine("SlowReducedOxygenEndCoroutine");
+            }
             StartCoroutine("SlowReducedOxygenCoroutine");
         }
 
         IEnumerator SlowReducedOxygenCoroutine()
         {
             GameUI.Instance.OxygenReduceSpeed *= 0.5f;
+            isSlowReduceOxygenPlaying = true;
             yield return new WaitForSeconds(10);
+            isSlowReduceOxygenPlaying = false;
+            StartCoroutine("SlowReducedOxygenEndCoroutine");
+        }
+
+        IEnumerator SlowReducedOxygenEndCoroutine()
+        {
             GameUI.Instance.OxygenReduceSpeed /= 0.5f;
+            yield return null;
         }
 
         public void Sprint()
         {
-            StopCoroutine("SprintCoroutine");
-            StartCoroutine("SprintCoroutine");
-        }
-
-        IEnumerator SprintCoroutine()
-        {
             float duration = 2;
             float speed = 3;
 
+            if (isSprintPlaying)
+            {
+                StopCoroutine(sprintCoroutine);
+                StopCoroutine("SprintScoreCoroutine");
+                StartCoroutine("SprintEndCoroutine", speed);
+            }
+            sprintCoroutine = StartCoroutine(SprintCoroutine(duration, speed));
+        }
+
+        IEnumerator SprintCoroutine(float duration, float speed)
+        {
             StartCoroutine(SprintScoreCoroutine(duration, speed));
 
             TileManager.Instance.TileSpeed *= speed;
             BackgroundManager.Instance.BackgroundSpeed *= speed;
+            isSprintPlaying = true;
             yield return new WaitForSeconds(duration);
+            isSprintPlaying = false;
+            StartCoroutine("SprintEndCoroutine", speed);
+        }
+
+        IEnumerator SprintEndCoroutine(float speed)
+        {
+            Debug.Log(TileManager.Instance.TileSpeed);
             TileManager.Instance.TileSpeed /= speed;
             BackgroundManager.Instance.BackgroundSpeed /= speed;
+            yield return null;
         }
 
         IEnumerator SprintScoreCoroutine(float duration, float speed)

@@ -14,6 +14,11 @@ namespace AlchemyPlanet.GameScene
         [HideInInspector]
         public int coin;
 
+        private void OnApplicationPause(bool pause)
+        {
+            if (pause) UIManager.Instance.OpenMenu<PauseUI>();
+        }
+
         private void OnDestroy()
         {
             Instance = null;
