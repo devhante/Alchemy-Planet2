@@ -10,21 +10,24 @@ namespace AlchemyPlanet.GameScene
 
         static int speed = 3;
         Vector3 destination;
+        RectTransform rt;
 
         private void Awake()
         {
-            transform.position = new Vector2(760, 658);
-            destination = new Vector3(36, 658);
+            rt = GetComponent<RectTransform>();
+
+            rt.position = RecipeManager.Instance.startPoint.position;
+            destination = RecipeManager.Instance.endPoint.position;
         }
 
         private void Update()
         {
-            transform.position = Vector3.Lerp(transform.position, destination, Time.deltaTime * speed);
+            rt.position = Vector3.Lerp(rt.position, destination, Time.deltaTime * speed);
         }
 
         public void SetDestination(int index)
         {
-            destination = new Vector3(36.0f + index * 50.0f, destination.y);
+            destination = RecipeManager.Instance.endPoint.position + new Vector3(index * (Screen.width / 14.5f), 0, 0);
         }
     }
 }
