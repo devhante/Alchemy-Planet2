@@ -49,25 +49,30 @@ namespace AlchemyPlanet.TownScene
             }
         }
 
-        void stop()
+        void Stop()
         {
             animator.SetBool("Run", false);
             StopAllCoroutines();
             moving = true;
         }
 
-        void talk()
+        void TalkStart()
         {
             if (!talking)
             {
                 talking = true;
                 UIManager.Instance.OpenMenu<DialogUI>();
-                talking = false;
+                DialogUI.Instance.SetDialog("Sample", gameObject);
             }
+        }
+
+        void TalkEnd()
+        {
+            talking = false;
             moveChoice = 2;
             StartCoroutine("StopMove");
         }
-
+        
         private IEnumerator RightMove()
         {
             float firstPosX = transform.position.x;

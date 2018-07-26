@@ -74,13 +74,13 @@ public class Player : MonoBehaviour
         }
         if (obj.tag == "NPC")
         {
-            obj.SendMessage("stop");
+            obj.SendMessage("Stop");
             while (transform.position.x - obj.transform.position.x > 1.5f || transform.position.x - obj.transform.position.x < -1.5f)
             {
                 transform.Translate(Vector2.right * speed * Time.deltaTime);
                 yield return new WaitForFixedUpdate();
             }
-            obj.SendMessage("talk");
+            obj.SendMessage("TalkStart");
         }
         else
         {
