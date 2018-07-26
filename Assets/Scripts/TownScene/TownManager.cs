@@ -15,7 +15,6 @@ namespace AlchemyPlanet.TownScene
         private GameObject clickedBuilding;
         private Touch tempTouch;   // 터치들
         private Vector3 touchedPos; // 터치위치
-
         private void OnEnable()
         {
             player.SetActive(false);

@@ -8,7 +8,11 @@ using System;
 public class DataManager : MonoBehaviour
 {
     public static DataManager Instance { get; private set; }
-    public static PlayerData currentPlayerData;
+
+    public PlayerData currentPlayerData;
+    
+    //아이템 데이터 프리로드
+    public Dictionary<string, Material> materials;
 
     private void Awake()
     {
@@ -23,6 +27,7 @@ public class DataManager : MonoBehaviour
         //CreateSampleFomulas();
 
         LoadPlayerData();
+        LoadMaterials();
     }
 
     #region PlayerData_Not_Using
@@ -95,7 +100,7 @@ public class DataManager : MonoBehaviour
     */
 
     #endregion /
-
+    
     #region CreateSampleData
     public void CreateSampleDialog()
     {
@@ -115,10 +120,10 @@ public class DataManager : MonoBehaviour
     public void CreateSampleMaterials()
     {
         Dictionary<string, Material> materials = new Dictionary<string, Material> {
-            {"A001", new Material("A001", "Red", "빨강")},
-            {"A002", new Material("A002", "Bule", "파랑")},
-            {"A003", new Material("A003", "Yellow", "노랑")},
-            {"A004", new Material("A004", "Perple", "보라")}
+            {"Red", new Material("Red", "빨강")},
+            {"Bule", new Material("Bule", "파랑")},
+            {"Yellow", new Material("Yellow", "노랑")},
+            {"Perple", new Material("Perple", "보라")}
         };
 
         using (StreamWriter file = File.CreateText("Assets/Resources/Datas/Materials.json"))
@@ -143,6 +148,17 @@ public class DataManager : MonoBehaviour
     }
     #endregion CreateSampleData
 
+    private void LoadMaterials()
+    {
+        using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/Materials").bytes), System.Text.Encoding.UTF8))
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            Dictionary<string, Material> materials = (Dictionary<string, Material>)serializer.Deserialize(file, typeof(Dictionary<string, Material>));
+            this.materials = materials;
+        }
+    }
+
+
     public void SavePlayerData()
     {
 
@@ -153,7 +169,7 @@ public class DataManager : MonoBehaviour
         currentPlayerData =  new PlayerData("AAA001", "ISHNN", 0, 0, new Dictionary<string, int>());
     }
 
-    public static List<Dialog> LoadDialog(string dialog_name)
+    public List<Dialog> LoadDialog(string dialog_name)
     {
         using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>(string.Format("Datas/Dialogs/{0}", dialog_name)).bytes), System.Text.Encoding.UTF8))
         {
@@ -163,17 +179,22 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    public static Dictionary<string, Material> LoadMaterialData()
+    public Dictionary<string, Sprite> LoadIllust(List<Dialog> dialogs)
     {
-        using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/Materials").bytes), System.Text.Encoding.UTF8))
+        Dictionary<string, Sprite> illusts = new Dictionary<string, Sprite>();
+
+        foreach (Dialog d in dialogs)
         {
-            JsonSerializer serializer = new JsonSerializer();
-            Dictionary<string, Material> materials = (Dictionary<string, Material>)serializer.Deserialize(file, typeof (Dictionary<string, Material>));
-            return materials;
+            if (!illusts.ContainsKey(d.illusts[0].name))
+                illusts.Add(d.illusts[0].name, Resources.Load<Sprite>(string.Format("Sprites/Illusts/{0}", d.illusts[0].name)));
+
+            if (!illusts.ContainsKey(d.illusts[1].name))
+                illusts.Add(d.illusts[0].name, Resources.Load<Sprite>(string.Format("Sprites/Illusts/{0}", d.illusts[0].name)));
         }
+        return illusts;
     }
 
-    public static List<Formula> LoadFormulas()
+    public List<Formula> LoadFormulas()
     {
         using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/Formulas").bytes), System.Text.Encoding.UTF8))
         {
@@ -206,16 +227,28 @@ public class PlayerData
     }
 }
 
+public class NPCDAta
+{
+    public string npc_name;
+    public List<Dialog> dialogs;
+    Dictionary<string, Sprite> illusts;
+
+    public NPCDAta(string npc_name)
+    {
+        this.npc_name = npc_name;
+        dialogs = DataManager.Instance.LoadDialog(this.npc_name);
+        illusts = DataManager.Instance.LoadIllust(dialogs);
+    }
+}
+
 #region AlchemyData
 public class Material
 {
-    public string item_id;
     public string item_name;
     public string discription;
 
-    public Material(string item_id, string item_name, string discription)
+    public Material(string item_name, string discription)
     {
-        this.item_id = item_id;
         this.item_name = item_name;
         this.discription = discription;
     }

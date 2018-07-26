@@ -6,7 +6,7 @@ namespace AlchemyPlanet.TownScene
 {
     public class NPC : MonoBehaviour
     {
-
+        public NPCDAta data;
         public float speed;
         public float moveDistance;
 
@@ -18,6 +18,8 @@ namespace AlchemyPlanet.TownScene
         // Use this for initialization
         void Start()
         {
+            data = new NPCDAta(this.gameObject.name);
+
             moving = false;
             moveChoice = Random.Range(0, 3);
             animator = GetComponent<Animator>();
