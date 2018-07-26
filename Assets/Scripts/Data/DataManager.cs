@@ -16,12 +16,15 @@ public class DataManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
+        if (Instance == null){
             Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
         else if (Instance != this)
+        {
             Destroy(gameObject);
-
-        DontDestroyOnLoad(this.gameObject);
+        }
+        
         //CreateSampleDialog();
         //CreateSampleMaterials();
         //CreateSampleFomulas();
@@ -105,12 +108,12 @@ public class DataManager : MonoBehaviour
     public void CreateSampleDialog()
     {
         List<Dialog> script = new List<Dialog> {
-            new Dialog("사람A", "첫번째 대사야.", new Illust[] { new Illust("A", IllistPos.Left, IllustMode.Front), new Illust("B", IllistPos.Right, IllustMode.Back) }),
-            new Dialog("사람B", "두번째 대사는 이거.", new Illust[] { new Illust("A", IllistPos.Left, IllustMode.Back), new Illust("B", IllistPos.Right, IllustMode.Front) }),
-            new Dialog("사람A", "이게 마지막 대사.", new Illust[] { new Illust("A", IllistPos.Left, IllustMode.Front), new Illust("B", IllistPos.Right, IllustMode.Back) })
+            new Dialog("시드", "첫번째 대사야.", new Illust[] { new Illust("시드", IllistPos.Left, IllustMode.Front), new Illust("마칭냥", IllistPos.Right, IllustMode.Back) }),
+            new Dialog("마칭냥", "두번째 대사는 이거.", new Illust[] { new Illust("시드", IllistPos.Left, IllustMode.Back), new Illust("마칭냥", IllistPos.Right, IllustMode.Front) }),
+            new Dialog("시드", "이게 마지막 대사.", new Illust[] { new Illust("시드", IllistPos.Left, IllustMode.Front), new Illust("마칭냥", IllistPos.Right, IllustMode.Back) })
         };
 
-        using (StreamWriter file = File.CreateText(string.Format("{0}/{1}.json", "Assets/Resources/Datas/Dialogs/", "Test")))
+        using (StreamWriter file = File.CreateText(string.Format("{0}/{1}.json", "Assets/Resources/Datas/Dialogs/", "Sample")))
         {
             JsonSerializer serializer = new JsonSerializer();
             serializer.Serialize(file, script);
@@ -189,7 +192,7 @@ public class DataManager : MonoBehaviour
                 illusts.Add(d.illusts[0].name, Resources.Load<Sprite>(string.Format("Sprites/Illusts/{0}", d.illusts[0].name)));
 
             if (!illusts.ContainsKey(d.illusts[1].name))
-                illusts.Add(d.illusts[0].name, Resources.Load<Sprite>(string.Format("Sprites/Illusts/{0}", d.illusts[0].name)));
+                illusts.Add(d.illusts[1].name, Resources.Load<Sprite>(string.Format("Sprites/Illusts/{0}", d.illusts[1].name)));
         }
         return illusts;
     }
@@ -231,12 +234,13 @@ public class NPCDAta
 {
     public string npc_name;
     public List<Dialog> dialogs;
-    Dictionary<string, Sprite> illusts;
+    public Dictionary<string, Sprite> illusts;
 
     public NPCDAta(string npc_name)
     {
         this.npc_name = npc_name;
-        dialogs = DataManager.Instance.LoadDialog(this.npc_name);
+        //Sample -> this.npc_name 으로 수정해야 함
+        dialogs = DataManager.Instance.LoadDialog("Sample");
         illusts = DataManager.Instance.LoadIllust(dialogs);
     }
 }

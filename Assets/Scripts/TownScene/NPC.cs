@@ -15,6 +15,11 @@ namespace AlchemyPlanet.TownScene
         private bool talking = false;   // 말하는 중
         private Animator animator;      // 애니메이터
 
+        private void Awake()
+        {
+            animator = GetComponent<Animator>();
+        }
+
         // Use this for initialization
         void Start()
         {
@@ -22,7 +27,6 @@ namespace AlchemyPlanet.TownScene
 
             moving = false;
             moveChoice = Random.Range(0, 3);
-            animator = GetComponent<Animator>();
         }
 
         // Update is called once per frame
@@ -64,7 +68,8 @@ namespace AlchemyPlanet.TownScene
             {
                 talking = true;
                 UIManager.Instance.OpenMenu<DialogUI>();
-                DialogUI.Instance.SetDialog("Sample", gameObject);
+                //클릭된 NPC의 이름으로 수정해야 함
+                DialogUI.Instance.SetDialog("Sample", this);
             }
         }
 
