@@ -6,7 +6,7 @@ namespace AlchemyPlanet.GameScene
 {
     public class Recipe : MonoBehaviour
     {
-        public string recipeName;
+        public MaterialName recipeName;
 
         static int speed = 3;
         Vector3 destination;

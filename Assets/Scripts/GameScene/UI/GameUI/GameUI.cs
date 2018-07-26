@@ -16,12 +16,13 @@ namespace AlchemyPlanet.GameScene
         public Button PauseButton;
         public Text Score;
         public Text Unicoin;
+        public Text ChickenCount;
 
         public bool IsIncreasingPurify { get; set; }
         public bool IsNotReducingOxygen { get; set; }
         public float OxygenReduceSpeed { get; set; }
 
-        float oxygenReduceRate = 0.4f;
+        float oxygenReduceRate = 1;
         float purifyReduceRate = 2;
 
         protected override void Awake()
@@ -101,7 +102,7 @@ namespace AlchemyPlanet.GameScene
 
             while (true)
             {
-                yield return new WaitForSeconds(frame * (1 + (GetGage(Gages.PURIFY) / 2) * OxygenReduceSpeed));
+                yield return new WaitForSeconds(frame * (1 + GetGage(Gages.PURIFY) * GetGage(Gages.PURIFY)) * OxygenReduceSpeed);
                 UpdateGage(Gages.OXYGEN, -oxygenReduceRate * frame);
             }
         }

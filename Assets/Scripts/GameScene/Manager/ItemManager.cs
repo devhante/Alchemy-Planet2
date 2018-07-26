@@ -11,6 +11,11 @@ namespace AlchemyPlanet.GameScene
         public List<GameObject> Objects { get; private set; }
         public int MaxItemNumber { get; private set; }
 
+        private int increasePurifyCount = 0;
+        private int noReducedOxygenCount = 0;
+        private int slowReducedOxygenCount = 0;
+        private int sprintCount = 0;
+
         private void OnDestroy()
         {
             Instance = null;
@@ -37,8 +42,10 @@ namespace AlchemyPlanet.GameScene
 
         public void IncreasePurify()
         {
-            StopCoroutine("IncreasePurifyCoroutine");
-            StartCoroutine("IncreasePurifyCoroutine");
+            increasePurifyCount++;
+
+            if(increasePurifyCount == 1)
+                StartCoroutine("IncreasePurifyCoroutine");
         }
 
         IEnumerator IncreasePurifyCoroutine()
@@ -48,10 +55,15 @@ namespace AlchemyPlanet.GameScene
 
             GameUI.Instance.IsIncreasingPurify = true;
 
-            for (int i = 0; i < duration; i++)
+            while (increasePurifyCount > 0)
             {
-                GameUI.Instance.IncreasePurifyForItem(increaseRatio);
-                yield return new WaitForSeconds(1);
+                for (int i = 0; i < duration; i++)
+                {
+                    GameUI.Instance.IncreasePurifyForItem(increaseRatio);
+                    yield return new WaitForSeconds(1);
+                }
+
+                increasePurifyCount--;
             }
 
             GameUI.Instance.IsIncreasingPurify = false;
@@ -59,27 +71,29 @@ namespace AlchemyPlanet.GameScene
 
         public void NoReducedOxygen()
         {
-            StopCoroutine("NoReducedOxygenCoroutine");
-            StartCoroutine("NoReducedOxygenCoroutine");
+            noReducedOxygenCount++;
+
+            if(noReducedOxygenCount == 1)
+                StartCoroutine("NoReducedOxygenCoroutine");
         }
 
         IEnumerator NoReducedOxygenCoroutine()
         {
             GameUI.Instance.IsNotReducingOxygen = true;
-            yield return new WaitForSeconds(7);
+
+            while (noReducedOxygenCount > 0)
+            {
+                yield return new WaitForSeconds(7);
+                noReducedOxygenCount--;
+            }
+
             GameUI.Instance.IsNotReducingOxygen = false;
         }
 
         public void RainbowColorBall()
         {
-            StopCoroutine("RainbowColorBallCoroutine");
-            StartCoroutine("RainbowColorBallCoroutine");
-        }
-
-        IEnumerator RainbowColorBallCoroutine()
-        {
             int index = Random.Range(0, PrefabManager.Instance.materialPrefabs.Length);
-            string materialName = PrefabManager.Instance.materialPrefabs[index].GetComponent<Material>().materialName;
+            MaterialName materialName = PrefabManager.Instance.materialPrefabs[index].GetComponent<Material>().materialName;
             List<Material> materials = new List<Material>();
 
             foreach (var item in MaterialManager.Instance.Objects)
@@ -94,26 +108,37 @@ namespace AlchemyPlanet.GameScene
                 GameManager.Instance.GainScore(ScoreType.TouchRightRecipe);
                 GameUI.Instance.UpdateGage(Gages.PURIFY, 2.5f);
             }
-            yield return null;   
         }
 
         public void SlowReducedOxygen()
         {
-            StopCoroutine("SlowReducedOxygenCoroutine");
-            StartCoroutine("SlowReducedOxygenCoroutine");
+            slowReducedOxygenCount++;
+
+            if(slowReducedOxygenCount == 1)
+                StartCoroutine("SlowReducedOxygenCoroutine");
         }
 
         IEnumerator SlowReducedOxygenCoroutine()
         {
             GameUI.Instance.OxygenReduceSpeed *= 0.5f;
-            yield return new WaitForSeconds(10);
+
+            while (slowReducedOxygenCount > 0)
+            {
+                yield return new WaitForSeconds(10);
+                slowReducedOxygenCount--;
+            }
+
             GameUI.Instance.OxygenReduceSpeed /= 0.5f;
         }
 
         public void Sprint()
         {
-            StopCoroutine("SprintCoroutine");
-            StartCoroutine("SprintCoroutine");
+            sprintCount++;
+
+            Debug.Log(sprintCount);
+
+            if (sprintCount == 1)
+                StartCoroutine("SprintCoroutine");
         }
 
         IEnumerator SprintCoroutine()
@@ -121,11 +146,16 @@ namespace AlchemyPlanet.GameScene
             float duration = 2;
             float speed = 3;
 
-            StartCoroutine(SprintScoreCoroutine(duration, speed));
-
             TileManager.Instance.TileSpeed *= speed;
             BackgroundManager.Instance.BackgroundSpeed *= speed;
-            yield return new WaitForSeconds(duration);
+
+            while (sprintCount > 0)
+            {
+                StartCoroutine(SprintScoreCoroutine(duration, speed));
+                yield return new WaitForSeconds(duration);
+                sprintCount--;
+            }
+
             TileManager.Instance.TileSpeed /= speed;
             BackgroundManager.Instance.BackgroundSpeed /= speed;
         }
@@ -140,6 +170,11 @@ namespace AlchemyPlanet.GameScene
                 duration -= 0.1f;
                 yield return new WaitForSeconds(0.1f);
             }
+        }
+
+        public void ChickenBox()
+        {
+            Debug.Log("ChickenBox");
         }
     }
 }

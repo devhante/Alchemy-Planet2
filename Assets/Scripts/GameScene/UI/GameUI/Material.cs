@@ -6,9 +6,11 @@ using System.Collections.Generic;
 
 namespace AlchemyPlanet.GameScene
 {
+    public enum MaterialName { Red, Yellow, Green, Blue, Purple, Chicken }
+
     public class Material : Bubble, IPointerUpHandler, IPointerEnterHandler
     {
-        public string materialName;
+        public MaterialName materialName;
         bool isChainSelected;
 
         protected override void Awake()
@@ -39,6 +41,7 @@ namespace AlchemyPlanet.GameScene
 
             if (RecipeManager.Instance.GetQueuePeekName() == materialName)
             {
+                Player.Instance.GetMaterialMessage(materialName);
                 GameManager.Instance.GainScore(ScoreType.TouchRightRecipe);
                 RecipeManager.Instance.DestroyQueuePeek();
 
@@ -52,6 +55,7 @@ namespace AlchemyPlanet.GameScene
 
             foreach (var item in MaterialManager.Instance.MaterialChain)
             {
+                Player.Instance.GetMaterialMessage(item.materialName);
                 item.ChangeBubbleToUnselectedBubble();
                 MaterialManager.Instance.RespawnMaterial(item);
                 RecipeManager.Instance.DestroyQueuePeek();

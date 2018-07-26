@@ -35,5 +35,10 @@ namespace AlchemyPlanet.GameScene
         {
             return attackPower * chainNumber * (1 + chainNumber * 0.1f);
         }
+
+        public virtual void GetMaterialMessage(MaterialName materialName)
+        {
+            Debug.Log("GetMaterialMessage: " + materialName);
+        }
     }
 }
