@@ -8,6 +8,7 @@ using System;
 public class DataManager : MonoBehaviour
 {
     public static DataManager Instance { get; private set; }
+    public static PlayerData currentPlayerData;
 
     private void Awake()
     {
@@ -20,6 +21,8 @@ public class DataManager : MonoBehaviour
         //CreateSampleDialog();
         //CreateSampleMaterials();
         //CreateSampleFomulas();
+
+        LoadPlayerData();
     }
 
     #region PlayerData_Not_Using
@@ -145,12 +148,9 @@ public class DataManager : MonoBehaviour
 
     }
 
-    public void LoadPlayerData(string player_name)
+    public void LoadPlayerData()
     {
-        using (StreamReader file = File.OpenText(string.Format("{0}/PlayerData/{1}", Application.persistentDataPath, player_name)))
-        {
-
-        }
+        currentPlayerData =  new PlayerData("AAA001", "ISHNN", 0, 0, new Dictionary<string, int>());
     }
 
     public static List<Dialog> LoadDialog(string dialog_name)
@@ -195,6 +195,15 @@ public class PlayerData
 
     //재료
     public Dictionary<string, int> inventory;
+
+    public PlayerData(string player_id, string player_name, int unicoin, int cosmoston, Dictionary<string, int> inventory)
+    {
+        this.player_id = player_id;
+        this.player_name = player_name;
+        this.unicoin = unicoin;
+        this.cosmoston = cosmoston;
+        this.inventory = inventory;
+    }
 }
 
 #region AlchemyData
