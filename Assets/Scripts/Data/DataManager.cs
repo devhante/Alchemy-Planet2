@@ -3,12 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
+using System;
 
 public class DataManager : MonoBehaviour
 {
-
     public static DataManager Instance { get; private set; }
-
 
     private void Awake()
     {
@@ -19,6 +18,8 @@ public class DataManager : MonoBehaviour
 
         DontDestroyOnLoad(this.gameObject);
         //CreateSampleDialog();
+        //CreateSampleMaterials();
+        //CreateSampleFomulas();
     }
 
     #region PlayerData_Not_Using
@@ -90,25 +91,6 @@ public class DataManager : MonoBehaviour
 
     */
 
-
-    /*
-    public List<Dialog> LoadDialog(string dialog_index)
-    {
-        FileStream stream = File.Open(string.Format("{0}/{1}.txt", Application.dataPath + "/Resources/Dialogs/", dialog_index), FileMode.Open);
-        StreamReader sr = new StreamReader(stream, System.Text.Encoding.Default);
-        string[] dialogdata = sr.ReadToEnd().Split('/');
-        stream.Close();
-
-        List<Dialog> DialogScene = new List<Dialog>();
-        for (int i = 0; i< dialogdata.Length; i++)
-        {
-            DialogScene.Add(new Dialog());
-        }
-
-        return DialogScene;
-    }
-    */
-
     #endregion /
 
     #region CreateSampleData
@@ -124,6 +106,36 @@ public class DataManager : MonoBehaviour
         {
             JsonSerializer serializer = new JsonSerializer();
             serializer.Serialize(file, script);
+        }
+    }
+
+    public void CreateSampleMaterials()
+    {
+        Dictionary<string, Material> materials = new Dictionary<string, Material> {
+            {"A001", new Material("A001", "Red", "빨강")},
+            {"A002", new Material("A002", "Bule", "파랑")},
+            {"A003", new Material("A003", "Yellow", "노랑")},
+            {"A004", new Material("A004", "Perple", "보라")}
+        };
+
+        using (StreamWriter file = File.CreateText("Assets/Resources/Datas/Materials.json"))
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.Serialize(file, materials);
+        }
+    }
+
+    public void CreateSampleFomulas()
+    {
+        List<Formula> formulas = new List<Formula> {
+            new Formula(new Dictionary<string, int>{ {"A002",3 }, {"A003", 3} }, "A004", 1),
+            new Formula(new Dictionary<string, int>{ {"A001",2 }, {"A003", 2} }, "A002", 1)
+        };
+
+        using (StreamWriter file = File.CreateText("Assets/Resources/Datas/Formulas.json"))
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.Serialize(file, formulas);
         }
     }
     #endregion CreateSampleData
@@ -150,6 +162,26 @@ public class DataManager : MonoBehaviour
             return script;
         }
     }
+
+    public static Dictionary<string, Material> LoadMaterialData()
+    {
+        using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/Materials").bytes), System.Text.Encoding.UTF8))
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            Dictionary<string, Material> materials = (Dictionary<string, Material>)serializer.Deserialize(file, typeof (Dictionary<string, Material>));
+            return materials;
+        }
+    }
+
+    public static List<Formula> LoadFormulas()
+    {
+        using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/Formulas").bytes), System.Text.Encoding.UTF8))
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            List<Formula> formulas = (List<Formula>)serializer.Deserialize(file, typeof(List<Formula>));
+            return formulas;
+        }
+    }
 }
 
 public class PlayerData
@@ -161,21 +193,37 @@ public class PlayerData
     public int unicoin;
     public int cosmoston;
 
+    //재료
+    public Dictionary<string, int> inventory;
 }
 
 #region AlchemyData
-public class Meterial
+public class Material
 {
     public string item_id;
     public string item_name;
     public string discription;
-    //더할 수 있는 재료의 코드를 저장하는 리스트
-    public List<string> combinable;
+
+    public Material(string item_id, string item_name, string discription)
+    {
+        this.item_id = item_id;
+        this.item_name = item_name;
+        this.discription = discription;
+    }
 }
 
 public class Formula
 {
-    public List<string[]> formula;
+    public Dictionary<string, int> formula;
+    public string result;
+    public int resultcount;
+
+    public Formula(Dictionary<string, int> formula, string result, int resultcount)
+    {
+        this.formula = formula;
+        this.result = result;
+        this.resultcount = resultcount;
+    }
 }
 #endregion AlchemyData
 
