@@ -34,12 +34,12 @@ namespace AlchemyPlanet.TownScene
 
         [SerializeField] private Button LogButton;
 
+        private GameObject NPC;     // 다이얼로그 사용NPC
 
         protected override void Awake()
         {
             base.Awake();
-
-            SetDialog("Sample");
+            
             write_interval = new WaitForSeconds(w_interval);
             dialog_interval = new WaitForSeconds(d_interval);
 
@@ -58,8 +58,9 @@ namespace AlchemyPlanet.TownScene
             }
         }
 
-        public void SetDialog(string dialog_name)
+        public void SetDialog(string dialog_name, GameObject obj)
         {
+            NPC = obj;
             dialogs = DataManager.LoadDialog(dialog_name);
 
             Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/dialog");
@@ -88,6 +89,7 @@ namespace AlchemyPlanet.TownScene
         {
             count = 1;
             UIManager.Instance.CloseMenu();
+            NPC.SendMessage("TalkEnd");
         }
         public void AutoPlay()
         {
@@ -111,6 +113,7 @@ namespace AlchemyPlanet.TownScene
                 if (num >= dialogs.Count)
                 {
                     count = 1;
+                    NPC.SendMessage("TalkEnd");
                     UIManager.Instance.CloseMenu();
                     StopCoroutine("SetView");
                 }

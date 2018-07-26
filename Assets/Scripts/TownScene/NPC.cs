@@ -6,7 +6,7 @@ namespace AlchemyPlanet.TownScene
 {
     public class NPC : MonoBehaviour
     {
-
+        public NPCDAta data;
         public float speed;
         public float moveDistance;
 
@@ -18,6 +18,8 @@ namespace AlchemyPlanet.TownScene
         // Use this for initialization
         void Start()
         {
+            data = new NPCDAta(this.gameObject.name);
+
             moving = false;
             moveChoice = Random.Range(0, 3);
             animator = GetComponent<Animator>();
@@ -49,25 +51,30 @@ namespace AlchemyPlanet.TownScene
             }
         }
 
-        void stop()
+        void Stop()
         {
             animator.SetBool("Run", false);
             StopAllCoroutines();
             moving = true;
         }
 
-        void talk()
+        void TalkStart()
         {
             if (!talking)
             {
                 talking = true;
                 UIManager.Instance.OpenMenu<DialogUI>();
-                talking = false;
+                DialogUI.Instance.SetDialog("Sample", gameObject);
             }
+        }
+
+        void TalkEnd()
+        {
+            talking = false;
             moveChoice = 2;
             StartCoroutine("StopMove");
         }
-
+        
         private IEnumerator RightMove()
         {
             float firstPosX = transform.position.x;

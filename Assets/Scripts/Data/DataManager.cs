@@ -3,12 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
+using System;
 
 public class DataManager : MonoBehaviour
 {
-
     public static DataManager Instance { get; private set; }
 
+    public PlayerData currentPlayerData;
+    
+    //아이템 데이터 프리로드
+    public Dictionary<string, Material> materials;
 
     private void Awake()
     {
@@ -19,6 +23,11 @@ public class DataManager : MonoBehaviour
 
         DontDestroyOnLoad(this.gameObject);
         //CreateSampleDialog();
+        //CreateSampleMaterials();
+        //CreateSampleFomulas();
+
+        LoadPlayerData();
+        LoadMaterials();
     }
 
     #region PlayerData_Not_Using
@@ -90,27 +99,8 @@ public class DataManager : MonoBehaviour
 
     */
 
-
-    /*
-    public List<Dialog> LoadDialog(string dialog_index)
-    {
-        FileStream stream = File.Open(string.Format("{0}/{1}.txt", Application.dataPath + "/Resources/Dialogs/", dialog_index), FileMode.Open);
-        StreamReader sr = new StreamReader(stream, System.Text.Encoding.Default);
-        string[] dialogdata = sr.ReadToEnd().Split('/');
-        stream.Close();
-
-        List<Dialog> DialogScene = new List<Dialog>();
-        for (int i = 0; i< dialogdata.Length; i++)
-        {
-            DialogScene.Add(new Dialog());
-        }
-
-        return DialogScene;
-    }
-    */
-
     #endregion /
-
+    
     #region CreateSampleData
     public void CreateSampleDialog()
     {
@@ -126,28 +116,91 @@ public class DataManager : MonoBehaviour
             serializer.Serialize(file, script);
         }
     }
+
+    public void CreateSampleMaterials()
+    {
+        Dictionary<string, Material> materials = new Dictionary<string, Material> {
+            {"Red", new Material("Red", "빨강")},
+            {"Bule", new Material("Bule", "파랑")},
+            {"Yellow", new Material("Yellow", "노랑")},
+            {"Perple", new Material("Perple", "보라")}
+        };
+
+        using (StreamWriter file = File.CreateText("Assets/Resources/Datas/Materials.json"))
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.Serialize(file, materials);
+        }
+    }
+
+    public void CreateSampleFomulas()
+    {
+        List<Formula> formulas = new List<Formula> {
+            new Formula(new Dictionary<string, int>{ {"A002",3 }, {"A003", 3} }, "A004", 1),
+            new Formula(new Dictionary<string, int>{ {"A001",2 }, {"A003", 2} }, "A002", 1)
+        };
+
+        using (StreamWriter file = File.CreateText("Assets/Resources/Datas/Formulas.json"))
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.Serialize(file, formulas);
+        }
+    }
     #endregion CreateSampleData
+
+    private void LoadMaterials()
+    {
+        using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/Materials").bytes), System.Text.Encoding.UTF8))
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            Dictionary<string, Material> materials = (Dictionary<string, Material>)serializer.Deserialize(file, typeof(Dictionary<string, Material>));
+            this.materials = materials;
+        }
+    }
+
 
     public void SavePlayerData()
     {
 
     }
 
-    public void LoadPlayerData(string player_name)
+    public void LoadPlayerData()
     {
-        using (StreamReader file = File.OpenText(string.Format("{0}/PlayerData/{1}", Application.persistentDataPath, player_name)))
-        {
-
-        }
+        currentPlayerData =  new PlayerData("AAA001", "ISHNN", 0, 0, new Dictionary<string, int>());
     }
 
-    public static List<Dialog> LoadDialog(string dialog_name)
+    public List<Dialog> LoadDialog(string dialog_name)
     {
         using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>(string.Format("Datas/Dialogs/{0}", dialog_name)).bytes), System.Text.Encoding.UTF8))
         {
             JsonSerializer serializer = new JsonSerializer();
             List<Dialog> script = (List<Dialog>)serializer.Deserialize(file, typeof(List<Dialog>));
             return script;
+        }
+    }
+
+    public Dictionary<string, Sprite> LoadIllust(List<Dialog> dialogs)
+    {
+        Dictionary<string, Sprite> illusts = new Dictionary<string, Sprite>();
+
+        foreach (Dialog d in dialogs)
+        {
+            if (!illusts.ContainsKey(d.illusts[0].name))
+                illusts.Add(d.illusts[0].name, Resources.Load<Sprite>(string.Format("Sprites/Illusts/{0}", d.illusts[0].name)));
+
+            if (!illusts.ContainsKey(d.illusts[1].name))
+                illusts.Add(d.illusts[0].name, Resources.Load<Sprite>(string.Format("Sprites/Illusts/{0}", d.illusts[0].name)));
+        }
+        return illusts;
+    }
+
+    public List<Formula> LoadFormulas()
+    {
+        using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/Formulas").bytes), System.Text.Encoding.UTF8))
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            List<Formula> formulas = (List<Formula>)serializer.Deserialize(file, typeof(List<Formula>));
+            return formulas;
         }
     }
 }
@@ -161,21 +214,58 @@ public class PlayerData
     public int unicoin;
     public int cosmoston;
 
+    //재료
+    public Dictionary<string, int> inventory;
+
+    public PlayerData(string player_id, string player_name, int unicoin, int cosmoston, Dictionary<string, int> inventory)
+    {
+        this.player_id = player_id;
+        this.player_name = player_name;
+        this.unicoin = unicoin;
+        this.cosmoston = cosmoston;
+        this.inventory = inventory;
+    }
+}
+
+public class NPCDAta
+{
+    public string npc_name;
+    public List<Dialog> dialogs;
+    Dictionary<string, Sprite> illusts;
+
+    public NPCDAta(string npc_name)
+    {
+        this.npc_name = npc_name;
+        dialogs = DataManager.Instance.LoadDialog(this.npc_name);
+        illusts = DataManager.Instance.LoadIllust(dialogs);
+    }
 }
 
 #region AlchemyData
-public class Meterial
+public class Material
 {
-    public string item_id;
     public string item_name;
     public string discription;
-    //더할 수 있는 재료의 코드를 저장하는 리스트
-    public List<string> combinable;
+
+    public Material(string item_name, string discription)
+    {
+        this.item_name = item_name;
+        this.discription = discription;
+    }
 }
 
 public class Formula
 {
-    public List<string[]> formula;
+    public Dictionary<string, int> formula;
+    public string result;
+    public int resultcount;
+
+    public Formula(Dictionary<string, int> formula, string result, int resultcount)
+    {
+        this.formula = formula;
+        this.result = result;
+        this.resultcount = resultcount;
+    }
 }
 #endregion AlchemyData
 

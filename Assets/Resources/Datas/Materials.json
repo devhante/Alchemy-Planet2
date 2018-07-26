@@ -1,0 +1,22 @@
+{
+  "A001": {
+    "item_id": "A001",
+    "item_name": "Red",
+    "discription": "빨강"
+  },
+  "A002": {
+    "item_id": "A002",
+    "item_name": "Bule",
+    "discription": "파랑"
+  },
+  "A003": {
+    "item_id": "A003",
+    "item_name": "Yellow",
+    "discription": "노랑"
+  },
+  "A004": {
+    "item_id": "A004",
+    "item_name": "Perple",
+    "discription": "보라"
+  }
+}
