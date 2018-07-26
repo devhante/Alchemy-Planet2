@@ -130,7 +130,9 @@ namespace AlchemyPlanet.GameScene
         {
             PlayDieAnimation();
             yield return new WaitForSeconds(0.2f);
-            CoinManager.Instance.GenerateCoin(transform.position);
+            DropManager.Instance.GenerateCoin(transform.position);
+            yield return new WaitForSeconds(0.1f);
+            DropManager.Instance.GenerateDropMaterial(transform.position);
 
             while (!animator.GetCurrentAnimatorStateInfo(0).IsName(GetNameOfDieAnimation()))
                 yield return new WaitForEndOfFrame();

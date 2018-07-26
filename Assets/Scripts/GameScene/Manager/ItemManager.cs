@@ -174,7 +174,7 @@ namespace AlchemyPlanet.GameScene
 
         public void ChickenBox()
         {
-            Debug.Log("ChickenBox");
+            GameUI.Instance.UpdateGage(Gages.OXYGEN, 30);
         }
     }
 }

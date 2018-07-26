@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace AlchemyPlanet.GameScene
@@ -13,6 +14,8 @@ namespace AlchemyPlanet.GameScene
         public int score;
         [HideInInspector]
         public int coin;
+        [HideInInspector]
+        public Dictionary<MaterialName, int> dropMaterialList;
 
         private void OnApplicationPause(bool pause)
         {
@@ -29,6 +32,7 @@ namespace AlchemyPlanet.GameScene
             Instance = this;
             score = 0;
             coin = 0;
+            dropMaterialList = new Dictionary<MaterialName, int>();
         }
 
         public IEnumerator GainScoreByTimeCoroutine()

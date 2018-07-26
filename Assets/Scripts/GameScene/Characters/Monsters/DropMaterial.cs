@@ -10,7 +10,7 @@ namespace AlchemyPlanet.GameScene
 
         protected override void Gain()
         {
-            Debug.Log("Gain " + materialName.ToString());
+            DropManager.Instance.GainDropMaterial(materialName);
         }
     }
 }
