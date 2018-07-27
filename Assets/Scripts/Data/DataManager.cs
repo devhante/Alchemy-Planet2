@@ -250,11 +250,13 @@ public class Material
 {
     public string item_name;
     public string discription;
+    public Sprite item_image;
 
     public Material(string item_name, string discription)
     {
         this.item_name = item_name;
         this.discription = discription;
+        //item_image = Resources.Load<Sprite>(string.Format("Sprites/Items/{0}", item_name));
     }
 }
 
