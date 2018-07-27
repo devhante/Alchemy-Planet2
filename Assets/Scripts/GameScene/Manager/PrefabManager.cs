@@ -17,6 +17,7 @@ namespace AlchemyPlanet.GameScene
         public GameObject harpRadishealBullet;
         public GameObject line;
         public GameObject coin;
+        public GameObject chickenCount;
 
         public Sprite unselectedBubble;
         public Sprite selectedBubble;

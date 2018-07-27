@@ -1,15 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace AlchemyPlanet.GameScene
 {
     public class Popin : Player
     {
         public GameObject itemChickenBox;
+        public Transform chickenCountSpawnPosition;
 
         private GameObject bulletSpawnPoint;
         private int chickenNumber;
+        private Text chickenCount;
 
         protected override void Awake()
         {
@@ -20,7 +23,8 @@ namespace AlchemyPlanet.GameScene
 
         private void Start()
         {
-            GameUI.Instance.ChickenCount.gameObject.SetActive(true);
+            chickenCount = Instantiate(PrefabManager.Instance.chickenCount, GameUI.Instance.transform).GetComponent<Text>();
+            StartCoroutine("SetChickenCountPositionCoroutine");
         }
 
         public override void Attack(int chainNumber)
@@ -54,8 +58,18 @@ namespace AlchemyPlanet.GameScene
                     SpawnChickenBox();
                 }
 
-                GameUI.Instance.ChickenCount.text = chickenNumber.ToString();
+                chickenCount.text = chickenNumber.ToString();
             }
+        }
+
+        IEnumerator SetChickenCountPositionCoroutine()
+        {
+            while (true)
+            {
+                chickenCount.rectTransform.position = Camera.main.WorldToScreenPoint(chickenCountSpawnPosition.position);
+                yield return new WaitForEndOfFrame();
+            }
+
         }
 
         private void SpawnChickenBox()

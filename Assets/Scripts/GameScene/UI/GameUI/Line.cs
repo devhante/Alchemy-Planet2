@@ -10,6 +10,8 @@ namespace AlchemyPlanet.GameScene
         public Vector3 start, end;
         bool isMouseButtonDown;
         float width;
+        float multiplierX = 720f / Screen.width;
+        float multiplierY = 1280f / Screen.height;
 
         private void Awake()
         {
@@ -34,6 +36,7 @@ namespace AlchemyPlanet.GameScene
             while (isMouseButtonDown)
             {
                 end = Input.mousePosition;
+
                 Draw();
                 yield return null;
             }
@@ -41,7 +44,11 @@ namespace AlchemyPlanet.GameScene
 
         public void Draw()
         {
-            Vector3 differenceVector = end - start;
+            Vector3 differenceVector;
+            if (Screen.width / Screen.height >= 16f / 9f)
+                differenceVector = (end - start) * multiplierX;
+            else
+                differenceVector = (end - start) * multiplierY;
 
             rt.sizeDelta = new Vector2(differenceVector.magnitude, width);
             rt.pivot = new Vector2(0, 0.5f);
