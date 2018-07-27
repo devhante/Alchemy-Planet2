@@ -11,11 +11,13 @@ namespace AlchemyPlanet.GameScene
         public GameObject[] materialPrefabs;
         public GameObject[] itemPrefabs;
         public GameObject[] recipePrefabs;
+        public GameObject[] dropMaterialPrefabs;
         public GameObject monster;
         public GameObject popinBullet;
         public GameObject harpRadishealBullet;
         public GameObject line;
         public GameObject coin;
+        public GameObject chickenCount;
 
         public Sprite unselectedBubble;
         public Sprite selectedBubble;

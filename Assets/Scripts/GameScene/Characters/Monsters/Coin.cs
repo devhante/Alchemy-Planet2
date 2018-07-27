@@ -7,7 +7,7 @@ namespace AlchemyPlanet.GameScene
     {
         protected override void Gain()
         {
-            CoinManager.Instance.GainCoin(10);
+            DropManager.Instance.GainCoin(10);
         }
     }
 }

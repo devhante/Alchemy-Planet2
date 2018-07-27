@@ -19,10 +19,8 @@ namespace AlchemyPlanet.GameScene
         public float MinDistance { get; private set; }
         public bool IsClickedRightMaterial { get; set; }
 
-        private const float x_min = 82.0f;
-        private const float x_max = 640.0f;
-        private const float y_min = 82.0f;
-        private const float y_max = 554.0f;
+        public RectTransform minPoint;
+        public RectTransform maxPoint;
 
         private void OnDestroy()
         {
@@ -42,7 +40,7 @@ namespace AlchemyPlanet.GameScene
             MaxChainNumber = 5;
             Count = 17;
             MinMaterialNumber = 2;
-            MinDistance = 100;
+            MinDistance = Screen.width / 7.2f;
             IsClickedRightMaterial = false;
         }
 
@@ -89,8 +87,8 @@ namespace AlchemyPlanet.GameScene
             do
             {
                 isTooClose = false;
-                position.x = Random.Range(x_min, x_max);
-                position.y = Random.Range(y_min, y_max);
+                position.x = Random.Range(minPoint.position.x, maxPoint.position.x);
+                position.y = Random.Range(minPoint.position.y, maxPoint.position.y);
 
                 foreach (var item in Objects)
                     if ((item.transform.position - position).sqrMagnitude < (MinDistance * MinDistance)) isTooClose = true;

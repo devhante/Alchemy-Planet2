@@ -34,9 +34,9 @@ namespace AlchemyPlanet.GameScene
 
             rigidbody2d.isKinematic = true;
             GetComponent<CircleCollider2D>().enabled = false;
-            while (Vector3.Distance(transform.position, CoinManager.Instance.CoinDestination) > 0.01f)
+            while (Vector3.Distance(transform.position, DropManager.Instance.DropDestination) > 0.01f)
             {
-                transform.position = Vector3.Lerp(transform.position, CoinManager.Instance.CoinDestination, Time.deltaTime * speed);
+                transform.position = Vector3.Lerp(transform.position, DropManager.Instance.DropDestination, Time.deltaTime * speed);
                 yield return new WaitForEndOfFrame();
             }
 

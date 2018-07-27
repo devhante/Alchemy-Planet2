@@ -10,6 +10,9 @@ namespace AlchemyPlanet.GameScene
         public Queue<Recipe> recipeQueue;
         public int recipeNumber = 14;
 
+        public RectTransform startPoint;
+        public RectTransform endPoint;
+
         public static RecipeManager Instance { get; private set; }
 
         private void OnDestroy()

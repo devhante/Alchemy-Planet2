@@ -16,7 +16,6 @@ namespace AlchemyPlanet.GameScene
         public Button PauseButton;
         public Text Score;
         public Text Unicoin;
-        public Text ChickenCount;
 
         public bool IsIncreasingPurify { get; set; }
         public bool IsNotReducingOxygen { get; set; }
