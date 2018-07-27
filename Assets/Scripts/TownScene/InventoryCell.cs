@@ -4,16 +4,25 @@ using UnityEngine;
 
 public class InventoryCell : MonoBehaviour {
 
-    public GameObject obj;
-    
-	// Use this for initialization
-	void Start () {
+    public List<GameObject> itemButtonList;
+    public GameObject backGroundImage;
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public void SetItem()
+    {
+        int i = 0;
+        foreach(string itemName in DataManager.Instance.currentPlayerData.inventory.Keys)
+        {
+            itemButtonList[i].SetActive(true);
+            itemButtonList[i].GetComponent<ItemInfo>().SetInfo(
+                DataManager.Instance.materials[itemName].item_name,
+                DataManager.Instance.materials[itemName].discription,
+                DataManager.Instance.materials[itemName].image);
+            i++;
+        }
+    }
     
+    public void CloseInfo()
+    {
+        backGroundImage.SetActive(false);
+    }
 }

@@ -11,6 +11,8 @@ namespace AlchemyPlanet.TownScene {
         [SerializeField] private Button UIOffButton;
         [SerializeField] private Button TownManageButton;
         [SerializeField] private Button TownUpgradeButton;
+        [SerializeField] private Button InventoryButton;
+        [SerializeField] private Image Inventory;
 
         private bool turnOnBuildBar;
         private GameObject TownManager;
@@ -37,8 +39,17 @@ namespace AlchemyPlanet.TownScene {
                 UIManager.Instance.menuStack.Peek().gameObject.SetActive(false);
 
             });
+            InventoryButton.onClick.AddListener(() => {
+                Inventory.gameObject.SetActive(true);
+                Inventory.gameObject.GetComponent<InventoryCell>().SetItem();
+            });
         }
         
+        public void CloseInventory()
+        {
+            Inventory.gameObject.SetActive(false);
+        }
+
         IEnumerator MoveBar()
         {
             if (!turnOnBuildBar) { 
