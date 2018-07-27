@@ -45,7 +45,7 @@ namespace AlchemyPlanet.GameScene
         public void Draw()
         {
             Vector3 differenceVector;
-            if (Screen.width / Screen.height >= 16f / 9f)
+            if (1f * Screen.height / Screen.width >= 16f / 9f)
                 differenceVector = (end - start) * multiplierX;
             else
                 differenceVector = (end - start) * multiplierY;
