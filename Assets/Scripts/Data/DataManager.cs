@@ -26,7 +26,7 @@ public class DataManager : MonoBehaviour
         }
         
         //CreateSampleDialog();
-        //CreateSampleMaterials();
+        CreateSampleMaterials();
         //CreateSampleFomulas();
 
         LoadPlayerData();
@@ -124,7 +124,7 @@ public class DataManager : MonoBehaviour
     {
         Dictionary<string, Material> materials = new Dictionary<string, Material> {
             {"Red", new Material("Red", "빨강")},
-            {"Bule", new Material("Bule", "파랑")},
+            {"Blue", new Material("Blue", "파랑")},
             {"Yellow", new Material("Yellow", "노랑")},
             {"Perple", new Material("Perple", "보라")}
         };
@@ -158,6 +158,17 @@ public class DataManager : MonoBehaviour
             JsonSerializer serializer = new JsonSerializer();
             Dictionary<string, Material> materials = (Dictionary<string, Material>)serializer.Deserialize(file, typeof(Dictionary<string, Material>));
             this.materials = materials;
+
+            Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Items/UI");
+
+
+            for (int i = 0; i < sprites.Length; i++)
+            {
+                if (materials.ContainsKey(sprites[i].name)) {
+                    if (sprites[i].name == materials[sprites[i].name].item_name)
+                        materials[sprites[i].name].image = sprites[i];
+                }
+            }
         }
     }
 
@@ -169,7 +180,12 @@ public class DataManager : MonoBehaviour
 
     public void LoadPlayerData()
     {
-        currentPlayerData =  new PlayerData("AAA001", "ISHNN", 0, 0, new Dictionary<string, int>());
+        currentPlayerData =  new PlayerData("AAA001", "ISHNN", 0, 0, new Dictionary<string, int>{
+            { "Red", 1 },
+            { "Blue",2 },
+            { "Yellow", 3 },
+            { "Perple", 4 }
+        });
     }
 
     public List<Dialog> LoadDialog(string dialog_name)
@@ -250,6 +266,7 @@ public class Material
 {
     public string item_name;
     public string discription;
+    public Sprite image;
 
     public Material(string item_name, string discription)
     {

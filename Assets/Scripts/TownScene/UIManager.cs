@@ -9,6 +9,7 @@ namespace AlchemyPlanet.TownScene
 
         [SerializeField] private TownUI TownUIPrefab;
         [SerializeField] private DialogUI DialogUIPrefab;
+        [SerializeField] private DialogLogMenu DialogLogMenuPrefab;
         [SerializeField] private EmptyUI EmptyUIPrefab;
 
         public Stack<Common.UI> menuStack = new Stack<Common.UI>();
@@ -49,10 +50,12 @@ namespace AlchemyPlanet.TownScene
 
         public T GetPrefab<T>() where T : Common.UI
         {
-            if (typeof(T) == typeof(DialogUI))
-                return DialogUIPrefab as T;
             if (typeof(T) == typeof(TownUI))
                 return TownUIPrefab as T;
+            if (typeof(T) == typeof(DialogUI))
+                return DialogUIPrefab as T;
+            if (typeof(T) == typeof(DialogLogMenu))
+                return DialogLogMenuPrefab as T;
             if (typeof(T) == typeof(EmptyUI))
                 return EmptyUIPrefab as T;
 

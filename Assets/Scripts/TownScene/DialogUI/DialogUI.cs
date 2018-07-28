@@ -31,7 +31,7 @@ namespace AlchemyPlanet.TownScene
 
         [SerializeField] private Button LogButton;
 
-        private NPC NPC;     // 다이얼로그 사용NPC
+        public NPC NPC;     // 다이얼로그 사용NPC
 
         protected override void Awake()
         {
@@ -89,7 +89,7 @@ namespace AlchemyPlanet.TownScene
         }
         public void GetLog()
         {
-
+            UIManager.Instance.OpenMenu<DialogLogMenu>();
         }
 
         private IEnumerator SetView(int num)
