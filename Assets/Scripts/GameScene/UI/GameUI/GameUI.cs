@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,6 +25,8 @@ namespace AlchemyPlanet.GameScene
         float oxygenReduceRate = 1;
         float purifyReduceRate = 2;
 
+        Dictionary<Gages, float> gageValues;
+
         protected override void Awake()
         {
             Instance = this;
@@ -31,6 +34,10 @@ namespace AlchemyPlanet.GameScene
             {
                 UIManager.Instance.OpenMenu<PauseUI>();
             });
+
+            gageValues = new Dictionary<Gages, float>();
+            gageValues.Add(Gages.OXYGEN, 100);
+            gageValues.Add(Gages.PURIFY, 50);
         }
 
         public void Start()
@@ -42,8 +49,10 @@ namespace AlchemyPlanet.GameScene
             UpdateGage(Gages.PURIFY, 0);
             GameManager.Instance.StartCoroutine("GainScoreByTimeCoroutine");
 
-            StartCoroutine("PurifyMinus");
+            StartCoroutine("UpdateOxygenGage");
+            StartCoroutine("UpdatePurifyGage");
             StartCoroutine("OxygenMinus");
+            StartCoroutine("PurifyMinus");
         }
 
         public Image GetMask(Gages kind)
@@ -61,26 +70,59 @@ namespace AlchemyPlanet.GameScene
 
         public void UpdateGage(Gages kind, float percent)
         {
-            if (IsIncreasingPurify && kind == Gages.PURIFY) percent = 0;
+            if (IsIncreasingPurify && kind == Gages.PURIFY && percent <= 0) percent = 0;
             if (IsNotReducingOxygen && kind == Gages.OXYGEN) percent = 0;
 
-            Image mask = GetMask(kind);
-            float x = Mathf.Clamp(mask.transform.localScale.x + (percent / 100), 0, 1);
-            mask.transform.localScale = new Vector3(x, 1, 1);
+            gageValues[kind] = Mathf.Clamp(gageValues[kind] + percent, 0, 100);
 
-            if (kind == Gages.OXYGEN && mask.transform.localScale.x == 0) UIManager.Instance.OpenMenu<EndUI>();
-        }
-
-        public void IncreasePurifyForItem(float percent)
-        {
-            Image mask = GetMask(Gages.PURIFY);
-            float x = Mathf.Clamp(mask.transform.localScale.x + (percent / 100), 0, 1);
-            mask.transform.localScale = new Vector3(x, 1, 1);
+            if (gageValues[Gages.OXYGEN] == 0) UIManager.Instance.OpenMenu<EndUI>();
         }
 
         public float GetGage(Gages kind)
         {
-            return GetMask(kind).transform.localScale.x;
+            return gageValues[kind];
+        }
+
+        IEnumerator UpdateOxygenGage()
+        {
+            float second = 1;
+
+            while(true)
+            {
+                float oxygenGageValue = OxygenGageMask.transform.localScale.x;
+                while(oxygenGageValue != gageValues[Gages.OXYGEN])
+                {
+                    oxygenGageValue = Mathf.Lerp(oxygenGageValue, gageValues[Gages.OXYGEN], 0.1f);
+                    OxygenGageMask.transform.localScale = new Vector3(oxygenGageValue / 100, 1, 1);
+                    yield return new WaitForSeconds(0.01f);
+                }
+            }
+        }
+
+        IEnumerator UpdatePurifyGage()
+        {
+            while(true)
+            {
+                float purifyGageValue = PurifyGageMask.transform.localScale.x;
+                while(purifyGageValue != gageValues[Gages.PURIFY])
+                {
+                    purifyGageValue = Mathf.Lerp(purifyGageValue, gageValues[Gages.PURIFY], 0.1f);
+                    PurifyGageMask.transform.localScale = new Vector3(purifyGageValue / 100, 1, 1);
+                    yield return new WaitForSeconds(0.01f);
+                }
+            }
+        }
+
+        IEnumerator OxygenMinus()
+        {
+            float frame = 1;
+
+            while (true)
+            {
+                float purifyGageSquare = (gageValues[Gages.PURIFY] * 0.01f) * (gageValues[Gages.PURIFY] * 0.01f);
+                yield return new WaitForSeconds(frame * (1 + purifyGageSquare) * OxygenReduceSpeed);
+                UpdateGage(Gages.OXYGEN, -oxygenReduceRate * frame);
+            }
         }
 
         IEnumerator PurifyMinus()
@@ -92,17 +134,6 @@ namespace AlchemyPlanet.GameScene
             {
                 yield return wait;
                 UpdateGage(Gages.PURIFY, -purifyReduceRate * frame);
-            }
-        }
-
-        IEnumerator OxygenMinus()
-        {
-            float frame = 1;
-
-            while (true)
-            {
-                yield return new WaitForSeconds(frame * (1 + GetGage(Gages.PURIFY) * GetGage(Gages.PURIFY)) * OxygenReduceSpeed);
-                UpdateGage(Gages.OXYGEN, -oxygenReduceRate * frame);
             }
         }
 
