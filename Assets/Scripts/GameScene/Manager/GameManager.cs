@@ -10,12 +10,15 @@ namespace AlchemyPlanet.GameScene
     {
         public static GameManager Instance { get; private set; }
 
-        [HideInInspector]
-        public int score;
-        [HideInInspector]
-        public int coin;
-        [HideInInspector]
-        public Dictionary<MaterialName, int> dropMaterialList;
+        private int combo;
+        public int Combo
+        {
+            get { return combo; }
+            set { combo = value; GameUI.Instance.UpdateComboText(Combo); }
+        }
+        public int Score { get; set; }
+        public int Coin { get; set; }
+        public Dictionary<MaterialName, int> DropMaterialList { get; private set; }
 
         private void OnApplicationPause(bool pause)
         {
@@ -30,9 +33,10 @@ namespace AlchemyPlanet.GameScene
         private void Awake()
         {
             Instance = this;
-            score = 0;
-            coin = 0;
-            dropMaterialList = new Dictionary<MaterialName, int>();
+            Combo = 0;
+            Score = 0;
+            Coin = 0;
+            DropMaterialList = new Dictionary<MaterialName, int>();
         }
 
         public IEnumerator GainScoreByTimeCoroutine()
@@ -49,15 +53,15 @@ namespace AlchemyPlanet.GameScene
             switch (scoreType)
             {
                 case ScoreType.TimePass:
-                    score += 1;
+                    Score += 1;
                     break;
 
                 case ScoreType.TouchRightRecipe:
-                    score += 100;
+                    Score += 100;
                     break;
 
                 case ScoreType.KillMonster:
-                    score += 1500;
+                    Score += 1500;
                     break;
             }
 
@@ -66,7 +70,7 @@ namespace AlchemyPlanet.GameScene
 
         private void UpdateScore()
         {
-            GameUI.Instance.Score.text = score.ToString("#,##0");
+            GameUI.Instance.Score.text = Score.ToString("#,##0");
         }
     }
 }

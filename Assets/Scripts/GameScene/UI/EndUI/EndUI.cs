@@ -17,8 +17,8 @@ namespace AlchemyPlanet.GameScene
         {
             Time.timeScale = 0;
 
-            Score.text = GameManager.Instance.score.ToString("#,##0");
-            Unicoin.text = GameManager.Instance.coin.ToString("#,##0");
+            Score.text = GameManager.Instance.Score.ToString("#,##0");
+            Unicoin.text = GameManager.Instance.Coin.ToString("#,##0");
 
             ButtonRestart.onClick.AddListener(() =>
             {

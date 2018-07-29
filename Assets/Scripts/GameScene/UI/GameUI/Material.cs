@@ -43,12 +43,17 @@ namespace AlchemyPlanet.GameScene
             {
                 Player.Instance.GetMaterialMessage(materialName);
                 GameManager.Instance.GainScore(ScoreType.TouchRightRecipe);
+                GameManager.Instance.Combo++;
                 RecipeManager.Instance.DestroyQueuePeek();
 
                 if (Random.Range(1, 100) <= 20)
                     ItemManager.Instance.CreateItem();
             }
-            else GameUI.Instance.UpdateGage(Gages.PURIFY, -5);
+            else
+            {
+                GameUI.Instance.UpdateGage(Gages.PURIFY, -5);
+                GameManager.Instance.Combo = 0;
+            }
 
             if (!MaterialManager.Instance.IsClickedRightMaterial) return;
             MaterialManager.Instance.IsClickedRightMaterial = false;

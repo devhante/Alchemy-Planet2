@@ -17,6 +17,7 @@ namespace AlchemyPlanet.GameScene
         public Button PauseButton;
         public Text Score;
         public Text Unicoin;
+        public Text ComboText;
 
         public bool IsIncreasingPurify { get; set; }
         public bool IsNotReducingOxygen { get; set; }
@@ -150,6 +151,19 @@ namespace AlchemyPlanet.GameScene
             Time.timeScale = 1;
             Countdown.gameObject.SetActive(false);
             yield return null;
+        }
+
+        public void UpdateComboText(int combo)
+        {
+            if (combo < 2)
+            {
+                ComboText.gameObject.SetActive(false);
+            }
+            else
+            {
+                ComboText.gameObject.SetActive(true);
+                ComboText.text = string.Format("{0} Combo!", combo);
+            }
         }
     }
 }
