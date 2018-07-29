@@ -35,30 +35,19 @@ namespace AlchemyPlanet.GameScene
             Instantiate(instance, spawnPoint, Quaternion.identity);
         }
 
-        public void GainCoin(int value)
-        {
-            GameManager.Instance.Coin += value;
-            UpdateCoin();
-        }
-
         public void GainDropMaterial(MaterialName materialName)
         {
-            if (GameManager.Instance.DropMaterialList.ContainsKey(materialName))
-                GameManager.Instance.DropMaterialList[materialName]++;
+            if (GameManager.Instance.dropMaterialList.ContainsKey(materialName))
+                GameManager.Instance.dropMaterialList[materialName]++;
 
-            else GameManager.Instance.DropMaterialList.Add(materialName, 1);
+            else GameManager.Instance.dropMaterialList.Add(materialName, 1);
 
             UpdateDropMaterial();
-        }
-        
-        private void UpdateCoin()
-        {
-            GameUI.Instance.Unicoin.text = GameManager.Instance.Coin.ToString("#,##0");
         }
 
         private void UpdateDropMaterial()
         {
-            foreach (var item in GameManager.Instance.DropMaterialList)
+            foreach (var item in GameManager.Instance.dropMaterialList)
             {
                 Debug.Log(string.Format("{0}을/를 {1}개 얻음.", item.Key, item.Value));
             }

@@ -10,6 +10,7 @@ namespace AlchemyPlanet.GameScene
 
         public List<GameObject> Objects { get; private set; }
         public int MaxItemNumber { get; private set; }
+        public bool IsSprinting { get; private set; }
 
         private int increasePurifyCount = 0;
         private int noReducedOxygenCount = 0;
@@ -27,6 +28,7 @@ namespace AlchemyPlanet.GameScene
 
             Objects = new List<GameObject>();
             MaxItemNumber = 3;
+            IsSprinting = false;
         }
 
         public void CreateItem()
@@ -146,32 +148,18 @@ namespace AlchemyPlanet.GameScene
         IEnumerator SprintCoroutine()
         {
             float duration = 2;
-            float speed = 3;
 
-            TileManager.Instance.TileSpeed *= speed;
-            BackgroundManager.Instance.BackgroundSpeed *= speed;
+            IsSprinting = true;
+            GameManager.Instance.UpdateSpeed();
 
             while (sprintCount > 0)
             {
-                StartCoroutine(SprintScoreCoroutine(duration, speed));
                 yield return new WaitForSeconds(duration);
                 sprintCount--;
             }
 
-            TileManager.Instance.TileSpeed /= speed;
-            BackgroundManager.Instance.BackgroundSpeed /= speed;
-        }
-
-        IEnumerator SprintScoreCoroutine(float duration, float speed)
-        {
-            while (duration > 0)
-            {
-                for(int i = 0; i < (int)speed - 1; i++)
-                    GameManager.Instance.GainScore(ScoreType.TimePass);
-
-                duration -= 0.1f;
-                yield return new WaitForSeconds(0.1f);
-            }
+            IsSprinting = false;
+            GameManager.Instance.UpdateSpeed();
         }
 
         public void ChickenBox()

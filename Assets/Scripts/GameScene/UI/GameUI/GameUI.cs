@@ -152,18 +152,5 @@ namespace AlchemyPlanet.GameScene
             Countdown.gameObject.SetActive(false);
             yield return null;
         }
-
-        public void UpdateComboText(int combo)
-        {
-            if (combo < 2)
-            {
-                ComboText.gameObject.SetActive(false);
-            }
-            else
-            {
-                ComboText.gameObject.SetActive(true);
-                ComboText.text = string.Format("{0} Combo!", combo);
-            }
-        }
     }
 }

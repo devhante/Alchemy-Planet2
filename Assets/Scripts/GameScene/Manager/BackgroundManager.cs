@@ -13,6 +13,7 @@ namespace AlchemyPlanet.GameScene
         public GameObject tileMap;
         private Vector3 startPoint;
         private Vector3 endPoint;
+        private float speed;
 
         private void OnDestroy()
         {
@@ -34,7 +35,8 @@ namespace AlchemyPlanet.GameScene
 
         private void Update()
         {
-            tileMap.transform.position += Vector3.left * BackgroundSpeed * Time.deltaTime;
+            speed = BackgroundSpeed * GameManager.Instance.moveSpeed; 
+            tileMap.transform.position += Vector3.left * speed * Time.deltaTime;
 
             if (tileMap.transform.position.x <= endPoint.x)
                 tileMap.transform.position = startPoint;
