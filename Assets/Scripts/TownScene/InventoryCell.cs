@@ -1,29 +1,43 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class InventoryCell : MonoBehaviour {
-
-    public List<GameObject> itemButtonList;
-    public GameObject backGroundImage;
-
-    public void SetItem()
+namespace AlchemyPlanet.TownScene
+{
+    public class InventoryCell : Common.UI<InventoryCell>
     {
-        int i = 0;
-        foreach(string itemName in DataManager.Instance.currentPlayerData.inventory.Keys)
+
+        [SerializeField] private Button CloseButton;
+
+        public List<GameObject> itemButtonList;
+        public GameObject backGroundImage;
+
+
+        protected override void Awake()
         {
-            itemButtonList[i].SetActive(true);
-            itemButtonList[i].GetComponent<ItemInfo>().SetInfo(
-                DataManager.Instance.materials[itemName].item_name,
-                DataManager.Instance.materials[itemName].discription,
-                DataManager.Instance.materials[itemName].image,
-                DataManager.Instance.currentPlayerData.inventory[itemName]);
-            i++;
+            base.Awake();
+            CloseButton.onClick.AddListener(() => { UIManager.Instance.CloseMenu(); });
         }
-    }
-    
-    public void CloseInfo()
-    {
-        backGroundImage.SetActive(false);
+
+        public void SetItem()
+        {
+            int i = 0;
+            foreach (string itemName in DataManager.Instance.currentPlayerData.inventory.Keys)
+            {
+                itemButtonList[i].SetActive(true);
+                itemButtonList[i].GetComponent<ItemInfo>().SetInfo(
+                    DataManager.Instance.materials[itemName].item_name,
+                    DataManager.Instance.materials[itemName].discription,
+                    DataManager.Instance.materials[itemName].image,
+                    DataManager.Instance.currentPlayerData.inventory[itemName]);
+                i++;
+            }
+        }
+
+        public void CloseInfo()
+        {
+            backGroundImage.SetActive(false);
+        }
     }
 }

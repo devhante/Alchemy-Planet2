@@ -11,6 +11,7 @@ namespace AlchemyPlanet.TownScene
         [SerializeField] private DialogUI DialogUIPrefab;
         [SerializeField] private DialogLogMenu DialogLogMenuPrefab;
         [SerializeField] private EmptyUI EmptyUIPrefab;
+        [SerializeField] private InventoryCell InventoryPrefab;
 
         public Stack<Common.UI> menuStack = new Stack<Common.UI>();
 
@@ -58,6 +59,8 @@ namespace AlchemyPlanet.TownScene
                 return DialogLogMenuPrefab as T;
             if (typeof(T) == typeof(EmptyUI))
                 return EmptyUIPrefab as T;
+            if (typeof(T) == typeof(InventoryCell))
+                return InventoryPrefab as T;
 
             throw new MissingReferenceException();
         }
