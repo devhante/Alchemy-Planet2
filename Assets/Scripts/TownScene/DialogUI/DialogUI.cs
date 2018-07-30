@@ -11,7 +11,7 @@ namespace AlchemyPlanet.TownScene
         [SerializeField] private float w_interval = 0.02f;
         private WaitForSeconds write_interval;
         //대화->대화 시간 간격
-        [SerializeField] private float d_interval = 0.5f;
+        [SerializeField] private float d_interval = 1f;
         private WaitForSeconds dialog_interval;
 
         [SerializeField] private Text d_name;
@@ -64,7 +64,7 @@ namespace AlchemyPlanet.TownScene
 
         public void OnCliked()
         {
-            GetComponent<Animator>().cullingMode = AnimatorCullingMode.CullCompletely;
+            autoplay = false;
             if (!writting)
             {
                 StartCoroutine(SetView(count++));
@@ -89,7 +89,11 @@ namespace AlchemyPlanet.TownScene
         }
         public void GetLog()
         {
-            UIManager.Instance.OpenMenu<DialogLogMenu>();
+            autoplay = false;
+            if (UIManager.Instance.menuStack.Peek() != DialogLogMenu.Instance)
+            {
+                UIManager.Instance.OpenMenu<DialogLogMenu>();
+            }
         }
 
         private IEnumerator SetView(int num)
@@ -101,8 +105,9 @@ namespace AlchemyPlanet.TownScene
                     count = 1;
                     NPC.SendMessage("TalkEnd");
                     UIManager.Instance.CloseMenu();
-                    StopCoroutine("SetView");
+                    break;
                 }
+
                 else
                 {
                     writting = true;
@@ -145,12 +150,21 @@ namespace AlchemyPlanet.TownScene
                     }
                     //완성본으로 변경
                     d_script.text = NPC.data.dialogs[num].content;
-
-                    yield return dialog_interval;
+                    
+                    if(count == 1)
+                    {
+                        yield return dialog_interval;
+                        GetComponent<Animator>().cullingMode = AnimatorCullingMode.CullCompletely;
+                    }
                     writting = false;
                 }
-                
-            } while (autoplay && num++ < NPC.data.dialogs.Count);
+                if (autoplay)
+                {
+                    count++;
+                    num++;
+                    yield return dialog_interval;
+                }
+            } while (autoplay);
         }
     }
 }

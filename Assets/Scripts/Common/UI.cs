@@ -13,7 +13,14 @@ namespace AlchemyPlanet.Common
 
         protected virtual void Awake()
         {
-            Instance = (T)this;
+            if(Instance == null)
+            {
+                Instance = (T)this;
+            }
+            else
+            {
+                GameObject.Destroy(this.gameObject);
+            }
         }
 
         protected virtual void OnDestroy()
