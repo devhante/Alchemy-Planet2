@@ -14,6 +14,7 @@ namespace AlchemyPlanet.TownScene
         private bool moving;            // 움직이는 중
         private bool talking = false;   // 말하는 중
         private Animator animator;      // 애니메이터
+        private GameObject player;
 
         private void Awake()
         {
@@ -62,8 +63,9 @@ namespace AlchemyPlanet.TownScene
             moving = true;
         }
 
-        void TalkStart()
+        void TalkStart(GameObject a)
         {
+            player = a;
             if (!talking)
             {
                 talking = true;
@@ -77,6 +79,7 @@ namespace AlchemyPlanet.TownScene
         {
             talking = false;
             moveChoice = 2;
+            player.SendMessage("TalkEnd");
             StartCoroutine("StopMove");
         }
         

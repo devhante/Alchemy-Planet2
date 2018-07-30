@@ -8,9 +8,10 @@ public class Player : MonoBehaviour
 
     public float speed;         // 속도
 
-    private Touch tempTouch;   // 터치들
+    private Touch tempTouch;    // 터치들
     private Vector3 touchedPos; // 터치위치
     private Animator animator;  // 애니메이터
+    private bool talking;       // 대화중
 
     // Use this for initialization
     void Start()
@@ -27,7 +28,7 @@ public class Player : MonoBehaviour
 
     void DetectTouch()    // 터치감지
     {
-        if (Input.touchCount > 0)
+        if (Input.touchCount > 0 && !talking)
         {
             tempTouch = Input.GetTouch(0);
             if (tempTouch.phase == TouchPhase.Began && EventSystem.current.IsPointerOverGameObject() == false)
@@ -45,7 +46,7 @@ public class Player : MonoBehaviour
 
     void DetectClick()    // 클릭감지
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0)&&!talking)
         {
             touchedPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);
@@ -74,13 +75,14 @@ public class Player : MonoBehaviour
         }
         if (obj.tag == "NPC")
         {
+            talking = true;
             obj.SendMessage("Stop");
             while (transform.position.x - obj.transform.position.x > 1.5f || transform.position.x - obj.transform.position.x < -1.5f)
             {
                 transform.Translate(Vector2.right * speed * Time.deltaTime);
                 yield return new WaitForFixedUpdate();
             }
-            obj.SendMessage("TalkStart");
+            obj.SendMessage("TalkStart",gameObject);
         }
         else
         {
@@ -92,5 +94,10 @@ public class Player : MonoBehaviour
         }
         animator.SetBool("Run", false);
         yield return null;
+    }
+
+    void TalkEnd()
+    {
+        talking = false;
     }
 }
