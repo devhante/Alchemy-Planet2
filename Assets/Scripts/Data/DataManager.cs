@@ -26,7 +26,7 @@ public class DataManager : MonoBehaviour
         }
         
         //CreateSampleDialog();
-        CreateSampleMaterials();
+        //CreateSampleMaterials();
         //CreateSampleFomulas();
 
         LoadPlayerData();
