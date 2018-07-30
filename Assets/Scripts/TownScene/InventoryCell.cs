@@ -20,6 +20,11 @@ namespace AlchemyPlanet.TownScene
             CloseButton.onClick.AddListener(() => { UIManager.Instance.CloseMenu(); });
         }
 
+        private void OnEnable()
+        {
+            SetItem();
+        }
+
         public void SetItem()
         {
             int i = 0;

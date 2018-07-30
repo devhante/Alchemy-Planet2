@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using AlchemyPlanet.TownScene;
 
 namespace AlchemyPlanet.TownScene
 {
@@ -17,13 +18,23 @@ namespace AlchemyPlanet.TownScene
 
         private void Awake()
         {
-            Instance = this;
-            OpenMenu<TownUI>();
+            if(Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(this.gameObject);
+            }
+            else
+            {
+                GameObject.Destroy(this.gameObject);
+            }
         }
 
-        private void OnDestroy()
+        public void Clear()
         {
-            Instance = null;
+            while (menuStack.Count > 0)
+            {
+                CloseMenu();
+            }
         }
 
         public void OpenMenu<T>() where T : Common.UI
@@ -45,8 +56,11 @@ namespace AlchemyPlanet.TownScene
         public void CloseMenu()
         {
             var instance = menuStack.Pop();
-            Destroy(instance.gameObject);
-            menuStack.Peek().gameObject.SetActive(true);
+            GameObject.Destroy(instance.gameObject);
+            if (menuStack.Count > 1)
+            {
+                menuStack.Peek().gameObject.SetActive(true);
+            }
         }
 
         public T GetPrefab<T>() where T : Common.UI

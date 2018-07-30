@@ -14,8 +14,5 @@ public class AlchemyManager : MonoBehaviour {
     {
         Material material;
         DataManager.Instance.materials.TryGetValue("Red", out material);
-
-        Debug.Log(material.item_name);
-        Debug.Log(formulas[0].ToString());
     }
 }

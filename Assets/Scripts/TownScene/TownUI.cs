@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace AlchemyPlanet.TownScene {
-    public class TownUI : Common.UI
+    public class TownUI : Common.UI<TownUI>
     {
         [SerializeField] private Button buildingbutton;
         [SerializeField] private GameObject buildBar;
@@ -16,9 +16,21 @@ namespace AlchemyPlanet.TownScene {
         private bool turnOnBuildBar;
         private GameObject TownManager;
 
-        private void Awake()
+        protected override void Awake()
         {
-            //TownManager = GameObject.Find("TownManager");
+            base.Awake();
+            StartCoroutine(LateAwake());
+        }
+
+        IEnumerator LateAwake()
+        {
+            while (UIManager.Instance == null) {
+                yield return null;
+            }
+            UIManager.Instance.Clear();
+            UIManager.Instance.menuStack.Push(Instance);
+            this.transform.SetParent(UIManager.Instance.transform);
+
             turnOnBuildBar = false;
             buildingbutton.onClick.AddListener(() => {
                 StartCoroutine("MoveBar");
@@ -31,7 +43,7 @@ namespace AlchemyPlanet.TownScene {
             TownManageButton.onClick.AddListener(() =>
             {
                 UIManager.Instance.menuStack.Peek().gameObject.SetActive(false);
-               // TownManager.SetActive(true);
+                // TownManager.SetActive(true);
             });
             TownUpgradeButton.onClick.AddListener(() =>
             {

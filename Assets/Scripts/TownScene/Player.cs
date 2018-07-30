@@ -64,7 +64,6 @@ public class Player : MonoBehaviour
     IEnumerator Move(GameObject obj)    //캐릭터 움직이기
     {
         animator.SetBool("Run", true);
-        Debug.Log(transform.position.x - obj.transform.position.x);
         if (transform.position.x - obj.transform.position.x < 0)
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);

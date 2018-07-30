@@ -11,18 +11,17 @@ public class ItemInfo : MonoBehaviour {
     public Image imageInfo;
     public Text count;
 
-    private string name;
+    private string item_name;
     private string discription;
     private Sprite image;
 
 
     public void SetInfo(string item_name, string item_discription, Sprite item_image, int item_count)
     {
-        name = item_name;
-        discription = item_discription;
-        Debug.Log(item_image);
-        image = item_image;
-        count.text = item_count>1? item_count.ToString():null;
+        this.item_name = item_name;
+        this.discription = item_discription;
+        this.image = item_image;
+        this.count.text = item_count>1? item_count.ToString():null;
         GetComponent<Image>().sprite = item_image;
     }
 
@@ -33,7 +32,7 @@ public class ItemInfo : MonoBehaviour {
 
     void OpenInfo()
     {
-        nameInfo.text = name;
+        nameInfo.text = item_name;
         discriptionInfo.text = discription;
         imageInfo.sprite = image;
         backGroundImage.gameObject.SetActive(true);

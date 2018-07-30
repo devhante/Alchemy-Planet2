@@ -86,8 +86,6 @@ namespace AlchemyPlanet.GameScene
 
         IEnumerator UpdateOxygenGage()
         {
-            float second = 1;
-
             while(true)
             {
                 float oxygenGageValue = OxygenGageMask.transform.localScale.x;

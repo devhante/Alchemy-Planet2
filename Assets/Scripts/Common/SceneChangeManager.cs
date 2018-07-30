@@ -2,12 +2,19 @@
 using UnityEngine.SceneManagement;
 
 public class SceneChangeManager : MonoBehaviour {
-    public SceneChangeManager Instance;
+    public static SceneChangeManager Instance;
 
     public void Awake()
     {
-        Instance = this;
-        DontDestroyOnLoad(this.gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            GameObject.Destroy(this.gameObject);
+        }
     }
     
     public void ChangeScene(string scene_name)
