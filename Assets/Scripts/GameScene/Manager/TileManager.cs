@@ -34,11 +34,14 @@ namespace AlchemyPlanet.GameScene
 
         private void Update()
         {
-            speed = TileSpeed * GameManager.Instance.moveSpeed;
+            speed = TileSpeed * GameManager.Instance.MoveSpeed;
             tileMap.transform.position += Vector3.left * speed * Time.deltaTime;
 
             if (tileMap.transform.position.x <= endPoint.x)
+            {
+                GameManager.Instance.Position++;
                 tileMap.transform.position = startPoint;
+            }
         }
     }
 }

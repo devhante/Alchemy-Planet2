@@ -35,7 +35,7 @@ namespace AlchemyPlanet.GameScene
 
         private void Update()
         {
-            speed = BackgroundSpeed * GameManager.Instance.moveSpeed; 
+            speed = BackgroundSpeed * GameManager.Instance.MoveSpeed; 
             tileMap.transform.position += Vector3.left * speed * Time.deltaTime;
 
             if (tileMap.transform.position.x <= endPoint.x)
