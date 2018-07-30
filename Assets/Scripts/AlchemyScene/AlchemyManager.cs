@@ -13,7 +13,7 @@ public class AlchemyManager : MonoBehaviour {
     private void Start()
     {
         Material material;
-        DataManager.Instance.materials.TryGetValue("A001", out material);
+        DataManager.Instance.materials.TryGetValue("Red", out material);
 
         Debug.Log(material.item_name);
         Debug.Log(formulas[0].ToString());
