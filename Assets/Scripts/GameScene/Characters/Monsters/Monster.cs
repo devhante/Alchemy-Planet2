@@ -121,7 +121,10 @@ namespace AlchemyPlanet.GameScene
 
         public virtual void Die()
         {
-            GameManager.Instance.GainScore(ScoreType.KillMonster);
+            int result;
+            GameManager.Instance.GainScore(ScoreType.KillMonster, out result);
+            PlayScoreAnimation(result);
+
             StopCoroutine("MoveTowardCoroutine");
             StartCoroutine("DieCoroutine");
         }
@@ -140,6 +143,12 @@ namespace AlchemyPlanet.GameScene
                 yield return new WaitForEndOfFrame();
 
             MonsterManager.Instance.KillMonster(MonsterManager.Instance.GetKeyByValue(this));
+        }
+
+        private void PlayScoreAnimation(int score)
+        {
+            GameObject instance = Instantiate(PrefabManager.Instance.scoreText, Camera.main.WorldToScreenPoint(transform.position), Quaternion.identity, GameUI.Instance.transform);
+            instance.GetComponent<Text>().text = string.Format("+ {0}", score);
         }
 
         private void PlayAttackAnimation()
