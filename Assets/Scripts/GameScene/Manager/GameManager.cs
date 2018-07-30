@@ -102,6 +102,30 @@ namespace AlchemyPlanet.GameScene
             Score += (int)(value * scoreRate);
         }
 
+        public void GainScore(ScoreType scoreType, out int result)
+        {
+            int value = 0;
+            float scoreRate = 1;
+
+            switch (scoreType)
+            {
+                case ScoreType.TimePass: value += 1; break;
+                case ScoreType.TouchRightRecipe: value += 100; break;
+                case ScoreType.KillMonster: value += 1500; break;
+            }
+
+            switch (ComboStatus)
+            {
+                case ComboStatus.Combo10: scoreRate += 0.05f; break;
+                case ComboStatus.Combo30: scoreRate += 0.08f; break;
+                case ComboStatus.Combo50: scoreRate += 0.1f; break;
+                case ComboStatus.Combo100: scoreRate += 0.12f; break;
+            }
+
+            result = (int)(value * scoreRate);
+            Score += result;
+        }
+
         private void UpdateScore()
         {
             GameUI.Instance.Score.text = Score.ToString("#,##0");
