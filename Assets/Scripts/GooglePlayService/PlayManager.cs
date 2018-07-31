@@ -4,9 +4,10 @@ public class PlayManager : MonoBehaviour {
     public static PlayManager Instance { get; private set;}
     public static int Counter { get; private set; }
 
-    private void Awake()
+    private void Start()
     {
         Instance = this;
+        SampleUIscript.Instance.UpdateHighscoreText();
         DontDestroyOnLoad(this.gameObject);
     }
 
@@ -19,6 +20,14 @@ public class PlayManager : MonoBehaviour {
     public void RestartGame()
     {
         PlayGamesScript.AddScoreToLeaderboard(GPGSIds.leaderboard_point, Counter);
+
+        if(Counter > CloudVariables.Highscore)
+        {
+            CloudVariables.Highscore = Counter;
+            PlayGamesScript.Instance.SaveData();
+            SampleUIscript.Instance.UpdateHighscoreText();
+        }
+
         Counter = 0;
     }
 }

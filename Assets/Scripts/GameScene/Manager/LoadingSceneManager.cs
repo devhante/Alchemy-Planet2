@@ -53,6 +53,5 @@ public class LoadingSceneManager : MonoBehaviour
                 }
             }
         }
-        AlchemyPlanet.TownScene.UIManager.Instance.Clear();
     }
 }
