@@ -15,6 +15,8 @@ namespace AlchemyPlanet.GameScene
 
         protected override void Awake()
         {
+            base.Awake();
+
             Time.timeScale = 0;
 
             Score.text = GameManager.Instance.Score.ToString("#,##0");
