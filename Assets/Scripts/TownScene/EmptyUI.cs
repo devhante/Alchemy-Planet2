@@ -13,6 +13,7 @@ namespace AlchemyPlanet.TownScene {
         {
             button.onClick.AddListener(() => {
                 UIManager.Instance.CloseMenu();
+                UIManager.Instance.menuStack.Peek().gameObject.SetActive(true);
             });
         }
     }

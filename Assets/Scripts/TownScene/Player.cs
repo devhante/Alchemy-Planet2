@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
         if (Input.touchCount > 0 && !talking)
         {
             tempTouch = Input.GetTouch(0);
-            if (tempTouch.phase == TouchPhase.Began && EventSystem.current.IsPointerOverGameObject() == false)
+            if (tempTouch.phase == TouchPhase.Began && EventSystem.current.IsPointerOverGameObject(0) == false)
             {
                 touchedPos = Camera.main.ScreenToWorldPoint(tempTouch.position);
                 RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);

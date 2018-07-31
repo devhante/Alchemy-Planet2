@@ -11,6 +11,7 @@ public class DataManager : MonoBehaviour
     
     //아이템 데이터 프리로드
     public Dictionary<string, Material> materials;
+    public List<string> Buildings;
 
     private void Awake()
     {
@@ -147,6 +148,20 @@ public class DataManager : MonoBehaviour
             serializer.Serialize(file, formulas);
         }
     }
+
+    public void CreateSampleBuilding()
+    {
+        List<Building> buildings = new List<Building> {
+            new Building("House","집",1),
+            new Building("Tree","나무",1)
+        };
+
+        using (StreamWriter file = File.CreateText("Assets/Resources/Datas/Buildings.json"))
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.Serialize(file, buildings);
+        }
+    }
     #endregion CreateSampleData
 
     private void LoadMaterials()
@@ -170,6 +185,16 @@ public class DataManager : MonoBehaviour
         }
     }
 
+    private void LoadBuildings()
+    {
+        using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/Buildings").bytes), System.Text.Encoding.UTF8))
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            //List<string> buildings = (Dictionary<string, Material>)serializer.Deserialize(file, typeof(Dictionary<string, Material>));
+            //this.buildings;
+        }
+    }
+
 
     public void SavePlayerData()
     {
@@ -178,12 +203,16 @@ public class DataManager : MonoBehaviour
 
     public void LoadPlayerData()
     {
-        currentPlayerData =  new PlayerData("AAA001", "ISHNN", 0, 0, new Dictionary<string, int>{
+        currentPlayerData =  new PlayerData("AAA001", "ISHNN", 0, 0, 
+            new Dictionary<string, int>{
             { "Red", 1 },
             { "Blue",2 },
             { "Yellow", 3 },
-            { "Perple", 4 }
-        });
+            { "Perple", 4 }},
+            new List<string>{
+                "House",
+                "Tree"}
+           );
     }
 
     public List<Dialog> LoadDialog(string dialog_name)
@@ -234,13 +263,16 @@ public class PlayerData
     //재료
     public Dictionary<string, int> inventory;
 
-    public PlayerData(string player_id, string player_name, int unicoin, int cosmoston, Dictionary<string, int> inventory)
+    public List<string> buildings;
+
+    public PlayerData(string player_id, string player_name, int unicoin, int cosmoston, Dictionary<string, int> inventory, List<string> buildings)
     {
         this.player_id = player_id;
         this.player_name = player_name;
         this.unicoin = unicoin;
         this.cosmoston = cosmoston;
         this.inventory = inventory;
+        this.buildings = buildings;
     }
 }
 
@@ -256,6 +288,22 @@ public class NPCDAta
         //Sample -> this.npc_name 으로 수정해야 함
         dialogs = DataManager.Instance.LoadDialog("Sample");
         illusts = DataManager.Instance.LoadIllust(dialogs);
+    }
+}
+
+public class Building
+{
+    private string buildingID;
+    private string buildingName;
+    private string buildingDiscription;
+    private Vector3 buildingPosition;
+    private int buildingLevel;
+
+    public Building(string buildingName, string buildingDiscription, int buildingLevel)
+    {
+        this.buildingName = buildingName;
+        this.buildingDiscription = buildingDiscription;
+        this.buildingLevel = buildingLevel;
     }
 }
 

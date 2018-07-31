@@ -35,7 +35,7 @@ TextureImporter:
     21300060: town_30
     21300062: town_tree
   externalObjects: {}
-  serializedVersion: 4
+  serializedVersion: 5
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -75,18 +75,21 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
+  singleChannelComponent: 0
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
-  - buildTarget: DefaultTexturePlatform
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -96,7 +99,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - buildTarget: Standalone
+  - serializedVersion: 2
+    buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -106,7 +110,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - buildTarget: Android
+  - serializedVersion: 2
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -146,6 +151,12 @@ TextureImporter:
         - {x: -404.76923, y: -63.601612}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 8de54c7309be8f547b20a7c4dec124d3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_bottom
       rect:
@@ -167,6 +178,12 @@ TextureImporter:
         - {x: 354.3736, y: 75.0956}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 3522a9cf560c07047b73565a47e24250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_2
       rect:
@@ -189,6 +206,12 @@ TextureImporter:
         - {x: 34.13551, y: 47.5}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: a8e3d85b8d03a424696f95d9f1a1a868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_3
       rect:
@@ -211,6 +234,12 @@ TextureImporter:
         - {x: -48, y: 31.910063}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 07fabed189554cf489081d450e583068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_4
       rect:
@@ -229,6 +258,12 @@ TextureImporter:
         - {x: 227, y: 77}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 426d58f5511b9cb4093b9af53382f7cd
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_5
       rect:
@@ -249,6 +284,12 @@ TextureImporter:
         - {x: 35, y: 76}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: fde54dc18b7ea5945a9b7b05b97edd8a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_6
       rect:
@@ -275,6 +316,12 @@ TextureImporter:
         - {x: 64.168564, y: 112.5}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 029021a47ecc0d64eab9ae5dab12c607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_7
       rect:
@@ -296,6 +343,12 @@ TextureImporter:
         - {x: 60.62271, y: 116.5}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 1dafd8e0260ee9143916aa46fb23fdc2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_8
       rect:
@@ -314,6 +367,12 @@ TextureImporter:
         - {x: 64, y: 61.5}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 53a3a207f09c55e49bbc52c3ec987f7f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_9
       rect:
@@ -334,6 +393,12 @@ TextureImporter:
         - {x: 67.74357, y: 66}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 8ebde3eabf983fb4a9839818423c65ee
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_10
       rect:
@@ -353,6 +418,12 @@ TextureImporter:
         - {x: 68.68865, y: 66}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 7a47addcca6f31045951e177c91f580c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_11
       rect:
@@ -374,6 +445,12 @@ TextureImporter:
         - {x: 40.128223, y: 21}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 3b39ee0bc14b6144b9a4448dc1be4ec8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_12
       rect:
@@ -396,6 +473,12 @@ TextureImporter:
         - {x: -32.545822, y: 250.5}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 509b37cf2f8668f42abf42f304d6360b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_13
       rect:
@@ -414,6 +497,12 @@ TextureImporter:
         - {x: 260, y: 257}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: ee19e00365f684a459b9f10bfb3bf16c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_proflie
       rect:
@@ -437,6 +526,12 @@ TextureImporter:
         - {x: 220.5, y: 32.177746}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: f6a775b0958c4c644824853f95fd60e5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_info
       rect:
@@ -468,6 +563,12 @@ TextureImporter:
         - {x: 100.00366, y: 58}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: cd951bce5e6a6b74a8a98ac374fe831d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_menu
       rect:
@@ -492,6 +593,12 @@ TextureImporter:
         - {x: -166.73624, y: 522}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 33145c1eadb801d4cb4e2d997cf2a28d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_17
       rect:
@@ -510,6 +617,12 @@ TextureImporter:
         - {x: 131.5, y: 232.5}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 41e62eb9f7f172e488b56a5643224985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_18
       rect:
@@ -528,6 +641,12 @@ TextureImporter:
         - {x: -112.5, y: 116}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 5b76254dd4daaff459d26e8e1c736a51
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_19
       rect:
@@ -550,6 +669,12 @@ TextureImporter:
         - {x: 22.435898, y: 67.5}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 884e35b07118b5748a3f524467ba7610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_20
       rect:
@@ -572,6 +697,12 @@ TextureImporter:
         - {x: 26, y: 441.5}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 3effb7591cbc29649a31d987c8951365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_21
       rect:
@@ -591,6 +722,12 @@ TextureImporter:
         - {x: 362, y: 177}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: fbb89e41744c0034086c586cfa20a879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_22
       rect:
@@ -615,6 +752,12 @@ TextureImporter:
         - {x: 33.274723, y: 40.41016}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: e3d475df005767f45b42ab86d97954e3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_23
       rect:
@@ -638,6 +781,12 @@ TextureImporter:
         - {x: 6.0769215, y: -13.357446}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 59cc0ed561bd3fa4e8d6041a404ce62d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_24
       rect:
@@ -661,6 +810,12 @@ TextureImporter:
         - {x: 30.56777, y: 92}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 55ff0831bfd88784b9acd1852ae299f6
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_25
       rect:
@@ -679,6 +834,12 @@ TextureImporter:
         - {x: 361.5, y: 20.5}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: c1d4528ed45488041bd18b6eca58b2b8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_26
       rect:
@@ -697,6 +858,12 @@ TextureImporter:
         - {x: 45, y: 19}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 62c61ad2cbbbd4445949003bad43a2fe
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_27
       rect:
@@ -719,48 +886,12 @@ TextureImporter:
         - {x: 46.113552, y: 82.5}
       physicsShape: []
       tessellationDetail: 0
-    - serializedVersion: 2
-      name: town_28
-      rect:
-        serializedVersion: 2
-        x: 295
-        y: 370
-        width: 94
-        height: 79
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -47, y: 39.5}
-        - {x: -47, y: -1.3378859}
-        - {x: -42.728947, y: -30.634762}
-        - {x: -32.472538, y: -39.423824}
-        - {x: 47, y: -39.423824}
-        - {x: 47, y: 39.5}
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: town_29
-      rect:
-        serializedVersion: 2
-        x: 301
-        y: 317
-        width: 95
-        height: 50
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -43.32235, y: 25}
-        - {x: -47.5, y: 21.833986}
-        - {x: -47.5, y: -7.462889}
-        - {x: -27.205135, y: -25}
-        - {x: 27.007318, y: -25}
-        - {x: 47.5, y: -17.716795}
-        - {x: 47.5, y: 23.29883}
-        - {x: 47.5, y: 25}
-      physicsShape: []
-      tessellationDetail: 0
+      bones: []
+      spriteID: 4e826682b5d5ef64b8ba13aecc503a49
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_30
       rect:
@@ -770,7 +901,7 @@ TextureImporter:
         width: 626
         height: 465
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
       - - {x: -313, y: 232.5}
@@ -779,6 +910,12 @@ TextureImporter:
         - {x: 313, y: 232.5}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: b5fc482cf394e30408c12a7131f6a58c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: town_tree
       rect:
@@ -788,7 +925,7 @@ TextureImporter:
         width: 516
         height: 700
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
       - - {x: -127.648346, y: 333.59573}
@@ -803,8 +940,40 @@ TextureImporter:
         - {x: 228.39561, y: 333.59573}
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: ab3ec673036e77c458eda5666a05adfa
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: town_28
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 309
+        width: 124
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2962425934d2bf43b9ef17706a3bf56
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
+    bones: []
+    spriteID: 9517508a47a37b1449319a1a4f30e39b
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
   spritePackingTag: 
   userData: 
   assetBundleName: 
