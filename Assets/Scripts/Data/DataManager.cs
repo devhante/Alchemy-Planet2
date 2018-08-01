@@ -23,10 +23,11 @@ public class DataManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
+
         //CreateSampleDialog();
         //CreateSampleMaterials();
         //CreateSampleFomulas();
+        // CreateSampleBuilding(); // 타운관리모드 테스트할때 이거 주석 풀어
 
         LoadPlayerData();
         LoadMaterials();
@@ -209,9 +210,9 @@ public class DataManager : MonoBehaviour
             { "Blue",2 },
             { "Yellow", 3 },
             { "Perple", 4 }},
-            new List<string>{
-                "House",
-                "Tree"}
+            new Dictionary<string, int>{
+                { "House", 1 },
+                { "Tree", 2}}
            );
     }
 
@@ -263,18 +264,22 @@ public class PlayerData
     //재료
     public Dictionary<string, int> inventory;
 
-    public List<string> buildings;
+    //건물
+    public Dictionary<string,int > ownBuildings;  // 소유중인 건물들
+    public Dictionary<string, Vector2> setupBulidings;  // 설치된 건물들
+    
+    
 
-    public PlayerData(string player_id, string player_name, int unicoin, int cosmoston, Dictionary<string, int> inventory, List<string> buildings)
+    public PlayerData(string player_id, string player_name, int unicoin, int cosmoston, Dictionary<string, int> inventory, Dictionary<string, int> buildings)
     {
         this.player_id = player_id;
         this.player_name = player_name;
         this.unicoin = unicoin;
         this.cosmoston = cosmoston;
         this.inventory = inventory;
-        this.buildings = buildings;
+        this.ownBuildings = buildings;
     }
-}
+} 
 
 public class NPCDAta
 {
@@ -293,10 +298,8 @@ public class NPCDAta
 
 public class Building
 {
-    private string buildingID;
     private string buildingName;
     private string buildingDiscription;
-    private Vector3 buildingPosition;
     private int buildingLevel;
 
     public Building(string buildingName, string buildingDiscription, int buildingLevel)
