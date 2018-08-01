@@ -1,11 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace AlchemyPlanet.GameScene
 {
     public class RecipeManager : MonoBehaviour
     {
+        public static RecipeManager Instance { get; private set; }
+
         public List<MaterialName> RecipeNameList { get; private set; }
         public Queue<Recipe> recipeQueue;
         public int recipeNumber = 14;
@@ -13,7 +17,7 @@ namespace AlchemyPlanet.GameScene
         public RectTransform startPoint;
         public RectTransform endPoint;
 
-        public static RecipeManager Instance { get; private set; }
+        public int HighlightedRecipeCount { get; set; }
 
         private void OnDestroy()
         {
@@ -27,6 +31,7 @@ namespace AlchemyPlanet.GameScene
 
             RecipeNameList = new List<MaterialName>();
             recipeQueue = new Queue<Recipe>();
+            HighlightedRecipeCount = 0;
         }
 
         private void Start()
@@ -58,7 +63,7 @@ namespace AlchemyPlanet.GameScene
 
         public void DestroyQueuePeek()
         {
-            GameUI.Instance.UpdateGage(Gages.PURIFY, 5);
+            GameUI.Instance.UpdateGage(Gages.PURIFY, 5); 
             Destroy(recipeQueue.Dequeue().gameObject);
 
             int index = 0;
@@ -75,6 +80,13 @@ namespace AlchemyPlanet.GameScene
 
             foreach (var item in recipeQueue)
                 RecipeNameList.Add(item.recipeName);
+        }
+
+        public void HighlightRecipe()
+        {
+            Recipe recipe = recipeQueue.ElementAt(HighlightedRecipeCount);
+            HighlightedRecipeCount++;
+            recipe.GetComponent<Image>().sprite = SpriteManager.Instance.GetHighlightedMaterialSprite(recipe.recipeName);
         }
     }
 }
