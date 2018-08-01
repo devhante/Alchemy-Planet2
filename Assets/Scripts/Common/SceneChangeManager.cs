@@ -20,10 +20,15 @@ public class SceneChangeManager : MonoBehaviour {
     public void ChangeScene(string scene_name)
     {
         SceneManager.LoadScene(scene_name);
+        AlchemyPlanet.TownScene.UIManager.Instance.Clear();
     }
 
     public void ChangeSceneWithLoading(string scene_name)
     {
         LoadingSceneManager.LoadScene(scene_name);
+        if (AlchemyPlanet.TownScene.UIManager.Instance)
+        {
+            AlchemyPlanet.TownScene.UIManager.Instance.Clear();
+        }
     }
 }
