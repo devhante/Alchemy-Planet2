@@ -30,12 +30,12 @@ public class SampleUIscript : MonoBehaviour
 
     public void Increment()
     {
-        PlayGamesScript.IncerementAchievement(GPGSIds.achievement_sample, 5);
+        PlayGamesScript.IncrementAchievement(GPGSIds.achievement_sample, 5);
     }
 
     public void Unlock()
     {
-        PlayGamesScript.UnloadAchievement(GPGSIds.achievement_nothing);
+        PlayGamesScript.UnlockAchievement(GPGSIds.achievement_nothing);
     }
 
     public void ShowAchievements()
