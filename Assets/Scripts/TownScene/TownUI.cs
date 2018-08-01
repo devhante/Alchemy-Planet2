@@ -43,7 +43,7 @@ namespace AlchemyPlanet.TownScene {
             TownManageButton.onClick.AddListener(() =>
             {
                 UIManager.Instance.menuStack.Peek().gameObject.SetActive(false);
-                // TownManager.SetActive(true);
+                UIManager.Instance.OpenMenu<TownManager>();
             });
             TownUpgradeButton.onClick.AddListener(() =>
             {

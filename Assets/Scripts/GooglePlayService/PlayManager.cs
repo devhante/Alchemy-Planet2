@@ -7,7 +7,6 @@ public class PlayManager : MonoBehaviour {
     private void Start()
     {
         Instance = this;
-        SampleUIscript.Instance.UpdateHighscoreText();
         DontDestroyOnLoad(this.gameObject);
     }
 
