@@ -112,7 +112,7 @@ namespace AlchemyPlanet.GameScene
             }
         }
 
-        IEnumerator OxygenMinus()
+        IEnumerator OxygenMinus() 
         {
             float frame = 1;
 
