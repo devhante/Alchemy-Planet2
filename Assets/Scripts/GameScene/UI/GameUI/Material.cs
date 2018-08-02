@@ -23,14 +23,18 @@ namespace AlchemyPlanet.GameScene
             isHighlighted = false;
         }
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+
             image = GetComponent<Image>();
         }
 
-        private void Update()
+        protected override void Update()
         {
-            if (!isHighlighted && materialName == MaterialManager.Instance.HighlightedMaterialName && bubble.sprite == PrefabManager.Instance.unselectedBubble)
+            base.Update();
+
+            if (!isHighlighted && materialName == MaterialManager.Instance.HighlightedMaterialName && bubble.sprite == PrefabManager.Instance.unselectedBubble && MaterialManager.Instance.MaterialChain.Count + 1 < MaterialManager.Instance.MaxChainNumber)
             {
                 isHighlighted = true;
                 image.sprite = SpriteManager.Instance.GetHighlightedMaterialSprite(materialName);

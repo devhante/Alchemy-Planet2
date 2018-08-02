@@ -18,13 +18,13 @@ namespace AlchemyPlanet.GameScene
             button = GetComponent<Button>();
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             StartCoroutine("Popup");
             StartCoroutine("Float");
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             if (Time.timeScale == 1)
                 button.enabled = true;

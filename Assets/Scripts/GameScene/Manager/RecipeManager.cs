@@ -73,6 +73,7 @@ namespace AlchemyPlanet.GameScene
                 item.SetDestination(index);
                 index++;
             }
+            UpdateRecipeNameList();
         }
 
         public void UpdateRecipeNameList()

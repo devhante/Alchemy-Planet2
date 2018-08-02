@@ -66,7 +66,6 @@ namespace AlchemyPlanet.GameScene
                 {
                     if (!IsClickedRightMaterial) HighlightedMaterialName = RecipeManager.Instance.RecipeNameList[0];
                     else HighlightedMaterialName = RecipeManager.Instance.RecipeNameList[MaterialChain.Count + 1];
-                    Debug.Log(MaterialChain.Count + " " + HighlightedMaterialName);
                 }
                 yield return new WaitForEndOfFrame();
             }
