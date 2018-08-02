@@ -54,6 +54,7 @@ namespace AlchemyPlanet.GameScene
             Recipe temp = Instantiate(PrefabManager.Instance.recipePrefabs[index], transform).GetComponent<Recipe>();
             recipeQueue.Enqueue(temp);
             temp.SetDestination(recipeQueue.Count - 1);
+            UpdateRecipeNameList();
         }
 
         public MaterialName GetQueuePeekName()

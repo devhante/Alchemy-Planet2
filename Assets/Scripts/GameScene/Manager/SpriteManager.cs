@@ -34,5 +34,11 @@ namespace AlchemyPlanet.GameScene
             int index = MaterialNameIndex[materialName];
             return HighlightedMaterialSprites[index];
         }
+
+        public Sprite GetMaterialSprite(MaterialName materialName)
+        {
+            int index = MaterialNameIndex[materialName];
+            return MaterialSprites[index];
+        }
     }
 }

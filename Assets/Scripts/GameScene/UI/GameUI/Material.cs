@@ -11,12 +11,41 @@ namespace AlchemyPlanet.GameScene
     public class Material : Bubble, IPointerUpHandler, IPointerEnterHandler
     {
         public MaterialName materialName;
-        bool isChainSelected;
+
+        private Image image;
+        private bool isChainSelected;
+        private bool isHighlighted;
 
         protected override void Awake()
         {
             base.Awake();
             isChainSelected = false;
+            isHighlighted = false;
+        }
+
+        private void Start()
+        {
+            image = GetComponent<Image>();
+        }
+
+        private void Update()
+        {
+            if (!isHighlighted && materialName == MaterialManager.Instance.HighlightedMaterialName && bubble.sprite == PrefabManager.Instance.unselectedBubble)
+            {
+                isHighlighted = true;
+                image.sprite = SpriteManager.Instance.GetHighlightedMaterialSprite(materialName);
+            }
+            else if (isHighlighted && materialName != MaterialManager.Instance.HighlightedMaterialName)
+            {
+                isHighlighted = false;
+                image.sprite = SpriteManager.Instance.GetMaterialSprite(materialName);
+            }
+
+            else if(isHighlighted && bubble.sprite == PrefabManager.Instance.selectedBubble)
+            {
+                isHighlighted = false;
+                image.sprite = SpriteManager.Instance.GetMaterialSprite(materialName);
+            }
         }
 
         public override void OnPointerDown(PointerEventData eventData)
@@ -26,7 +55,6 @@ namespace AlchemyPlanet.GameScene
             if (RecipeManager.Instance.GetQueuePeekName() == materialName)
             {
                 MaterialManager.Instance.IsClickedRightMaterial = true;
-                RecipeManager.Instance.UpdateRecipeNameList();
                 RecipeManager.Instance.HighlightRecipe();
                 isChainSelected = true;
                 MaterialManager.Instance.Lines.Add(Instantiate(PrefabManager.Instance.line, transform.parent).GetComponent<Line>());

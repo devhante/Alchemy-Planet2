@@ -9,8 +9,8 @@ namespace AlchemyPlanet.GameScene
     public class Bubble : MonoBehaviour, IPointerDownHandler
     {
         public Vector3 direction;
-        Image bubble;
-        Button button;
+        protected Image bubble;
+        protected Button button;
 
         protected virtual void Awake()
         {
