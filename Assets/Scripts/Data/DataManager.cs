@@ -11,7 +11,7 @@ public class DataManager : MonoBehaviour
     
     //아이템 데이터 프리로드
     public Dictionary<string, Material> materials;
-    public List<string> Buildings;
+    public Dictionary<string, Building> buildings;
 
     private void Awake()
     {
@@ -27,7 +27,7 @@ public class DataManager : MonoBehaviour
         //CreateSampleDialog();
         //CreateSampleMaterials();
         //CreateSampleFomulas();
-        // CreateSampleBuilding(); // 타운관리모드 테스트할때 이거 주석 풀어
+        // CreateSampleBuilding(); // 타운관리모드 테스트할때 이거 주석 풀기
 
         LoadPlayerData();
         LoadMaterials();
@@ -152,9 +152,9 @@ public class DataManager : MonoBehaviour
 
     public void CreateSampleBuilding()
     {
-        List<Building> buildings = new List<Building> {
-            new Building("House","집",1),
-            new Building("Tree","나무",1)
+        Dictionary<string, Building> buildings = new Dictionary<string, Building> {
+            { "House", new Building("House","집",1)},
+            { "Tree", new Building("Tree","나무",1)}
         };
 
         using (StreamWriter file = File.CreateText("Assets/Resources/Datas/Buildings.json"))
@@ -163,6 +163,7 @@ public class DataManager : MonoBehaviour
             serializer.Serialize(file, buildings);
         }
     }
+
     #endregion CreateSampleData
 
     private void LoadMaterials()
@@ -191,8 +192,19 @@ public class DataManager : MonoBehaviour
         using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/Buildings").bytes), System.Text.Encoding.UTF8))
         {
             JsonSerializer serializer = new JsonSerializer();
-            //List<string> buildings = (Dictionary<string, Material>)serializer.Deserialize(file, typeof(Dictionary<string, Material>));
-            //this.buildings;
+            Dictionary<string, Building> buildings = (Dictionary<string, Building>)serializer.Deserialize(file, typeof(Dictionary<string, Building>));
+            this.buildings = buildings;
+
+            Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Town/town");
+
+            for (int i = 0; i < sprites.Length; i++)
+            {
+                if (buildings.ContainsKey(sprites[i].name))
+                {
+                    if (sprites[i].name == buildings[sprites[i].name].buildingName)
+                        buildings[sprites[i].name].image = sprites[i];
+                }
+            }
         }
     }
 
@@ -266,7 +278,7 @@ public class PlayerData
 
     //건물
     public Dictionary<string,int > ownBuildings;  // 소유중인 건물들
-    public Dictionary<string, Vector2> setupBulidings;  // 설치된 건물들
+    public List<GameObject> setupBulidings;  // 설치된 건물들
     
     
 
@@ -298,9 +310,11 @@ public class NPCDAta
 
 public class Building
 {
-    private string buildingName;
-    private string buildingDiscription;
-    private int buildingLevel;
+    public string buildingName;
+    public string buildingDiscription;
+    public int buildingLevel;
+    public Vector3 size;
+    public Sprite image;
 
     public Building(string buildingName, string buildingDiscription, int buildingLevel)
     {

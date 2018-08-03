@@ -22,37 +22,32 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        DetectTouch();
         DetectClick();
     }
 
-    void DetectTouch()    // 터치감지
+    void DetectClick()    // 클릭감지
     {
-        if (Input.touchCount > 0 && !talking)
+        if (Input.GetMouseButton(0)&&!talking)
         {
-            tempTouch = Input.GetTouch(0);
-            if (tempTouch.phase == TouchPhase.Began && EventSystem.current.IsPointerOverGameObject(0) == false)
+            touchedPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.down);
+            if (hit && EventSystem.current.IsPointerOverGameObject() == false)
             {
-                touchedPos = Camera.main.ScreenToWorldPoint(tempTouch.position);
-                RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);
-                if (hit.collider.tag == "Building" || hit.collider.tag == "Road" || hit.collider.tag == "NPC")
+                if (hit.collider.tag == "Road" || hit.collider.tag == "NPC" || hit.collider.tag == "Building")
                 {
                     StopCoroutine("Move");
                     StartCoroutine("Move", hit.collider.gameObject);
                 }
             }
         }
-    }
-
-    void DetectClick()    // 클릭감지
-    {
-        if (Input.GetMouseButtonDown(0)&&!talking)
+        if (Input.touchCount > 0 && !talking)
         {
-            touchedPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);
-            if (hit && EventSystem.current.IsPointerOverGameObject() == false)
+            tempTouch = Input.GetTouch(0);
+            if (EventSystem.current.IsPointerOverGameObject(0) == false)
             {
-                if (hit.collider.tag == "Road" || hit.collider.tag == "NPC" || hit.collider.tag == "Building")
+                touchedPos = Camera.main.ScreenToWorldPoint(tempTouch.position);
+                RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.down);
+                if (hit.collider.tag == "Building" || hit.collider.tag == "Road" || hit.collider.tag == "NPC")
                 {
                     StopCoroutine("Move");
                     StartCoroutine("Move", hit.collider.gameObject);

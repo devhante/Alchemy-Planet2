@@ -14,7 +14,7 @@ TextureImporter:
     21300018: town_9
     21300020: town_10
     21300022: town_11
-    21300024: town_12
+    21300024: House
     21300026: town_13
     21300028: town_proflie
     21300030: town_info
@@ -33,7 +33,7 @@ TextureImporter:
     21300056: town_28
     21300058: town_29
     21300060: town_30
-    21300062: town_tree
+    21300062: Tree
   externalObjects: {}
   serializedVersion: 5
   mipmaps:
@@ -452,7 +452,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: town_12
+      name: House
       rect:
         serializedVersion: 2
         x: 955
@@ -917,7 +917,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: town_tree
+      name: Tree
       rect:
         serializedVersion: 2
         x: 24
@@ -955,7 +955,7 @@ TextureImporter:
         width: 124
         height: 150
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
