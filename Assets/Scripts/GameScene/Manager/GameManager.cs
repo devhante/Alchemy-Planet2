@@ -167,15 +167,14 @@ namespace AlchemyPlanet.GameScene
 
         public void UpdateCombo()
         {
-            if (Combo < 2)
-            {
-                GameUI.Instance.ComboText.gameObject.SetActive(false);
-            }
+            if (Combo == 0)
+                ComboText.Instance.SetOpacity(0);
             else
             {
-                GameUI.Instance.ComboText.gameObject.SetActive(true);
-                GameUI.Instance.ComboText.text = string.Format("{0} Combo!", combo);
+                ComboText.Instance.SetOpacity(1);
+                ComboText.Instance.FadeOut();
             }
+            GameUI.Instance.ComboText.text = string.Format("{0} Combo!", combo);
         }
 
         public void UpdateComboStatus()

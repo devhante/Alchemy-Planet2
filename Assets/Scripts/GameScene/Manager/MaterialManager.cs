@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace AlchemyPlanet.GameScene
 {
@@ -18,6 +19,7 @@ namespace AlchemyPlanet.GameScene
         public int MinMaterialNumber { get; private set; }
         public float MinDistance { get; private set; }
         public bool IsClickedRightMaterial { get; set; }
+        public MaterialName HighlightedMaterialName { get; private set; }
 
         public RectTransform minPoint;
         public RectTransform maxPoint;
@@ -52,6 +54,21 @@ namespace AlchemyPlanet.GameScene
 
             for (int i = 0; i < Count; i++)
                 StartCoroutine("CreateMaterialCoroutine");
+
+            StartCoroutine("UpdateHighlightedMaterialNameCoroutine");
+        }
+
+        IEnumerator UpdateHighlightedMaterialNameCoroutine()
+        {
+            while (true)
+            {
+                if (RecipeManager.Instance.RecipeNameList.Count != 0)
+                {
+                    if (!IsClickedRightMaterial) HighlightedMaterialName = RecipeManager.Instance.RecipeNameList[0];
+                    else HighlightedMaterialName = RecipeManager.Instance.RecipeNameList[MaterialChain.Count + 1];
+                }
+                yield return new WaitForEndOfFrame();
+            }
         }
 
         public IEnumerator CreateMaterialCoroutine()

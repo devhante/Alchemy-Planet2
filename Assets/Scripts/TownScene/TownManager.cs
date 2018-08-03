@@ -44,8 +44,8 @@ namespace AlchemyPlanet.TownScene
             DetectClick();
         }
 
-        void GetOwnBuilding() { ownBuildings = DataManager.Instance.currentPlayerData.ownBuildings; }   // 소유중인 건물 받아오기
-        void SetOwnBuilding() { DataManager.Instance.currentPlayerData.ownBuildings = ownBuildings; }   // 소유중인 건물 변경하기
+        void GetOwnBuilding() { ownBuildings = DataManager.Instance.CurrentPlayerData.ownBuildings; }   // 소유중인 건물 받아오기
+        void SetOwnBuilding() { DataManager.Instance.CurrentPlayerData.ownBuildings = ownBuildings; }   // 소유중인 건물 변경하기
 
         void SetImage() // 소유중인 건물이미지 출력하기
         {

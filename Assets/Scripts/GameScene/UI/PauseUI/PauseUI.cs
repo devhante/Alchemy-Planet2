@@ -16,6 +16,8 @@ namespace AlchemyPlanet.GameScene
         {
             base.Awake();
 
+            GameUI.Instance.Countdown.gameObject.SetActive(false);
+            GameUI.Instance.StopCoroutine("ResumeCoroutine");
             Time.timeScale = 0;
 
             Resume.onClick.AddListener(() =>

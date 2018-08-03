@@ -9,8 +9,8 @@ namespace AlchemyPlanet.GameScene
     public class Bubble : MonoBehaviour, IPointerDownHandler
     {
         public Vector3 direction;
-        Image bubble;
-        Button button;
+        protected Image bubble;
+        protected Button button;
 
         protected virtual void Awake()
         {
@@ -18,13 +18,13 @@ namespace AlchemyPlanet.GameScene
             button = GetComponent<Button>();
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             StartCoroutine("Popup");
             StartCoroutine("Float");
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             if (Time.timeScale == 1)
                 button.enabled = true;
@@ -97,7 +97,7 @@ namespace AlchemyPlanet.GameScene
 
         public virtual void OnPointerDown(PointerEventData eventData)
         {
-            if (Time.timeScale == 0) return;
+            if (Time.timeScale == 0 || GameUI.Instance.IsResuming == true) return;
             StopCoroutine("Float");
             StartCoroutine("Shrink");
             ChangeBubbleToSelectedBubble();
@@ -111,6 +111,11 @@ namespace AlchemyPlanet.GameScene
         public void ChangeBubbleToUnselectedBubble()
         {
             bubble.sprite = PrefabManager.Instance.unselectedBubble;
+        }
+
+        public void ChangeBubbleToHighlightedBubble()
+        {
+            bubble.sprite = PrefabManager.Instance.highlightedBubble;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
