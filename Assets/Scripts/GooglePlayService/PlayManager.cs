@@ -4,7 +4,8 @@ public class PlayManager : MonoBehaviour {
     public static PlayManager Instance { get; private set;}
     public static int Counter { get; private set; }
 
-    private void Start()
+    /*
+    private void Awake()
     {
         Instance = this;
         DontDestroyOnLoad(this.gameObject);
@@ -29,4 +30,5 @@ public class PlayManager : MonoBehaviour {
 
         Counter = 0;
     }
+    */
 }

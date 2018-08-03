@@ -9,23 +9,20 @@ public class PlayGamesScript : MonoBehaviour
 
     public static PlayGamesScript Instance { get; private set; }
 
-    const string SAVE_NAME = "Tutorial";
+    const string SAVE_NAME = "Test";
     bool isSaving;
     bool isCloudDataLoaded = false;
-
-    // Use this for initialization
+    
     void Start()
     {
         Instance = this;
-        //setting default value, if the game is played for the first time
+        //처음으로 접속했을 경우 데이터를 디폴트로 세팅한다
         if (!PlayerPrefs.HasKey(SAVE_NAME))
-            PlayerPrefs.SetString(SAVE_NAME, "0");
-        //tells us if it's the first time that this game has been launched after install - 0 = no, 1 = yes 
+            PlayerPrefs.SetString(SAVE_NAME, string.Empty);
+
+        //게임을 설치, 실행했음을 알리는 키를 설정한다 - 0 = no, 1 = yes 
         if (!PlayerPrefs.HasKey("IsFirstTime"))
             PlayerPrefs.SetInt("IsFirstTime", 1);
-
-        LoadLocal(); //we want to load local data first because loading from cloud can take quite a while, if user progresses while using local data, it will all
-                     //sync in our comparating loop in StringToGameData(string, string)
 
         PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
             .EnableSavedGames().Build();
@@ -38,57 +35,76 @@ public class PlayGamesScript : MonoBehaviour
     void SignIn()
     {
         //when authentication process is done (successfuly or not), we load cloud data
-        Social.localUser.Authenticate(success => { LoadData(); });
+        Social.localUser.Authenticate(success => {
+            if (success)
+            {
+                LoadData();
+                ShowAchievementsUI();
+            }
+            else
+                Debug.Log("Failed!");
+        });
     }
 
     #region Saved Games
-    //making a string out of game data (highscores...)
-    string GameDataToString()
-    {
-        return CloudVariables.Highscore.ToString();
-    }
 
     //this overload is used when user is connected to the internet
     //parsing string to game data (stored in CloudVariables), also deciding if we should use local or cloud save
     void StringToGameData(string cloudData, string localData)
     {
+        if (cloudData == string.Empty)
+        {
+            StringToGameData(localData);
+            isCloudDataLoaded = true;
+            return;
+        }
+        PlayerData cloudArray = DataManager.PlayerStringToData(cloudData);
+
+        if (localData == string.Empty)
+        {
+            DataManager.Instance.CurrentPlayerData = cloudArray;
+            PlayerPrefs.SetString(SAVE_NAME, cloudData);
+            isCloudDataLoaded = true;
+            return;
+        }
+        PlayerData localArray = DataManager.PlayerStringToData(localData);
+
         //if it's the first time that game has been launched after installing it and successfuly logging into Google Play Games
         if (PlayerPrefs.GetInt("IsFirstTime") == 1)
         {
             //set playerpref to be 0 (false)
             PlayerPrefs.SetInt("IsFirstTime", 0);
-            if (int.Parse(cloudData) > int.Parse(localData)) //cloud save is more up to date
-            {
-                //set local save to be equal to the cloud save
-                PlayerPrefs.SetString(SAVE_NAME, cloudData);
-            }
+            PlayerPrefs.SetString(SAVE_NAME, cloudData);
         }
         //if it's not the first time, start comparing
         else
         {
-            //comparing integers, if one int has higher score in it than the other, we update it
-            if (int.Parse(localData) > int.Parse(cloudData))
+            /*
+            //만약 localArray 의 데이터가 cloudArray 보다 가치(?)있다면
+            if (localArray[i] > cloudArray[i])
             {
                 //update the cloud save, first set CloudVariables to be equal to localSave
-                CloudVariables.Highscore = int.Parse(localData);
-                //also send the more up to date high score to leaderboard
-                AddScoreToLeaderboard(GPGSIds.leaderboard_point, CloudVariables.Highscore);
+                DataManager.Instance.CurrentPlayerData = localArray;
                 isCloudDataLoaded = true;
+
                 //saving the updated CloudVariables to the cloud
                 SaveData();
                 return;
             }
+            */
         }
+
         //if the code above doesn't trigger return and the code below executes,
         //cloud save and local save are identical, so we can load either one
-        CloudVariables.Highscore = int.Parse(cloudData);
+        DataManager.Instance.CurrentPlayerData = cloudArray;
         isCloudDataLoaded = true;
     }
 
     //this overload is used when there's no internet connection - loading only local data
     void StringToGameData(string localData)
     {
-        CloudVariables.Highscore = int.Parse(localData);
+        if (localData != string.Empty)
+            DataManager.Instance.CurrentPlayerData = DataManager.PlayerStringToData(localData);
     }
 
     //used for loading data from the cloud or locally
@@ -101,44 +117,16 @@ public class PlayGamesScript : MonoBehaviour
             ((PlayGamesPlatform)Social.Active).SavedGame.OpenWithManualConflictResolution(SAVE_NAME,
                 DataSource.ReadCacheOrNetwork, true, ResolveConflict, OnSavedGameOpened);
         }
-        //this will basically only run in Unity Editor, as on device,
-        //localUser will be authenticated even if he's not connected to the internet (if the player is using GPG)
-        else
-        {
-            LoadLocal();
-        }
     }
 
-    private void LoadLocal()
-    {
-        StringToGameData(PlayerPrefs.GetString(SAVE_NAME));
-    }
-
-    //used for saving data to the cloud or locally
     public void SaveData()
     {
-        //if we're still running on local data (cloud data has not been loaded yet), we also want to save only locally
-        if (!isCloudDataLoaded)
-        {
-            SaveLocal();
-            return;
-        }
-        //same as in LoadData
-        if (Social.localUser.authenticated)
+        if (isCloudDataLoaded && Social.localUser.authenticated)
         {
             isSaving = true;
             ((PlayGamesPlatform)Social.Active).SavedGame.OpenWithManualConflictResolution(SAVE_NAME,
                 DataSource.ReadCacheOrNetwork, true, ResolveConflict, OnSavedGameOpened);
         }
-        else
-        {
-            SaveLocal();
-        }
-    }
-
-    private void SaveLocal()
-    {
-        PlayerPrefs.SetString(SAVE_NAME, GameDataToString());
     }
 
     private void ResolveConflict(IConflictResolver resolver, ISavedGameMetadata original, byte[] originalData,
@@ -150,26 +138,32 @@ public class PlayGamesScript : MonoBehaviour
             resolver.ChooseMetadata(original);
         else
         {
+            /*
             //decoding byte data into string
             string originalStr = Encoding.ASCII.GetString(originalData);
             string unmergedStr = Encoding.ASCII.GetString(unmergedData);
 
             //parsing
-            int originalNum = int.Parse(originalStr);
-            int unmergedNum = int.Parse(unmergedStr);
+            int[] originalArray = JsonUtil.JsonStringToArray(originalStr, "myKey", str => int.Parse(str));
+            int[] unmergedArray = JsonUtil.JsonStringToArray(unmergedStr, "myKey", str => int.Parse(str));
 
-            //if original score is greater than unmerged
-            if (originalNum > unmergedNum)
+            for (int i = 0; i < originalArray.Length; i++)
             {
-                resolver.ChooseMetadata(original);
-                return;
+                //if original score is greater than unmerged
+                if (originalArray[i] > unmergedArray[i])
+                {
+                    resolver.ChooseMetadata(original);
+                    return;
+                }
+                //else (unmerged score is greater than original)
+                else if (unmergedArray[i] > originalArray[i])
+                {
+                    resolver.ChooseMetadata(unmerged);
+                    return;
+                }
             }
-            //else (unmerged score is greater than original)
-            else if (unmergedNum > originalNum)
-            {
-                resolver.ChooseMetadata(unmerged);
-                return;
-            }
+
+            */
             //if return doesn't get called, original and unmerged are identical
             //we can keep either one
             resolver.ChooseMetadata(original);
@@ -193,9 +187,9 @@ public class PlayGamesScript : MonoBehaviour
         else
         {
             if (!isSaving)
-                LoadLocal();
+                Debug.Log("Is Saving");
             else
-                SaveLocal();
+                Debug.Log("none");
         }
     }
 
@@ -206,7 +200,7 @@ public class PlayGamesScript : MonoBehaviour
 
     private void SaveGame(ISavedGameMetadata game)
     {
-        string stringToSave = GameDataToString();
+        string stringToSave = DataManager.Instance.PlayerDataToString();
         //saving also locally (can also call SaveLocal() instead)
         PlayerPrefs.SetString(SAVE_NAME, stringToSave);
 
@@ -228,14 +222,14 @@ public class PlayGamesScript : MonoBehaviour
             string cloudDataString;
             //if we've never played the game before, savedData will have length of 0
             if (savedData.Length == 0)
-                //in such case, we want to assign "0" to our string
-                cloudDataString = "0";
+                //in such case, we want to assign default value to our string
+                cloudDataString = string.Empty;
             //otherwise take the byte[] of data and encode it to string
             else
                 cloudDataString = Encoding.ASCII.GetString(savedData);
 
             //getting local data (if we've never played before on this device, localData is already
-            //"0", so there's no need for checking as with cloudDataString)
+            //string.Empty, so there's no need for checking as with cloudDataString)
             string localDataString = PlayerPrefs.GetString(SAVE_NAME);
 
             //this method will compare cloud and local data

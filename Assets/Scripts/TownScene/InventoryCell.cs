@@ -28,14 +28,14 @@ namespace AlchemyPlanet.TownScene
         public void SetItem()
         {
             int i = 0;
-            foreach (string itemName in DataManager.Instance.currentPlayerData.inventory.Keys)
+            foreach (string itemName in DataManager.Instance.CurrentPlayerData.inventory.Keys)
             {
                 itemButtonList[i].SetActive(true);
                 itemButtonList[i].GetComponent<ItemInfo>().SetInfo(
                     DataManager.Instance.materials[itemName].item_name,
                     DataManager.Instance.materials[itemName].discription,
                     DataManager.Instance.materials[itemName].image,
-                    DataManager.Instance.currentPlayerData.inventory[itemName]);
+                    DataManager.Instance.CurrentPlayerData.inventory[itemName]);
                 i++;
             }
         }

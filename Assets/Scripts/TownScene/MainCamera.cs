@@ -43,7 +43,7 @@ public class MainCamera : MonoBehaviour {
             if (touchesPrevPosDifference < touchesCurPosDifference)
                 mainCamera.orthographicSize -= zoomModifier;
         }
-        mainCamera.orthographicSize = Mathf.Clamp(mainCamera.orthographicSize, 7f, 12f);
+        mainCamera.orthographicSize = Mathf.Clamp(mainCamera.orthographicSize, 6f, 12f);
     }
 
     void Follow() { transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 3, transform.position.z); }

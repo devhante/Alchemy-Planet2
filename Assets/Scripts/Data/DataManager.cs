@@ -7,11 +7,11 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager Instance { get; private set; }
 
-    public PlayerData currentPlayerData;
+    public PlayerData CurrentPlayerData { get; set; }
     
     //아이템 데이터 프리로드
     public Dictionary<string, Material> materials;
-    public List<string> Buildings;
+    public Dictionary<string, Building> buildings;
 
     private void Awake()
     {
@@ -27,83 +27,12 @@ public class DataManager : MonoBehaviour
         //CreateSampleDialog();
         //CreateSampleMaterials();
         //CreateSampleFomulas();
-        // CreateSampleBuilding(); // 타운관리모드 테스트할때 이거 주석 풀어
+        // CreateSampleBuilding(); // 타운관리모드 테스트할때 이거 주석 풀기
 
         LoadPlayerData();
         LoadMaterials();
     }
 
-    #region PlayerData_Not_Using
-    /*
-
-    //현재 이용중인 플레이어 데이터
-    //플레이 중에 데이터 수정이 이루어지고, 저장시 대입되는 데이터이다.
-    public static PlayerData Current_Player { get; private set; }
-
-    //    X     프로필을 불러오는 로직에서 임시적으로 사용중이다. 이후에는 필요없음. // 플레이어 정보를 포멧에 맞추어 string으로 반환한다.
-    public string LoadCurrentPlayerInfo()
-    {
-        return string.Format("Player Rank: {0}\nPlayer Name: {1}\nSortie : {2}\nSuccess : {3}",
-            Current_Player.rank, Current_Player.player_name, Current_Player.sortie, Current_Player.success);
-    }
-
-
-    // .data 형식을 가지고 있는 파일을 검색해서 파일명의 목록을 List<string> 로 반환한다.
-    public List<string> GetPlayerSaves()
-    {
-        List<string> list = new List<string>();
-        DirectoryInfo di = new DirectoryInfo(Application.persistentDataPath);
-        foreach (var item in di.GetFiles())
-        {
-            if (item.Extension.ToLower().CompareTo(".data") == 0)
-            {
-                list.Add(item.Name.Replace(".data", ""));
-            }
-        }
-        return list;
-    }
-
-    //{player_name}.data 파일을 생성하고 플레이어 데이터를 초기화해 저장한다.
-    public void CreateData(string player_name)
-    {
-        FileStream stream = new FileStream(string.Format("{0}/{1}.data", Application.persistentDataPath, player_name), FileMode.Create);
-        PlayerData data = new PlayerData(player_name);
-
-        BinaryFormatter bf = new BinaryFormatter();
-        bf.Serialize(stream, data);
-
-        Debug.Log(string.Format("{0}/{1}.data 저장", Application.persistentDataPath, player_name));
-        stream.Close();
-    }
-
-    //Current_Player 를 {Current_Player . player_name}.data 파일에 저장한다.
-    public void SaveData()
-    {
-        FileStream stream = new FileStream(string.Format("{0}/{1}.data", Application.persistentDataPath, Current_Player.player_name), FileMode.Create);
-        PlayerData data = Current_Player;
-
-        BinaryFormatter bf = new BinaryFormatter();
-        bf.Serialize(stream, data);
-
-        Debug.Log(string.Format("저장 : {0}/{1}.data", Application.persistentDataPath, Current_Player.player_name));
-        stream.Close();
-    }
-
-    //{player_name}.data 를 불러와 Current_Player 에 대입한다.
-    public void LoadData(string player_name)
-    {
-        FileStream stream = File.Open(string.Format("{0}/{1}.data", Application.persistentDataPath, player_name), FileMode.Open);
-
-        BinaryFormatter bf = new BinaryFormatter();
-        Current_Player = (PlayerData)bf.Deserialize(stream);
-
-        stream.Close();
-    }
-
-    */
-
-    #endregion /
-    
     #region CreateSampleData
     public void CreateSampleDialog()
     {
@@ -152,9 +81,9 @@ public class DataManager : MonoBehaviour
 
     public void CreateSampleBuilding()
     {
-        List<Building> buildings = new List<Building> {
-            new Building("House","집",1),
-            new Building("Tree","나무",1)
+        Dictionary<string, Building> buildings = new Dictionary<string, Building> {
+            { "House", new Building("House","집",1)},
+            { "Tree", new Building("Tree","나무",1)}
         };
 
         using (StreamWriter file = File.CreateText("Assets/Resources/Datas/Buildings.json"))
@@ -163,6 +92,7 @@ public class DataManager : MonoBehaviour
             serializer.Serialize(file, buildings);
         }
     }
+
     #endregion CreateSampleData
 
     private void LoadMaterials()
@@ -191,29 +121,37 @@ public class DataManager : MonoBehaviour
         using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/Buildings").bytes), System.Text.Encoding.UTF8))
         {
             JsonSerializer serializer = new JsonSerializer();
-            //List<string> buildings = (Dictionary<string, Material>)serializer.Deserialize(file, typeof(Dictionary<string, Material>));
-            //this.buildings;
+            Dictionary<string, Building> buildings = (Dictionary<string, Building>)serializer.Deserialize(file, typeof(Dictionary<string, Building>));
+            this.buildings = buildings;
+
+            Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Town/town");
+
+            for (int i = 0; i < sprites.Length; i++)
+            {
+                if (buildings.ContainsKey(sprites[i].name))
+                {
+                    if (sprites[i].name == buildings[sprites[i].name].buildingName)
+                        buildings[sprites[i].name].image = sprites[i];
+                }
+            }
         }
     }
 
-
-    public void SavePlayerData()
+    public static PlayerData PlayerStringToData(string dataString)
     {
+        PlayerData data = JsonConvert.DeserializeObject<PlayerData>(dataString);
+        return data;
+    }
 
+    public string PlayerDataToString()
+    {
+        string dataString = JsonConvert.SerializeObject(Instance.CurrentPlayerData);
+        return dataString;
     }
 
     public void LoadPlayerData()
     {
-        currentPlayerData =  new PlayerData("AAA001", "ISHNN", 0, 0, 
-            new Dictionary<string, int>{
-            { "Red", 1 },
-            { "Blue",2 },
-            { "Yellow", 3 },
-            { "Perple", 4 }},
-            new Dictionary<string, int>{
-                { "House", 1 },
-                { "Tree", 2}}
-           );
+        CurrentPlayerData = new PlayerData();
     }
 
     public List<Dialog> LoadDialog(string dialog_name)
@@ -266,18 +204,16 @@ public class PlayerData
 
     //건물
     public Dictionary<string,int > ownBuildings;  // 소유중인 건물들
-    public Dictionary<string, Vector2> setupBulidings;  // 설치된 건물들
-    
-    
+    public List<GameObject> setupBulidings;  // 설치된 건물들
 
-    public PlayerData(string player_id, string player_name, int unicoin, int cosmoston, Dictionary<string, int> inventory, Dictionary<string, int> buildings)
+    public PlayerData()
     {
-        this.player_id = player_id;
-        this.player_name = player_name;
-        this.unicoin = unicoin;
-        this.cosmoston = cosmoston;
-        this.inventory = inventory;
-        this.ownBuildings = buildings;
+        this.player_id = Social.localUser.id;
+        this.player_name = string.Empty;
+        this.unicoin = 0;
+        this.cosmoston = 0;
+        this.inventory = new Dictionary<string, int>();
+        this.ownBuildings = new Dictionary<string, int>();
     }
 } 
 
@@ -298,9 +234,11 @@ public class NPCDAta
 
 public class Building
 {
-    private string buildingName;
-    private string buildingDiscription;
-    private int buildingLevel;
+    public string buildingName;
+    public string buildingDiscription;
+    public int buildingLevel;
+    public Vector3 size;
+    public Sprite image;
 
     public Building(string buildingName, string buildingDiscription, int buildingLevel)
     {
