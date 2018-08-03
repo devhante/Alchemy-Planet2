@@ -29,8 +29,8 @@ namespace AlchemyPlanet.GameScene
         private void Start()
         {
             BackgroundSpeed = 0.5f;
-            startPoint = new Vector3(0.45f, 0, 0);
-            endPoint = new Vector3(-13.95f, 0, 0);
+            startPoint = new Vector3(0.45f, 0.25f, 0);
+            endPoint = new Vector3(-21.15f, 0.25f, 0);
         }
 
         private void Update()
