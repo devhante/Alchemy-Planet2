@@ -97,7 +97,7 @@ namespace AlchemyPlanet.GameScene
 
         public virtual void OnPointerDown(PointerEventData eventData)
         {
-            if (Time.timeScale == 0) return;
+            if (Time.timeScale == 0 || GameUI.Instance.IsResuming == true) return;
             StopCoroutine("Float");
             StartCoroutine("Shrink");
             ChangeBubbleToSelectedBubble();
@@ -111,6 +111,11 @@ namespace AlchemyPlanet.GameScene
         public void ChangeBubbleToUnselectedBubble()
         {
             bubble.sprite = PrefabManager.Instance.unselectedBubble;
+        }
+
+        public void ChangeBubbleToHighlightedBubble()
+        {
+            bubble.sprite = PrefabManager.Instance.highlightedBubble;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

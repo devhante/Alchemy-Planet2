@@ -22,6 +22,7 @@ namespace AlchemyPlanet.GameScene
 
         public Sprite unselectedBubble;
         public Sprite selectedBubble;
+        public Sprite highlightedBubble;
 
         private void OnDestroy()
         {

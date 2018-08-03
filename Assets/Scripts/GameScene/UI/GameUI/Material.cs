@@ -34,27 +34,22 @@ namespace AlchemyPlanet.GameScene
         {
             base.Update();
 
-            if (!isHighlighted && materialName == MaterialManager.Instance.HighlightedMaterialName && bubble.sprite == PrefabManager.Instance.unselectedBubble && MaterialManager.Instance.MaterialChain.Count + 1 < MaterialManager.Instance.MaxChainNumber)
+            if (isHighlighted == false && materialName == MaterialManager.Instance.HighlightedMaterialName && bubble.sprite == PrefabManager.Instance.unselectedBubble && MaterialManager.Instance.MaterialChain.Count + 1 < MaterialManager.Instance.MaxChainNumber)
             {
                 isHighlighted = true;
-                image.sprite = SpriteManager.Instance.GetHighlightedMaterialSprite(materialName);
+                ChangeBubbleToHighlightedBubble();
             }
-            else if (isHighlighted && materialName != MaterialManager.Instance.HighlightedMaterialName)
+            else if (isHighlighted == true && materialName != MaterialManager.Instance.HighlightedMaterialName && bubble.sprite == PrefabManager.Instance.highlightedBubble)
             {
                 isHighlighted = false;
-                image.sprite = SpriteManager.Instance.GetMaterialSprite(materialName);
-            }
-
-            else if(isHighlighted && bubble.sprite == PrefabManager.Instance.selectedBubble)
-            {
-                isHighlighted = false;
-                image.sprite = SpriteManager.Instance.GetMaterialSprite(materialName);
+                ChangeBubbleToUnselectedBubble();
             }
         }
 
         public override void OnPointerDown(PointerEventData eventData)
         {
             base.OnPointerDown(eventData);
+            if (Time.timeScale == 0 || GameUI.Instance.IsResuming == true) return;
 
             if (RecipeManager.Instance.GetQueuePeekName() == materialName)
             {

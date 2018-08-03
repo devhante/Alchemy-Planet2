@@ -19,6 +19,7 @@ namespace AlchemyPlanet.GameScene
         public Text Unicoin;
         public Text ComboText;
 
+        public bool IsResuming { get; set; }
         public bool IsIncreasingPurify { get; set; }
         public bool IsNotReducingOxygen { get; set; }
         public float OxygenReduceSpeed { get; set; }
@@ -43,6 +44,7 @@ namespace AlchemyPlanet.GameScene
 
         public void Start()
         {
+            IsResuming = false;
             IsIncreasingPurify = false;
             IsNotReducingOxygen = false;
             OxygenReduceSpeed = 1;
@@ -139,6 +141,7 @@ namespace AlchemyPlanet.GameScene
         IEnumerator ResumeCoroutine()
         {
             Countdown.gameObject.SetActive(true);
+            IsResuming = true;
 
             for (int i = 3; i > 0; i--)
             {
@@ -148,6 +151,7 @@ namespace AlchemyPlanet.GameScene
 
             Time.timeScale = 1;
             Countdown.gameObject.SetActive(false);
+            IsResuming = false;
             yield return null;
         }
     }
