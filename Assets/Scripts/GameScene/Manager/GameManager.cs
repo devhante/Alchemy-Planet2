@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Newtonsoft.Json;
-using System.IO;
 
 namespace AlchemyPlanet.GameScene
 {
@@ -52,8 +50,6 @@ namespace AlchemyPlanet.GameScene
         public ComboStatus ComboStatus { get; private set; }
         public Dictionary<MaterialName, int> dropMaterialList;
 
-        private List<StageInfo> stageInfos;
-
         private void OnApplicationPause(bool pause)
         {
             if (pause) UIManager.Instance.OpenMenu<PauseUI>();
@@ -73,17 +69,6 @@ namespace AlchemyPlanet.GameScene
             MoveSpeed = 1;
             Position = 0;
             dropMaterialList = new Dictionary<MaterialName, int>();
-
-            stageInfos = new List<StageInfo>
-            {
-                new StageInfo(0, "Spring", 500, "HarpRadisheal")
-            };
-
-            using (StreamWriter file = File.CreateText(string.Format("{0}/{1}.json", "Assets/Resources/Datas/", "StageInfo")))
-            {
-                JsonSerializer serializer = new JsonSerializer();
-                serializer.Serialize(file, stageInfos);
-            }
         }
 
         public IEnumerator GainScoreByTimeCoroutine()
