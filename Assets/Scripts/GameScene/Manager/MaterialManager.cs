@@ -118,10 +118,21 @@ namespace AlchemyPlanet.GameScene
 
         public void RespawnMaterial(Material material)
         {
+            StartCoroutine("DestroyCoroutine", material);
+        }
+
+        private IEnumerator DestroyCoroutine(Material material)
+        {
+            material.StartCoroutine("Expand");
+            while (material.isExpanding)
+                yield return new WaitForEndOfFrame();
+
+            yield return new WaitForSeconds(0.1f);
+
             DecreaseMaterialNumber(material.materialName);
-            StartCoroutine("RespawnMaterialCoroutine", material.transform.position);
             Objects.Remove(material.gameObject);
             Destroy(material.gameObject);
+            StartCoroutine("RespawnMaterialCoroutine");
         }
 
         public void DecreaseMaterialNumber(MaterialName name)
@@ -129,7 +140,7 @@ namespace AlchemyPlanet.GameScene
             MaterialNumbers[name]--;
         }
 
-        private IEnumerator RespawnMaterialCoroutine(Vector3 key)
+        private IEnumerator RespawnMaterialCoroutine()
         {
             yield return new WaitForSeconds(1.0f);
             CreateMaterial();

@@ -23,6 +23,15 @@ namespace AlchemyPlanet.GameScene
                 case ItemName.ChickenBox: ItemManager.Instance.ChickenBox(); break;
             }
 
+            StartCoroutine("DestroyCoroutine");
+        }
+
+        private IEnumerator DestroyCoroutine()
+        {
+            StartCoroutine("Expand");
+            while (isExpanding)
+                yield return new WaitForEndOfFrame();
+
             ItemManager.Instance.Objects.Remove(gameObject);
             Destroy(gameObject);
         }
