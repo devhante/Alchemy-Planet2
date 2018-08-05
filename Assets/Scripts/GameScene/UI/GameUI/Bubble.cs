@@ -9,6 +9,7 @@ namespace AlchemyPlanet.GameScene
     public class Bubble : MonoBehaviour, IPointerDownHandler
     {
         public Vector3 direction;
+        public bool isExpanding;
         protected Image bubble;
         protected Button button;
 
@@ -16,6 +17,7 @@ namespace AlchemyPlanet.GameScene
         {
             bubble = transform.GetChild(0).GetComponent<Image>();
             button = GetComponent<Button>();
+            isExpanding = false;
         }
 
         protected virtual void Start()
@@ -83,7 +85,7 @@ namespace AlchemyPlanet.GameScene
             float speed = 0.5f;
 
             RectTransform rt = GetComponent<RectTransform>();
-            Vector3 scale = new Vector3(1, 1, 1);
+            Vector3 scale = rt.localScale;
 
             while (scale.x > 0.97f)
             {
@@ -92,7 +94,28 @@ namespace AlchemyPlanet.GameScene
 
                 yield return new WaitForEndOfFrame();
             }
+
             rt.localScale = new Vector3(0.97f, 0.97f, 1);
+        }
+
+        protected IEnumerator Expand()
+        {
+            float speed = 0.5f;
+
+            RectTransform rt = GetComponent<RectTransform>();
+            Vector3 scale = rt.localScale;
+
+            isExpanding = true;
+            while (scale.x > 1.1f)
+            {
+                scale += new Vector3(Time.deltaTime * speed, Time.deltaTime * speed);
+                rt.localScale = scale;
+
+                yield return new WaitForEndOfFrame();
+            }
+
+            rt.localScale = new Vector3(1.1f, 1.1f, 1);
+            isExpanding = false;
         }
 
         public virtual void OnPointerDown(PointerEventData eventData)
