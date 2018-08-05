@@ -1,1 +1,1 @@
-[{"Id":0,"Name":"Spring","Length":500,"Monsters":["HarpRadisheal"]}]
+[{"name":"Spring","length":2,"backgroundPrefab":{"transform":[],"layer":0,"active":false,"activeSelf":true,"activeInHierarchy":false,"isStatic":false,"tag":"Untagged","scene":{"path":null,"name":null,"isLoaded":false,"buildIndex":-1,"isDirty":false,"rootCount":0}
