@@ -13,12 +13,14 @@ namespace AlchemyPlanet.GameScene
         public MaterialName materialName;
 
         private Image image;
+        private Image mask;
         private bool isChainSelected;
         private bool isHighlighted;
 
         protected override void Awake()
         {
             base.Awake();
+            mask = transform.GetChild(1).GetComponent<Image>();
             isChainSelected = false;
             isHighlighted = false;
         }
@@ -128,6 +130,18 @@ namespace AlchemyPlanet.GameScene
                         MaterialManager.Instance.Lines[MaterialManager.Instance.Lines.Count - 1].start = transform.position;
                     }
                 }
+        }
+
+        public override void ChangeBubbleToUnselectedBubble()
+        {
+            base.ChangeBubbleToUnselectedBubble();
+            mask.gameObject.SetActive(true);
+        }
+
+        public override void ChangeBubbleToHighlightedBubble()
+        {
+            base.ChangeBubbleToHighlightedBubble();
+            mask.gameObject.SetActive(false);
         }
     }
 }

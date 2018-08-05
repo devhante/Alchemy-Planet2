@@ -131,12 +131,12 @@ namespace AlchemyPlanet.GameScene
             bubble.sprite = PrefabManager.Instance.selectedBubble;
         }
 
-        public void ChangeBubbleToUnselectedBubble()
+        public virtual void ChangeBubbleToUnselectedBubble()
         {
             bubble.sprite = PrefabManager.Instance.unselectedBubble;
         }
 
-        public void ChangeBubbleToHighlightedBubble()
+        public virtual void ChangeBubbleToHighlightedBubble()
         {
             bubble.sprite = PrefabManager.Instance.highlightedBubble;
         }
