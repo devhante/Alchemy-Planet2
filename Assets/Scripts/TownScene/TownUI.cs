@@ -6,17 +6,17 @@ using UnityEngine.UI;
 namespace AlchemyPlanet.TownScene {
     public class TownUI : Common.UI<TownUI>
     {
-        [SerializeField] private Camera mainCamera;
+        public GameObject player;
+        public Camera mainCamera;
+        public bool turnOnBuildBar;
+
         [SerializeField] private Button buildingbutton;
         [SerializeField] private GameObject buildBar;
         [SerializeField] private Button UIOffButton;
         [SerializeField] private Button TownManageButton;
         [SerializeField] private Button TownUpgradeButton;
         [SerializeField] private Button InventoryButton;
-
-        private bool turnOnBuildBar;
-        private GameObject TownManager;
-
+        
         protected override void Awake()
         {
             base.Awake();
@@ -77,16 +77,6 @@ namespace AlchemyPlanet.TownScene {
                 }
                 turnOnBuildBar = false;
             }
-        }
-
-        void OnTownManager()
-        {
-            TownManager.SetActive(true);
-        }
-
-        void OffTownManager()
-        {
-            TownManager.SetActive(true);
         }
     }
 }

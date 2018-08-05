@@ -12,7 +12,6 @@ namespace AlchemyPlanet.TownScene
         public Button leftButton;           // 건물이미지 페이지 왼쪽으로 넘기기
         public Button rightButton;          // 건물이미지 페이지 오른쪽으로 넘기기
         public Button rotateButton;         // 건물 회전 버튼
-        public Button moveButton;         // 건물 이동 버튼
         public Button removeButton;         // 건물 보관 버튼
         public Button exitButton;           // 타운관리 나가기 버튼
         public GameObject BuildingObject;   // 건물이 될 프리팹
@@ -22,11 +21,11 @@ namespace AlchemyPlanet.TownScene
         private GameObject clickedBuilding;                             // 선택된 건물
         private Touch tempTouch;                                        // 터치들
         private Vector3 touchedPos;                                     // 터치위치
-        private bool moving;                                            // 건물 이동중
         private int page;                                               // 현재 건물이미지 페이지
 
         private void OnEnable()
         {
+            TownUI.Instance.player.SetActive(false);
             page = 0;
             GetOwnBuilding();
             clickedBuilding = null;
@@ -36,7 +35,6 @@ namespace AlchemyPlanet.TownScene
             leftButton.onClick.AddListener(() =>{ page-=page>0?1:0; });
             rightButton.onClick.AddListener(() =>{ page+=ownBuildings.Count>(page+1)*5?1:0; });
             rotateButton.onClick.AddListener(() => { RotateBuilding(); });
-            rotateButton.onClick.AddListener(() => { moving = moving?false:true; });
             removeButton.onClick.AddListener(() => { RemoveBuilding(); });
             exitButton.onClick.AddListener(() => { Exit(); });
         
@@ -44,7 +42,7 @@ namespace AlchemyPlanet.TownScene
 
         void Update()
         {
-            DetectClick();
+            DetectTouch();
         }
 
         void GetOwnBuilding()   // 소유중인 건물 받아오기
@@ -83,50 +81,48 @@ namespace AlchemyPlanet.TownScene
             }
         }
 
-        void DetectClick()    // 클릭감지
+        void DetectTouch()    // 클릭감지
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                touchedPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);
-                if (hit)
-                {
-                    if (hit.collider.tag == "Building")
-                    {
-                        clickedBuilding = hit.collider.gameObject;
-                    }
-                    else if (hit.collider.tag == "BP")
-                    {
-                        Build(hit.collider.gameObject.name);
-                    }
-                }
-            }
-            if (Input.touchCount > 0 && !moving)
+            if (Input.touchCount > 0)
             {
                 tempTouch = Input.GetTouch(0);
-                if (tempTouch.phase == TouchPhase.Began && EventSystem.current.IsPointerOverGameObject(0) == false)
+                if (tempTouch.phase == TouchPhase.Began && !EventSystem.current.IsPointerOverGameObject(0))
                 {
                     touchedPos = Camera.main.ScreenToWorldPoint(tempTouch.position);
                     RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);
-                    if (hit.collider.tag == "Bui lding")
+                    if (hit.collider != null && hit.collider.tag == "Building")
                     {
+                        if (clickedBuilding != null)
+                        {
+                            clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
+                            clickedBuilding = null;
+                        }
                         clickedBuilding = hit.collider.gameObject;
+                        clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0);
+                        StartCoroutine("MoveBuilding");
                     }
-                    else if (hit.collider.tag == "BP")
+                    else if (hit.collider != null && hit.collider.tag == "BP")
                     {
                         Build(hit.collider.gameObject.name);
                     }
+                    else if (hit.collider == null && clickedBuilding != null)
+                    {
+                        clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
+                        clickedBuilding = null;
+                    }
                 }
             }
-            if (Input.touchCount > 0 && moving)
-            {
-                StartCoroutine("MoveBuilding");
-            }
+            
         }
 
         public void Exit() // 타운관리모드 나가기
         {
-            clickedBuilding = null;
+            if (clickedBuilding != null)
+            {
+                clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
+                clickedBuilding = null;
+            }
+            TownUI.Instance.player.SetActive(true);
             UIManager.Instance.CloseMenu();
             UIManager.Instance.menuStack.Peek().gameObject.SetActive(true);
         }   
@@ -159,7 +155,11 @@ namespace AlchemyPlanet.TownScene
 
         }
 
-        void RotateBuilding() { clickedBuilding.GetComponent<SpriteRenderer>().flipX = GetComponent<SpriteRenderer>().flipX ? false : true; }   // 건물 회전
+        void RotateBuilding()   // 건물 회전
+        {
+            if(clickedBuilding != null)
+                clickedBuilding.GetComponent<SpriteRenderer>().flipX = clickedBuilding.GetComponent<SpriteRenderer>().flipX ? false : true;
+        }
 
         void Build(string str)  // 건물 생성 
         {

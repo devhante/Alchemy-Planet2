@@ -3,95 +3,76 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Player : MonoBehaviour
+namespace AlchemyPlanet.TownScene
 {
-
-    public float speed;         // 속도
-
-    private Touch tempTouch;    // 터치들
-    private Vector3 touchedPos; // 터치위치
-    private Animator animator;  // 애니메이터
-    private bool talking;       // 대화중
-
-    // Use this for initialization
-    void Start()
+    public class Player : MonoBehaviour
     {
-        animator = GetComponent<Animator>();
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        DetectClick();
-    }
+        public float speed;         // 속도
 
-    void DetectClick()    // 클릭감지
-    {
-        if (Input.GetMouseButton(0)&&!talking)
+        private Touch tempTouch;    // 터치들
+        private Vector3 touchedPos; // 터치위치
+        private Animator animator;  // 애니메이터
+        private bool talking;       // 대화중
+
+        // Use this for initialization
+        void Start()
         {
-            touchedPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.down);
-            if (hit && EventSystem.current.IsPointerOverGameObject() == false)
+            animator = GetComponent<Animator>();
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            DetectTouch();
+        }
+
+        void DetectTouch()    // 클릭감지
+        {
+            if (Input.touchCount > 0 && !talking)
             {
-                if (hit.collider.tag == "Road" || hit.collider.tag == "NPC" || hit.collider.tag == "Building")
+                tempTouch = Input.GetTouch(0);
+                if (tempTouch.phase != TouchPhase.Ended && !EventSystem.current.IsPointerOverGameObject(tempTouch.fingerId))
                 {
-                    StopCoroutine("Move");
-                    StartCoroutine("Move", hit.collider.gameObject);
+                    touchedPos = Camera.main.ScreenToWorldPoint(tempTouch.position);
+                    RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);
+                    if (hit.collider != null && hit.collider.tag == "NPC")
+                    {
+                        if (TownUI.Instance.turnOnBuildBar)
+                        {
+                            TownUI.Instance.StartCoroutine("MoveBar");
+                        }
+                            animator.SetBool("Run", false);
+                        talking = true;
+                        hit.collider.gameObject.SendMessage("Stop");
+                        hit.collider.gameObject.SendMessage("TalkStart", gameObject);
+                    }
+                    else
+                    {
+                        animator.SetBool("Run", true);
+                        if (transform.position.x - touchedPos.x < 0)
+                        {
+                            transform.rotation = Quaternion.Euler(0, 0, 0);
+                        }
+                        else if (transform.position.x - touchedPos.x > 0)
+                        {
+                            transform.rotation = Quaternion.Euler(0, 180, 0);
+                        }
+                        transform.Translate(Vector2.right * speed * Time.deltaTime);
+                    }
+                }
+                if (tempTouch.phase == TouchPhase.Ended)
+                {
+                    animator.SetBool("Run", false);
                 }
             }
         }
-        if (Input.touchCount > 0 && !talking)
-        {
-            tempTouch = Input.GetTouch(0);
-            if (EventSystem.current.IsPointerOverGameObject(0) == false)
-            {
-                touchedPos = Camera.main.ScreenToWorldPoint(tempTouch.position);
-                RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.down);
-                if (hit.collider.tag == "Building" || hit.collider.tag == "Road" || hit.collider.tag == "NPC")
-                {
-                    StopCoroutine("Move");
-                    StartCoroutine("Move", hit.collider.gameObject);
-                }
-            }
-        }
-    }
 
-    IEnumerator Move(GameObject obj)    //캐릭터 움직이기
-    {
-        animator.SetBool("Run", true);
-        if (transform.position.x - obj.transform.position.x < 0)
+        IEnumerator TalkEnd()
         {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
+            yield return new WaitForSeconds(0.2f);
+            talking = false;
+            yield return null;
         }
-        else if (transform.position.x - obj.transform.position.x > 0)
-        {
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-        }
-        if (obj.tag == "NPC")
-        {
-            talking = true;
-            obj.SendMessage("Stop");
-            while (transform.position.x - obj.transform.position.x > 1.5f || transform.position.x - obj.transform.position.x < -1.5f)
-            {
-                transform.Translate(Vector2.right * speed * Time.deltaTime);
-                yield return new WaitForFixedUpdate();
-            }
-            obj.SendMessage("TalkStart",gameObject);
-        }
-        else
-        {
-            while (transform.position.x - obj.transform.position.x > 0.1f || transform.position.x - obj.transform.position.x < -0.1f)
-            {
-                transform.Translate(Vector2.right * speed * Time.deltaTime);
-                yield return new WaitForFixedUpdate();
-            }
-        }
-        animator.SetBool("Run", false);
-        yield return null;
-    }
-
-    void TalkEnd()
-    {
-        talking = false;
     }
 }

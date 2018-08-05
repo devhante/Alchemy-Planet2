@@ -27,7 +27,6 @@ namespace AlchemyPlanet.TownScene
 
         public void SetItem()
         {
-            Debug.Log(DataManager.Instance.CurrentPlayerData);
             int i = 0;
             foreach (string itemName in DataManager.Instance.CurrentPlayerData.inventory.Keys)
             {

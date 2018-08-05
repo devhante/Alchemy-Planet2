@@ -31,6 +31,7 @@ public class DataManager : MonoBehaviour
 
         LoadPlayerData();
         LoadMaterials();
+        LoadBuildings();
     }
 
     #region CreateSampleData
@@ -101,7 +102,6 @@ public class DataManager : MonoBehaviour
         {
             JsonSerializer serializer = new JsonSerializer();
             Dictionary<string, Material> materials = (Dictionary<string, Material>)serializer.Deserialize(file, typeof(Dictionary<string, Material>));
-            this.materials = materials;
 
             Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Items/UI");
 
@@ -113,6 +113,8 @@ public class DataManager : MonoBehaviour
                         materials[sprites[i].name].image = sprites[i];
                 }
             }
+
+            this.materials = materials;
         }
     }
 
@@ -122,7 +124,6 @@ public class DataManager : MonoBehaviour
         {
             JsonSerializer serializer = new JsonSerializer();
             Dictionary<string, Building> buildings = (Dictionary<string, Building>)serializer.Deserialize(file, typeof(Dictionary<string, Building>));
-            this.buildings = buildings;
 
             Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Town/town");
 
@@ -134,6 +135,8 @@ public class DataManager : MonoBehaviour
                         buildings[sprites[i].name].image = sprites[i];
                 }
             }
+
+            this.buildings = buildings;
         }
     }
 
