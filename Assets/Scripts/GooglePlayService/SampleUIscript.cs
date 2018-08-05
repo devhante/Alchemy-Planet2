@@ -6,10 +6,23 @@ using UnityEngine.UI;
 public class SampleUIscript : MonoBehaviour
 {
     public static SampleUIscript Instance;
-    public Text[] ValueTextArray;
+
+    public Text PlayerIDText;
+    public Text PlayerNameText;
+
+    public Text PlayerUniCoinText;
+    public Text PlayerCosmoStonText;
 
     public void Awake()
     {
         Instance = this;
+    }
+
+    public void Start()
+    {
+        PlayerIDText.text = DataManager.Instance.CurrentPlayerData.player_id;
+        PlayerNameText.text = DataManager.Instance.CurrentPlayerData.player_name;
+        PlayerUniCoinText.text = DataManager.Instance.CurrentPlayerData.unicoin.ToString();
+        PlayerUniCoinText.text = DataManager.Instance.CurrentPlayerData.cosmoston.ToString();
     }
 }

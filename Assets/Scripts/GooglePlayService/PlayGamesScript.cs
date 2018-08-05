@@ -34,7 +34,7 @@ public class PlayGamesScript : MonoBehaviour
 
     void SignIn()
     {
-        //when authentication process is done (successfuly or not), we load cloud data
+        //구글 인증을 완료하면 클라우드 데이터를 불러온다.
         Social.localUser.Authenticate(success => {
             if (success)
             {
@@ -47,8 +47,8 @@ public class PlayGamesScript : MonoBehaviour
     }
 
     #region Saved Games
-
-    //this overload is used when user is connected to the internet
+    
+    //아래 오버로드는 인터넷에 연결되었을 때, 동작한다.
     //parsing string to game data (stored in CloudVariables), also deciding if we should use local or cloud save
     void StringToGameData(string cloudData, string localData)
     {
@@ -80,7 +80,7 @@ public class PlayGamesScript : MonoBehaviour
         else
         {
             /*
-            //만약 localArray 의 데이터가 cloudArray 보다 가치(?)있다면
+            //만약 localArray 의 데이터중 cloudArray 에 대입할 요소가 있다면 
             if (localArray[i] > cloudArray[i])
             {
                 //update the cloud save, first set CloudVariables to be equal to localSave
@@ -92,6 +92,11 @@ public class PlayGamesScript : MonoBehaviour
                 return;
             }
             */
+
+            //임시: 아무튼 저장
+            //saving the updated CloudVariables to the cloud
+            SaveData();
+            return;
         }
 
         //if the code above doesn't trigger return and the code below executes,
@@ -99,8 +104,8 @@ public class PlayGamesScript : MonoBehaviour
         DataManager.Instance.CurrentPlayerData = cloudArray;
         isCloudDataLoaded = true;
     }
-
-    //this overload is used when there's no internet connection - loading only local data
+    
+    //아래 오버로드는 인터넷 연결이 없을 경우 local데이터만으로 동작할 때 사용된다.
     void StringToGameData(string localData)
     {
         if (localData != string.Empty)
@@ -129,8 +134,7 @@ public class PlayGamesScript : MonoBehaviour
         }
     }
 
-    private void ResolveConflict(IConflictResolver resolver, ISavedGameMetadata original, byte[] originalData,
-        ISavedGameMetadata unmerged, byte[] unmergedData)
+    private void ResolveConflict(IConflictResolver resolver, ISavedGameMetadata original, byte[] originalData, ISavedGameMetadata unmerged, byte[] unmergedData)
     {
         if (originalData == null)
             resolver.ChooseMetadata(unmerged);
@@ -138,15 +142,16 @@ public class PlayGamesScript : MonoBehaviour
             resolver.ChooseMetadata(original);
         else
         {
-            /*
             //decoding byte data into string
             string originalStr = Encoding.ASCII.GetString(originalData);
             string unmergedStr = Encoding.ASCII.GetString(unmergedData);
 
             //parsing
-            int[] originalArray = JsonUtil.JsonStringToArray(originalStr, "myKey", str => int.Parse(str));
-            int[] unmergedArray = JsonUtil.JsonStringToArray(unmergedStr, "myKey", str => int.Parse(str));
+            PlayerData originalArray = DataManager.PlayerStringToData(originalStr);
+            PlayerData unmergedArray = DataManager.PlayerStringToData(unmergedStr);
 
+            /*
+            //어느 쪽 데이터를 선택할 것인지에 관한 처리
             for (int i = 0; i < originalArray.Length; i++)
             {
                 //if original score is greater than unmerged
@@ -162,8 +167,8 @@ public class PlayGamesScript : MonoBehaviour
                     return;
                 }
             }
-
             */
+
             //if return doesn't get called, original and unmerged are identical
             //we can keep either one
             resolver.ChooseMetadata(original);
@@ -182,14 +187,10 @@ public class PlayGamesScript : MonoBehaviour
             else
                 SaveGame(game);
         }
-        //if we couldn't successfully connect to the cloud, runs while on device,
-        //the same code that is in else statements in LoadData() and SaveData()
+        //if we couldn't successfully connect to the cloud,
         else
         {
-            if (!isSaving)
-                Debug.Log("Is Saving");
-            else
-                Debug.Log("none");
+
         }
     }
 
@@ -209,8 +210,7 @@ public class PlayGamesScript : MonoBehaviour
         //updating metadata with new description
         SavedGameMetadataUpdate update = new SavedGameMetadataUpdate.Builder().Build();
         //uploading data to the cloud
-        ((PlayGamesPlatform)Social.Active).SavedGame.CommitUpdate(game, update, dataToSave,
-            OnSavedGameDataWritten);
+        ((PlayGamesPlatform)Social.Active).SavedGame.CommitUpdate(game, update, dataToSave,OnSavedGameDataWritten);
     }
 
     //callback for ReadBinaryData
@@ -220,11 +220,10 @@ public class PlayGamesScript : MonoBehaviour
         if (status == SavedGameRequestStatus.Success)
         {
             string cloudDataString;
-            //if we've never played the game before, savedData will have length of 0
+            //저장된 데이터가 없을 경우
             if (savedData.Length == 0)
-                //in such case, we want to assign default value to our string
                 cloudDataString = string.Empty;
-            //otherwise take the byte[] of data and encode it to string
+            //저장된 데이터가 존재할 경우, byteArray를 string으로 converting
             else
                 cloudDataString = Encoding.ASCII.GetString(savedData);
 
@@ -240,7 +239,8 @@ public class PlayGamesScript : MonoBehaviour
     //callback for CommitUpdate
     private void OnSavedGameDataWritten(SavedGameRequestStatus status, ISavedGameMetadata game)
     {
-
+        //디버깅을 위해 로그인마다 코인 10추가
+        DataManager.Instance.CurrentPlayerData.unicoin += 10;
     }
     #endregion /Saved Games
 

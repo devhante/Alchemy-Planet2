@@ -75,7 +75,7 @@ namespace AlchemyPlanet.TownScene
         {
             count = 1;
             UIManager.Instance.CloseMenu();
-            NPC.SendMessage("TalkEnd");
+            NPC.StartCoroutine("TalkEnd");
         }
         public void AutoPlay()
         {
@@ -103,8 +103,8 @@ namespace AlchemyPlanet.TownScene
                 if (num >= NPC.data.dialogs.Count)
                 {
                     count = 1;
-                    NPC.SendMessage("TalkEnd");
                     UIManager.Instance.CloseMenu();
+                    NPC.StartCoroutine("TalkEnd");
                     break;
                 }
 

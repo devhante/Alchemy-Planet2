@@ -25,12 +25,13 @@ public class DataManager : MonoBehaviour
         }
 
         //CreateSampleDialog();
-        //CreateSampleMaterials();
+        CreateSampleMaterials();
         //CreateSampleFomulas();
-        // CreateSampleBuilding(); // 타운관리모드 테스트할때 이거 주석 풀기
+        CreateSampleBuilding(); // 타운관리모드 테스트할때 이거 주석 풀기
 
         LoadPlayerData();
         LoadMaterials();
+        LoadBuildings();
     }
 
     #region CreateSampleData
@@ -101,7 +102,6 @@ public class DataManager : MonoBehaviour
         {
             JsonSerializer serializer = new JsonSerializer();
             Dictionary<string, Material> materials = (Dictionary<string, Material>)serializer.Deserialize(file, typeof(Dictionary<string, Material>));
-            this.materials = materials;
 
             Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Items/UI");
 
@@ -113,6 +113,8 @@ public class DataManager : MonoBehaviour
                         materials[sprites[i].name].image = sprites[i];
                 }
             }
+
+            this.materials = materials;
         }
     }
 
@@ -122,7 +124,6 @@ public class DataManager : MonoBehaviour
         {
             JsonSerializer serializer = new JsonSerializer();
             Dictionary<string, Building> buildings = (Dictionary<string, Building>)serializer.Deserialize(file, typeof(Dictionary<string, Building>));
-            this.buildings = buildings;
 
             Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Town/town");
 
@@ -134,6 +135,8 @@ public class DataManager : MonoBehaviour
                         buildings[sprites[i].name].image = sprites[i];
                 }
             }
+
+            this.buildings = buildings;
         }
     }
 
@@ -152,6 +155,8 @@ public class DataManager : MonoBehaviour
     public void LoadPlayerData()
     {
         CurrentPlayerData = new PlayerData();
+        CurrentPlayerData.inventory.Add("Red", 1);
+        CurrentPlayerData.inventory.Add("Blue", 2);
     }
 
     public List<Dialog> LoadDialog(string dialog_name)
@@ -204,7 +209,7 @@ public class PlayerData
 
     //건물
     public Dictionary<string,int > ownBuildings;  // 소유중인 건물들
-    public List<GameObject> setupBulidings;  // 설치된 건물들
+    public Dictionary<GameObject, string> setupBulidings;  // 설치된 건물들
 
     public PlayerData()
     {
@@ -237,7 +242,6 @@ public class Building
     public string buildingName;
     public string buildingDiscription;
     public int buildingLevel;
-    public Vector3 size;
     public Sprite image;
 
     public Building(string buildingName, string buildingDiscription, int buildingLevel)

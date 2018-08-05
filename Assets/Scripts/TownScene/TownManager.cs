@@ -17,20 +17,21 @@ namespace AlchemyPlanet.TownScene
         public GameObject BuildingObject;   // 건물이 될 프리팹
 
         private Dictionary<string, int> ownBuildings;                   // 소유중인 건물
-        private Dictionary<GameObject, string> setupBuildings;           // 설치된 건물
+        private Dictionary<GameObject, string> setupBuildings;          // 설치된 건물
         private GameObject clickedBuilding;                             // 선택된 건물
         private Touch tempTouch;                                        // 터치들
         private Vector3 touchedPos;                                     // 터치위치
-        private bool moving;                                            // 건물 이동중
         private int page;                                               // 현재 건물이미지 페이지
 
         private void OnEnable()
         {
+            TownUI.Instance.player.SetActive(false);
             page = 0;
             GetOwnBuilding();
             clickedBuilding = null;
             SetImage();
 
+            // 버튼 기능 적용
             leftButton.onClick.AddListener(() =>{ page-=page>0?1:0; });
             rightButton.onClick.AddListener(() =>{ page+=ownBuildings.Count>(page+1)*5?1:0; });
             rotateButton.onClick.AddListener(() => { RotateBuilding(); });
@@ -41,11 +42,20 @@ namespace AlchemyPlanet.TownScene
 
         void Update()
         {
-            DetectClick();
+            DetectTouch();
         }
 
-        void GetOwnBuilding() { ownBuildings = DataManager.Instance.CurrentPlayerData.ownBuildings; }   // 소유중인 건물 받아오기
-        void SetOwnBuilding() { DataManager.Instance.CurrentPlayerData.ownBuildings = ownBuildings; }   // 소유중인 건물 변경하기
+        void GetOwnBuilding()   // 소유중인 건물 받아오기
+        {
+            setupBuildings = DataManager.Instance.CurrentPlayerData.setupBulidings;
+            ownBuildings = DataManager.Instance.CurrentPlayerData.ownBuildings;
+        }
+
+        void SetOwnBuilding()   // 소유중인 건물 적용하기
+        {
+            DataManager.Instance.CurrentPlayerData.setupBulidings = setupBuildings;
+            DataManager.Instance.CurrentPlayerData.ownBuildings = ownBuildings;
+        }
 
         void SetImage() // 소유중인 건물이미지 출력하기
         {
@@ -71,51 +81,53 @@ namespace AlchemyPlanet.TownScene
             }
         }
 
-        void DetectClick()    // 클릭감지
+        void DetectTouch()    // 클릭감지
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                touchedPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);
-                if (hit)
-                {
-                    if (hit.collider.tag == "Building")
-                    {
-                        clickedBuilding = hit.collider.gameObject;
-                    }
-                    else if (hit.collider.tag == "BP")
-                    {
-                        Build(hit.collider.gameObject.name);
-                    }
-                }
-            }
             if (Input.touchCount > 0)
             {
                 tempTouch = Input.GetTouch(0);
-                if (tempTouch.phase == TouchPhase.Began && EventSystem.current.IsPointerOverGameObject(0) == false)
+                if (tempTouch.phase == TouchPhase.Began && !EventSystem.current.IsPointerOverGameObject(0))
                 {
                     touchedPos = Camera.main.ScreenToWorldPoint(tempTouch.position);
                     RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);
-                    if (hit.collider.tag == "Building")
+                    if (hit.collider != null && hit.collider.tag == "Building")
                     {
+                        if (clickedBuilding != null)
+                        {
+                            clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
+                            clickedBuilding = null;
+                        }
                         clickedBuilding = hit.collider.gameObject;
+                        clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0);
+                        StartCoroutine("MoveBuilding");
                     }
-                    else if (hit.collider.tag == "BP")
+                    else if (hit.collider != null && hit.collider.tag == "BP")
                     {
                         Build(hit.collider.gameObject.name);
                     }
+                    else if (hit.collider == null && clickedBuilding != null)
+                    {
+                        clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
+                        clickedBuilding = null;
+                    }
                 }
             }
+            
         }
 
         public void Exit() // 타운관리모드 나가기
         {
-            clickedBuilding = null;
+            if (clickedBuilding != null)
+            {
+                clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
+                clickedBuilding = null;
+            }
+            TownUI.Instance.player.SetActive(true);
             UIManager.Instance.CloseMenu();
             UIManager.Instance.menuStack.Peek().gameObject.SetActive(true);
         }   
 
-        void MoveBuilding()     //건물 위치 변경
+        IEnumerator MoveBuilding()     //건물 위치 변경
         {
             while (TouchPhase.Ended != Input.GetTouch(0).phase)
             {
@@ -134,10 +146,20 @@ namespace AlchemyPlanet.TownScene
                         clickedBuilding.transform.position.y,
                         clickedBuilding.transform.position.z);
                 }
+                yield return null;
             }
         }   
 
-        void RotateBuilding() { clickedBuilding.GetComponent<SpriteRenderer>().flipX = GetComponent<SpriteRenderer>().flipX ? false : true; }   // 건물 회전
+        void MoveCamera()
+        {
+
+        }
+
+        void RotateBuilding()   // 건물 회전
+        {
+            if(clickedBuilding != null)
+                clickedBuilding.GetComponent<SpriteRenderer>().flipX = clickedBuilding.GetComponent<SpriteRenderer>().flipX ? false : true;
+        }
 
         void Build(string str)  // 건물 생성 
         {
@@ -146,6 +168,7 @@ namespace AlchemyPlanet.TownScene
             setupBuildings.Add(clickedBuilding,str);
             ownBuildings[str]--;
             SetOwnBuilding();
+            SetImage();
         }
 
         void RemoveBuilding()   // 건물 철거
@@ -154,6 +177,7 @@ namespace AlchemyPlanet.TownScene
             setupBuildings.Remove(clickedBuilding);
             clickedBuilding = null;
             SetOwnBuilding();
+            SetImage();
         }
     }
 }
