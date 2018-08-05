@@ -52,7 +52,13 @@ namespace AlchemyPlanet.GameScene
 
         private void OnApplicationPause(bool pause)
         {
-            if (pause) UIManager.Instance.OpenMenu<PauseUI>();
+            if (pause && PauseUI.Instance == null)
+            {
+                UIManager.Instance.OpenMenu<PauseUI>();
+
+                if (ResumeUI.Instance != null)
+                    Destroy(ResumeUI.Instance.gameObject);
+            }
         }
 
         private void OnDestroy()

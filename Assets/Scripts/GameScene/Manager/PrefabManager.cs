@@ -18,7 +18,6 @@ namespace AlchemyPlanet.GameScene
         public GameObject line;
         public GameObject coin;
         public GameObject scoreText;
-        public GameObject chickenCount;
 
         public Sprite unselectedBubble;
         public Sprite selectedBubble;
