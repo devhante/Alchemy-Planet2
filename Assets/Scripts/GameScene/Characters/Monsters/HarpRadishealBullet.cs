@@ -42,7 +42,7 @@ namespace AlchemyPlanet.GameScene
             if (collision.tag == "Player")
             {
                 StopCoroutine("MoveCoroutine");
-                GameUI.Instance.UpdateGage(Gages.PURIFY, -damage);
+                Player.Instance.Hit(damage);
                 Explode();
             }
         }
