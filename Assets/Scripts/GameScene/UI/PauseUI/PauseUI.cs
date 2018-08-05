@@ -31,7 +31,8 @@ namespace AlchemyPlanet.GameScene
 
             Exit.onClick.AddListener(() =>
             {
-                Application.Quit();
+                Time.timeScale = 1;
+                LoadingSceneManager.LoadScene("PlanetSelect");
             });
         }
     }
