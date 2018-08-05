@@ -51,7 +51,6 @@ namespace AlchemyPlanet.GameScene
         public override void OnPointerDown(PointerEventData eventData)
         {
             base.OnPointerDown(eventData);
-            if (Time.timeScale == 0 || GameUI.Instance.IsResuming == true) return;
 
             if (RecipeManager.Instance.GetQueuePeekName() == materialName)
             {

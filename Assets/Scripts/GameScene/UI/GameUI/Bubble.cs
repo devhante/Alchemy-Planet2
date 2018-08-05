@@ -120,7 +120,6 @@ namespace AlchemyPlanet.GameScene
 
         public virtual void OnPointerDown(PointerEventData eventData)
         {
-            if (Time.timeScale == 0 || GameUI.Instance.IsResuming == true) return;
             StopCoroutine("Float");
             StartCoroutine("Shrink");
             ChangeBubbleToSelectedBubble();
