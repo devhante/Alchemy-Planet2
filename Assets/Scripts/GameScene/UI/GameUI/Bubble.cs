@@ -26,15 +26,6 @@ namespace AlchemyPlanet.GameScene
             StartCoroutine("Float");
         }
 
-        protected virtual void Update()
-        {
-            if (Time.timeScale == 1)
-                button.enabled = true;
-            else
-                button.enabled = false;
-
-        }
-
         private IEnumerator Popup()
         {
             float speed = 5f;

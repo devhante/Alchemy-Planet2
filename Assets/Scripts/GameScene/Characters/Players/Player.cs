@@ -37,7 +37,7 @@ namespace AlchemyPlanet.GameScene
             PlayHitAnimation();
         }
 
-        protected float GetDamage(int chainNumber)
+        public float GetDamage(int chainNumber)
         {
             return attackPower * chainNumber * (1 + chainNumber * 0.1f);
         }

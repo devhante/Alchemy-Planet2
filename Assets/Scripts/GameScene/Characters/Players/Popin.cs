@@ -87,7 +87,8 @@ namespace AlchemyPlanet.GameScene
                 if (1 - skillBar.fillAmount < 0.01f)
                 {
                     int index = Random.Range(0, popinPotionColorList.Length);
-                    Skill(popinPotionColorList[index]);
+                    Skill(PopinPotionColor.Black);
+                    //Skill(popinPotionColorList[index]);
                     SkillGage = 0;
                 }
 

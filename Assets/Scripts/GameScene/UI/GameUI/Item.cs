@@ -11,7 +11,7 @@ namespace AlchemyPlanet.GameScene
 
         public ItemName itemName;
 
-        public void OnPointerUp(PointerEventData eventData)
+        public virtual void OnPointerUp(PointerEventData eventData)
         {
             switch(itemName)
             {
@@ -20,7 +20,6 @@ namespace AlchemyPlanet.GameScene
                 case ItemName.RainbowColorBall: ItemManager.Instance.RainbowColorBall(); break;
                 case ItemName.SlowReducedOxygen: ItemManager.Instance.SlowReducedOxygen(); break;
                 case ItemName.Sprint: ItemManager.Instance.Sprint(); break;
-                case ItemName.PopinPotionBlack: ItemManager.Instance.PopinPotionBlack(); break;
             }
 
             StartCoroutine("DestroyCoroutine");

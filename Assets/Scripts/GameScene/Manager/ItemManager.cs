@@ -161,10 +161,5 @@ namespace AlchemyPlanet.GameScene
             IsSprinting = false;
             GameManager.Instance.UpdateSpeed();
         }
-
-        public void PopinPotionBlack()
-        {
-            Debug.Log("PopinPotionBlack");
-        }
     }
 }
