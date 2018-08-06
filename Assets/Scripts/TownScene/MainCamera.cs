@@ -50,5 +50,9 @@ public class MainCamera : MonoBehaviour {
         backgroundImage.transform.position = new Vector3(backgroundImage.transform.position.x, 2 + 2.4f * ((mainCamera.orthographicSize - 7) / 5));
     }
 
-    void Follow() { transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 2, transform.position.z); }
+    void Follow()
+    {
+        if(player.activeSelf)
+            transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 2, transform.position.z);
+    }
 }

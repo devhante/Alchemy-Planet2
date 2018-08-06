@@ -48,6 +48,7 @@ namespace AlchemyPlanet.TownScene
         void Update()
         {
             DetectTouch();
+            MoveCamera();
         }
 
         void GetOwnBuilding()   // 소유중인 건물 받아오기
@@ -154,7 +155,10 @@ namespace AlchemyPlanet.TownScene
 
         void MoveCamera()
         {
-
+            if(clickedBuilding == null && tempTouch.phase == TouchPhase.Moved)
+            {
+                TownUI.Instance.mainCamera.transform.position += Vector3.left * tempTouch.deltaPosition.x/2 * tempTouch.deltaTime;
+            }
         }
 
         void RotateBuilding()   // 건물 회전
@@ -165,8 +169,8 @@ namespace AlchemyPlanet.TownScene
 
         void Build(string str)  // 건물 생성 
         {
-            Debug.Log("건물 포함 ??" + DataManager.Instance.buildings.ContainsKey(str));
             clickedBuilding = Instantiate(DataManager.Instance.buildings[str].buildingObject);
+            clickedBuilding.transform.position = new Vector3(TownUI.Instance.mainCamera.transform.position.x, clickedBuilding.transform.position.y);
             setupBuildings.Add(clickedBuilding,str);
             ownBuildings[str]--;
             SetOwnBuilding();
