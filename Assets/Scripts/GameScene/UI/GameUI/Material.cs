@@ -28,7 +28,6 @@ namespace AlchemyPlanet.GameScene
         protected override void Start()
         {
             base.Start();
-
             image = GetComponent<Image>();
         }
 
