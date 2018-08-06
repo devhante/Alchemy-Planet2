@@ -5,6 +5,8 @@ using UnityEngine;
 public class MainCamera : MonoBehaviour {
 
     [SerializeField] private GameObject player;
+    [SerializeField] private GameObject backgroundImage;
+
 
     private Camera mainCamera;
     private float touchesPrevPosDifference, touchesCurPosDifference, zoomModifier; 
@@ -43,8 +45,10 @@ public class MainCamera : MonoBehaviour {
             if (touchesPrevPosDifference < touchesCurPosDifference)
                 mainCamera.orthographicSize -= zoomModifier;
         }
-        mainCamera.orthographicSize = Mathf.Clamp(mainCamera.orthographicSize, 6f, 12f);
+        mainCamera.orthographicSize = Mathf.Clamp(mainCamera.orthographicSize, 7, 12);
+        backgroundImage.transform.localScale = new Vector3(1.2f + (mainCamera.orthographicSize - 7) / 4, 1.2f + (mainCamera.orthographicSize - 7) / 4);
+        backgroundImage.transform.position = new Vector3(backgroundImage.transform.position.x, 2 + 2.4f * ((mainCamera.orthographicSize - 7) / 5));
     }
 
-    void Follow() { transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 3, transform.position.z); }
+    void Follow() { transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 2, transform.position.z); }
 }
