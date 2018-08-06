@@ -44,6 +44,10 @@ public class PlayGamesScript : MonoBehaviour
     {
         //구글 인증을 완료하면 클라우드 데이터를 불러온다.
         Social.localUser.Authenticate(success => {
+            
+
+            //아래 스크립트는 Google Play 연동이나, 현재는 위의 local 형태로 돌리기로 했다.
+            /*
             if (success)
             {
                 LoadData();
@@ -51,6 +55,7 @@ public class PlayGamesScript : MonoBehaviour
             }
             else
                 Debug.Log("Failed!");
+                */
         });
     }
 

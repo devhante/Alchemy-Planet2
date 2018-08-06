@@ -29,6 +29,7 @@ namespace AlchemyPlanet.GameScene
         {
             Instance = this;
             //CreateJsonFile();
+            //LoadStageInfo();
         }
 
         private void Start()
@@ -37,8 +38,21 @@ namespace AlchemyPlanet.GameScene
             StartCoroutine("MoveTileCoroutine");
         }
 
+        private void LoadStageInfo()
+        {
+            using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/StageInfo").bytes), System.Text.Encoding.UTF8))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                StageInfo[] stageInfos = (StageInfo[])serializer.Deserialize(file, typeof(StageInfo[]));
+
+                this.stageInfos = stageInfos;
+            }
+        }
+
         private void CreateJsonFile()
         {
+
+
             using (StreamWriter file = File.CreateText(string.Format("{0}/{1}.json", "Assets/Resources/Datas/", "StageInfo")))
             {
                 JsonSerializer serializer = new JsonSerializer();
@@ -49,7 +63,7 @@ namespace AlchemyPlanet.GameScene
         IEnumerator MoveBackgroundCoroutine()
         {
             BackgroundSpeed = 0.5f;
-            int backgroundStageIndex = 0;
+            int backgroundStageIndex = DataManager.Instance.selected_stage;
             int backgroundCount = 0;
             float length = 21.6f;
             Vector3 startPoint = new Vector3(0.45f, 0.25f, 0);
