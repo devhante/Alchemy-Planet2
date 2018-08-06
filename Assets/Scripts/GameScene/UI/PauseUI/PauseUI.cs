@@ -15,14 +15,11 @@ namespace AlchemyPlanet.GameScene
         protected override void Awake()
         {
             base.Awake();
-
-            GameUI.Instance.Countdown.gameObject.SetActive(false);
-            GameUI.Instance.StopCoroutine("ResumeCoroutine");
             Time.timeScale = 0;
 
             Resume.onClick.AddListener(() =>
             {
-                GameUI.Instance.StartCoroutine("ResumeCoroutine");
+                UIManager.Instance.OpenMenu<ResumeUI>();
                 Destroy(gameObject);
             });
 
@@ -34,7 +31,8 @@ namespace AlchemyPlanet.GameScene
 
             Exit.onClick.AddListener(() =>
             {
-                Application.Quit();
+                Time.timeScale = 1;
+                LoadingSceneManager.LoadScene("PlanetSelect");
             });
         }
     }

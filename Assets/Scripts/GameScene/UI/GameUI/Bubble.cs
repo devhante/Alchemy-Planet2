@@ -26,15 +26,6 @@ namespace AlchemyPlanet.GameScene
             StartCoroutine("Float");
         }
 
-        protected virtual void Update()
-        {
-            if (Time.timeScale == 1)
-                button.enabled = true;
-            else
-                button.enabled = false;
-
-        }
-
         private IEnumerator Popup()
         {
             float speed = 5f;
@@ -120,7 +111,6 @@ namespace AlchemyPlanet.GameScene
 
         public virtual void OnPointerDown(PointerEventData eventData)
         {
-            if (Time.timeScale == 0 || GameUI.Instance.IsResuming == true) return;
             StopCoroutine("Float");
             StartCoroutine("Shrink");
             ChangeBubbleToSelectedBubble();
@@ -131,12 +121,12 @@ namespace AlchemyPlanet.GameScene
             bubble.sprite = PrefabManager.Instance.selectedBubble;
         }
 
-        public void ChangeBubbleToUnselectedBubble()
+        public virtual void ChangeBubbleToUnselectedBubble()
         {
             bubble.sprite = PrefabManager.Instance.unselectedBubble;
         }
 
-        public void ChangeBubbleToHighlightedBubble()
+        public virtual void ChangeBubbleToHighlightedBubble()
         {
             bubble.sprite = PrefabManager.Instance.highlightedBubble;
         }

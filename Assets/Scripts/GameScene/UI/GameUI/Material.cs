@@ -6,19 +6,21 @@ using System.Collections.Generic;
 
 namespace AlchemyPlanet.GameScene
 {
-    public enum MaterialName { Red, Yellow, Green, Blue, Purple, Chicken }
+    public enum MaterialName { Red, Yellow, Green, Blue, Purple }
 
     public class Material : Bubble, IPointerUpHandler, IPointerEnterHandler
     {
         public MaterialName materialName;
 
         private Image image;
+        private Image mask;
         private bool isChainSelected;
         private bool isHighlighted;
 
         protected override void Awake()
         {
             base.Awake();
+            mask = transform.GetChild(1).GetComponent<Image>();
             isChainSelected = false;
             isHighlighted = false;
         }
@@ -30,10 +32,8 @@ namespace AlchemyPlanet.GameScene
             image = GetComponent<Image>();
         }
 
-        protected override void Update()
+        private void Update()
         {
-            base.Update();
-
             if (isHighlighted == false && materialName == MaterialManager.Instance.HighlightedMaterialName && bubble.sprite == PrefabManager.Instance.unselectedBubble && MaterialManager.Instance.MaterialChain.Count + 1 < MaterialManager.Instance.MaxChainNumber)
             {
                 isHighlighted = true;
@@ -49,7 +49,6 @@ namespace AlchemyPlanet.GameScene
         public override void OnPointerDown(PointerEventData eventData)
         {
             base.OnPointerDown(eventData);
-            if (Time.timeScale == 0 || GameUI.Instance.IsResuming == true) return;
 
             if (RecipeManager.Instance.GetQueuePeekName() == materialName)
             {
@@ -70,6 +69,7 @@ namespace AlchemyPlanet.GameScene
             if (RecipeManager.Instance.GetQueuePeekName() == materialName)
             {
                 Player.Instance.GetMaterialMessage(materialName);
+                Popin.Instance.SkillGage += 5;
                 GameManager.Instance.GainScore(ScoreType.TouchRightRecipe);
                 GameManager.Instance.Combo++;
                 RecipeManager.Instance.DestroyQueuePeek();
@@ -90,6 +90,7 @@ namespace AlchemyPlanet.GameScene
             foreach (var item in MaterialManager.Instance.MaterialChain)
             {
                 Player.Instance.GetMaterialMessage(item.materialName);
+                Popin.Instance.SkillGage += 5;
                 item.ChangeBubbleToUnselectedBubble();
                 MaterialManager.Instance.RespawnMaterial(item);
                 RecipeManager.Instance.DestroyQueuePeek();
@@ -128,6 +129,18 @@ namespace AlchemyPlanet.GameScene
                         MaterialManager.Instance.Lines[MaterialManager.Instance.Lines.Count - 1].start = transform.position;
                     }
                 }
+        }
+
+        public override void ChangeBubbleToUnselectedBubble()
+        {
+            base.ChangeBubbleToUnselectedBubble();
+            mask.gameObject.SetActive(true);
+        }
+
+        public override void ChangeBubbleToHighlightedBubble()
+        {
+            base.ChangeBubbleToHighlightedBubble();
+            mask.gameObject.SetActive(false);
         }
     }
 }

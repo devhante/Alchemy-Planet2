@@ -9,7 +9,7 @@ namespace AlchemyPlanet.GameScene
     {
         public static Player Instance { get; private set; }
         protected float attackPower;
-        private Animator animator;
+        protected Animator animator;
 
         private void OnDestroy()
         {
@@ -31,7 +31,13 @@ namespace AlchemyPlanet.GameScene
             animator.SetTrigger("StartAttack");
         }
 
-        protected float GetDamage(int chainNumber)
+        public virtual void Hit(float damage)
+        {
+            GameUI.Instance.UpdateGage(Gages.PURIFY, -damage);
+            PlayHitAnimation();
+        }
+
+        public float GetDamage(int chainNumber)
         {
             return attackPower * chainNumber * (1 + chainNumber * 0.1f);
         }
@@ -39,6 +45,14 @@ namespace AlchemyPlanet.GameScene
         public virtual void GetMaterialMessage(MaterialName materialName)
         {
             Debug.Log("GetMaterialMessage: " + materialName);
+        }
+
+        private void PlayHitAnimation()
+        {
+            if(animator.GetCurrentAnimatorStateInfo(0).IsName("PopinHit"))
+                animator.SetTrigger("StopHit");
+
+            animator.SetTrigger("StartHit");
         }
     }
 }

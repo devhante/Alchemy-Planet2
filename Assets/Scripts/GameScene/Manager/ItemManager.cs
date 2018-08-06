@@ -161,10 +161,5 @@ namespace AlchemyPlanet.GameScene
             IsSprinting = false;
             GameManager.Instance.UpdateSpeed();
         }
-
-        public void ChickenBox()
-        {
-            GameUI.Instance.UpdateGage(Gages.OXYGEN, 30);
-        }
     }
 }

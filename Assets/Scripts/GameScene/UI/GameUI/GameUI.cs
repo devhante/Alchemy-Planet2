@@ -9,17 +9,14 @@ namespace AlchemyPlanet.GameScene
 
     public class GameUI : Common.UI<GameUI>
     {
-        public static new GameUI Instance;
-
-        public Text Countdown;
         public Image OxygenGageMask;
         public Image PurifyGageMask;
         public Button PauseButton;
         public Text Score;
         public Text Unicoin;
         public Text ComboText;
+        public GameObject BombDestination;
 
-        public bool IsResuming { get; set; }
         public bool IsIncreasingPurify { get; set; }
         public bool IsNotReducingOxygen { get; set; }
         public float OxygenReduceSpeed { get; set; }
@@ -31,7 +28,8 @@ namespace AlchemyPlanet.GameScene
 
         protected override void Awake()
         {
-            Instance = this;
+            base.Awake();
+
             PauseButton.onClick.AddListener(() =>
             {
                 UIManager.Instance.OpenMenu<PauseUI>();
@@ -44,7 +42,6 @@ namespace AlchemyPlanet.GameScene
 
         public void Start()
         {
-            IsResuming = false;
             IsIncreasingPurify = false;
             IsNotReducingOxygen = false;
             OxygenReduceSpeed = 1;
@@ -74,6 +71,7 @@ namespace AlchemyPlanet.GameScene
         public void UpdateGage(Gages kind, float percent)
         {
             if (IsIncreasingPurify && kind == Gages.PURIFY && percent <= 0) percent = 0;
+            if (Popin.Instance.PotionGreen && kind == Gages.PURIFY && percent <= 0) percent = 0;
             if (IsNotReducingOxygen && kind == Gages.OXYGEN) percent = 0;
 
             gageValues[kind] = Mathf.Clamp(gageValues[kind] + percent, 0, 100);
@@ -136,23 +134,6 @@ namespace AlchemyPlanet.GameScene
                 yield return wait;
                 UpdateGage(Gages.PURIFY, -purifyReduceRate * frame);
             }
-        }
-
-        IEnumerator ResumeCoroutine()
-        {
-            Countdown.gameObject.SetActive(true);
-            IsResuming = true;
-
-            for (int i = 3; i > 0; i--)
-            {
-                Countdown.text = i.ToString();
-                yield return new WaitForSecondsRealtime(1);
-            }
-
-            Time.timeScale = 1;
-            Countdown.gameObject.SetActive(false);
-            IsResuming = false;
-            yield return null;
         }
     }
 }

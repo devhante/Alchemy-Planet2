@@ -18,7 +18,12 @@ namespace AlchemyPlanet.GameScene
         public GameObject line;
         public GameObject coin;
         public GameObject scoreText;
-        public GameObject chickenCount;
+
+        public GameObject potionEffectRed;
+        public GameObject potionEffectGreen;
+        public GameObject potionEffectBlue;
+        public GameObject potionEffectRainbow;
+        public GameObject potionEffectBomb;
 
         public Sprite unselectedBubble;
         public Sprite selectedBubble;
