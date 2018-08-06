@@ -23,6 +23,19 @@ namespace AlchemyPlanet.TownScene {
             StartCoroutine(LateAwake());
         }
 
+        private void Start()
+        {
+
+            GameObject house = Instantiate(Resources.Load<GameObject>("Prefabs/TownScene/House"));
+            GameObject tree = Instantiate(Resources.Load<GameObject>("Prefabs/TownScene/Tree"));
+
+            DataManager.Instance.CurrentPlayerData.setupBuildings.Add(house, "House");
+            DataManager.Instance.CurrentPlayerData.setupBuildings.Add(tree, "Tree");
+            DataManager.Instance.CurrentPlayerData.ownBuildings.Add("Tree", 1);
+
+            // foreach (string str in DataManager.Instance.CurrentPlayerData.setupBuildings.Values) { Instantiate(DataManager.Instance.buildings[str].buildingObject); } // 저장된 타운 불러오기
+        }
+
         IEnumerator LateAwake()
         {
             while (UIManager.Instance == null) {
@@ -56,6 +69,7 @@ namespace AlchemyPlanet.TownScene {
 
                 InventoryCell.Instance.SetItem();
             });
+
         }
 
         IEnumerator MoveBar()
