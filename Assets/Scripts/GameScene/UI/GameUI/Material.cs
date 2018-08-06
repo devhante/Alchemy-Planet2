@@ -65,6 +65,8 @@ namespace AlchemyPlanet.GameScene
 
         public void OnPointerUp(PointerEventData eventData)
         {
+            Popin.Instance.Skill(PopinPotionColor.Black);
+
             if (Time.timeScale == 0) return;
             else MaterialManager.Instance.RespawnMaterial(this);
 

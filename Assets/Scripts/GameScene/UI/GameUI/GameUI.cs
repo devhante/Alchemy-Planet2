@@ -70,6 +70,7 @@ namespace AlchemyPlanet.GameScene
         public void UpdateGage(Gages kind, float percent)
         {
             if (IsIncreasingPurify && kind == Gages.PURIFY && percent <= 0) percent = 0;
+            if (Popin.Instance.PotionGreen && kind == Gages.PURIFY && percent <= 0) percent = 0;
             if (IsNotReducingOxygen && kind == Gages.OXYGEN) percent = 0;
 
             gageValues[kind] = Mathf.Clamp(gageValues[kind] + percent, 0, 100);
