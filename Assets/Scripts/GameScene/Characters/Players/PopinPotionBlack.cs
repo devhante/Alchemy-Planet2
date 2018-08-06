@@ -26,7 +26,6 @@ namespace AlchemyPlanet.GameScene
         protected override void Start()
         {
             base.Start();
-
             StartCoroutine("CountdownCoroutine");
         }
 
@@ -74,6 +73,7 @@ namespace AlchemyPlanet.GameScene
             mask.color = new Color(1, 0, 0, 0);
 
             animator.SetTrigger("Explode");
+            StartCoroutine("ShakeCoroutine");
 
             GameUI.Instance.UpdateGage(Gages.PURIFY, -30);
 
@@ -100,6 +100,7 @@ namespace AlchemyPlanet.GameScene
             transform.position = GameUI.Instance.BombDestination.transform.position;
 
             animator.SetTrigger("Explode");
+            StartCoroutine("ShakeCoroutine");
 
             int count = 0;
             foreach(var item in MonsterManager.Instance.Monsters)
@@ -114,6 +115,21 @@ namespace AlchemyPlanet.GameScene
 
             ItemManager.Instance.Objects.Remove(gameObject);
             Destroy(gameObject);
+        }
+
+        IEnumerator ShakeCoroutine()
+        {
+            Vector3 originPos = Camera.main.transform.position;
+            float timer = 0;
+            while (timer <= 0.2f)
+            {
+                Camera.main.transform.localPosition = (Vector3)Random.insideUnitCircle * 0.1f + originPos;
+
+                timer += Time.deltaTime;
+                yield return null;
+            }
+            Camera.main.transform.localPosition = originPos;
+
         }
 
         private float ContAngle(Vector3 fwd, Vector3 targetDir)

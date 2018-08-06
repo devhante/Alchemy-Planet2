@@ -26,7 +26,7 @@ namespace AlchemyPlanet.GameScene
             StartCoroutine("Float");
         }
 
-        private IEnumerator Popup()
+        protected IEnumerator Popup()
         {
             float speed = 5f;
 
@@ -38,7 +38,6 @@ namespace AlchemyPlanet.GameScene
             {
                 scale += new Vector3(Time.deltaTime * speed, Time.deltaTime * speed);
                 rt.localScale = scale;
-
                 yield return new WaitForEndOfFrame();
             }
 
