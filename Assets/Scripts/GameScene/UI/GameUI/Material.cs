@@ -65,14 +65,13 @@ namespace AlchemyPlanet.GameScene
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            Popin.Instance.Skill(PopinPotionColor.Black);
-
             if (Time.timeScale == 0) return;
             else MaterialManager.Instance.RespawnMaterial(this);
 
             if (RecipeManager.Instance.GetQueuePeekName() == materialName)
             {
                 Player.Instance.GetMaterialMessage(materialName);
+                Popin.Instance.SkillGage += 5;
                 GameManager.Instance.GainScore(ScoreType.TouchRightRecipe);
                 GameManager.Instance.Combo++;
                 RecipeManager.Instance.DestroyQueuePeek();
@@ -93,6 +92,7 @@ namespace AlchemyPlanet.GameScene
             foreach (var item in MaterialManager.Instance.MaterialChain)
             {
                 Player.Instance.GetMaterialMessage(item.materialName);
+                Popin.Instance.SkillGage += 5;
                 item.ChangeBubbleToUnselectedBubble();
                 MaterialManager.Instance.RespawnMaterial(item);
                 RecipeManager.Instance.DestroyQueuePeek();

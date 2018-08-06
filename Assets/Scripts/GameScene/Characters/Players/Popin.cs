@@ -11,13 +11,25 @@ namespace AlchemyPlanet.GameScene
     {
         public static new Popin Instance { get; private set; }
 
+        private int skillGage;
+        public int SkillGage
+        {
+            get { return skillGage; }
+            set
+            {
+                skillGage = Mathf.Clamp(value, 0, 100);
+            }
+        }
+
         public bool PotionGreen { get; set; }
         public bool PotionRed { get; set; }
 
         public GameObject itemPopinPotionBlack;
+        public Image skillBar;
 
         private GameObject bulletSpawnPoint;
-
+        private PopinPotionColor[] popinPotionColorList = { PopinPotionColor.Red, PopinPotionColor.Green, PopinPotionColor.Blue, PopinPotionColor.Black, PopinPotionColor.Rainbow };
+        
         private void OnDestroy()
         {
             Instance = null;
@@ -28,6 +40,16 @@ namespace AlchemyPlanet.GameScene
             base.Awake();
             Instance = this;
             bulletSpawnPoint = transform.GetChild(5).gameObject;
+        }
+
+        private void Start()
+        {
+            StartCoroutine("UpdateSkillGageCoroutine");
+        }
+
+        private void UpdateSkillBar()
+        {
+            skillBar.fillAmount = SkillGage / 100.0f;
         }
 
         public override void Attack(int chainNumber)
@@ -47,6 +69,30 @@ namespace AlchemyPlanet.GameScene
             yield return new WaitForSeconds(0.3f);
             GameObject instance = Instantiate(PrefabManager.Instance.popinBullet, bulletSpawnPoint.transform.position, Quaternion.identity);
             instance.GetComponent<PopinBullet>().damage = damage;
+        }
+
+        IEnumerator UpdateSkillGageCoroutine()
+        {
+            while (true)
+            {
+                float skillGageValue = skillBar.fillAmount * 100;
+
+                while (Mathf.Abs(SkillGage - skillGageValue) > 0.01f)
+                {
+                    skillGageValue = Mathf.Lerp(skillGageValue, SkillGage, 0.1f);
+                    skillBar.fillAmount = skillGageValue / 100.0f;
+                    yield return new WaitForSeconds(0.01f);
+                }
+
+                if (1 - skillBar.fillAmount < 0.01f)
+                {
+                    int index = Random.Range(0, popinPotionColorList.Length);
+                    Skill(popinPotionColorList[index]);
+                    SkillGage = 0;
+                }
+
+                yield return new WaitForEndOfFrame();
+            }
         }
 
         public void Skill(PopinPotionColor color)
@@ -83,12 +129,12 @@ namespace AlchemyPlanet.GameScene
                 yield return new WaitForEndOfFrame();
 
             yield return new WaitForSeconds(2);
-            GameObject effect = Instantiate(PrefabManager.Instance.potionEffectRed, transform.position + new Vector3(0, -0.6f, 0), Quaternion.identity, transform);
+            GameObject effect = Instantiate(PrefabManager.Instance.potionEffectRed, transform.position + new Vector3(0.05f, -0.7f, 0), Quaternion.identity, transform);
 
             PotionRed = true;
             GameManager.Instance.UpdateSpeed();
 
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(5);
 
             PotionRed = false;
             GameManager.Instance.UpdateSpeed();
@@ -103,14 +149,14 @@ namespace AlchemyPlanet.GameScene
             while (animator.GetNextAnimatorStateInfo(0).IsName("PopinPotionGreen") == false)
                 yield return new WaitForEndOfFrame();
 
-            yield return new WaitForSeconds(2);
-            GameObject effect = Instantiate(PrefabManager.Instance.potionEffectGreen, transform.position + new Vector3(0, -0.6f, 0), Quaternion.identity, transform);
+            yield return new WaitForSeconds(1.5f);
+            GameObject effect = Instantiate(PrefabManager.Instance.potionEffectGreen, transform.position + new Vector3(0.05f, -0.7f, 0), Quaternion.identity, transform);
 
             PotionGreen = true;
             float purify = GameUI.Instance.GetGage(Gages.PURIFY);
             GameUI.Instance.UpdateGage(Gages.PURIFY, 100 - purify);
 
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(5);
 
             PotionGreen = false;
             GameUI.Instance.UpdateGage(Gages.PURIFY, purify - 100);
@@ -126,12 +172,12 @@ namespace AlchemyPlanet.GameScene
                 yield return new WaitForEndOfFrame();
 
             yield return new WaitForSeconds(2);
-            GameObject effect = Instantiate(PrefabManager.Instance.potionEffectBlue, transform.position + new Vector3(0, -0.6f, 0), Quaternion.identity, transform);
+            GameObject effect = Instantiate(PrefabManager.Instance.potionEffectBlue, transform.position + new Vector3(0.05f, -0.7f, 0), Quaternion.identity, transform);
 
-            for(int i = 0; i < 4; i++)
+            for(int i = 0; i < 5; i++)
             {
-                GameUI.Instance.UpdateGage(Gages.OXYGEN, 5);
-                yield return new WaitForSeconds(0.5f);
+                GameUI.Instance.UpdateGage(Gages.OXYGEN, 4);
+                yield return new WaitForSeconds(1);
             }
 
             Destroy(effect);
@@ -165,7 +211,7 @@ namespace AlchemyPlanet.GameScene
                 yield return new WaitForEndOfFrame();
 
             yield return new WaitForSeconds(2);
-            GameObject effect = Instantiate(PrefabManager.Instance.potionEffectRainbow, transform.position + new Vector3(0, -0.6f, 0), Quaternion.identity, transform);
+            GameObject effect = Instantiate(PrefabManager.Instance.potionEffectRainbow, transform.position + new Vector3(0.05f, -0.7f, 0), Quaternion.identity, transform);
 
             PotionRed = true;
             GameManager.Instance.UpdateSpeed();
@@ -173,10 +219,10 @@ namespace AlchemyPlanet.GameScene
             float purify = GameUI.Instance.GetGage(Gages.PURIFY);
             GameUI.Instance.UpdateGage(Gages.PURIFY, 100 - purify);
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 5; i++)
             {
-                GameUI.Instance.UpdateGage(Gages.OXYGEN, 5);
-                yield return new WaitForSeconds(0.5f);
+                GameUI.Instance.UpdateGage(Gages.OXYGEN, 4);
+                yield return new WaitForSeconds(1);
             }
 
             PotionRed = false;
