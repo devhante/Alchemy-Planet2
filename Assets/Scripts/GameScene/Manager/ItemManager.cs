@@ -162,9 +162,9 @@ namespace AlchemyPlanet.GameScene
             GameManager.Instance.UpdateSpeed();
         }
 
-        public void ChickenBox()
+        public void PopinPotionBlack()
         {
-            GameUI.Instance.UpdateGage(Gages.OXYGEN, 30);
+            Debug.Log("PopinPotionBlack");
         }
     }
 }

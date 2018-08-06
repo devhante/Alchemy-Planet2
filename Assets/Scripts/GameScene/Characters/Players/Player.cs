@@ -9,7 +9,7 @@ namespace AlchemyPlanet.GameScene
     {
         public static Player Instance { get; private set; }
         protected float attackPower;
-        private Animator animator;
+        protected Animator animator;
 
         private void OnDestroy()
         {
@@ -49,7 +49,6 @@ namespace AlchemyPlanet.GameScene
 
         private void PlayHitAnimation()
         {
-            Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName("PopinHit"));
             if(animator.GetCurrentAnimatorStateInfo(0).IsName("PopinHit"))
                 animator.SetTrigger("StopHit");
 
