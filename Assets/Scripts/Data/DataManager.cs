@@ -21,7 +21,7 @@ public class DataManager : MonoBehaviour
         }
         else if (Instance != this)
         {
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
 
         //CreateSampleDialog();
@@ -146,6 +146,12 @@ public class DataManager : MonoBehaviour
         return data;
     }
 
+    public string PlayerDataToString(PlayerData data)
+    {
+        string dataString = JsonConvert.SerializeObject(data);
+        return dataString;
+    }
+
     public string PlayerDataToString()
     {
         string dataString = JsonConvert.SerializeObject(Instance.CurrentPlayerData);
@@ -214,7 +220,7 @@ public class PlayerData
     public PlayerData()
     {
         this.player_id = Social.localUser.id;
-        this.player_name = string.Empty;
+        this.player_name = "SampleName";
         this.unicoin = 0;
         this.cosmoston = 0;
         this.inventory = new Dictionary<string, int>();
