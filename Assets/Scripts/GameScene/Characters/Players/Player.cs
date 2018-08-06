@@ -31,6 +31,12 @@ namespace AlchemyPlanet.GameScene
             animator.SetTrigger("StartAttack");
         }
 
+        public virtual void Hit(float damage)
+        {
+            GameUI.Instance.UpdateGage(Gages.PURIFY, -damage);
+            PlayHitAnimation();
+        }
+
         protected float GetDamage(int chainNumber)
         {
             return attackPower * chainNumber * (1 + chainNumber * 0.1f);
@@ -39,6 +45,15 @@ namespace AlchemyPlanet.GameScene
         public virtual void GetMaterialMessage(MaterialName materialName)
         {
             Debug.Log("GetMaterialMessage: " + materialName);
+        }
+
+        private void PlayHitAnimation()
+        {
+            Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName("PopinHit"));
+            if(animator.GetCurrentAnimatorStateInfo(0).IsName("PopinHit"))
+                animator.SetTrigger("StopHit");
+
+            animator.SetTrigger("StartHit");
         }
     }
 }

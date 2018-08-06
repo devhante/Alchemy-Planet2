@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace AlchemyPlanet.GameScene
 {
-    public enum MaterialName { Red, Yellow, Green, Blue, Purple, Chicken }
+    public enum MaterialName { Red, Yellow, Green, Blue, Purple }
 
     public class Material : Bubble, IPointerUpHandler, IPointerEnterHandler
     {
