@@ -15,6 +15,7 @@ namespace AlchemyPlanet.GameScene
         public Text Score;
         public Text Unicoin;
         public Text ComboText;
+        public GameObject BombDestination;
 
         public bool IsIncreasingPurify { get; set; }
         public bool IsNotReducingOxygen { get; set; }

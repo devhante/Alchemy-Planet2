@@ -28,14 +28,11 @@ namespace AlchemyPlanet.GameScene
         protected override void Start()
         {
             base.Start();
-
             image = GetComponent<Image>();
         }
 
-        protected override void Update()
+        private void Update()
         {
-            base.Update();
-
             if (isHighlighted == false && materialName == MaterialManager.Instance.HighlightedMaterialName && bubble.sprite == PrefabManager.Instance.unselectedBubble && MaterialManager.Instance.MaterialChain.Count + 1 < MaterialManager.Instance.MaxChainNumber)
             {
                 isHighlighted = true;

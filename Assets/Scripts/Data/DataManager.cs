@@ -19,7 +19,7 @@ public class DataManager : MonoBehaviour
     {
         if (Instance == null){
             Instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(gameObject);
         }
         else if (Instance != this)
         {
@@ -137,8 +137,12 @@ public class DataManager : MonoBehaviour
                         buildings[sprites[i].name].image = sprites[i];
                 }
             }
-
+            foreach(string str in buildings.Keys)
+            {
+                buildings[str].buildingObject = Resources.Load<GameObject>("Prefabs/TownScene/" + str);
+            }
             this.buildings = buildings;
+
         }
     }
 
@@ -217,7 +221,7 @@ public class PlayerData
 
     //건물
     public Dictionary<string,int > ownBuildings;  // 소유중인 건물들
-    public Dictionary<GameObject, string> setupBulidings;  // 설치된 건물들
+    public Dictionary<GameObject, string> setupBuildings;  // 설치된 건물들
 
     public PlayerData()
     {
@@ -227,6 +231,7 @@ public class PlayerData
         this.cosmoston = 0;
         this.inventory = new Dictionary<string, int>();
         this.ownBuildings = new Dictionary<string, int>();
+        this.setupBuildings = new Dictionary<GameObject, string>();
     }
 } 
 
@@ -251,6 +256,7 @@ public class Building
     public string buildingDiscription;
     public int buildingLevel;
     public Sprite image;
+    public GameObject buildingObject;
 
     public Building(string buildingName, string buildingDiscription, int buildingLevel)
     {
