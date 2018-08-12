@@ -101,7 +101,7 @@ namespace AlchemyPlanet.GameScene
         IEnumerator MoveTileCoroutine()
         {
             TileSpeed = 2;
-            int tileStageIndex = 0;
+            int tileStageIndex = DataManager.Instance.selected_stage;
             int tileCount = 0;
             float length = 21.6f;
             Vector3 startPoint = new Vector3(0, -0.1f, 0);
