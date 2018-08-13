@@ -169,6 +169,11 @@ namespace AlchemyPlanet.TownScene
 
         void Build(string str)  // 건물 생성 
         {
+            if (clickedBuilding != null)
+            {
+                clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
+                clickedBuilding = null;
+            }
             clickedBuilding = Instantiate(DataManager.Instance.buildings[str].buildingObject);
             clickedBuilding.transform.position = new Vector3(TownUI.Instance.mainCamera.transform.position.x, clickedBuilding.transform.position.y);
             setupBuildings.Add(clickedBuilding,str);
