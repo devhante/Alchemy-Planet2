@@ -189,7 +189,8 @@ namespace AlchemyPlanet.GameScene
             }
 
             if (ItemManager.Instance.IsSprinting) increase += 2;
-            else if (Popin.Instance.PotionRed) increase += 2;
+            else if (Popin.Instance != null)
+                if (Popin.Instance.PotionRed) increase += 2;
 
             MoveSpeed = 1 + increase;
         }
