@@ -49,7 +49,7 @@ namespace AlchemyPlanet.GameScene
         {
             foreach (var item in GameManager.Instance.dropMaterialList)
             {
-                Debug.Log(string.Format("{0}을/를 {1}개 얻음.", item.Key, item.Value));
+                //Debug.Log(string.Format("{0}을/를 {1}개 얻음.", item.Key, item.Value));
             }
         }
     }
