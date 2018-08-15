@@ -23,6 +23,6 @@ public class SampleUIscript : MonoBehaviour
         PlayerIDText.text = DataManager.Instance.CurrentPlayerData.player_id;
         PlayerNameText.text = DataManager.Instance.CurrentPlayerData.player_name;
         PlayerUniCoinText.text = DataManager.Instance.CurrentPlayerData.unicoin.ToString();
-        PlayerUniCoinText.text = DataManager.Instance.CurrentPlayerData.cosmoston.ToString();
+        PlayerCosmoStonText.text = DataManager.Instance.CurrentPlayerData.cosmoston.ToString();
     }
 }

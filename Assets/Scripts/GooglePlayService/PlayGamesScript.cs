@@ -6,19 +6,27 @@ using UnityEngine;
 
 public class PlayGamesScript : MonoBehaviour
 {
-
     public static PlayGamesScript Instance { get; private set; }
 
-    const string SAVE_NAME = "Test";
+    const string SAVE_NAME = "PlayData";
     bool isSaving;
     bool isCloudDataLoaded = false;
     
     void Start()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else if (Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+
         //처음으로 접속했을 경우 데이터를 디폴트로 세팅한다
         if (!PlayerPrefs.HasKey(SAVE_NAME))
-            PlayerPrefs.SetString(SAVE_NAME, string.Empty);
+            PlayerPrefs.SetString(SAVE_NAME, DataManager.Instance.PlayerDataToString(new PlayerData()));
 
         //게임을 설치, 실행했음을 알리는 키를 설정한다 - 0 = no, 1 = yes 
         if (!PlayerPrefs.HasKey("IsFirstTime"))
@@ -36,6 +44,10 @@ public class PlayGamesScript : MonoBehaviour
     {
         //구글 인증을 완료하면 클라우드 데이터를 불러온다.
         Social.localUser.Authenticate(success => {
+            
+
+            //아래 스크립트는 Google Play 연동이나, 현재는 위의 local 형태로 돌리기로 했다.
+            /*
             if (success)
             {
                 LoadData();
@@ -43,6 +55,7 @@ public class PlayGamesScript : MonoBehaviour
             }
             else
                 Debug.Log("Failed!");
+                */
         });
     }
 
@@ -54,7 +67,8 @@ public class PlayGamesScript : MonoBehaviour
     {
         if (cloudData == string.Empty)
         {
-            StringToGameData(localData);
+            //StringToGameData(localData);
+            cloudData = DataManager.Instance.PlayerDataToString(new PlayerData());
             isCloudDataLoaded = true;
             return;
         }
@@ -94,6 +108,10 @@ public class PlayGamesScript : MonoBehaviour
             */
 
             //임시: 아무튼 저장
+            //update the cloud save, first set CloudVariables to be equal to localSave
+            DataManager.Instance.CurrentPlayerData = localArray;
+            isCloudDataLoaded = true;
+
             //saving the updated CloudVariables to the cloud
             SaveData();
             return;
@@ -169,9 +187,14 @@ public class PlayGamesScript : MonoBehaviour
             }
             */
 
+            resolver.ChooseMetadata(unmerged);
+            return;
+
+            /*
             //if return doesn't get called, original and unmerged are identical
             //we can keep either one
             resolver.ChooseMetadata(original);
+            */
         }
     }
 
@@ -222,7 +245,7 @@ public class PlayGamesScript : MonoBehaviour
             string cloudDataString;
             //저장된 데이터가 없을 경우
             if (savedData.Length == 0)
-                cloudDataString = string.Empty;
+                cloudDataString = DataManager.Instance.PlayerDataToString(new PlayerData());
             //저장된 데이터가 존재할 경우, byteArray를 string으로 converting
             else
                 cloudDataString = Encoding.ASCII.GetString(savedData);
@@ -241,6 +264,7 @@ public class PlayGamesScript : MonoBehaviour
     {
         //디버깅을 위해 로그인마다 코인 10추가
         DataManager.Instance.CurrentPlayerData.unicoin += 10;
+        SaveData();
     }
     #endregion /Saved Games
 

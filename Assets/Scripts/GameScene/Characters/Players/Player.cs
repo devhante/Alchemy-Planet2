@@ -44,7 +44,7 @@ namespace AlchemyPlanet.GameScene
 
         public virtual void GetMaterialMessage(MaterialName materialName)
         {
-            Debug.Log("GetMaterialMessage: " + materialName);
+            //Debug.Log("GetMaterialMessage: " + materialName);
         }
 
         private void PlayHitAnimation()

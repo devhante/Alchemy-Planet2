@@ -13,6 +13,8 @@ public class DataManager : MonoBehaviour
     public Dictionary<string, Material> materials;
     public Dictionary<string, Building> buildings;
 
+    public int selected_stage = 0;
+
     private void Awake()
     {
         if (Instance == null){
@@ -21,11 +23,11 @@ public class DataManager : MonoBehaviour
         }
         else if (Instance != this)
         {
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
 
         //CreateSampleDialog();
-        CreateSampleMaterials();
+        //CreateSampleMaterials();
         //CreateSampleFomulas();
         CreateSampleBuilding(); // 타운관리모드 테스트할때 이거 주석 풀기
 
@@ -150,6 +152,12 @@ public class DataManager : MonoBehaviour
         return data;
     }
 
+    public string PlayerDataToString(PlayerData data)
+    {
+        string dataString = JsonConvert.SerializeObject(data);
+        return dataString;
+    }
+
     public string PlayerDataToString()
     {
         string dataString = JsonConvert.SerializeObject(Instance.CurrentPlayerData);
@@ -218,7 +226,7 @@ public class PlayerData
     public PlayerData()
     {
         this.player_id = Social.localUser.id;
-        this.player_name = string.Empty;
+        this.player_name = "SampleName";
         this.unicoin = 0;
         this.cosmoston = 0;
         this.inventory = new Dictionary<string, int>();

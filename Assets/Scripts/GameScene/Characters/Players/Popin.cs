@@ -66,7 +66,10 @@ namespace AlchemyPlanet.GameScene
 
         IEnumerator SpawnBulletCoroutine(float damage)
         {
-            yield return new WaitForSeconds(0.3f);
+            while (animator.GetCurrentAnimatorStateInfo(0).IsName("PopinAttack") == false)
+                yield return null;
+
+            yield return new WaitForSeconds(0.1f);
             GameObject instance = Instantiate(PrefabManager.Instance.popinBullet, bulletSpawnPoint.transform.position, Quaternion.identity);
             instance.GetComponent<PopinBullet>().damage = damage;
         }
