@@ -16,7 +16,13 @@ public class SceneChangeManager : MonoBehaviour {
             GameObject.Destroy(this.gameObject);
         }
     }
-    
+
+    private void Update()
+    {
+        if (Screen.fullScreen == false)
+            Screen.fullScreen = true;
+    }
+
     public void ChangeScene(string scene_name)
     {
         SceneManager.LoadScene(scene_name);
