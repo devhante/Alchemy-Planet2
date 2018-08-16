@@ -70,7 +70,6 @@ namespace AlchemyPlanet.TownScene
             foreach(string str in ownBuildings.Keys)
             {
                 ownBuildingsImages.Add(str);
-                Debug.Log(str);
             }
             for (int i = 0; i < 5; i++)
             {
@@ -178,6 +177,7 @@ namespace AlchemyPlanet.TownScene
             clickedBuilding.transform.position = new Vector3(TownUI.Instance.mainCamera.transform.position.x, clickedBuilding.transform.position.y);
             setupBuildings.Add(clickedBuilding,str);
             ownBuildings[str]--;
+            if (ownBuildings[str] < 1){ownBuildings.Remove(str);}
             SetOwnBuilding();
             SetImage();
         }
