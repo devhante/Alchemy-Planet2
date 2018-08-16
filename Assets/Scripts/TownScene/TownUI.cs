@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using AlchemyPlanet.Data;
 
 namespace AlchemyPlanet.TownScene {
     public class TownUI : Common.UI<TownUI>

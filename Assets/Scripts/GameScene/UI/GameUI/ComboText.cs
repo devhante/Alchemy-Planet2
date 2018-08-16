@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace AlchemyPlanet.GameScene
 {
@@ -34,6 +35,10 @@ namespace AlchemyPlanet.GameScene
         {
             StopCoroutine("FadeOutCoroutine");
             StartCoroutine("FadeOutCoroutine");
+
+            Sequence sample = DOTween.Sequence();
+            sample.Append(transform.DOScale(1.5f, 0.1f).SetEase(Ease.OutQuint));
+            sample.Append(transform.DOScale(1, 0.2f).SetEase(Ease.InSine));
         }
 
         IEnumerator FadeOutCoroutine()
