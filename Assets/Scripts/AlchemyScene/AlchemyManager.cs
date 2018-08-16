@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AlchemyPlanet.Data;
 
 namespace AlchemyPlanet.AlchemyScene
 {
@@ -15,7 +16,7 @@ namespace AlchemyPlanet.AlchemyScene
 
         private void Start()
         {
-            Material material;
+            Data.Material material;
             DataManager.Instance.materials.TryGetValue("Red", out material);
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AlchemyPlanet.Data;
 
 namespace AlchemyPlanet.TownScene
 {
