@@ -46,9 +46,6 @@ public class PlayGamesScript : MonoBehaviour
         //구글 인증을 완료하면 클라우드 데이터를 불러온다.
         Social.localUser.Authenticate(success => {
             
-
-            //아래 스크립트는 Google Play 연동이나, 현재는 위의 local 형태로 돌리기로 했다.
-            /*
             if (success)
             {
                 LoadData();
@@ -56,13 +53,11 @@ public class PlayGamesScript : MonoBehaviour
             }
             else
                 Debug.Log("Failed!");
-                */
         });
     }
 
     #region Saved Games
     
-    //아래 오버로드는 인터넷에 연결되었을 때, 동작한다.
     //parsing string to game data (stored in CloudVariables), also deciding if we should use local or cloud save
     void StringToGameData(string cloudData, string localData)
     {
@@ -94,22 +89,6 @@ public class PlayGamesScript : MonoBehaviour
         //if it's not the first time, start comparing
         else
         {
-            /*
-            //만약 localArray 의 데이터중 cloudArray 에 대입할 요소가 있다면 
-            if (localArray[i] > cloudArray[i])
-            {
-                //update the cloud save, first set CloudVariables to be equal to localSave
-                DataManager.Instance.CurrentPlayerData = localArray;
-                isCloudDataLoaded = true;
-
-                //saving the updated CloudVariables to the cloud
-                SaveData();
-                return;
-            }
-            */
-
-            //임시: 아무튼 저장
-            //update the cloud save, first set CloudVariables to be equal to localSave
             DataManager.Instance.CurrentPlayerData = localArray;
             isCloudDataLoaded = true;
 
@@ -124,13 +103,6 @@ public class PlayGamesScript : MonoBehaviour
         isCloudDataLoaded = true;
     }
     
-    //아래 오버로드는 인터넷 연결이 없을 경우 local데이터만으로 동작할 때 사용된다.
-    void StringToGameData(string localData)
-    {
-        if (localData != string.Empty)
-            DataManager.Instance.CurrentPlayerData = DataManager.PlayerStringToData(localData);
-    }
-
     //used for loading data from the cloud or locally
     public void LoadData()
     {
@@ -161,6 +133,7 @@ public class PlayGamesScript : MonoBehaviour
             resolver.ChooseMetadata(original);
         else
         {
+            /*
             //decoding byte data into string
             string originalStr = Encoding.ASCII.GetString(originalData);
             string unmergedStr = Encoding.ASCII.GetString(unmergedData);
@@ -169,33 +142,11 @@ public class PlayGamesScript : MonoBehaviour
             PlayerData originalArray = DataManager.PlayerStringToData(originalStr);
             PlayerData unmergedArray = DataManager.PlayerStringToData(unmergedStr);
 
-            /*
-            //어느 쪽 데이터를 선택할 것인지에 관한 처리
-            for (int i = 0; i < originalArray.Length; i++)
-            {
-                //if original score is greater than unmerged
-                if (originalArray[i] > unmergedArray[i])
-                {
-                    resolver.ChooseMetadata(original);
-                    return;
-                }
-                //else (unmerged score is greater than original)
-                else if (unmergedArray[i] > originalArray[i])
-                {
-                    resolver.ChooseMetadata(unmerged);
-                    return;
-                }
-            }
+            //데이터 비교.. 필요없음
             */
 
             resolver.ChooseMetadata(unmerged);
             return;
-
-            /*
-            //if return doesn't get called, original and unmerged are identical
-            //we can keep either one
-            resolver.ChooseMetadata(original);
-            */
         }
     }
 
@@ -211,7 +162,8 @@ public class PlayGamesScript : MonoBehaviour
             else
                 SaveGame(game);
         }
-        //if we couldn't successfully connect to the cloud,
+
+        //클라우드 연결에 실패했을 경우
         else
         {
 
