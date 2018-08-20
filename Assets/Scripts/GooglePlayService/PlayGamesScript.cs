@@ -31,6 +31,8 @@ namespace AlchemyPlanet.Data
             if (!PlayerPrefs.HasKey(SAVE_NAME))
             {
                 PlayerPrefs.SetString(SAVE_NAME, DataManager.Instance.PlayerDataToString(new PlayerData()));
+                //첫 접속시 이름 등을 적용하는 UI를 띄운다.
+                TownScene.UIManager.Instance.OpenMenu<TownScene.NewPlayerUI>();
             }
 
             //게임을 설치, 실행했음을 알리는 키를 설정한다 - 0 = no, 1 = yes 
