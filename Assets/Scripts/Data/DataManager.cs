@@ -236,6 +236,17 @@ namespace AlchemyPlanet.Data
             this.inventory = new Dictionary<string, int>();
             this.ownBuildings = new Dictionary<string, int>();
             this.setupBuildings = new Dictionary<GameObject, string>();
+
+
+
+            //건물 초기화
+
+            GameObject house = Resources.Load<GameObject>("Prefabs/TownScene/House");
+            GameObject tree = Resources.Load<GameObject>("Prefabs/TownScene/Tree");
+
+            this.setupBuildings.Add(house, "House");
+            this.setupBuildings.Add(tree, "Tree");
+            this.ownBuildings.Add("Tree", 1);
         }
     }
 
