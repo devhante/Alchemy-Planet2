@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace AlchemyPlanet.GameScene
 {
@@ -22,40 +23,18 @@ namespace AlchemyPlanet.GameScene
 
         protected virtual void Start()
         {
-            StartCoroutine("Popup");
+            Popup();
             StartCoroutine("Float");
         }
 
-        protected IEnumerator Popup()
+        protected void Popup()
         {
-            float speed = 5f;
-
             RectTransform rt = GetComponent<RectTransform>();
-            Vector3 scale = new Vector3(0, 0, 1);
-            rt.localScale = scale;
+            rt.localScale = new Vector3(0, 0, 1);
 
-            while (scale.x < 1)
-            {
-                scale += new Vector3(Time.deltaTime * speed, Time.deltaTime * speed);
-                rt.localScale = scale;
-                yield return new WaitForEndOfFrame();
-            }
-
-            while (scale.x < 1.2f)
-            {
-                scale += new Vector3(Time.deltaTime * speed, Time.deltaTime * speed);
-                rt.localScale = scale;
-                yield return new WaitForEndOfFrame();
-            }
-
-            while (scale.x > 1)
-            {
-                scale -= new Vector3(Time.deltaTime * speed, Time.deltaTime * speed);
-                rt.localScale = scale;
-                yield return new WaitForEndOfFrame();
-            }
-
-            rt.localScale = new Vector3(1, 1, 1);
+            Sequence sq = DOTween.Sequence();
+            sq.Append(transform.DOScale(1.2f, 0.2f).SetEase(Ease.InQuad));
+            sq.Append(transform.DOScale(1, 0.2f).SetEase(Ease.OutSine));
         }
 
         protected IEnumerator Float()
@@ -70,48 +49,25 @@ namespace AlchemyPlanet.GameScene
             }
         }
 
-        protected IEnumerator Shrink()
+        protected void Shrink()
         {
-            float speed = 0.5f;
-
             RectTransform rt = GetComponent<RectTransform>();
-            Vector3 scale = rt.localScale;
-
-            while (scale.x > 0.97f)
-            {
-                scale -= new Vector3(Time.deltaTime * speed, Time.deltaTime * speed);
-                rt.localScale = scale;
-
-                yield return new WaitForEndOfFrame();
-            }
-
-            rt.localScale = new Vector3(0.97f, 0.97f, 1);
+            Sequence sq = DOTween.Sequence();
+            sq.Append(transform.DOScale(0.97f, 0.2f).SetEase(Ease.OutQuint));
         }
 
-        protected IEnumerator Expand()
+        public void ExpandAndDestroy()
         {
-            float speed = 0.5f;
-
             RectTransform rt = GetComponent<RectTransform>();
-            Vector3 scale = rt.localScale;
-
-            isExpanding = true;
-            while (scale.x > 1.1f)
-            {
-                scale += new Vector3(Time.deltaTime * speed, Time.deltaTime * speed);
-                rt.localScale = scale;
-
-                yield return new WaitForEndOfFrame();
-            }
-
-            rt.localScale = new Vector3(1.1f, 1.1f, 1);
-            isExpanding = false;
+            Sequence sq = DOTween.Sequence();
+            sq.Append(transform.DOScale(1.1f, 0.2f).SetEase(Ease.OutQuint));
+            sq.OnComplete(() => { Destroy(gameObject); });
         }
 
         public virtual void OnPointerDown(PointerEventData eventData)
         {
             StopCoroutine("Float");
-            StartCoroutine("Shrink");
+            Shrink();
             ChangeBubbleToSelectedBubble();
         }
 

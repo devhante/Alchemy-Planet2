@@ -22,17 +22,13 @@ namespace AlchemyPlanet.GameScene
                 case ItemName.Sprint: ItemManager.Instance.Sprint(); break;
             }
 
-            StartCoroutine("DestroyCoroutine");
+            DestroyItem();
         }
 
-        private IEnumerator DestroyCoroutine()
+        private void DestroyItem()
         {
-            StartCoroutine("Expand");
-            while (isExpanding)
-                yield return new WaitForEndOfFrame();
-
+            ExpandAndDestroy();
             ItemManager.Instance.Objects.Remove(gameObject);
-            Destroy(gameObject);
         }
     }
 }
