@@ -49,7 +49,7 @@ namespace AlchemyPlanet.GameScene
         private void Start()
         {
             // materialNumbers 초기화
-            foreach (var item in PrefabManager.Instance.materialPrefabs)
+            foreach (var item in StageManager.Instance.stageInfos[Data.DataManager.Instance.selected_stage].materials)
                 MaterialNumbers.Add(item.GetComponent<Material>().materialName, 0);
 
             for (int i = 0; i < Count; i++)
@@ -88,9 +88,9 @@ namespace AlchemyPlanet.GameScene
             Material material;
 
             if (FindFewMaterial(out materialIndex) == false)
-                materialIndex = Random.Range(0, PrefabManager.Instance.materialPrefabs.Length);
+                materialIndex = Random.Range(0, StageManager.Instance.stageInfos[Data.DataManager.Instance.selected_stage].materials.Length);
 
-            instance = Instantiate(PrefabManager.Instance.materialPrefabs[materialIndex], position, Quaternion.identity, transform);
+            instance = Instantiate(StageManager.Instance.stageInfos[Data.DataManager.Instance.selected_stage].materials[materialIndex], position, Quaternion.identity, transform);
             Objects.Add(instance);
 
             material = Objects[Objects.Count - 1].GetComponent<Material>();

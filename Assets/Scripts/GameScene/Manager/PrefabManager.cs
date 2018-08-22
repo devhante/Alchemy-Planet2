@@ -8,7 +8,6 @@ namespace AlchemyPlanet.GameScene
 
         public GameObject tilePrefab;
         public GameObject backgroundPrefab;
-        public GameObject[] materialPrefabs;
         public GameObject[] itemPrefabs;
         public GameObject[] recipePrefabs;
         public GameObject[] dropMaterialPrefabs;
