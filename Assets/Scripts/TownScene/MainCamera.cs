@@ -38,7 +38,7 @@ public class MainCamera : MonoBehaviour {
             touchesPrevPosDifference = (firstTouchPrevPos - secondTouchPrevPos).magnitude;
             touchesCurPosDifference = (firstTouch.position - secondTouch.position).magnitude;
 
-            zoomModifier = (firstTouch.deltaPosition - secondTouch.deltaPosition).magnitude * zoomModifierSpeed;
+            zoomModifier = (firstTouch.deltaPosition - secondTouch.deltaPosition).magnitude * zoomModifierSpeed/10;
 
             if (touchesPrevPosDifference > touchesCurPosDifference)
                 mainCamera.orthographicSize += zoomModifier;

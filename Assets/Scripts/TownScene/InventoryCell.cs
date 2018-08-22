@@ -23,6 +23,7 @@ namespace AlchemyPlanet.TownScene
 
         private void OnEnable()
         {
+            GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
             SetItem();
         }
 
