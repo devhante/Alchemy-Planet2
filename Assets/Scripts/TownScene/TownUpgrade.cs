@@ -18,7 +18,6 @@ namespace AlchemyPlanet.TownScene
 
         private void OnEnable()
         {
-            GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
             leftButton.onClick.AddListener(() => { page -= page > 0 ? 1 : 0; });
             rightButton.onClick.AddListener(() => { page += ownBuildings.Count > (page + 1) * 6 ? 1 : 0; });
             

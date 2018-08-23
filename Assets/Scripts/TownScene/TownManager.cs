@@ -26,7 +26,6 @@ namespace AlchemyPlanet.TownScene
 
         private void OnEnable()
         {
-            GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
             // 버튼 기능 적용
             leftButton.onClick.AddListener(() =>{ page-=page>0?1:0; });
             rightButton.onClick.AddListener(() =>{ page+=ownBuildings.Count>(page+1)*5?1:0; });
