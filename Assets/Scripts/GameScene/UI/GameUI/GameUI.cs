@@ -118,7 +118,7 @@ namespace AlchemyPlanet.GameScene
 
         IEnumerator OxygenMinus() 
         {
-            float frame = 1;
+            float frame = 2;
 
             while (true)
             {
