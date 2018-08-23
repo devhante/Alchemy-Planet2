@@ -60,7 +60,7 @@ namespace AlchemyPlanet.GameScene
         {
             RectTransform rt = GetComponent<RectTransform>();
             Sequence sq = DOTween.Sequence();
-            sq.Append(transform.DOScale(1.1f, 0.2f).SetEase(Ease.OutQuint));
+            sq.Append(transform.DOScale(1.1f, 0.2f).SetEase(Ease.OutSine));
             sq.OnComplete(() => { Destroy(gameObject); });
         }
 

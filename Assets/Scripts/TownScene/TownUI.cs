@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using AlchemyPlanet.Data;
+using DG.Tweening;
 
 namespace AlchemyPlanet.TownScene {
     public class TownUI : Common.UI<TownUI>
@@ -34,6 +35,7 @@ namespace AlchemyPlanet.TownScene {
             DataManager.Instance.CurrentPlayerData.setupBuildings.Add(tree, "Tree");
             DataManager.Instance.CurrentPlayerData.ownBuildings.Add("Tree", 1);
             */
+            GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
             foreach (string str in DataManager.Instance.CurrentPlayerData.setupBuildings.Values) {
                 Instantiate(DataManager.Instance.buildings[str].buildingObject);
             } // 저장된 타운 불러오기
@@ -77,23 +79,29 @@ namespace AlchemyPlanet.TownScene {
 
         IEnumerator MoveBar()
         {
-            if (!turnOnBuildBar) { 
-                while (buildBar.transform.position.x > 535)
-                {
-                    buildBar.transform.Translate(Vector2.left * 500 * Time.deltaTime);
-                    yield return new WaitForFixedUpdate();
-                }
+            if (!turnOnBuildBar) {
+                //while (buildBar.transform.position.x > 535)
+                //{
+                //    buildBar.transform.Translate(Vector2.left * 500 * Time.deltaTime);
+                //    yield return new WaitForFixedUpdate();
+                //}
+
+                buildBar.transform.DOMoveX(535, 1).SetEase(Ease.OutQuint);
                 turnOnBuildBar = true;
             }
             else
             {
-                while (buildBar.transform.position.x < 900)
-                {
-                    buildBar.transform.Translate(Vector2.right * 500 * Time.deltaTime);
-                    yield return new WaitForFixedUpdate();
-                }
+                //while (buildBar.transform.position.x < 900)
+                //{
+                //    buildBar.transform.Translate(Vector2.right * 500 * Time.deltaTime);
+                //    yield return new WaitForFixedUpdate();
+                //}
+
+                buildBar.transform.DOMoveX(900, 1).SetEase(Ease.OutQuint);
                 turnOnBuildBar = false;
             }
+
+            yield return null;
         }
     }
 }

@@ -28,6 +28,7 @@ public class ItemInfo : MonoBehaviour {
     private void OnEnable()
     {
         GetComponent<Button>().onClick.AddListener(() => { OpenInfo(); });
+        GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
     }
 
     void OpenInfo()

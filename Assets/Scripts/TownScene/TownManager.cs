@@ -33,11 +33,9 @@ namespace AlchemyPlanet.TownScene
             removeButton.onClick.AddListener(() => { RemoveBuilding(); });
             exitButton.onClick.AddListener(() => { Exit(); });
             
-            buildingImages[0].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[0].name); });
-            buildingImages[1].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[1].name); });
-            buildingImages[2].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[2].name); });
-            buildingImages[3].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[3].name); });
-            buildingImages[4].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[4].name); });
+            for(int i=0; i<5; i++)
+               buildingImages[i].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[i].name); });
+            
 
             TownUI.Instance.player.SetActive(false);
             page = 0;
@@ -71,7 +69,6 @@ namespace AlchemyPlanet.TownScene
             foreach(string str in ownBuildings.Keys)
             {
                 ownBuildingsImages.Add(str);
-                Debug.Log(str);
             }
             for (int i = 0; i < 5; i++)
             {
@@ -170,10 +167,16 @@ namespace AlchemyPlanet.TownScene
 
         void Build(string str)  // 건물 생성 
         {
+            if (clickedBuilding != null)
+            {
+                clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
+                clickedBuilding = null;
+            }
             clickedBuilding = Instantiate(DataManager.Instance.buildings[str].buildingObject);
             clickedBuilding.transform.position = new Vector3(TownUI.Instance.mainCamera.transform.position.x, clickedBuilding.transform.position.y);
             setupBuildings.Add(clickedBuilding,str);
             ownBuildings[str]--;
+            if (ownBuildings[str] < 1){ownBuildings.Remove(str);}
             SetOwnBuilding();
             SetImage();
         }

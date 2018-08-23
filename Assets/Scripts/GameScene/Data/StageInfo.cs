@@ -11,6 +11,7 @@ namespace AlchemyPlanet.GameScene
         public string name;
         public GameObject backgroundPrefab;
         public GameObject tilePrefab;
+        public GameObject[] materials;
         public GameObject[] monsters;
     }
 }
