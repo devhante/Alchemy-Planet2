@@ -13,11 +13,13 @@ namespace AlchemyPlanet.GameScene
         public bool isExpanding;
         protected Image bubble;
         protected Button button;
+        protected Animator animator;
 
         protected virtual void Awake()
         {
             bubble = transform.GetChild(0).GetComponent<Image>();
             button = GetComponent<Button>();
+            animator = GetComponent<Animator>();
             isExpanding = false;
         }
 
@@ -58,10 +60,19 @@ namespace AlchemyPlanet.GameScene
 
         public void ExpandAndDestroy()
         {
-            RectTransform rt = GetComponent<RectTransform>();
-            Sequence sq = DOTween.Sequence();
-            sq.Append(transform.DOScale(1.1f, 0.2f).SetEase(Ease.OutSine));
-            sq.OnComplete(() => { Destroy(gameObject); });
+            animator.SetTrigger("Pop");
+            StartCoroutine("DestroyCoroutine");
+        }
+
+        IEnumerator DestroyCoroutine()
+        {
+            while (animator.GetCurrentAnimatorStateInfo(0).IsName("BubblePop") != true)
+                yield return null;
+
+            while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1)
+                yield return null;
+
+            Destroy(gameObject);
         }
 
         public virtual void OnPointerDown(PointerEventData eventData)
@@ -73,17 +84,17 @@ namespace AlchemyPlanet.GameScene
 
         public void ChangeBubbleToSelectedBubble()
         {
-            bubble.sprite = PrefabManager.Instance.selectedBubble;
+            animator.SetTrigger("Selected");
         }
 
         public virtual void ChangeBubbleToUnselectedBubble()
         {
-            bubble.sprite = PrefabManager.Instance.unselectedBubble;
+            animator.SetTrigger("Unselected");
         }
 
         public virtual void ChangeBubbleToHighlightedBubble()
         {
-            bubble.sprite = PrefabManager.Instance.highlightedBubble;
+            animator.SetTrigger("Highlighted");
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

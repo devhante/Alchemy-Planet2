@@ -129,17 +129,5 @@ namespace AlchemyPlanet.GameScene
                     }
                 }
         }
-
-        public override void ChangeBubbleToUnselectedBubble()
-        {
-            base.ChangeBubbleToUnselectedBubble();
-            mask.gameObject.SetActive(true);
-        }
-
-        public override void ChangeBubbleToHighlightedBubble()
-        {
-            base.ChangeBubbleToHighlightedBubble();
-            mask.gameObject.SetActive(false);
-        }
     }
 }
