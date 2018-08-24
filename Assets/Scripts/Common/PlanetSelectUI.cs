@@ -5,9 +5,11 @@ namespace AlchemyPlanet.Common {
     public class PlanetSelectUI : MonoBehaviour
     {
         [SerializeField] private GameObject Planets;
+        [SerializeField] private GameObject AdventurePlanetGroup;
         private bool played;
         void Start()
         {
+            AdventurePlanetGroup.transform.position = new Vector2(Planets.transform.position.x, Screen.height * 1.5f);
             Planets.transform.DOMoveX(Screen.width / 2, 1).SetEase(Ease.InSine);
         }
 
