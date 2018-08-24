@@ -105,18 +105,18 @@ TextureImporter:
       name: BubblePopEffect_0
       rect:
         serializedVersion: 2
-        x: 38
-        y: 190
-        width: 73
-        height: 72
+        x: 0
+        y: 150
+        width: 150
+        height: 150
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c8d0801fde5a28844949544a4bf44301
+      spriteID: 2cb5d13db75083c41bd54032c28405fb
       vertices: []
       indices: 
       edges: []
@@ -125,18 +125,18 @@ TextureImporter:
       name: BubblePopEffect_1
       rect:
         serializedVersion: 2
-        x: 187
-        y: 177
-        width: 81
-        height: 86
+        x: 150
+        y: 150
+        width: 150
+        height: 150
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5456dcb0ef4807e4786a5d38eabdaa55
+      spriteID: 80c68df728523cd49b64bad72b70cf1a
       vertices: []
       indices: 
       edges: []
@@ -145,38 +145,18 @@ TextureImporter:
       name: BubblePopEffect_2
       rect:
         serializedVersion: 2
-        x: 319
-        y: 160
-        width: 114
-        height: 125
+        x: 300
+        y: 150
+        width: 150
+        height: 150
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 366feb7b6038c7f409293c4fc2434793
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BubblePopEffect_4
-      rect:
-        serializedVersion: 2
-        x: 168
-        y: 8
-        width: 117
-        height: 129
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e666f46ef7bb5f9499a1e73e08e6c992
+      spriteID: 20273e40f0ffcf64395762e5a0aa9db3
       vertices: []
       indices: 
       edges: []
@@ -185,18 +165,38 @@ TextureImporter:
       name: BubblePopEffect_3
       rect:
         serializedVersion: 2
-        x: 14
-        y: 6
-        width: 124
-        height: 132
+        x: 0
+        y: 0
+        width: 150
+        height: 150
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1aaeceb0781fafb49b6ca07a6016e5ce
+      spriteID: 80cdf584471f8ae4fa5ca23a5de4a174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubblePopEffect_4
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 0
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b137f6d8807aa404bb5dc2eb808b807d
       vertices: []
       indices: 
       edges: []
@@ -205,18 +205,18 @@ TextureImporter:
       name: BubblePopEffect_5
       rect:
         serializedVersion: 2
-        x: 318
-        y: 1
-        width: 120
-        height: 135
+        x: 300
+        y: 0
+        width: 150
+        height: 150
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eb89534a54e111847bacd8255d64bbf1
+      spriteID: b7ca5a0caa20b3e4287443737d25ca9b
       vertices: []
       indices: 
       edges: []
