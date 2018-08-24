@@ -86,35 +86,39 @@ namespace AlchemyPlanet.GameScene
 
         IEnumerator UpdateOxygenGage()
         {
-            while(true)
+            while (true)
             {
-                float oxygenGageValue = OxygenGageMask.transform.localScale.x;
-                while(oxygenGageValue != gageValues[Gages.OXYGEN])
+                float oxygenGageValue = OxygenGageMask.rectTransform.offsetMin.x / 329 * 100;
+                while (oxygenGageValue != gageValues[Gages.OXYGEN])
                 {
                     oxygenGageValue = Mathf.Lerp(oxygenGageValue, gageValues[Gages.OXYGEN], 0.1f);
-                    OxygenGageMask.transform.localScale = new Vector3(oxygenGageValue / 100, 1, 1);
+                    OxygenGageMask.rectTransform.offsetMin = new Vector2(oxygenGageValue / 100 * 329, OxygenGageMask.rectTransform.offsetMin.y);
                     yield return new WaitForSeconds(0.01f);
                 }
+
+                yield return null;
             }
         }
 
         IEnumerator UpdatePurifyGage()
         {
-            while(true)
+            while (true)
             {
-                float purifyGageValue = PurifyGageMask.transform.localScale.x;
-                while(purifyGageValue != gageValues[Gages.PURIFY])
+                float purifyGageValue = PurifyGageMask.rectTransform.offsetMin.x / 720 * 100;
+                while (purifyGageValue != gageValues[Gages.PURIFY])
                 {
                     purifyGageValue = Mathf.Lerp(purifyGageValue, gageValues[Gages.PURIFY], 0.1f);
-                    PurifyGageMask.transform.localScale = new Vector3(purifyGageValue / 100, 1, 1);
+                    PurifyGageMask.rectTransform.offsetMin = new Vector2(purifyGageValue / 100 * 720, PurifyGageMask.rectTransform.offsetMin.y);
                     yield return new WaitForSeconds(0.01f);
                 }
+
+                yield return null;
             }
         }
 
         IEnumerator OxygenMinus() 
         {
-            float frame = 1;
+            float frame = 2;
 
             while (true)
             {

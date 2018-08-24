@@ -219,6 +219,8 @@ namespace AlchemyPlanet.Data
         //재화
         public int unicoin;
         public int cosmoston;
+        public int oxygentank;
+        public int Max_oxygentank;
 
         //재료
         public Dictionary<string, int> inventory;
@@ -230,9 +232,12 @@ namespace AlchemyPlanet.Data
         public PlayerData()
         {
             this.player_id = Social.localUser.id;
-            this.player_name = "SampleName";
+            this.player_name = "Popin";
             this.unicoin = 0;
             this.cosmoston = 0;
+            this.oxygentank = 10;
+            this.Max_oxygentank = 10;
+
             this.inventory = new Dictionary<string, int>();
             this.ownBuildings = new Dictionary<string, int>();
             this.setupBuildings = new Dictionary<GameObject, string>();

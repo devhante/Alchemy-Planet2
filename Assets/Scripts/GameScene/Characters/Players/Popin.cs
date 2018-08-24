@@ -80,14 +80,15 @@ namespace AlchemyPlanet.GameScene
             {
                 float skillGageValue = skillBar.fillAmount * 100;
 
-                while (Mathf.Abs(SkillGage - skillGageValue) > 0.01f)
+                while (Mathf.Abs(SkillGage - skillGageValue) > 1)
                 {
                     skillGageValue = Mathf.Lerp(skillGageValue, SkillGage, 0.1f);
                     skillBar.fillAmount = skillGageValue / 100.0f;
                     yield return new WaitForSeconds(0.01f);
                 }
+                skillBar.fillAmount = SkillGage / 100.0f;
 
-                if (1 - skillBar.fillAmount < 0.01f)
+                if (SkillGage == 100)
                 {
                     int index = Random.Range(0, popinPotionColorList.Length);
                     Skill(popinPotionColorList[index]);
