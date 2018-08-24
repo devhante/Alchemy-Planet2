@@ -37,7 +37,7 @@ namespace AlchemyPlanet.TownScene {
             */
             GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
             foreach (string str in DataManager.Instance.CurrentPlayerData.setupBuildings.Values) {
-                Instantiate(DataManager.Instance.buildings[str].buildingObject);
+                Instantiate(DataManager.Instance.structures[str].StructureObject);
             } // 저장된 타운 불러오기
     }
 

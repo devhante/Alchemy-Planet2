@@ -11,9 +11,9 @@ namespace AlchemyPlanet.TownScene
         public Button leftButton;
         public Button rightButton;
         public List<GameObject> buildingImages;
+        public GameObject backgroundImage;
 
-        private Dictionary<string, int> ownBuildings = new Dictionary<string, int>();                   // 소유중인 건물
-        private Dictionary<GameObject, string> setupBuildings = new Dictionary<GameObject, string>();          // 설치된 건물
+        private List<string> ownBuildings = new List<string>();                   // 소유중인 건물
         private int page;                                               // 현재 건물이미지 페이지
 
         private void OnEnable()
@@ -31,26 +31,29 @@ namespace AlchemyPlanet.TownScene
 
         void OnBuildingInfo(string str)
         {
-
+            backgroundImage.SetActive(true);
+            
         }
 
         void GetOwnBuilding()   // 소유중인 건물 받아오기
         {
-            setupBuildings = DataManager.Instance.CurrentPlayerData.setupBuildings;
-            ownBuildings = DataManager.Instance.CurrentPlayerData.ownBuildings;
-        }
-
-        void SetOwnBuilding()   // 소유중인 건물 적용하기
-        {
-            DataManager.Instance.CurrentPlayerData.setupBuildings = setupBuildings;
-            DataManager.Instance.CurrentPlayerData.ownBuildings = ownBuildings;
+            foreach (GameObject obj in DataManager.Instance.CurrentPlayerData.setupBuildings.Keys)
+            {
+                if (DataManager.Instance.structures[DataManager.Instance.CurrentPlayerData.setupBuildings[obj]].GetType() == typeof(Building))
+                    ownBuildings.Add(DataManager.Instance.CurrentPlayerData.setupBuildings[obj]);
+            }
+            foreach (string str in DataManager.Instance.CurrentPlayerData.ownBuildings.Keys)
+            {
+                if (DataManager.Instance.structures[str].GetType() == typeof(Building))
+                    ownBuildings.Add(str);
+            }
         }
 
         void SetImage() // 소유중인 건물이미지 출력하기
         {
             List<string> ownBuildingsImages = new List<string>();
 
-            foreach (string str in ownBuildings.Keys)
+            foreach (string str in ownBuildings)
             {
                 ownBuildingsImages.Add(str);
             }
@@ -60,8 +63,8 @@ namespace AlchemyPlanet.TownScene
                 {
                     if (!buildingImages[i].activeSelf)
                         buildingImages[i].SetActive(true);
-                    buildingImages[i].GetComponent<Image>().sprite = DataManager.Instance.buildings[ownBuildingsImages[i]].image;
-                    buildingImages[i].name = DataManager.Instance.buildings[ownBuildingsImages[i]].buildingName;
+                    buildingImages[i].GetComponent<Image>().sprite = DataManager.Instance.structures[ownBuildingsImages[i]].image;
+                    buildingImages[i].name = DataManager.Instance.structures[ownBuildingsImages[i]].structureName;
                 }
                 else
                 {

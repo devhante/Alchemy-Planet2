@@ -13,7 +13,7 @@ namespace AlchemyPlanet.Data
 
         //아이템 데이터 프리로드
         public Dictionary<string, Material> materials;
-        public Dictionary<string, Building> buildings;
+        public Dictionary<string, Structure> structures;
 
         public int selected_stage = 0;
 
@@ -32,7 +32,7 @@ namespace AlchemyPlanet.Data
             //CreateSampleDialog();
             //CreateSampleMaterials();
             //CreateSampleFomulas();
-            CreateSampleBuilding(); // 타운관리모드 테스트할때 이거 주석 풀기
+            CreateSampleStructure(); // 타운관리모드 테스트할때 이거 주석 풀기
 
             LoadPlayerData();
             LoadMaterials();
@@ -85,17 +85,17 @@ namespace AlchemyPlanet.Data
             }
         }
 
-        public void CreateSampleBuilding()
+        public void CreateSampleStructure()
         {
-            Dictionary<string, Building> buildings = new Dictionary<string, Building> {
+            Dictionary<string, Structure> Structures = new Dictionary<string, Structure> {
             { "House", new Building("House","집",1)},
-            { "Tree", new Building("Tree","나무",1)}
+            { "Tree", new Interior("Tree",1)}
         };
 
-            using (StreamWriter file = File.CreateText("Assets/Resources/Datas/Buildings.json"))
+            using (StreamWriter file = File.CreateText("Assets/Resources/Datas/Structures.json"))
             {
                 JsonSerializer serializer = new JsonSerializer();
-                serializer.Serialize(file, buildings);
+                serializer.Serialize(file, Structures);
             }
         }
 
@@ -129,7 +129,7 @@ namespace AlchemyPlanet.Data
             using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/Buildings").bytes), System.Text.Encoding.UTF8))
             {
                 JsonSerializer serializer = new JsonSerializer();
-                Dictionary<string, Building> buildings = (Dictionary<string, Building>)serializer.Deserialize(file, typeof(Dictionary<string, Building>));
+                Dictionary<string, Structure> buildings = (Dictionary<string, Structure>)serializer.Deserialize(file, typeof(Dictionary<string, Structure>));
 
                 Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Town/town");
 
@@ -137,15 +137,15 @@ namespace AlchemyPlanet.Data
                 {
                     if (buildings.ContainsKey(sprites[i].name))
                     {
-                        if (sprites[i].name == buildings[sprites[i].name].buildingName)
+                        if (sprites[i].name == buildings[sprites[i].name].structureName)
                             buildings[sprites[i].name].image = sprites[i];
                     }
                 }
                 foreach (string str in buildings.Keys)
                 {
-                    buildings[str].buildingObject = Resources.Load<GameObject>("Prefabs/TownScene/" + str);
+                    buildings[str].StructureObject = Resources.Load<GameObject>("Prefabs/TownScene/" + str);
                 }
-                this.buildings = buildings;
+                this.structures = buildings;
 
             }
         }
@@ -265,19 +265,34 @@ namespace AlchemyPlanet.Data
         }
     }
 
-    public class Building
+    public class Structure
     {
-        public string buildingName;
+        public string structureName;
+        public Sprite image;
+        public GameObject StructureObject;
+    }
+
+    public class Building : Structure
+    {
         public string buildingDiscription;
         public int buildingLevel;
-        public Sprite image;
-        public GameObject buildingObject;
 
         public Building(string buildingName, string buildingDiscription, int buildingLevel)
         {
-            this.buildingName = buildingName;
+            this.structureName = buildingName;
             this.buildingDiscription = buildingDiscription;
             this.buildingLevel = buildingLevel;
+        }
+    }
+
+    public class Interior : Structure
+    {
+        public int number;
+
+        public Interior(string interiorName, int number)
+        {
+            this.structureName = interiorName;
+            this.number = number;
         }
     }
 

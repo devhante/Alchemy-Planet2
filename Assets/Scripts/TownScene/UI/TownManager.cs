@@ -77,8 +77,8 @@ namespace AlchemyPlanet.TownScene
                 {
                     if (!buildingImages[i].activeSelf)
                         buildingImages[i].SetActive(true);
-                    buildingImages[i].GetComponent<Image>().sprite = DataManager.Instance.buildings[ownBuildingsImages[i]].image;
-                    buildingImages[i].name = DataManager.Instance.buildings[ownBuildingsImages[i]].buildingName;
+                    buildingImages[i].GetComponent<Image>().sprite = DataManager.Instance.structures[ownBuildingsImages[i]].image;
+                    buildingImages[i].name = DataManager.Instance.structures[ownBuildingsImages[i]].structureName;
                 }
                 else
                 {
@@ -173,7 +173,7 @@ namespace AlchemyPlanet.TownScene
                 clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
                 clickedBuilding = null;
             }
-            clickedBuilding = Instantiate(DataManager.Instance.buildings[str].buildingObject);
+            clickedBuilding = Instantiate(DataManager.Instance.structures[str].StructureObject);
             clickedBuilding.transform.position = new Vector3(TownUI.Instance.mainCamera.transform.position.x, clickedBuilding.transform.position.y);
             setupBuildings.Add(clickedBuilding,str);
             ownBuildings[str]--;
