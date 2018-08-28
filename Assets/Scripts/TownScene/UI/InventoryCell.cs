@@ -23,7 +23,6 @@ namespace AlchemyPlanet.TownScene
 
         private void OnEnable()
         {
-            GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
             SetItem();
         }
 
@@ -40,11 +39,6 @@ namespace AlchemyPlanet.TownScene
                     DataManager.Instance.CurrentPlayerData.inventory[itemName]);
                 i++;
             }
-        }
-
-        public void CloseInfo()
-        {
-            backGroundImage.SetActive(false);
         }
     }
 }

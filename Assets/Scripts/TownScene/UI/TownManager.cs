@@ -7,7 +7,7 @@ using AlchemyPlanet.Data;
 
 namespace AlchemyPlanet.TownScene
 {
-    public class TownManager : Common.UI
+    public class TownManager : Common.UI<TownManager>
     {
         public List<GameObject> buildingImages;  // 건물 미리보기
         public Button leftButton;           // 건물이미지 페이지 왼쪽으로 넘기기
@@ -33,8 +33,11 @@ namespace AlchemyPlanet.TownScene
             removeButton.onClick.AddListener(() => { RemoveBuilding(); });
             exitButton.onClick.AddListener(() => { Exit(); });
             
-            for(int i=0; i<5; i++)
-               buildingImages[i].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[i].name); });
+            buildingImages[0].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[0].name); });
+            buildingImages[1].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[1].name); });
+            buildingImages[2].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[2].name); });
+            buildingImages[3].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[3].name); });
+            buildingImages[4].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[4].name); });
             
 
             TownUI.Instance.player.SetActive(false);
@@ -52,8 +55,17 @@ namespace AlchemyPlanet.TownScene
 
         void GetOwnBuilding()   // 소유중인 건물 받아오기
         {
+            
             setupBuildings = DataManager.Instance.CurrentPlayerData.setupBuildings;
             ownBuildings = DataManager.Instance.CurrentPlayerData.ownBuildings;
+            foreach(string str in setupBuildings.Values)
+            {
+                Debug.Log(str);
+            }
+            foreach (string str in ownBuildings.Keys)
+            {
+                Debug.Log(str);
+            }
         }
 
         void SetOwnBuilding()   // 소유중인 건물 적용하기
@@ -70,6 +82,7 @@ namespace AlchemyPlanet.TownScene
             {
                 ownBuildingsImages.Add(str);
             }
+
             for (int i = 0; i < 5; i++)
             {
                 if(i<ownBuildings.Count - page * 5)
@@ -174,6 +187,7 @@ namespace AlchemyPlanet.TownScene
             }
             clickedBuilding = Instantiate(DataManager.Instance.structures[str].StructureObject);
             clickedBuilding.transform.position = new Vector3(TownUI.Instance.mainCamera.transform.position.x, clickedBuilding.transform.position.y);
+            clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0);
             setupBuildings.Add(clickedBuilding,str);
             ownBuildings[str]--;
             if (ownBuildings[str] < 1){ownBuildings.Remove(str);}
@@ -183,6 +197,8 @@ namespace AlchemyPlanet.TownScene
 
         void RemoveBuilding()   // 건물 철거
         {
+            Debug.Log(DataManager.Instance.structures["House"].StructureObject != clickedBuilding);
+            Debug.Log(DataManager.Instance.CurrentPlayerData.setupBuildings.ContainsKey(clickedBuilding));
             if (ownBuildings.ContainsKey(setupBuildings[clickedBuilding]))
             {
                 ownBuildings[setupBuildings[clickedBuilding]]++;

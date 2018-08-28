@@ -6,64 +6,65 @@ using AlchemyPlanet.Data;
 
 namespace AlchemyPlanet.TownScene
 {
-    public class TownUpgrade : Common.UI
+    public class TownUpgrade : Common.UI<TownUpgrade>
     {
         public Button leftButton;
         public Button rightButton;
+        public Button closeButton;
         public List<GameObject> buildingImages;
-        public GameObject backgroundImage;
 
         private List<string> ownBuildings = new List<string>();                   // 소유중인 건물
-        private int page;                                               // 현재 건물이미지 페이지
+        private int page;                                                         // 현재 건물이미지 페이지
 
         private void OnEnable()
         {
+            GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
             leftButton.onClick.AddListener(() => { page -= page > 0 ? 1 : 0; });
             rightButton.onClick.AddListener(() => { page += ownBuildings.Count > (page + 1) * 6 ? 1 : 0; });
-            
-            for(int i=0; i<6; i++)
-                buildingImages[i].GetComponent<Button>().onClick.AddListener(() => OnBuildingInfo(buildingImages[i].name));
+            closeButton.onClick.AddListener(() => { UIManager.Instance.CloseMenu(); });
+
+            buildingImages[0].GetComponent<Button>().onClick.AddListener(() => OpenBuildingInfo(0));
+            buildingImages[1].GetComponent<Button>().onClick.AddListener(() => OpenBuildingInfo(1));
+            buildingImages[2].GetComponent<Button>().onClick.AddListener(() => OpenBuildingInfo(2));
+            buildingImages[3].GetComponent<Button>().onClick.AddListener(() => OpenBuildingInfo(3));
+            buildingImages[4].GetComponent<Button>().onClick.AddListener(() => OpenBuildingInfo(4));
+            buildingImages[5].GetComponent<Button>().onClick.AddListener(() => OpenBuildingInfo(5));
 
             GetOwnBuilding();
             SetImage();
         }
 
-        void OnBuildingInfo(string str)
+        void OpenBuildingInfo(int n)
         {
-            backgroundImage.SetActive(true);
-            
+            buildingImages[n].GetComponent<BuildingInfo>().SetInfo(ownBuildings[n]);
         }
 
         void GetOwnBuilding()   // 소유중인 건물 받아오기
         {
-            foreach (GameObject obj in DataManager.Instance.CurrentPlayerData.setupBuildings.Keys)
+            foreach (string str in DataManager.Instance.CurrentPlayerData.setupBuildings.Values)
             {
-                if (DataManager.Instance.structures[DataManager.Instance.CurrentPlayerData.setupBuildings[obj]].GetType() == typeof(Building))
-                    ownBuildings.Add(DataManager.Instance.CurrentPlayerData.setupBuildings[obj]);
+                Building b = DataManager.Instance.structures[str] as Building;
+                if(b != null)
+                    ownBuildings.Add(str);
             }
             foreach (string str in DataManager.Instance.CurrentPlayerData.ownBuildings.Keys)
             {
-                if (DataManager.Instance.structures[str].GetType() == typeof(Building))
+                Building b = DataManager.Instance.structures[str] as Building;
+                if (b != null)
                     ownBuildings.Add(str);
             }
         }
 
         void SetImage() // 소유중인 건물이미지 출력하기
         {
-            List<string> ownBuildingsImages = new List<string>();
-
-            foreach (string str in ownBuildings)
-            {
-                ownBuildingsImages.Add(str);
-            }
             for (int i = 0; i < 6; i++)
             {
                 if (i < ownBuildings.Count - page * 6)
                 {
                     if (!buildingImages[i].activeSelf)
                         buildingImages[i].SetActive(true);
-                    buildingImages[i].GetComponent<Image>().sprite = DataManager.Instance.structures[ownBuildingsImages[i]].image;
-                    buildingImages[i].name = DataManager.Instance.structures[ownBuildingsImages[i]].structureName;
+                    buildingImages[i].GetComponent<Image>().sprite = DataManager.Instance.structures[ownBuildings[i]].image;
+                    buildingImages[i].name = DataManager.Instance.structures[ownBuildings[i]].structureName;
                 }
                 else
                 {

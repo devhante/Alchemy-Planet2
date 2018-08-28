@@ -5,7 +5,8 @@ using UnityEngine.UI;
 using AlchemyPlanet.Data;
 using DG.Tweening;
 
-namespace AlchemyPlanet.TownScene {
+namespace AlchemyPlanet.TownScene
+{
     public class TownUI : Common.UI<TownUI>
     {
         public GameObject player;
@@ -18,7 +19,7 @@ namespace AlchemyPlanet.TownScene {
         [SerializeField] private Button TownManageButton;
         [SerializeField] private Button TownUpgradeButton;
         [SerializeField] private Button InventoryButton;
-        
+
         protected override void Awake()
         {
             base.Awake();
@@ -27,23 +28,26 @@ namespace AlchemyPlanet.TownScene {
 
         private void Start()
         {
-            /*
-            GameObject house = Instantiate(Resources.Load<GameObject>("Prefabs/TownScene/House"));
-            GameObject tree = Instantiate(Resources.Load<GameObject>("Prefabs/TownScene/Tree"));
-            
-            DataManager.Instance.CurrentPlayerData.setupBuildings.Add(house, "House");
-            DataManager.Instance.CurrentPlayerData.setupBuildings.Add(tree, "Tree");
-            DataManager.Instance.CurrentPlayerData.ownBuildings.Add("Tree", 1);
-            */
+            DataManager.Instance.LoadPlayerData();
             GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            foreach (string str in DataManager.Instance.CurrentPlayerData.setupBuildings.Values) {
-                Instantiate(DataManager.Instance.structures[str].StructureObject);
-            } // 저장된 타운 불러오기
-    }
+
+            List<GameObject> setupBuildingList = new List<GameObject>();
+
+            foreach (GameObject obj in DataManager.Instance.CurrentPlayerData.setupBuildings.Keys)
+                setupBuildingList.Add(obj);
+
+            foreach (GameObject obj in setupBuildingList) // 저장된 타운 불러오기
+            {
+                string str = DataManager.Instance.CurrentPlayerData.setupBuildings[obj];
+                DataManager.Instance.CurrentPlayerData.setupBuildings.Remove(obj);
+                DataManager.Instance.CurrentPlayerData.setupBuildings.Add(Instantiate(obj), str);
+            }
+        }
 
         IEnumerator LateAwake()
         {
-            while (UIManager.Instance == null) {
+            while (UIManager.Instance == null)
+            {
                 yield return null;
             }
             UIManager.Instance.Clear();
@@ -51,7 +55,8 @@ namespace AlchemyPlanet.TownScene {
             this.transform.SetParent(UIManager.Instance.transform);
 
             turnOnBuildBar = false;
-            buildingbutton.onClick.AddListener(() => {
+            buildingbutton.onClick.AddListener(() =>
+            {
                 StartCoroutine("MoveBar");
             });
             UIOffButton.onClick.AddListener(() =>
@@ -66,10 +71,10 @@ namespace AlchemyPlanet.TownScene {
             });
             TownUpgradeButton.onClick.AddListener(() =>
             {
-                UIManager.Instance.menuStack.Peek().gameObject.SetActive(false);
-
+                UIManager.Instance.OpenMenu<TownUpgrade>();
             });
-            InventoryButton.onClick.AddListener(() => {
+            InventoryButton.onClick.AddListener(() =>
+            {
                 UIManager.Instance.OpenMenu<InventoryCell>();
 
                 InventoryCell.Instance.SetItem();

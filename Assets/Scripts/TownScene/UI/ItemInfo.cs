@@ -10,6 +10,7 @@ public class ItemInfo : MonoBehaviour {
     public Text discriptionInfo;
     public Image imageInfo;
     public Text count;
+    public Button closeButton;
 
     private string item_name;
     private string discription;
@@ -28,7 +29,7 @@ public class ItemInfo : MonoBehaviour {
     private void OnEnable()
     {
         GetComponent<Button>().onClick.AddListener(() => { OpenInfo(); });
-        GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        closeButton.onClick.AddListener(() => { CloseInfo(); });
     }
 
     void OpenInfo()
@@ -37,5 +38,11 @@ public class ItemInfo : MonoBehaviour {
         discriptionInfo.text = discription;
         imageInfo.sprite = image;
         backGroundImage.gameObject.SetActive(true);
+    }
+
+    void CloseInfo()
+    {
+        Debug.Log("asd"+backGroundImage.name);
+        backGroundImage.gameObject.SetActive(false);
     }
 }
