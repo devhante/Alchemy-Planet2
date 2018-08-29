@@ -3,18 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Tutorial : MonoBehaviour {
-    public static Tutorial Instance;
-    public int proscess;
-
-    private void Awake()
+namespace AlchemyPlanet.Common
+{
+    public class Tutorial : MonoBehaviour
     {
-        Instance = this;
-        proscess = 0;
-    }
+        public static Tutorial Instance;
+        public int process;
 
-    public void CheckCurrentScene()
-    {
-        Debug.Log(SceneManager.GetActiveScene().name);
+        private void Awake()
+        {
+            Instance = this;
+            process = 0;
+        }
+
+        public void CheckCurrentScene()
+        {
+            Debug.Log(SceneManager.GetActiveScene().name);
+
+            switch (process)
+            {
+                case 0:
+                    {
+                        SceneChangeManager.Instance.LoadDialogScene("Prologue");
+                        break;
+                    }
+            }
+        }
     }
 }
