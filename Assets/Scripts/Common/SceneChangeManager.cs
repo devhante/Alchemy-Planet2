@@ -1,40 +1,51 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneChangeManager : MonoBehaviour {
-    public static SceneChangeManager Instance;
-
-    public void Awake()
+namespace AlchemyPlanet
+{
+    public class SceneChangeManager : MonoBehaviour
     {
-        if (Instance == null)
+        public static SceneChangeManager Instance;
+
+        public void Awake()
         {
-            Instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(this.gameObject);
+            }
+            else
+            {
+                GameObject.Destroy(this.gameObject);
+            }
         }
-        else
+
+        private void Update()
         {
-            GameObject.Destroy(this.gameObject);
+            if (Screen.fullScreen == false)
+                Screen.fullScreen = true;
         }
-    }
 
-    private void Update()
-    {
-        if (Screen.fullScreen == false)
-            Screen.fullScreen = true;
-    }
-
-    public void ChangeScene(string scene_name)
-    {
-        SceneManager.LoadScene(scene_name);
-        AlchemyPlanet.TownScene.UIManager.Instance.Clear();
-    }
-
-    public void ChangeSceneWithLoading(string scene_name)
-    {
-        LoadingSceneManager.LoadScene(scene_name);
-        if (AlchemyPlanet.TownScene.UIManager.Instance)
+        public void ChangeScene(string scene_name)
         {
+            SceneManager.LoadScene(scene_name);
             AlchemyPlanet.TownScene.UIManager.Instance.Clear();
         }
+
+        public void ChangeSceneWithLoading(string scene_name)
+        {
+            LoadingSceneManager.LoadScene(scene_name);
+            if (AlchemyPlanet.TownScene.UIManager.Instance)
+            {
+                AlchemyPlanet.TownScene.UIManager.Instance.Clear();
+            }
+        }
+
+        public void LoadDialogScene(string dialog_name)
+        {
+            Data.DataManager.Instance.selected_dialog = dialog_name;
+            LoadingSceneManager.LoadScene("DialogScene");
+        }
     }
+
 }

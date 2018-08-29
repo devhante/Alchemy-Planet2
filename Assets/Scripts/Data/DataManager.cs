@@ -16,7 +16,8 @@ namespace AlchemyPlanet.Data
         public Dictionary<string, Structure> structures;
 
         public int selected_stage = 0;
-
+        public string selected_dialog = "";
+        
         private void Awake()
         {
             if (Instance == null)
