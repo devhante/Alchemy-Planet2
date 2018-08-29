@@ -13,6 +13,7 @@ namespace AlchemyPlanet.Common
         private void Awake()
         {
             Instance = this;
+            DontDestroyOnLoad(this.gameObject);
             process = 0;
         }
 
