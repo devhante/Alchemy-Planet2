@@ -18,7 +18,7 @@ namespace AlchemyPlanet.TownScene
 
 
         private Dictionary<string, int> ownBuildings = new Dictionary<string, int>();                   // 소유중인 건물
-        private Dictionary<GameObject, string> setupBuildings = new Dictionary<GameObject, string>();          // 설치된 건물
+        private Dictionary<GameObject, string> setupBuildings = new Dictionary<GameObject, string>();   // 설치된 건물
         private GameObject clickedBuilding;                             // 선택된 건물
         private Touch tempTouch;                                        // 터치들
         private Vector3 touchedPos;                                     // 터치위치
@@ -197,8 +197,6 @@ namespace AlchemyPlanet.TownScene
 
         void RemoveBuilding()   // 건물 철거
         {
-            Debug.Log(DataManager.Instance.structures["House"].StructureObject != clickedBuilding);
-            Debug.Log(DataManager.Instance.CurrentPlayerData.setupBuildings.ContainsKey(clickedBuilding));
             if (ownBuildings.ContainsKey(setupBuildings[clickedBuilding]))
             {
                 ownBuildings[setupBuildings[clickedBuilding]]++;

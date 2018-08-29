@@ -28,7 +28,13 @@ namespace AlchemyPlanet.TownScene
 
         private void Start()
         {
-            DataManager.Instance.LoadPlayerData();
+            DataManager.Instance.CurrentPlayerData.inventory.Add("Red", 1);
+            DataManager.Instance.CurrentPlayerData.inventory.Add("Blue", 2);
+
+            DataManager.Instance.CurrentPlayerData.setupBuildings.Add(DataManager.Instance.structures["House"].StructureObject, "House");
+            DataManager.Instance.CurrentPlayerData.setupBuildings.Add(DataManager.Instance.structures["Tree"].StructureObject, "Tree");
+            DataManager.Instance.CurrentPlayerData.ownBuildings.Add("Tree", 1);
+
             GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
 
             List<GameObject> setupBuildingList = new List<GameObject>();
@@ -88,13 +94,13 @@ namespace AlchemyPlanet.TownScene
             {
                 //buildBar.transform.DOMoveX(535, 1).SetEase(Ease.OutQuint);
                 Debug.Log(Screen.width);
-                buildBar.transform.DOMoveX(Screen.width - 200 * (Screen.width / 720.0f), 1).SetEase(Ease.OutQuint);
+                buildBar.transform.DOMoveX(Screen.width - 190 * (Screen.width / 720.0f), 1).SetEase(Ease.OutQuint);
                 turnOnBuildBar = true;
             }
             else
             {
                 //buildBar.transform.DOMoveX(900, 1).SetEase(Ease.OutQuint);
-                buildBar.transform.DOMoveX(Screen.width + 150 * (Screen.width / 720.0f), 1).SetEase(Ease.OutQuint);
+                buildBar.transform.DOMoveX(Screen.width + 190 * (Screen.width / 720.0f), 1).SetEase(Ease.OutQuint);
                 turnOnBuildBar = false;
             }
 

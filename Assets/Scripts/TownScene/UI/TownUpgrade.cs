@@ -43,14 +43,12 @@ namespace AlchemyPlanet.TownScene
         {
             foreach (string str in DataManager.Instance.CurrentPlayerData.setupBuildings.Values)
             {
-                Building b = DataManager.Instance.structures[str] as Building;
-                if(b != null)
+                if(DataManager.Instance.structures[str] is Building)
                     ownBuildings.Add(str);
             }
             foreach (string str in DataManager.Instance.CurrentPlayerData.ownBuildings.Keys)
             {
-                Building b = DataManager.Instance.structures[str] as Building;
-                if (b != null)
+                if (DataManager.Instance.structures[str] is Building)
                     ownBuildings.Add(str);
             }
         }

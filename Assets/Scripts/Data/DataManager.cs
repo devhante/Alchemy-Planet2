@@ -204,12 +204,6 @@ namespace AlchemyPlanet.Data
         public void LoadPlayerData()
         {
             CurrentPlayerData = new PlayerData();
-            CurrentPlayerData.inventory.Add("Red", 1);
-            CurrentPlayerData.inventory.Add("Blue", 2);
-
-            CurrentPlayerData.setupBuildings.Add(structures["House"].StructureObject, "House");
-            CurrentPlayerData.setupBuildings.Add(structures["Tree"].StructureObject, "Tree");
-            CurrentPlayerData.ownBuildings.Add("Tree", 1);
         }
 
         public List<Dialog> LoadDialog(string dialog_name)
@@ -252,7 +246,7 @@ namespace AlchemyPlanet.Data
     {
         public string player_id;
         public string player_name;
-
+    
         //재화
         public int unicoin;
         public int cosmoston;
