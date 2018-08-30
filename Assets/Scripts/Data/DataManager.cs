@@ -16,8 +16,9 @@ namespace AlchemyPlanet.Data
         public Dictionary<string, Structure> structures;
 
         public int selected_stage = 0;
-        public string selected_dialog = "";
-        
+        public NPCDAta selected_dialog;
+
+
         private void Awake()
         {
             if (Instance == null)
@@ -291,8 +292,8 @@ namespace AlchemyPlanet.Data
         public NPCDAta(string npc_name)
         {
             this.npc_name = npc_name;
-            //Sample -> this.npc_name 으로 수정해야 함
-            dialogs = DataManager.Instance.LoadDialog("Sample");
+            //dialogs = DataManager.Instance.LoadDialog("Sample");
+            dialogs = DataManager.Instance.LoadDialog(this.npc_name);
             illusts = DataManager.Instance.LoadIllust(dialogs);
         }
     }

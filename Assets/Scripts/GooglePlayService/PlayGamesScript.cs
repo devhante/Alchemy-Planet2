@@ -28,6 +28,8 @@ namespace AlchemyPlanet.Data
                 Destroy(this.gameObject);
             }
 
+            //GameObject.Instantiate(Tutorial_Prefab);
+
             //처음으로 접속했을 경우 데이터를 디폴트로 세팅한다
             if (!PlayerPrefs.HasKey(SAVE_NAME))
             {

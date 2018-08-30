@@ -15,17 +15,18 @@ namespace AlchemyPlanet.Common
             Instance = this;
             DontDestroyOnLoad(this.gameObject);
             process = 0;
+            CheckCurrentScene();
         }
 
         public void CheckCurrentScene()
         {
             Debug.Log(SceneManager.GetActiveScene().name);
-
             switch (process)
             {
                 case 0:
                     {
-                        SceneChangeManager.Instance.LoadDialogScene("Prologue");
+                        Data.DataManager.Instance.selected_dialog = new Data.NPCDAta("Prologue");
+                        SceneChangeManager.Instance.LoadDialogScene();
                         break;
                     }
             }

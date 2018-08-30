@@ -72,7 +72,7 @@ namespace AlchemyPlanet.TownScene
                 talking = true;
                 UIManager.Instance.OpenMenu<DialogUI>();
                 //클릭된 NPC의 이름으로 수정해야 함
-                DialogUI.Instance.SetDialog("Sample", this);
+                DialogUI.Instance.SetDialog(this);
             }
         }
 

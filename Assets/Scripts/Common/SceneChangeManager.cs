@@ -41,9 +41,8 @@ namespace AlchemyPlanet
             }
         }
 
-        public void LoadDialogScene(string dialog_name)
+        public void LoadDialogScene()
         {
-            Data.DataManager.Instance.selected_dialog = dialog_name;
             LoadingSceneManager.LoadScene("DialogScene");
         }
     }
