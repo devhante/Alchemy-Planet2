@@ -111,8 +111,6 @@ namespace AlchemyPlanet.TownScene
             else
                 data = DataManager.Instance.selected_dialog;
 
-            Debug.Log(data.npc_name);
-
             do
             {
                 if (num >= data.dialogs.Count)
@@ -126,7 +124,10 @@ namespace AlchemyPlanet.TownScene
                         NPC = null;
                     }
                     else
+                    {
                         DataManager.Instance.selected_dialog = null;
+                        Common.DialogScene.Instance.IsOver();
+                    }
 
                     break;
                 }
