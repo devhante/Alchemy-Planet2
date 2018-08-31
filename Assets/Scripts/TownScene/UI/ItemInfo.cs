@@ -42,7 +42,6 @@ public class ItemInfo : MonoBehaviour {
 
     void CloseInfo()
     {
-        Debug.Log("asd"+backGroundImage.name);
         backGroundImage.gameObject.SetActive(false);
     }
 }

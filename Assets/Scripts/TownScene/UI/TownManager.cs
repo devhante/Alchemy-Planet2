@@ -17,8 +17,8 @@ namespace AlchemyPlanet.TownScene
         public Button exitButton;           // 타운관리 나가기 버튼
 
 
-        private Dictionary<string, int> ownBuildings = new Dictionary<string, int>();                   // 소유중인 건물
-        private Dictionary<GameObject, string> setupBuildings = new Dictionary<GameObject, string>();   // 설치된 건물
+        private List<Structure> ownBuildings = new List<Structure>();                   // 소유중인 건물
+        private Dictionary<GameObject, Structure> setupBuildings = new Dictionary<GameObject, Structure>();   // 설치된 건물
         private GameObject clickedBuilding;                             // 선택된 건물
         private Touch tempTouch;                                        // 터치들
         private Vector3 touchedPos;                                     // 터치위치
@@ -55,32 +55,28 @@ namespace AlchemyPlanet.TownScene
 
         void GetOwnBuilding()   // 소유중인 건물 받아오기
         {
-            
-            setupBuildings = DataManager.Instance.CurrentPlayerData.setupBuildings;
-            ownBuildings = DataManager.Instance.CurrentPlayerData.ownBuildings;
-            foreach(string str in setupBuildings.Values)
+            foreach(Structure strc in DataManager.Instance.CurrentPlayerData.structures)
             {
-                Debug.Log(str);
-            }
-            foreach (string str in ownBuildings.Keys)
-            {
-                Debug.Log(str);
+                if (strc.setup)
+                    setupBuildings.Add(strc.StructureObject, strc);
+                else
+                    ownBuildings.Add(strc);
+                    
             }
         }
 
         void SetOwnBuilding()   // 소유중인 건물 적용하기
         {
-            DataManager.Instance.CurrentPlayerData.setupBuildings = setupBuildings;
-            DataManager.Instance.CurrentPlayerData.ownBuildings = ownBuildings;
+            
         }
 
         void SetImage() // 소유중인 건물이미지 출력하기
         {
             List<string> ownBuildingsImages = new List<string>();
 
-            foreach(string str in ownBuildings.Keys)
+            foreach(Structure strc in ownBuildings)
             {
-                ownBuildingsImages.Add(str);
+                ownBuildingsImages.Add(strc.structureName);
             }
 
             for (int i = 0; i < 5; i++)
@@ -137,6 +133,7 @@ namespace AlchemyPlanet.TownScene
                 clickedBuilding = null;
             }
             TownUI.Instance.player.SetActive(true);
+            SetOwnBuilding();
             UIManager.Instance.CloseMenu();
             UIManager.Instance.menuStack.Peek().gameObject.SetActive(true);
         }   
@@ -188,28 +185,25 @@ namespace AlchemyPlanet.TownScene
             clickedBuilding = Instantiate(DataManager.Instance.structures[str].StructureObject);
             clickedBuilding.transform.position = new Vector3(TownUI.Instance.mainCamera.transform.position.x, clickedBuilding.transform.position.y);
             clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0);
-            setupBuildings.Add(clickedBuilding,str);
-            ownBuildings[str]--;
-            if (ownBuildings[str] < 1){ownBuildings.Remove(str);}
-            SetOwnBuilding();
+            setupBuildings.Add(clickedBuilding,DataManager.Instance.structures[str]);
+            foreach(Structure strc in ownBuildings)
+            {
+                if(strc.structureName == str)
+                {
+                    ownBuildings.Remove(strc);
+                    break;
+                }
+            }
             SetImage();
         }
 
         void RemoveBuilding()   // 건물 철거
         {
-            if (ownBuildings.ContainsKey(setupBuildings[clickedBuilding]))
-            {
-                ownBuildings[setupBuildings[clickedBuilding]]++;
-            }
-            else
-            {
-                ownBuildings.Add(setupBuildings[clickedBuilding], 1);
-            }
+            ownBuildings.Add(setupBuildings[clickedBuilding]);
             setupBuildings.Remove(clickedBuilding);
             Destroy(clickedBuilding);
             clickedBuilding = null;
             SetImage();
-            SetOwnBuilding();
         }
     }
 }

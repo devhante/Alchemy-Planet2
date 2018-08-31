@@ -22,6 +22,8 @@ namespace AlchemyPlanet.Data
             {
                 Instance = this;
                 DontDestroyOnLoad(this.gameObject);
+
+                //GameObject.Instantiate(Tutorial_Prefab);
             }
             else if (Instance != this)
             {
