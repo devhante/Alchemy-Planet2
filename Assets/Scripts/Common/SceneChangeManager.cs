@@ -43,6 +43,7 @@ namespace AlchemyPlanet
 
         public void LoadDialogScene()
         {
+            AlchemyPlanet.TownScene.UIManager.Instance.Clear();
             LoadingSceneManager.LoadScene("DialogScene");
         }
     }
