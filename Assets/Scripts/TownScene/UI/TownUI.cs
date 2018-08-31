@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using AlchemyPlanet.Data;
 using DG.Tweening;
+using UnityEditor;
 
 namespace AlchemyPlanet.TownScene
 {
@@ -31,22 +32,15 @@ namespace AlchemyPlanet.TownScene
             DataManager.Instance.CurrentPlayerData.inventory.Add("Red", 1);
             DataManager.Instance.CurrentPlayerData.inventory.Add("Blue", 2);
 
-            DataManager.Instance.CurrentPlayerData.setupBuildings.Add(DataManager.Instance.structures["House"].StructureObject, "House");
-            DataManager.Instance.CurrentPlayerData.setupBuildings.Add(DataManager.Instance.structures["Tree"].StructureObject, "Tree");
-            DataManager.Instance.CurrentPlayerData.ownBuildings.Add("Tree", 1);
+            DataManager.Instance.CurrentPlayerData.structures.Add(DataManager.Instance.structures["House"]);
+            DataManager.Instance.CurrentPlayerData.structures.Add(DataManager.Instance.structures["Tree"]);
+            DataManager.Instance.CurrentPlayerData.structures.Add(DataManager.Instance.structures["Tree"]);
 
             GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
 
-            List<GameObject> setupBuildingList = new List<GameObject>();
-
-            foreach (GameObject obj in DataManager.Instance.CurrentPlayerData.setupBuildings.Keys)
-                setupBuildingList.Add(obj);
-
-            foreach (GameObject obj in setupBuildingList) // 저장된 타운 불러오기
+            foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures) // 저장된 타운 불러오기
             {
-                string str = DataManager.Instance.CurrentPlayerData.setupBuildings[obj];
-                DataManager.Instance.CurrentPlayerData.setupBuildings.Remove(obj);
-                DataManager.Instance.CurrentPlayerData.setupBuildings.Add(Instantiate(obj), str);
+                Instantiate(strc.StructureObject);
             }
         }
 
