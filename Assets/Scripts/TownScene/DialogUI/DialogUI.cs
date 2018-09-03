@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using AlchemyPlanet.Data;
+using DG.Tweening;
 
 namespace AlchemyPlanet.TownScene
 {
@@ -15,10 +15,12 @@ namespace AlchemyPlanet.TownScene
         [SerializeField] private float d_interval = 1f;
         private WaitForSeconds dialog_interval;
 
+        [SerializeField] private Image d_box;
+
         [SerializeField] private Text d_name;
         [SerializeField] private Text d_script;
 
-        [SerializeField] private Image[] d_illust = new Image[3];
+        [SerializeField] private Image[] d_illust = new Image[2];
 
         bool writting = false;
         bool touched = false;
@@ -46,6 +48,11 @@ namespace AlchemyPlanet.TownScene
             LogButton.onClick.AddListener(() => { GetLog(); });
 
             count = 1;
+        }
+
+        private void Start()
+        {
+
         }
 
         private void Update()
@@ -148,15 +155,15 @@ namespace AlchemyPlanet.TownScene
                         d_illust[0].color = new Color32(255, 255, 255, 255);
                     }
 
-                    d_illust[2].sprite = data.illusts[data.dialogs[num].illusts[1].name];
+                    d_illust[1].sprite = data.illusts[data.dialogs[num].illusts[1].name];
 
                     if (data.dialogs[num].illusts[1].mode == IllustMode.Back)
                     {
-                        d_illust[2].color = new Color32(120, 120, 120, 255);
+                        d_illust[1].color = new Color32(120, 120, 120, 255);
                     }
                     else
                     {
-                        d_illust[2].color = new Color32(255, 255, 255, 255);
+                        d_illust[1].color = new Color32(255, 255, 255, 255);
                     }
 
                     //다음 내용을 불러오고, Text를 초기화
