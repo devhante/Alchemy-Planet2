@@ -29,6 +29,8 @@ namespace AlchemyPlanet.TownScene
 
         private void Start()
         {
+            GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
+
             DataManager.Instance.CurrentPlayerData.inventory.Add("Red", 1);
             DataManager.Instance.CurrentPlayerData.inventory.Add("Blue", 2);
 
@@ -39,10 +41,9 @@ namespace AlchemyPlanet.TownScene
             DataManager.Instance.CurrentPlayerData.structures.Add(DataManager.Instance.structures["Tree"]);
             DataManager.Instance.CurrentPlayerData.structures[2].setup = false;
 
-            GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
-
             foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures) // 저장된 타운 불러오기
             {
+                Debug.Log(strc.structureName + " : " + strc.setup);
                 if(strc.setup)
                     strc.StructureObject = Instantiate(strc.StructureObject);
             }
