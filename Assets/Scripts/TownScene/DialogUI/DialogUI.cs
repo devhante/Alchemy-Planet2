@@ -141,7 +141,7 @@ namespace AlchemyPlanet.TownScene
                     d_illust[0].sprite = data.illusts[data.dialogs[num].illusts[0].name];
                     if (data.dialogs[num].illusts[0].mode == IllustMode.Back)
                     {
-                        d_illust[0].color = new Color32(255, 255, 255, 120);
+                        d_illust[0].color = new Color32(120, 120, 120, 255);
                     }
                     else
                     {
@@ -152,7 +152,7 @@ namespace AlchemyPlanet.TownScene
 
                     if (data.dialogs[num].illusts[1].mode == IllustMode.Back)
                     {
-                        d_illust[2].color = new Color32(255, 255, 255, 120);
+                        d_illust[2].color = new Color32(120, 120, 120, 255);
                     }
                     else
                     {
@@ -177,7 +177,7 @@ namespace AlchemyPlanet.TownScene
                     
                     if(count == 1)
                     {
-                        yield return dialog_interval;
+                        yield return new WaitForSeconds(0.2f);
                         GetComponent<Animator>().cullingMode = AnimatorCullingMode.CullCompletely;
                     }
                     writting = false;
