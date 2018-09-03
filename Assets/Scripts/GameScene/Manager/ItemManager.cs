@@ -108,9 +108,7 @@ namespace AlchemyPlanet.GameScene
             {
                 MaterialManager.Instance.RespawnMaterial(item);
                 GameManager.Instance.GainScore(ScoreType.TouchRightRecipe);
-                Debug.Log("Before: " + GameUI.Instance.GetGage(Gages.PURIFY));
                 GameUI.Instance.UpdateGage(Gages.PURIFY, 2.5f);
-                Debug.Log("After: " + GameUI.Instance.GetGage(Gages.PURIFY));
             }
         }
 
@@ -138,8 +136,6 @@ namespace AlchemyPlanet.GameScene
         public void Sprint()
         {
             sprintCount++;
-
-            Debug.Log(sprintCount);
 
             if (sprintCount == 1)
                 StartCoroutine("SprintCoroutine");
