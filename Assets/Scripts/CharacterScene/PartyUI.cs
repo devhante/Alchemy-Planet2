@@ -25,8 +25,8 @@ namespace AlchemyPlanet.CharacterScene
 
         private void OnClickButtonLeft()
         {
-            if (isSequencePlaying == true) return;
-            isSequencePlaying = true;
+            buttonLeft.gameObject.SetActive(false);
+            buttonRight.gameObject.SetActive(false);
 
             Sequence sq1 = DOTween.Sequence();
             sq1.Append(partyBoxObject.transform.DOMoveX(partyBoxObject.transform.position.x - 700, 0.5f)
@@ -37,16 +37,17 @@ namespace AlchemyPlanet.CharacterScene
             sq2.Append(newObject.transform.DOMoveX(newObject.transform.position.x - 700, 0.5f)
                 .SetEase(Ease.OutQuint)
                 .OnComplete(() => {
-                    isSequencePlaying = false;
                     Destroy(partyBoxObject);
                     partyBoxObject = newObject;
+                    buttonLeft.gameObject.SetActive(true);
+                    buttonRight.gameObject.SetActive(true);
                 }));
         }
 
         private void OnClickButtonRight()
         {
-            if (isSequencePlaying == true) return;
-            isSequencePlaying = true;
+            buttonLeft.gameObject.SetActive(false);
+            buttonRight.gameObject.SetActive(false);
 
             Sequence sq = DOTween.Sequence();
             sq.Append(partyBoxObject.transform.DOMoveX(partyBoxObject.transform.position.x + 700, 0.5f)
@@ -57,9 +58,10 @@ namespace AlchemyPlanet.CharacterScene
             sq2.Append(newObject.transform.DOMoveX(newObject.transform.position.x + 700, 0.5f)
                 .SetEase(Ease.OutQuint)
                 .OnComplete(() => {
-                    isSequencePlaying = false;
                     Destroy(partyBoxObject);
                     partyBoxObject = newObject;
+                    buttonLeft.gameObject.SetActive(true);
+                    buttonRight.gameObject.SetActive(true);
                 }));
         }
     }
