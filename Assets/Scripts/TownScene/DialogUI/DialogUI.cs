@@ -88,7 +88,17 @@ namespace AlchemyPlanet.TownScene
         {
             count = 1;
             UIManager.Instance.CloseMenu();
-            NPC.StartCoroutine("TalkEnd");
+            
+            if (NPC != null)
+            {
+                NPC.StartCoroutine("TalkEnd");
+                NPC = null;
+            }
+            else
+            {
+                DataManager.Instance.selected_dialog = null;
+                Common.DialogScene.Instance.IsOver();
+            }
         }
         public void AutoPlay()
         {
