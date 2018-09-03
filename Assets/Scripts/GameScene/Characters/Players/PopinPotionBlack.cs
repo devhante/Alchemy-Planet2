@@ -11,7 +11,6 @@ namespace AlchemyPlanet.GameScene
         public Image mask;
 
         private Rigidbody2D rb2d;
-        private Animator animator;
         private Vector3 startPosition;
         private Vector3 endPosition;
         private Vector3 destinationDirection;
@@ -20,7 +19,6 @@ namespace AlchemyPlanet.GameScene
         {
             base.Awake();
             rb2d = GetComponent<Rigidbody2D>();
-            animator = GetComponent<Animator>();
         }
 
         protected override void Start()

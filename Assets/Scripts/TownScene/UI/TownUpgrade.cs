@@ -41,17 +41,10 @@ namespace AlchemyPlanet.TownScene
 
         void GetOwnBuilding()   // 소유중인 건물 받아오기
         {
-            foreach (string str in DataManager.Instance.CurrentPlayerData.setupBuildings.Values)
+            foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures)
             {
-                Building b = DataManager.Instance.structures[str] as Building;
-                if(b != null)
-                    ownBuildings.Add(str);
-            }
-            foreach (string str in DataManager.Instance.CurrentPlayerData.ownBuildings.Keys)
-            {
-                Building b = DataManager.Instance.structures[str] as Building;
-                if (b != null)
-                    ownBuildings.Add(str);
+                if (strc is Building)
+                    ownBuildings.Add(strc.structureName);
             }
         }
 
@@ -64,7 +57,7 @@ namespace AlchemyPlanet.TownScene
                     if (!buildingImages[i].activeSelf)
                         buildingImages[i].SetActive(true);
                     buildingImages[i].GetComponent<Image>().sprite = DataManager.Instance.structures[ownBuildings[i]].image;
-                    buildingImages[i].name = DataManager.Instance.structures[ownBuildings[i]].structureName;
+                     buildingImages[i].name = DataManager.Instance.structures[ownBuildings[i]].structureName;
                 }
                 else
                 {

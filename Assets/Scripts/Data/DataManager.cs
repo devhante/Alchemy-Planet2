@@ -206,12 +206,6 @@ namespace AlchemyPlanet.Data
         public void LoadPlayerData()
         {
             CurrentPlayerData = new PlayerData();
-            CurrentPlayerData.inventory.Add("Red", 1);
-            CurrentPlayerData.inventory.Add("Blue", 2);
-
-            CurrentPlayerData.setupBuildings.Add(structures["House"].StructureObject, "House");
-            CurrentPlayerData.setupBuildings.Add(structures["Tree"].StructureObject, "Tree");
-            CurrentPlayerData.ownBuildings.Add("Tree", 1);
         }
 
         public List<Dialog> LoadDialog(string dialog_name)
@@ -254,7 +248,7 @@ namespace AlchemyPlanet.Data
     {
         public string player_id;
         public string player_name;
-
+    
         //재화
         public int unicoin;
         public int cosmoston;
@@ -264,9 +258,7 @@ namespace AlchemyPlanet.Data
         //재료
         public Dictionary<string, int> inventory;
 
-        //건물
-        public Dictionary<string, int> ownBuildings;  // 소유중인 건물들
-        public Dictionary<GameObject, string> setupBuildings;  // 설치된 건물들
+        public List<Structure> structures;
 
         public PlayerData()
         {
@@ -278,8 +270,7 @@ namespace AlchemyPlanet.Data
             this.Max_oxygentank = 10;
 
             this.inventory = new Dictionary<string, int>();
-            this.ownBuildings = new Dictionary<string, int>();
-            this.setupBuildings = new Dictionary<GameObject, string>();
+            this.structures = new List<Structure>();
         }
     }
 
@@ -303,6 +294,7 @@ namespace AlchemyPlanet.Data
         public string structureName;
         public Sprite image;
         public GameObject StructureObject;
+        public bool setup;
     }
 
     public class Building : Structure

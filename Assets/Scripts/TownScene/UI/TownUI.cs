@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using AlchemyPlanet.Data;
 using DG.Tweening;
+using UnityEditor;
 
 namespace AlchemyPlanet.TownScene
 {
@@ -28,19 +29,22 @@ namespace AlchemyPlanet.TownScene
 
         private void Start()
         {
-            DataManager.Instance.LoadPlayerData();
+            DataManager.Instance.CurrentPlayerData.inventory.Add("Red", 1);
+            DataManager.Instance.CurrentPlayerData.inventory.Add("Blue", 2);
+
+            DataManager.Instance.CurrentPlayerData.structures.Add(DataManager.Instance.structures["House"]);
+            DataManager.Instance.CurrentPlayerData.structures[0].setup = true;
+            DataManager.Instance.CurrentPlayerData.structures.Add(DataManager.Instance.structures["Tree"]);
+            DataManager.Instance.CurrentPlayerData.structures[1].setup = true;
+            DataManager.Instance.CurrentPlayerData.structures.Add(DataManager.Instance.structures["Tree"]);
+            DataManager.Instance.CurrentPlayerData.structures[2].setup = false;
+
             GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
 
-            List<GameObject> setupBuildingList = new List<GameObject>();
-
-            foreach (GameObject obj in DataManager.Instance.CurrentPlayerData.setupBuildings.Keys)
-                setupBuildingList.Add(obj);
-
-            foreach (GameObject obj in setupBuildingList) // 저장된 타운 불러오기
+            foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures) // 저장된 타운 불러오기
             {
-                string str = DataManager.Instance.CurrentPlayerData.setupBuildings[obj];
-                DataManager.Instance.CurrentPlayerData.setupBuildings.Remove(obj);
-                DataManager.Instance.CurrentPlayerData.setupBuildings.Add(Instantiate(obj), str);
+                if(strc.setup)
+                    strc.StructureObject = Instantiate(strc.StructureObject);
             }
         }
 
@@ -88,13 +92,13 @@ namespace AlchemyPlanet.TownScene
             {
                 //buildBar.transform.DOMoveX(535, 1).SetEase(Ease.OutQuint);
                 Debug.Log(Screen.width);
-                buildBar.transform.DOMoveX(Screen.width - 200 * (Screen.width / 720.0f), 1).SetEase(Ease.OutQuint);
+                buildBar.transform.DOMoveX(Screen.width - 190 * (Screen.width / 720.0f), 1).SetEase(Ease.OutQuint);
                 turnOnBuildBar = true;
             }
             else
             {
                 //buildBar.transform.DOMoveX(900, 1).SetEase(Ease.OutQuint);
-                buildBar.transform.DOMoveX(Screen.width + 150 * (Screen.width / 720.0f), 1).SetEase(Ease.OutQuint);
+                buildBar.transform.DOMoveX(Screen.width + 190 * (Screen.width / 720.0f), 1).SetEase(Ease.OutQuint);
                 turnOnBuildBar = false;
             }
 

@@ -22,7 +22,7 @@ namespace AlchemyPlanet.GameScene
         public float OxygenReduceSpeed { get; set; }
 
         float oxygenReduceRate = 1;
-        float purifyReduceRate = 2;
+        float purifyReduceRate = 4;
 
         Dictionary<Gages, float> gageValues;
 
