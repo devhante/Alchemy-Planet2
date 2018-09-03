@@ -32,14 +32,13 @@ namespace AlchemyPlanet.Data
             }
 
             //CreateSampleDialog();
-            //CreateSampleMaterials();
+            CreateSampleMaterials();
             //CreateSampleFomulas();
             CreateSampleStructure(); // 타운관리모드 테스트할때 이거 주석 풀기
 
-            LoadStuructures();
-            LoadPlayerData();
             LoadMaterials();
             LoadStuructures();
+            LoadPlayerData();
         }
 
         #region CreateSampleData
@@ -206,6 +205,8 @@ namespace AlchemyPlanet.Data
         public void LoadPlayerData()
         {
             CurrentPlayerData = new PlayerData();
+
+
         }
 
         public List<Dialog> LoadDialog(string dialog_name)
@@ -271,6 +272,19 @@ namespace AlchemyPlanet.Data
 
             this.inventory = new Dictionary<string, int>();
             this.structures = new List<Structure>();
+            structures.Add(DataManager.Instance.structures["Tree"]);
+            structures[0].setup = true;
+            structures.Add(DataManager.Instance.structures["House"]);
+            structures[1].setup = true;
+            structures.Add(DataManager.Instance.structures["Tree"]);
+
+            inventory.Add("Red", 1);
+            inventory.Add("Blue", 2);
+        }
+
+        public void Upgrade()
+        {
+            
         }
     }
 
