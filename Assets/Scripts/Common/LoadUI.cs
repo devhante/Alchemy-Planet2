@@ -44,7 +44,7 @@ public class LoadUI : MonoBehaviour
                     RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero, 1);
                     if (hit.collider.tag == "Point")
                     {
-                        LoadingSceneManager.LoadScene("RunTest");
+                        LoadingSceneManager.LoadScene("GameScene");
                     }
                     break;
                 }

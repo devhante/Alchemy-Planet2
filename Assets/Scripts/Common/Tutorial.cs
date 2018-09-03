@@ -56,7 +56,7 @@ namespace AlchemyPlanet.Common
                 case 3:
                     {
                         //정화약을 구하러 자동으로 이동
-                        SceneChangeManager.Instance.ChangeSceneWithLoading("RunTest");
+                        SceneChangeManager.Instance.ChangeSceneWithLoading("GameScene");
                         break;
                     }
                 case 4:
