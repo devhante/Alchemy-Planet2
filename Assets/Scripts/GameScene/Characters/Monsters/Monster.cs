@@ -165,7 +165,6 @@ namespace AlchemyPlanet.GameScene
             isDraggedForwardCoroutinePlaying = true;
             int speed = (int)GameManager.Instance.MoveSpeed;
 
-            //StopCoroutine("MoveTowardCoroutine");
             while(speed >= 3)
             {
                 speed = (int)GameManager.Instance.MoveSpeed;
@@ -175,7 +174,11 @@ namespace AlchemyPlanet.GameScene
                     transform.position += new Vector3(-moveSpeed * 3 * Time.deltaTime, 0, 0);
 
                     if (GetDistanceBetweenPlayer() < 1.5f)
-                        Hit(100);
+                    {
+                        Health -= 100;
+                        rigidbody2d.AddForce(new Vector2(130, 170));
+                        PlayHitAnimation();
+                    }
                 }
 
                 yield return new WaitForSeconds(0.02f);
