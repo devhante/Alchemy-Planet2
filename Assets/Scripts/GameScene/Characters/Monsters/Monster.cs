@@ -18,6 +18,7 @@ namespace AlchemyPlanet.GameScene
         protected SpriteRenderer faceSpriteRenderer;
 
         protected bool isAttackCoroutinePlaying;
+        protected bool isDraggedForwardCoroutinePlaying;
 
         protected Animator animator;
         protected Image healthBar;
@@ -58,6 +59,12 @@ namespace AlchemyPlanet.GameScene
         {
             while (true)
             {
+                if(GameManager.Instance.MoveSpeed >= 3 && isDraggedForwardCoroutinePlaying == false)
+                {
+                    StopCoroutine("MoveBackwardCoroutine");
+                    StartCoroutine("DraggedForwardCoroutine");
+                }
+
                 // 피격받아서 공중에 떠있지 않을 때
                 if (rigidbody2d.velocity.y == 0)
                 {
@@ -76,7 +83,7 @@ namespace AlchemyPlanet.GameScene
                     }
                 }
 
-                yield return null;
+                yield return new WaitForSeconds(0.02f);
             }
         }
 
@@ -126,6 +133,8 @@ namespace AlchemyPlanet.GameScene
             PlayScoreAnimation(result);
 
             StopCoroutine("MoveTowardCoroutine");
+            StopCoroutine("MoveBackwardCoroutine");
+            StopCoroutine("DraggedForwardCoroutine");
             StartCoroutine("DieCoroutine");
         }
 
@@ -149,6 +158,40 @@ namespace AlchemyPlanet.GameScene
         {
             GameObject instance = Instantiate(PrefabManager.Instance.scoreText, Camera.main.WorldToScreenPoint(transform.position), Quaternion.identity, GameUI.Instance.transform);
             instance.GetComponent<Text>().text = string.Format("+ {0}", score);
+        }
+
+        IEnumerator DraggedForwardCoroutine()
+        {
+            isDraggedForwardCoroutinePlaying = true;
+            int speed = (int)GameManager.Instance.MoveSpeed;
+
+            //StopCoroutine("MoveTowardCoroutine");
+            while(speed >= 3)
+            {
+                speed = (int)GameManager.Instance.MoveSpeed;
+
+                if (rigidbody2d.velocity.y == 0)
+                {
+                    transform.position += new Vector3(-moveSpeed * 3 * Time.deltaTime, 0, 0);
+
+                    if (GetDistanceBetweenPlayer() < 1.5f)
+                        Hit(100);
+                }
+
+                yield return new WaitForSeconds(0.02f);
+            }
+
+            StartCoroutine("MoveBackwardCoroutine");
+            isDraggedForwardCoroutinePlaying = false;
+        }
+
+        IEnumerator MoveBackwardCoroutine()
+        {
+            while (GetDistanceBetweenPlayer() < attackRange + (index * 0.5f))
+            {
+                transform.position += new Vector3(moveSpeed * Time.deltaTime, 0, 0);
+                yield return new WaitForSeconds(0.02f);
+            }
         }
 
         private void PlayAttackAnimation()

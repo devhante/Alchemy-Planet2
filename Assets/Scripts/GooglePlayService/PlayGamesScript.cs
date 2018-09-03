@@ -23,7 +23,7 @@ namespace AlchemyPlanet.Data
                 Instance = this;
                 DontDestroyOnLoad(this.gameObject);
 
-                //GameObject.Instantiate(Tutorial_Prefab);
+                GameObject.Instantiate(Tutorial_Prefab);
             }
             else if (Instance != this)
             {
@@ -35,7 +35,7 @@ namespace AlchemyPlanet.Data
             {
                 PlayerPrefs.SetString(SAVE_NAME, DataManager.Instance.PlayerDataToString(new PlayerData()));
 
-                GameObject.Instantiate(Tutorial_Prefab);
+                //GameObject.Instantiate(Tutorial_Prefab);
 
                 //첫 접속시 이름 등을 적용하는 UI를 띄운다.
                 //TownScene.UIManager.Instance.OpenMenu<TownScene.NewPlayerUI>();

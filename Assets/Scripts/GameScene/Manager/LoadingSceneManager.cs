@@ -10,9 +10,12 @@ public class LoadingSceneManager : MonoBehaviour
 
     [SerializeField]
     Image progressBar;
+    [SerializeField]
+    Image fadeInMask;
 
     private void Start()
     {
+        StartCoroutine("FadeIn");
         StartCoroutine(LoadScene());
     }
 
@@ -21,6 +24,19 @@ public class LoadingSceneManager : MonoBehaviour
     {
         nextScene = sceneName;
         SceneManager.LoadScene("LoadingScene");
+    }
+
+    IEnumerator FadeIn()
+    {
+        Image image = fadeInMask.GetComponent<Image>();
+        float alpha;
+
+        while(image.color.a > 0)
+        {
+            alpha = image.color.a - 0.1f;
+            image.color = new Color(image.color.r, image.color.g, image.color.b, alpha);
+            yield return new WaitForSeconds(0.01f);
+        }
     }
 
     IEnumerator LoadScene()
