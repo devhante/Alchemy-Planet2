@@ -30,7 +30,7 @@ namespace AlchemyPlanet.TownScene
             buildingImages[4].GetComponent<Button>().onClick.AddListener(() => OpenBuildingInfo(4));
             buildingImages[5].GetComponent<Button>().onClick.AddListener(() => OpenBuildingInfo(5));
 
-            GetOwnBuilding();
+            //GetOwnBuilding();
             SetImage();
         }
 
