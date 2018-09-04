@@ -25,8 +25,17 @@ namespace AlchemyPlanet.TownScene
             {
                 GameObject LogItem = Instantiate(LogPrefab, LogLayout.transform);
                 Text[]log = LogItem.GetComponentsInChildren<Text>();
-                log[0].text = DialogUI.Instance.NPC.data.dialogs[i].name;
-                log[1].text = DialogUI.Instance.NPC.data.dialogs[i].content;
+
+                if (DialogUI.Instance.NPC)
+                {
+                    log[0].text = DialogUI.Instance.NPC.data.dialogs[i].name;
+                    log[1].text = DialogUI.Instance.NPC.data.dialogs[i].content;
+                }
+                else
+                {
+                    log[0].text = Data.DataManager.Instance.selected_dialog.dialogs[i].name;
+                    log[1].text = Data.DataManager.Instance.selected_dialog.dialogs[i].content;
+                }
             }
         }
     }

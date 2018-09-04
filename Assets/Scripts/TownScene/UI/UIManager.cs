@@ -17,6 +17,8 @@ namespace AlchemyPlanet.TownScene
         [SerializeField] private TownUpgrade TownUpgradeUIPrefab;
         [SerializeField] private NewPlayerUI NewPlayerUIPrefab;
 
+        [SerializeField] private GameObject TopDownUI;
+
         public Stack<Common.UI> menuStack = new Stack<Common.UI>();
 
         private void Awake()
@@ -29,6 +31,17 @@ namespace AlchemyPlanet.TownScene
             else
             {
                 GameObject.Destroy(this.gameObject);
+            }
+        }
+
+        private void OnLevelWasLoaded(int level)
+        {
+            switch (level)
+            {
+                case 0: case 1: case 7: case 8:
+                    TopDownUI.SetActive(false); break;
+                default:
+                    TopDownUI.SetActive(true); break;
             }
         }
 
