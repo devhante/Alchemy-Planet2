@@ -35,7 +35,7 @@ public class LoadingSceneManager : MonoBehaviour
         {
             alpha = image.color.a - 0.1f;
             image.color = new Color(image.color.r, image.color.g, image.color.b, alpha);
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.005f);
         }
     }
 
