@@ -32,9 +32,9 @@ namespace AlchemyPlanet.Data
             }
 
             //CreateSampleDialog();
-            CreateSampleMaterials();
+            //CreateSampleMaterials();
             //CreateSampleFomulas();
-            CreateSampleStructure(); // 타운관리모드 테스트할때 이거 주석 풀기
+            //CreateSampleStructure(); // 타운관리모드 테스트할때 이거 주석 풀기
 
             LoadMaterials();
             LoadStuructures();
@@ -260,6 +260,7 @@ namespace AlchemyPlanet.Data
         public Dictionary<string, int> inventory;
 
         public List<Structure> structures;
+        public List<GameObject> setupBuildilngs;
 
         public PlayerData()
         {
@@ -272,11 +273,12 @@ namespace AlchemyPlanet.Data
 
             this.inventory = new Dictionary<string, int>();
             this.structures = new List<Structure>();
-            structures.Add(DataManager.Instance.structures["Tree"]);
+            structures.Add(DataManager.Instance.structures["Tree"].Clone());
             structures[0].setup = true;
-            structures.Add(DataManager.Instance.structures["House"]);
+            structures.Add(DataManager.Instance.structures["House"].Clone());
             structures[1].setup = true;
-            structures.Add(DataManager.Instance.structures["Tree"]);
+            structures.Add(DataManager.Instance.structures["Tree"].Clone());
+            structures[2].setup = false;
 
             inventory.Add("Red", 1);
             inventory.Add("Blue", 2);
@@ -308,7 +310,18 @@ namespace AlchemyPlanet.Data
         public string structureName;
         public Sprite image;
         public GameObject StructureObject;
+        public Vector2 position;
         public bool setup;
+
+        public virtual Structure Clone()
+        {
+            Structure strc = new Structure();
+            strc.structureName = structureName;
+            strc.image = image;
+            strc.StructureObject = StructureObject;
+            strc.setup = setup;
+            return strc;
+        }
     }
 
     public class Building : Structure
@@ -322,6 +335,14 @@ namespace AlchemyPlanet.Data
             this.buildingDiscription = buildingDiscription;
             this.buildingLevel = buildingLevel;
         }
+        public override Structure Clone()
+        {
+            Structure strc = new Building(structureName,buildingDiscription, buildingLevel);
+            strc.image = image;
+            strc.StructureObject = StructureObject;
+            strc.setup = setup;
+            return strc;
+        }
     }
 
     public class Interior : Structure
@@ -329,6 +350,14 @@ namespace AlchemyPlanet.Data
         public Interior(string interiorName)
         {
             this.structureName = interiorName;
+        }
+        public override Structure Clone()
+        {
+            Structure strc = new Interior(structureName);
+            strc.image = image;
+            strc.StructureObject = StructureObject;
+            strc.setup = setup;
+            return strc;
         }
     }
 

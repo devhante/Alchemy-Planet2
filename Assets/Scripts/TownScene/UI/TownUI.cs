@@ -31,10 +31,12 @@ namespace AlchemyPlanet.TownScene
         {
             GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
 
+            DataManager.Instance.CurrentPlayerData.setupBuildilngs = new List<GameObject>();
+
             foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures) // 저장된 타운 불러오기
             {
                 if(strc.setup)
-                    Instantiate(strc.StructureObject);
+                    DataManager.Instance.CurrentPlayerData.setupBuildilngs.Add(Instantiate(strc.StructureObject));
             }
         }
 
@@ -60,6 +62,7 @@ namespace AlchemyPlanet.TownScene
             });
             TownManageButton.onClick.AddListener(() =>
             {
+                mainCamera.orthographicSize = 12;
                 UIManager.Instance.menuStack.Peek().gameObject.SetActive(false);
                 UIManager.Instance.OpenMenu<TownManager>();
             });

@@ -17,8 +17,8 @@ namespace AlchemyPlanet.TownScene
         public Button exitButton;           // 타운관리 나가기 버튼
 
 
-        private List<Structure> ownBuildings = new List<Structure>();                   // 소유중인 건물
-        private Dictionary<GameObject, Structure> setupBuildings = new Dictionary<GameObject, Structure>();   // 설치된 건물
+        private List<string> ownBuildings = new List<string>();                   // 소유중인 건물
+        private List<GameObject> setupBuildings = new List<GameObject>();   // 설치된 건물
         private GameObject clickedBuilding;                             // 선택된 건물
         private Touch tempTouch;                                        // 터치들
         private Vector3 touchedPos;                                     // 터치위치
@@ -57,26 +57,20 @@ namespace AlchemyPlanet.TownScene
         {
             foreach(Structure strc in DataManager.Instance.CurrentPlayerData.structures)
             {
-                if (strc.setup)
-                    setupBuildings.Add(strc.StructureObject, strc);
-                else
-                    ownBuildings.Add(strc);
-                    
+                if(!strc.setup)
+                    ownBuildings.Add(strc.structureName);
             }
-        }
+            setupBuildings = DataManager.Instance.CurrentPlayerData.setupBuildilngs;
 
-        void SetOwnBuilding()   // 소유중인 건물 적용하기
-        {
-            
         }
 
         void SetImage() // 소유중인 건물이미지 출력하기
         {
             List<string> ownBuildingsImages = new List<string>();
 
-            foreach(Structure strc in ownBuildings)
+            foreach(string str in ownBuildings)
             {
-                ownBuildingsImages.Add(strc.structureName);
+                ownBuildingsImages.Add(str);
             }
 
             for (int i = 0; i < 5; i++)
@@ -132,8 +126,18 @@ namespace AlchemyPlanet.TownScene
                 clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
                 clickedBuilding = null;
             }
+            
+            for (int i = 0; i < DataManager.Instance.CurrentPlayerData.structures.Count; i++)
+            {
+                if(ownBuildings.Contains(DataManager.Instance.CurrentPlayerData.structures[i].structureName))
+                    DataManager.Instance.CurrentPlayerData.structures[i].setup = false;
+                else
+                    DataManager.Instance.CurrentPlayerData.structures[i].setup = true;
+            }
+
+            DataManager.Instance.CurrentPlayerData.setupBuildilngs = setupBuildings;
+
             TownUI.Instance.player.SetActive(true);
-            SetOwnBuilding();
             UIManager.Instance.CloseMenu();
             UIManager.Instance.menuStack.Peek().gameObject.SetActive(true);
         }   
@@ -185,12 +189,12 @@ namespace AlchemyPlanet.TownScene
             clickedBuilding = Instantiate(DataManager.Instance.structures[str].StructureObject);
             clickedBuilding.transform.position = new Vector3(TownUI.Instance.mainCamera.transform.position.x, clickedBuilding.transform.position.y);
             clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0);
-            setupBuildings.Add(clickedBuilding,DataManager.Instance.structures[str]);
-            foreach(Structure strc in ownBuildings)
+            setupBuildings.Add(clickedBuilding);
+            foreach(string strcname in ownBuildings)
             {
-                if(strc.structureName == str)
+                if(strcname== str)
                 {
-                    ownBuildings.Remove(strc);
+                    ownBuildings.Remove(str);
                     break;
                 }
             }
@@ -199,7 +203,7 @@ namespace AlchemyPlanet.TownScene
 
         void RemoveBuilding()   // 건물 철거
         {
-            ownBuildings.Add(setupBuildings[clickedBuilding]);
+            ownBuildings.Add(clickedBuilding.name.Substring(0, clickedBuilding.name.Length-7));
             setupBuildings.Remove(clickedBuilding);
             Destroy(clickedBuilding);
             clickedBuilding = null;
