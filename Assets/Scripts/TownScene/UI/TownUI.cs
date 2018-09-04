@@ -57,13 +57,13 @@ namespace AlchemyPlanet.TownScene
             });
             UIOffButton.onClick.AddListener(() =>
             {
-                UIManager.Instance.menuStack.Peek().gameObject.SetActive(false);
+                UIManager.Instance.TownUIOff();
                 UIManager.Instance.OpenMenu<EmptyUI>();
             });
             TownManageButton.onClick.AddListener(() =>
             {
-                mainCamera.orthographicSize = 12;
-                UIManager.Instance.menuStack.Peek().gameObject.SetActive(false);
+                mainCamera.GetComponent<MainCamera>().StartCoroutine("ZoomOut");
+                UIManager.Instance.TownUIOff();
                 UIManager.Instance.OpenMenu<TownManager>();
             });
             TownUpgradeButton.onClick.AddListener(() =>
