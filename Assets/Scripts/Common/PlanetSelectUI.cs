@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 
 namespace AlchemyPlanet.Common {
@@ -7,6 +8,9 @@ namespace AlchemyPlanet.Common {
         [SerializeField] private Camera mainCam;
         [SerializeField] private GameObject Planets;
         [SerializeField] private GameObject AdventurePlanetGroup;
+
+        [SerializeField] private Image TextImage;
+
         private bool played;
         void Start()
         {
@@ -22,6 +26,8 @@ namespace AlchemyPlanet.Common {
                 played = true;
                 mainCam.transform.DOMoveY(2, 1).SetEase(Ease.OutQuart);
                 Planets.transform.DOMoveY(-Screen.height / 2, 1).SetEase(Ease.OutQuart);
+
+                TextImage.DOColor(new Color32(255, 255, 255, 255), 1).SetEase(Ease.InBack);
             }
         }
 
