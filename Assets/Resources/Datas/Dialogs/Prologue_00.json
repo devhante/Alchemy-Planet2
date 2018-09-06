@@ -1,7 +1,7 @@
 [
   {
     "name": "벨",
-    "content": "디자이너님",
+    "content": "{P}님",
     "illusts": [
       {
         "name": "시드",
@@ -16,7 +16,7 @@
     ]
   },
   {
-    "name": "",
+    "name": "{P}",
     "content": "프롤로그 대사",
     "illusts": [
       {

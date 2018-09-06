@@ -130,6 +130,8 @@ namespace AlchemyPlanet.TownScene
                     writting = true;
 
                     d_name.text = data.dialogs[num].name;
+                    if (data.dialogs[num].name.Equals("{P}"))
+                        d_name.text = Data.DataManager.Instance.CurrentPlayerData.player_name;
 
                     #region SetIllust
                     d_illust[0].sprite = data.illusts[data.dialogs[num].illusts[0].name];
@@ -157,6 +159,8 @@ namespace AlchemyPlanet.TownScene
                     #region PrintDialog
                     //다음 내용을 불러오고, Text를 초기화
                     string script = data.dialogs[num].content;
+                    script = script.Replace("{P}", Data.DataManager.Instance.CurrentPlayerData.player_name);
+
                     d_script.text = "";
 
                     touched = false;
@@ -169,7 +173,7 @@ namespace AlchemyPlanet.TownScene
                         yield return write_interval;
                     }
                     //완성본으로 변경
-                    d_script.text = data.dialogs[num].content;
+                    d_script.text = script;
                     #endregion PrintDialog
 
                     if (count == 1)
