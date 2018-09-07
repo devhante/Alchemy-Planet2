@@ -39,6 +39,7 @@ namespace AlchemyPlanet.TownScene
             buildingImages[3].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[3].name); });
             buildingImages[4].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[4].name); });
             
+            
 
             TownUI.Instance.player.SetActive(false);
             page = 0;
@@ -139,7 +140,7 @@ namespace AlchemyPlanet.TownScene
 
             TownUI.Instance.player.SetActive(true);
             UIManager.Instance.CloseMenu();
-            UIManager.Instance.menuStack.Peek().gameObject.SetActive(true);
+            UIManager.Instance.TownUIOn();
         }   
 
         IEnumerator MoveBuilding()     //건물 위치 변경

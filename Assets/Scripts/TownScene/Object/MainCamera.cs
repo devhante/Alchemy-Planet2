@@ -50,6 +50,15 @@ public class MainCamera : MonoBehaviour {
         backgroundImage.transform.position = new Vector3(backgroundImage.transform.position.x, 2 + 2.4f * ((mainCamera.orthographicSize - 7) / 5));
     }
 
+    IEnumerator ZoomOut()
+    {
+        while (mainCamera.orthographicSize < 12)
+        {
+            mainCamera.orthographicSize += 0.2f;
+            yield return null;
+        }
+    }
+
     void Follow()
     {
         if(player.activeSelf)

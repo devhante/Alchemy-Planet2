@@ -53,6 +53,18 @@ namespace AlchemyPlanet.TownScene
             }
         }
 
+        public void TownUIOff()
+        {
+            TopDownUI.SetActive(false);
+            menuStack.Peek().gameObject.SetActive(false);
+        }
+
+        public void TownUIOn()
+        {
+            TopDownUI.SetActive(true);
+            menuStack.Peek().gameObject.SetActive(true);
+        }
+
         public void OpenMenu<T>() where T : Common.UI
         {
             var prefab = GetPrefab<T>();
