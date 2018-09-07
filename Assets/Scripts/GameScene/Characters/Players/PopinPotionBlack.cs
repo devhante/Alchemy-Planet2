@@ -9,6 +9,7 @@ namespace AlchemyPlanet.GameScene
     public class PopinPotionBlack : Item
     {
         public Image mask;
+        public Image danger;
 
         private Rigidbody2D rb2d;
         private Vector3 startPosition;
@@ -25,6 +26,7 @@ namespace AlchemyPlanet.GameScene
         {
             base.Start();
             StartCoroutine("CountdownCoroutine");
+            StartCoroutine("DangerCoroutine");
         }
 
         private void Update()
@@ -85,9 +87,11 @@ namespace AlchemyPlanet.GameScene
         IEnumerator ThrowCoroutine()
         {
             StopCoroutine("Float");
+            StopCoroutine("DangerCoroutine");
             StopCoroutine("CountdownCoroutine");
             button.enabled = false;
             mask.color = new Color(1, 0, 0, 0);
+            danger.gameObject.SetActive(false);
 
             while ((GameUI.Instance.BombDestination.transform.position - transform.position).sqrMagnitude > 10)
             {
@@ -127,7 +131,32 @@ namespace AlchemyPlanet.GameScene
                 yield return null;
             }
             Camera.main.transform.localPosition = originPos;
+        }
 
+        IEnumerator DangerCoroutine()
+        {
+            float alpha = danger.color.a;
+
+            while(true)
+            {
+                while(alpha <= 1)
+                {
+                    alpha += Time.deltaTime;
+                    danger.color = new Color(danger.color.r, danger.color.g, danger.color.b, alpha);
+                    yield return null;
+                }
+
+                alpha = 1;
+
+                while(alpha >= 0)
+                {
+                    alpha -= Time.deltaTime;
+                    danger.color = new Color(danger.color.r, danger.color.g, danger.color.b, alpha);
+                    yield return null;
+                }
+
+                alpha = 0;
+            }
         }
 
         private float ContAngle(Vector3 fwd, Vector3 targetDir)
