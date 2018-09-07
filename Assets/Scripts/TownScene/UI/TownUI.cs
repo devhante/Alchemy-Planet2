@@ -35,8 +35,11 @@ namespace AlchemyPlanet.TownScene
 
             foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures) // 저장된 타운 불러오기
             {
-                if(strc.setup)
+                if (strc.setup)
+                {
+                    strc.Build();
                     DataManager.Instance.CurrentPlayerData.setupBuildilngs.Add(Instantiate(strc.StructureObject));
+                }
             }
         }
 

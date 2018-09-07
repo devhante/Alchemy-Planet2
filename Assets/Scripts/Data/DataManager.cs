@@ -137,9 +137,10 @@ namespace AlchemyPlanet.Data
                 JsonSerializer serializer = new JsonSerializer();
                 Dictionary<string, Building> Buildings = (Dictionary<string, Building>)serializer.Deserialize(file, typeof(Dictionary<string, Building>));
 
-                foreach(string str in Buildings.Keys)
+                foreach (string str in Buildings.Keys)
                 {
                     this.structures.Add(str, new Building(Buildings[str].structureName, Buildings[str].buildingDiscription, Buildings[str].buildingLevel));
+                    structures[str].StructureObject = Resources.Load<GameObject>("Prefabs/TownScene/Structure");
                 }
 
                 Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Town/town");
@@ -152,10 +153,7 @@ namespace AlchemyPlanet.Data
                             structures[sprites[i].name].image = sprites[i];
                     }
                 }
-                foreach (string str in Buildings.Keys)
-                {
-                    structures[str].StructureObject = Resources.Load<GameObject>("Prefabs/TownScene/" + str);
-                }
+
             }
             using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/Interiors").bytes), System.Text.Encoding.UTF8))
             {
@@ -165,6 +163,7 @@ namespace AlchemyPlanet.Data
                 foreach (string str in Interiors.Keys)
                 {
                     this.structures.Add(str, new Interior(Interiors[str].structureName));
+                    structures[str].StructureObject = Resources.Load<GameObject>("Prefabs/TownScene/Structure");
                 }
 
                 Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Town/town");
@@ -176,10 +175,6 @@ namespace AlchemyPlanet.Data
                         if (sprites[i].name == structures[sprites[i].name].structureName)
                             structures[sprites[i].name].image = sprites[i];
                     }
-                }
-                foreach (string str in Interiors.Keys)
-                {
-                    structures[str].StructureObject = Resources.Load<GameObject>("Prefabs/TownScene/" + str);
                 }
             }
         }
@@ -205,8 +200,6 @@ namespace AlchemyPlanet.Data
         public void LoadPlayerData()
         {
             CurrentPlayerData = new PlayerData();
-
-
         }
 
         public List<Dialog> LoadDialog(string dialog_name)
@@ -274,19 +267,20 @@ namespace AlchemyPlanet.Data
             this.inventory = new Dictionary<string, int>();
             this.structures = new List<Structure>();
             structures.Add(DataManager.Instance.structures["Tree"].Clone());
+            structures[0].id = 20;
             structures[0].setup = true;
+            structures[0].position = new Vector2(-2.6f, 2.5f);
             structures.Add(DataManager.Instance.structures["House"].Clone());
+            structures[1].id = 10;
             structures[1].setup = true;
+            structures[1].position = new Vector2(2.2f, 1.6f);
             structures.Add(DataManager.Instance.structures["Tree"].Clone());
+            structures[2].id = 21;
             structures[2].setup = false;
+            structures[2].position = new Vector2(-3.8f, 2.5f);
 
             inventory.Add("Red", 1);
             inventory.Add("Blue", 2);
-        }
-
-        public void Upgrade()
-        {
-            
         }
     }
 
@@ -307,20 +301,35 @@ namespace AlchemyPlanet.Data
 
     public class Structure
     {
+        public int id;
         public string structureName;
         public Sprite image;
         public GameObject StructureObject;
         public Vector2 position;
         public bool setup;
+        public bool flip;
+
 
         public virtual Structure Clone()
         {
             Structure strc = new Structure();
+            strc.id = id;
             strc.structureName = structureName;
             strc.image = image;
             strc.StructureObject = StructureObject;
+            strc.position = position;
             strc.setup = setup;
             return strc;
+        }
+        public void Build()
+        {
+            StructureObject.GetComponent<SpriteRenderer>().sprite = image;
+            StructureObject.transform.position = position;
+            StructureObject.GetComponent<BoxCollider2D>().offset = new Vector2(0,0);
+            StructureObject.GetComponent<BoxCollider2D>().size = StructureObject.GetComponent<SpriteRenderer>().bounds.size;
+            StructureObject.GetComponent<SpriteRenderer>().sortingOrder = -90;
+            StructureObject.name = id.ToString();
+            StructureObject.GetComponent<SpriteRenderer>().flipX = flip;
         }
     }
 
@@ -340,8 +349,13 @@ namespace AlchemyPlanet.Data
             Structure strc = new Building(structureName,buildingDiscription, buildingLevel);
             strc.image = image;
             strc.StructureObject = StructureObject;
+            strc.position = position;
             strc.setup = setup;
             return strc;
+        }
+        public void Upgrade()
+        {
+
         }
     }
 
@@ -356,6 +370,7 @@ namespace AlchemyPlanet.Data
             Structure strc = new Interior(structureName);
             strc.image = image;
             strc.StructureObject = StructureObject;
+            strc.position = position;
             strc.setup = setup;
             return strc;
         }
