@@ -17,6 +17,8 @@ namespace AlchemyPlanet.GameScene
         public Text ComboText;
         public GameObject BombDestination;
         public Image DangerMask;
+        public GameObject TopWind;
+        public GameObject BottomWind;
 
         public bool IsIncreasingPurify { get; set; }
         public bool IsNotReducingOxygen { get; set; }

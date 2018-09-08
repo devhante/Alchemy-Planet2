@@ -165,7 +165,7 @@ namespace AlchemyPlanet.GameScene
             isDraggedForwardCoroutinePlaying = true;
             int speed = (int)GameManager.Instance.MoveSpeed;
 
-            while(speed >= 3)
+            while(ItemManager.Instance.IsSprinting == true)
             {
                 speed = (int)GameManager.Instance.MoveSpeed;
 
