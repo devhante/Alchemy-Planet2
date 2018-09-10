@@ -9,20 +9,21 @@ namespace AlchemyPlanet.TownScene
 {
     public class TownManager : Common.UI<TownManager>
     {
-        public List<GameObject> buildingImages;  // 건물 미리보기
-        public Button leftButton;           // 건물이미지 페이지 왼쪽으로 넘기기
-        public Button rightButton;          // 건물이미지 페이지 오른쪽으로 넘기기
-        public Button rotateButton;         // 건물 회전 버튼
-        public Button removeButton;         // 건물 보관 버튼
-        public Button exitButton;           // 타운관리 나가기 버튼
+        public List<GameObject> buildingImages; // 건물 미리보기
+        public Button leftButton;               // 건물이미지 페이지 왼쪽으로 넘기기
+        public Button rightButton;              // 건물이미지 페이지 오른쪽으로 넘기기
+        public Button rotateButton;             // 건물 회전 버튼
+        public Button removeButton;             // 건물 보관 버튼
+        public Button exitButton;               // 타운관리 나가기 버튼
 
+        
+        private List<string> ownBuildings = new List<string>();                 // 소유중인 건물
+        private List<GameObject> setupBuildings = new List<GameObject>();       // 설치된 건물
+        private GameObject clickedBuilding;                                     // 선택된 건물
+        private Touch tempTouch;                                                // 터치들
+        private Vector3 touchedPos;                                             // 터치위치
+        private int page;                                                       // 현재 건물이미지 페이지
 
-        private List<string> ownBuildings = new List<string>();                   // 소유중인 건물
-        private List<GameObject> setupBuildings = new List<GameObject>();   // 설치된 건물
-        private GameObject clickedBuilding;                             // 선택된 건물
-        private Touch tempTouch;                                        // 터치들
-        private Vector3 touchedPos;                                     // 터치위치
-        private int page;                                               // 현재 건물이미지 페이지
 
         private void OnEnable()
         {
@@ -169,8 +170,9 @@ namespace AlchemyPlanet.TownScene
                 if (tempTouch.phase == TouchPhase.Moved)
                 {
                     touchedPos = tempTouch.position;
+
                     clickedBuilding.transform.position = new Vector3(
-                        Camera.main.ScreenToWorldPoint(touchedPos).x,
+                        Mathf.RoundToInt(Camera.main.ScreenToWorldPoint(touchedPos).x),
                         clickedBuilding.transform.position.y,
                         clickedBuilding.transform.position.z);
                 }

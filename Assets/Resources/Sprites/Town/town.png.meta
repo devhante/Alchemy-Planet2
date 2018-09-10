@@ -15,7 +15,7 @@ TextureImporter:
     21300020: town_10
     21300022: town_11
     21300024: House
-    21300026: town_13
+    21300026: tent
     21300028: town_proflie
     21300030: town_info
     21300032: town_menu
@@ -480,7 +480,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: town_13
+      name: tent
       rect:
         serializedVersion: 2
         x: 1352
