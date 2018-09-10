@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
+using System.Collections;
 
 namespace AlchemyPlanet.Data
 {
@@ -242,7 +243,7 @@ namespace AlchemyPlanet.Data
     {
         public string player_id;
         public string player_name;
-    
+
         //재화
         public int unicoin;
         public int cosmoston;
@@ -269,18 +270,32 @@ namespace AlchemyPlanet.Data
             structures.Add(DataManager.Instance.structures["Tree"].Clone());
             structures[0].id = 20;
             structures[0].setup = true;
-            structures[0].position = new Vector2(-2.6f, 2.5f);
+            structures[0].position = new Vector2(-2f, 2.5f);
             structures.Add(DataManager.Instance.structures["House"].Clone());
             structures[1].id = 10;
             structures[1].setup = true;
-            structures[1].position = new Vector2(2.2f, 1.6f);
+            structures[1].position = new Vector2(2f, 1.6f);
             structures.Add(DataManager.Instance.structures["Tree"].Clone());
             structures[2].id = 21;
             structures[2].setup = false;
-            structures[2].position = new Vector2(-3.8f, 2.5f);
+            structures[2].position = new Vector2(-4f, 2.5f);
 
             inventory.Add("Red", 1);
             inventory.Add("Blue", 2);
+        }
+
+        public void SetBuildingImage()
+        {
+            foreach (GameObject obj in setupBuildilngs)
+            {
+                foreach (Structure strc in structures)
+                {
+                    if (strc.id == int.Parse(obj.name.Substring(0, obj.name.Length - 7)))
+                    {
+                        obj.GetComponent<SpriteRenderer>().sprite = strc.image;
+                    }
+                }
+            }
         }
     }
 
@@ -306,8 +321,8 @@ namespace AlchemyPlanet.Data
         public Sprite image;
         public GameObject StructureObject;
         public Vector2 position;
-        public bool setup;
-        public bool flip;
+        public bool setup = false;
+        public bool flip = false;
 
 
         public virtual Structure Clone()
@@ -325,7 +340,7 @@ namespace AlchemyPlanet.Data
         {
             StructureObject.GetComponent<SpriteRenderer>().sprite = image;
             StructureObject.transform.position = position;
-            StructureObject.GetComponent<BoxCollider2D>().offset = new Vector2(0,0);
+            StructureObject.GetComponent<BoxCollider2D>().offset = new Vector2(0, 0);
             StructureObject.GetComponent<BoxCollider2D>().size = StructureObject.GetComponent<SpriteRenderer>().bounds.size;
             StructureObject.GetComponent<SpriteRenderer>().sortingOrder = -90;
             StructureObject.name = id.ToString();
@@ -337,6 +352,7 @@ namespace AlchemyPlanet.Data
     {
         public string buildingDiscription;
         public int buildingLevel;
+        public bool upgrading = false;
 
         public Building(string buildingName, string buildingDiscription, int buildingLevel)
         {
@@ -346,7 +362,8 @@ namespace AlchemyPlanet.Data
         }
         public override Structure Clone()
         {
-            Structure strc = new Building(structureName,buildingDiscription, buildingLevel);
+
+            Structure strc = new Building(structureName, buildingDiscription, buildingLevel);
             strc.image = image;
             strc.StructureObject = StructureObject;
             strc.position = position;
@@ -355,7 +372,12 @@ namespace AlchemyPlanet.Data
         }
         public void Upgrade()
         {
+            upgrading = true;
+            image = Resources.Load<Sprite>("Sprites/Town/Tent");
 
+            buildingLevel++;
+            image = Resources.Load<Sprite>("Sprties/Town/" + structureName + buildingLevel.ToString());
+            upgrading = false;
         }
     }
 

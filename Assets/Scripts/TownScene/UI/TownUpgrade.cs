@@ -30,7 +30,7 @@ namespace AlchemyPlanet.TownScene
             buildingImages[4].GetComponent<Button>().onClick.AddListener(() => OpenBuildingInfo(4));
             buildingImages[5].GetComponent<Button>().onClick.AddListener(() => OpenBuildingInfo(5));
 
-            //GetOwnBuilding();
+            GetOwnBuilding();
             SetImage();
         }
 
@@ -57,7 +57,7 @@ namespace AlchemyPlanet.TownScene
                     if (!buildingImages[i].activeSelf)
                         buildingImages[i].SetActive(true);
                     buildingImages[i].GetComponent<Image>().sprite = DataManager.Instance.structures[ownBuildings[i]].image;
-                     buildingImages[i].name = DataManager.Instance.structures[ownBuildings[i]].structureName;
+                    buildingImages[i].name = DataManager.Instance.structures[ownBuildings[i]].structureName;
                 }
                 else
                 {
