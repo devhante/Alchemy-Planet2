@@ -11,7 +11,7 @@ public class ItemInfo : MonoBehaviour {
     public Image imageInfo;
     public Text count;
     public Button closeButton;
-
+    
     private string item_name;
     private string discription;
     private Sprite image;

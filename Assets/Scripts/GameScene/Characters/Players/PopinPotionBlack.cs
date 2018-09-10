@@ -9,6 +9,7 @@ namespace AlchemyPlanet.GameScene
     public class PopinPotionBlack : Item
     {
         public Image mask;
+        public Image danger;
 
         private Rigidbody2D rb2d;
         private Vector3 startPosition;
@@ -25,6 +26,9 @@ namespace AlchemyPlanet.GameScene
         {
             base.Start();
             StartCoroutine("CountdownCoroutine");
+            StartCoroutine("DangerCoroutine");
+            StartCoroutine("DangerMaskCoroutine");
+            Sweat.Instance.StartSweatAnimation();
         }
 
         private void Update()
@@ -67,8 +71,12 @@ namespace AlchemyPlanet.GameScene
         IEnumerator ExplodeCoroutine()
         {
             StopCoroutine("Float");
+            StopCoroutine("DangerCoroutine");
+            StopCoroutine("DangerMaskCoroutine");
+            Sweat.Instance.StopSweatAnimation();
             button.enabled = false;
             mask.color = new Color(1, 0, 0, 0);
+            danger.gameObject.SetActive(false);
 
             animator.SetTrigger("Explode");
             StartCoroutine("ShakeCoroutine");
@@ -85,9 +93,13 @@ namespace AlchemyPlanet.GameScene
         IEnumerator ThrowCoroutine()
         {
             StopCoroutine("Float");
+            StopCoroutine("DangerCoroutine");
+            StopCoroutine("DangerMaskCoroutine");
             StopCoroutine("CountdownCoroutine");
+            Sweat.Instance.StopSweatAnimation();
             button.enabled = false;
             mask.color = new Color(1, 0, 0, 0);
+            danger.gameObject.SetActive(false);
 
             while ((GameUI.Instance.BombDestination.transform.position - transform.position).sqrMagnitude > 10)
             {
@@ -127,7 +139,58 @@ namespace AlchemyPlanet.GameScene
                 yield return null;
             }
             Camera.main.transform.localPosition = originPos;
+        }
 
+        IEnumerator DangerCoroutine()
+        {
+            float alpha = danger.color.a;
+
+            while(true)
+            {
+                while(alpha <= 1)
+                {
+                    alpha += Time.deltaTime;
+                    danger.color = new Color(danger.color.r, danger.color.g, danger.color.b, alpha);
+                    yield return null;
+                }
+
+                alpha = 1;
+
+                while(alpha >= 0)
+                {
+                    alpha -= Time.deltaTime;
+                    danger.color = new Color(danger.color.r, danger.color.g, danger.color.b, alpha);
+                    yield return null;
+                }
+
+                alpha = 0;
+            }
+        }
+
+        IEnumerator DangerMaskCoroutine()
+        {
+            float alpha = GameUI.Instance.DangerMask.color.a;
+
+            while (true)
+            {
+                while (alpha <= 1)
+                {
+                    alpha += Time.deltaTime;
+                    GameUI.Instance.DangerMask.color = new Color(danger.color.r, danger.color.g, danger.color.b, alpha);
+                    yield return null;
+                }
+
+                alpha = 1;
+
+                while (alpha >= 0)
+                {
+                    alpha -= Time.deltaTime;
+                    GameUI.Instance.DangerMask.color = new Color(danger.color.r, danger.color.g, danger.color.b, alpha);
+                    yield return null;
+                }
+
+                alpha = 0;
+            }
         }
 
         private float ContAngle(Vector3 fwd, Vector3 targetDir)

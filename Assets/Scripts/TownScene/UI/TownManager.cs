@@ -27,23 +27,23 @@ namespace AlchemyPlanet.TownScene
         private void OnEnable()
         {
             // 버튼 기능 적용
-            leftButton.onClick.AddListener(() =>{ page-=page>0?1:0; });
-            rightButton.onClick.AddListener(() =>{ page+=ownBuildings.Count>(page+1)*5?1:0; });
+            leftButton.onClick.AddListener(() => { page -= page > 0 ? 1 : 0; });
+            rightButton.onClick.AddListener(() => { page += ownBuildings.Count > (page + 1) * 5 ? 1 : 0; });
             rotateButton.onClick.AddListener(() => { RotateBuilding(); });
             removeButton.onClick.AddListener(() => { RemoveBuilding(); });
             exitButton.onClick.AddListener(() => { Exit(); });
-            
+
             buildingImages[0].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[0].name); });
             buildingImages[1].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[1].name); });
             buildingImages[2].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[2].name); });
             buildingImages[3].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[3].name); });
             buildingImages[4].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[4].name); });
-            
-            
+
+
 
             TownUI.Instance.player.SetActive(false);
             page = 0;
-            GetOwnBuilding();
+            GetBuilding();
             clickedBuilding = null;
             SetImage();
         }
@@ -54,34 +54,63 @@ namespace AlchemyPlanet.TownScene
             MoveCamera();
         }
 
-        void GetOwnBuilding()   // 소유중인 건물 받아오기
+        void GetBuilding()   // 소유중인 건물 받아오기
         {
-            foreach(Structure strc in DataManager.Instance.CurrentPlayerData.structures)
+            foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures)
             {
-                if(!strc.setup)
+                if (!strc.setup)
                     ownBuildings.Add(strc.structureName);
             }
             setupBuildings = DataManager.Instance.CurrentPlayerData.setupBuildilngs;
 
         }
 
+        void SetBuilding()
+        {
+            foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures)
+                strc.setup = false;
+
+            foreach (GameObject obj in setupBuildings)
+            {
+                foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures)
+                {
+                    if (strc.id == int.Parse(obj.name.Substring(0, obj.name.Length - 7)))
+                    {
+                        strc.flip = obj.GetComponent<SpriteRenderer>().flipX;
+                        strc.position = obj.transform.position;
+                        strc.setup = true;
+                        break;
+                    }
+                }
+            }
+
+            DataManager.Instance.CurrentPlayerData.setupBuildilngs = setupBuildings;
+        }
+
         void SetImage() // 소유중인 건물이미지 출력하기
         {
             List<string> ownBuildingsImages = new List<string>();
 
-            foreach(string str in ownBuildings)
+            foreach (string str in ownBuildings)
             {
-                ownBuildingsImages.Add(str);
+                foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures)
+                {
+                    if (strc.structureName == str)
+                    {
+                        ownBuildingsImages.Add(strc.structureName);
+                        break;
+                    }
+                }
             }
 
             for (int i = 0; i < 5; i++)
             {
-                if(i<ownBuildings.Count - page * 5)
+                if (i < ownBuildings.Count - page * 5)
                 {
                     if (!buildingImages[i].activeSelf)
                         buildingImages[i].SetActive(true);
                     buildingImages[i].GetComponent<Image>().sprite = DataManager.Instance.structures[ownBuildingsImages[i]].image;
-                    buildingImages[i].name = DataManager.Instance.structures[ownBuildingsImages[i]].structureName;
+                    buildingImages[i].name = ownBuildingsImages[i].ToString();
                 }
                 else
                 {
@@ -117,7 +146,6 @@ namespace AlchemyPlanet.TownScene
                     }
                 }
             }
-            
         }
 
         public void Exit() // 타운관리모드 나가기
@@ -127,36 +155,20 @@ namespace AlchemyPlanet.TownScene
                 clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
                 clickedBuilding = null;
             }
-            
-            for (int i = 0; i < DataManager.Instance.CurrentPlayerData.structures.Count; i++)
-            {
-                if(ownBuildings.Contains(DataManager.Instance.CurrentPlayerData.structures[i].structureName))
-                    DataManager.Instance.CurrentPlayerData.structures[i].setup = false;
-                else
-                    DataManager.Instance.CurrentPlayerData.structures[i].setup = true;
-            }
 
-            DataManager.Instance.CurrentPlayerData.setupBuildilngs = setupBuildings;
-
+            SetBuilding();
             TownUI.Instance.player.SetActive(true);
             UIManager.Instance.CloseMenu();
             UIManager.Instance.TownUIOn();
-        }   
+        }
 
         IEnumerator MoveBuilding()     //건물 위치 변경
         {
-            while (TouchPhase.Ended != Input.GetTouch(0).phase)
+            while (TouchPhase.Ended != tempTouch.phase)
             {
-                if (Input.GetMouseButton(0))
+                if (tempTouch.phase == TouchPhase.Moved)
                 {
-                    clickedBuilding.transform.position = new Vector3(
-                        Camera.main.ScreenToWorldPoint(Input.mousePosition).x,
-                        clickedBuilding.transform.position.y,
-                        clickedBuilding.transform.position.z);
-                }
-                else if (tempTouch.phase == TouchPhase.Moved)
-                {
-                    touchedPos = Input.GetTouch(0).position;
+                    touchedPos = tempTouch.position;
                     clickedBuilding.transform.position = new Vector3(
                         Camera.main.ScreenToWorldPoint(touchedPos).x,
                         clickedBuilding.transform.position.y,
@@ -164,19 +176,19 @@ namespace AlchemyPlanet.TownScene
                 }
                 yield return null;
             }
-        }   
+        }
 
         void MoveCamera()
         {
-            if(clickedBuilding == null && tempTouch.phase == TouchPhase.Moved)
+            if (clickedBuilding == null && tempTouch.phase == TouchPhase.Moved)
             {
-                TownUI.Instance.mainCamera.transform.position += Vector3.left * tempTouch.deltaPosition.x/2 * tempTouch.deltaTime;
+                TownUI.Instance.mainCamera.transform.position += Vector3.left * tempTouch.deltaPosition.x / 2 * tempTouch.deltaTime;
             }
         }
 
         void RotateBuilding()   // 건물 회전
         {
-            if(clickedBuilding != null)
+            if (clickedBuilding != null)
                 clickedBuilding.GetComponent<SpriteRenderer>().flipX = clickedBuilding.GetComponent<SpriteRenderer>().flipX ? false : true;
         }
 
@@ -187,28 +199,35 @@ namespace AlchemyPlanet.TownScene
                 clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
                 clickedBuilding = null;
             }
-            clickedBuilding = Instantiate(DataManager.Instance.structures[str].StructureObject);
-            clickedBuilding.transform.position = new Vector3(TownUI.Instance.mainCamera.transform.position.x, clickedBuilding.transform.position.y);
-            clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0);
-            setupBuildings.Add(clickedBuilding);
-            foreach(string strcname in ownBuildings)
+            foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures)
             {
-                if(strcname== str)
+                if (strc.structureName == str && !strc.setup)
                 {
-                    ownBuildings.Remove(str);
+                    strc.Build();
+                    clickedBuilding = Instantiate(strc.StructureObject);
+                    ownBuildings.Remove(strc.structureName);
                     break;
                 }
             }
+            clickedBuilding.transform.position = new Vector3(TownUI.Instance.mainCamera.transform.position.x, clickedBuilding.transform.position.y);
+            clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0);
+            setupBuildings.Add(clickedBuilding);
             SetImage();
+            SetBuilding();
         }
 
         void RemoveBuilding()   // 건물 철거
         {
-            ownBuildings.Add(clickedBuilding.name.Substring(0, clickedBuilding.name.Length-7));
+            foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures)
+            {
+                if (strc.id == int.Parse(clickedBuilding.name.Substring(0, clickedBuilding.name.Length - 7)))
+                    ownBuildings.Add(strc.structureName);
+            }
             setupBuildings.Remove(clickedBuilding);
             Destroy(clickedBuilding);
             clickedBuilding = null;
             SetImage();
+            SetBuilding();
         }
     }
 }

@@ -12,6 +12,8 @@ namespace AlchemyPlanet.GameScene
         public int MaxItemNumber { get; private set; }
         public bool IsSprinting { get; private set; }
 
+        public GameObject sprintEffect;
+
         private int increasePurifyCount = 0;
         private int noReducedOxygenCount = 0;
         private int slowReducedOxygenCount = 0;
@@ -147,6 +149,9 @@ namespace AlchemyPlanet.GameScene
 
             IsSprinting = true;
             GameManager.Instance.UpdateSpeed();
+            GameObject sprintEffectObject = Instantiate(sprintEffect, GameObject.FindWithTag("Player").transform.position, Quaternion.identity);
+            GameUI.Instance.TopWind.SetActive(true);
+            GameUI.Instance.BottomWind.SetActive(true);
 
             while (sprintCount > 0)
             {
@@ -156,6 +161,9 @@ namespace AlchemyPlanet.GameScene
 
             IsSprinting = false;
             GameManager.Instance.UpdateSpeed();
+            Destroy(sprintEffectObject);
+            GameUI.Instance.TopWind.SetActive(false);
+            GameUI.Instance.BottomWind.SetActive(false);
         }
     }
 }

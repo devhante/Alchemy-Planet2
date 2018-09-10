@@ -42,7 +42,7 @@ namespace AlchemyPlanet.TownScene
                         {
                             TownUI.Instance.StartCoroutine("MoveBar");
                         }
-                            animator.SetBool("Run", false);
+                        animator.SetBool("Run", false);
                         talking = true;
                         hit.collider.gameObject.SendMessage("Stop");
                         hit.collider.gameObject.SendMessage("TalkStart", gameObject);
@@ -65,6 +65,39 @@ namespace AlchemyPlanet.TownScene
                 {
                     animator.SetBool("Run", false);
                 }
+            }
+            else if (Input.GetMouseButton(0) && !talking && !EventSystem.current.IsPointerOverGameObject())
+            {
+                touchedPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);
+                if (Input.GetMouseButtonDown(0) && hit.collider != null && hit.collider.tag == "NPC")
+                {
+                    if (TownUI.Instance.turnOnBuildBar)
+                    {
+                        TownUI.Instance.StartCoroutine("MoveBar");
+                    }
+                    animator.SetBool("Run", false);
+                    talking = true;
+                    hit.collider.gameObject.SendMessage("Stop");
+                    hit.collider.gameObject.SendMessage("TalkStart", gameObject);
+                }
+                else
+                {
+                    animator.SetBool("Run", true);
+                    if (transform.position.x - touchedPos.x < 0)
+                    {
+                        transform.rotation = Quaternion.Euler(0, 0, 0);
+                    }
+                    else if (transform.position.x - touchedPos.x > 0)
+                    {
+                        transform.rotation = Quaternion.Euler(0, 180, 0);
+                    }
+                    transform.Translate(Vector2.right * speed * Time.deltaTime);
+                }
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+                animator.SetBool("Run", false);
             }
         }
 
