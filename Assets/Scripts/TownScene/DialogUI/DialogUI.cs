@@ -50,11 +50,6 @@ namespace AlchemyPlanet.TownScene
             count = 1;
         }
 
-        private void Start()
-        {
-
-        }
-
         private void Update()
         {
             if (Input.GetMouseButtonDown(0))
@@ -130,31 +125,15 @@ namespace AlchemyPlanet.TownScene
 
             do
             {
-                if (num >= data.dialogs.Count)
-                {
-                    count = 1;
-                    UIManager.Instance.CloseMenu();
-
-                    if (NPC != null)
-                    {
-                        NPC.StartCoroutine("TalkEnd");
-                        NPC = null;
-                    }
-                    else
-                    {
-                        DataManager.Instance.selected_dialog = null;
-                        Common.DialogScene.Instance.IsOver();
-                    }
-
-                    break;
-                }
-
-                else
+                if (num < data.dialogs.Count)
                 {
                     writting = true;
 
                     d_name.text = data.dialogs[num].name;
+                    if (data.dialogs[num].name.Equals("{P}"))
+                        d_name.text = Data.DataManager.Instance.CurrentPlayerData.player_name;
 
+                    #region SetIllust
                     d_illust[0].sprite = data.illusts[data.dialogs[num].illusts[0].name];
                     if (data.dialogs[num].illusts[0].mode == IllustMode.Back)
                     {
@@ -165,7 +144,7 @@ namespace AlchemyPlanet.TownScene
                         d_illust[0].color = new Color32(255, 255, 255, 255);
                     }
 
-                    d_illust[1].sprite = data.illusts[data.dialogs[num].illusts[1].name];
+                    d_illust[1].sprite = data.illusts[data.dialogs[num].illusts[1].name];    
 
                     if (data.dialogs[num].illusts[1].mode == IllustMode.Back)
                     {
@@ -175,9 +154,13 @@ namespace AlchemyPlanet.TownScene
                     {
                         d_illust[1].color = new Color32(255, 255, 255, 255);
                     }
+                    #endregion SetIllust
 
+                    #region PrintDialog
                     //다음 내용을 불러오고, Text를 초기화
                     string script = data.dialogs[num].content;
+                    script = script.Replace("{P}", Data.DataManager.Instance.CurrentPlayerData.player_name);
+
                     d_script.text = "";
 
                     touched = false;
@@ -190,14 +173,36 @@ namespace AlchemyPlanet.TownScene
                         yield return write_interval;
                     }
                     //완성본으로 변경
-                    d_script.text = data.dialogs[num].content;
-                    
-                    if(count == 1)
+                    d_script.text = script;
+                    #endregion PrintDialog
+
+                    if (count == 1)
                     {
                         yield return new WaitForSeconds(0.4f);
                         GetComponent<Animator>().cullingMode = AnimatorCullingMode.CullCompletely;
                     }
                     writting = false;
+                }
+
+                else
+                {
+                    count = 1;
+                    UIManager.Instance.CloseMenu();
+
+                    //NPC에게서 불러온 대화일 경우
+                    if (NPC != null)
+                    {
+                        NPC.StartCoroutine("TalkEnd");
+                        NPC = null;
+                    }
+                    //대화씬에서 불러온 대화일 경우
+                    else
+                    {
+                        DataManager.Instance.selected_dialog = null;
+                        Common.DialogScene.Instance.IsOver();
+                    }
+
+                    break;
                 }
                 if (autoplay)
                 {

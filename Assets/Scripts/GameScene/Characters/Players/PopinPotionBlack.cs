@@ -28,6 +28,7 @@ namespace AlchemyPlanet.GameScene
             StartCoroutine("CountdownCoroutine");
             StartCoroutine("DangerCoroutine");
             StartCoroutine("DangerMaskCoroutine");
+            Sweat.Instance.StartSweatAnimation();
         }
 
         private void Update()
@@ -72,6 +73,7 @@ namespace AlchemyPlanet.GameScene
             StopCoroutine("Float");
             StopCoroutine("DangerCoroutine");
             StopCoroutine("DangerMaskCoroutine");
+            Sweat.Instance.StopSweatAnimation();
             button.enabled = false;
             mask.color = new Color(1, 0, 0, 0);
             danger.gameObject.SetActive(false);
@@ -94,6 +96,7 @@ namespace AlchemyPlanet.GameScene
             StopCoroutine("DangerCoroutine");
             StopCoroutine("DangerMaskCoroutine");
             StopCoroutine("CountdownCoroutine");
+            Sweat.Instance.StopSweatAnimation();
             button.enabled = false;
             mask.color = new Color(1, 0, 0, 0);
             danger.gameObject.SetActive(false);

@@ -8,22 +8,30 @@ namespace AlchemyPlanet.CharacterScene
 {
     public class PartyUI : MonoBehaviour
     {
+        public static PartyUI Instance { get; private set; }
+
         public Button buttonLeft;
         public Button buttonRight;
         public GameObject partyBoxPosition;
         public GameObject partyBoxPrefab;
 
         private GameObject partyBoxObject;
-        private bool isSequencePlaying;
+
+        private void OnDestroy()
+        {
+            Instance = null;
+        }
 
         private void Awake()
         {
+            Instance = this;
+
             partyBoxObject = Instantiate(partyBoxPrefab, partyBoxPosition.transform.position, Quaternion.identity, transform);
             buttonLeft.onClick.AddListener(OnClickButtonLeft);
             buttonRight.onClick.AddListener(OnClickButtonRight);
         }
 
-        private void OnClickButtonLeft()
+        public void OnClickButtonLeft()
         {
             buttonLeft.gameObject.SetActive(false);
             buttonRight.gameObject.SetActive(false);
@@ -44,7 +52,7 @@ namespace AlchemyPlanet.CharacterScene
                 }));
         }
 
-        private void OnClickButtonRight()
+        public void OnClickButtonRight()
         {
             buttonLeft.gameObject.SetActive(false);
             buttonRight.gameObject.SetActive(false);
