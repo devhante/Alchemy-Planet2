@@ -184,6 +184,7 @@ namespace AlchemyPlanet.Data
             }
         }
 
+        #region PlayerData
         public static PlayerData PlayerStringToData(string dataString)
         {
             PlayerData data = JsonConvert.DeserializeObject<PlayerData>(dataString);
@@ -208,7 +209,9 @@ namespace AlchemyPlanet.Data
 
 
         }
+        #endregion PlayerData
 
+        #region Dialog
         public List<Dialog> LoadDialog(string dialog_name)
         {
             using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>(string.Format("Datas/Dialogs/{0}", dialog_name)).bytes), System.Text.Encoding.UTF8))
@@ -233,6 +236,7 @@ namespace AlchemyPlanet.Data
             }
             return illusts;
         }
+        #endregion Dialog
 
         public List<Formula> LoadFormulas()
         {
