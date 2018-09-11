@@ -77,6 +77,7 @@ namespace AlchemyPlanet.GameScene
             button.enabled = false;
             mask.color = new Color(1, 0, 0, 0);
             danger.gameObject.SetActive(false);
+            GameUI.Instance.DangerMask.gameObject.SetActive(false);
 
             animator.SetTrigger("Explode");
             StartCoroutine("ShakeCoroutine");
@@ -100,6 +101,7 @@ namespace AlchemyPlanet.GameScene
             button.enabled = false;
             mask.color = new Color(1, 0, 0, 0);
             danger.gameObject.SetActive(false);
+            GameUI.Instance.DangerMask.gameObject.SetActive(false);
 
             while ((GameUI.Instance.BombDestination.transform.position - transform.position).sqrMagnitude > 10)
             {
