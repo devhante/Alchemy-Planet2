@@ -14,6 +14,7 @@ namespace AlchemyPlanet.GameScene
         protected Image bubble;
         protected Button button;
         protected Animator animator;
+        private bool isBubblePointerDown;
 
         protected virtual void Awake()
         {
@@ -21,6 +22,7 @@ namespace AlchemyPlanet.GameScene
             button = GetComponent<Button>();
             animator = GetComponent<Animator>();
             isExpanding = false;
+            isBubblePointerDown = false;
         }
 
         protected virtual void Start()
@@ -77,6 +79,9 @@ namespace AlchemyPlanet.GameScene
 
         public virtual void OnPointerDown(PointerEventData eventData)
         {
+            if (isBubblePointerDown) return;
+            else isBubblePointerDown = true;
+
             StopCoroutine("Float");
             Shrink();
             ChangeBubbleToSelectedBubble();

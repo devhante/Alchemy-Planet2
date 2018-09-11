@@ -8,7 +8,7 @@ namespace AlchemyPlanet.GameScene
 {
     public enum MaterialName { Red, Yellow, Green, Blue, Purple }
 
-    public class Material : Bubble, IPointerUpHandler, IPointerEnterHandler
+    public class Material : Bubble, IPointerEnterHandler, IPointerUpHandler
     {
         public MaterialName materialName;
 
@@ -16,6 +16,8 @@ namespace AlchemyPlanet.GameScene
         private Image mask;
         private bool isChainSelected;
         private bool isHighlighted;
+        private bool isMaterialPointerDown;
+        private bool isMaterialPointerUp;
 
         protected override void Awake()
         {
@@ -23,6 +25,8 @@ namespace AlchemyPlanet.GameScene
             mask = transform.GetChild(1).GetComponent<Image>();
             isChainSelected = false;
             isHighlighted = false;
+            isMaterialPointerDown = false;
+            isMaterialPointerUp = false;
         }
 
         protected override void Start()
@@ -47,6 +51,9 @@ namespace AlchemyPlanet.GameScene
 
         public override void OnPointerDown(PointerEventData eventData)
         {
+            if (isMaterialPointerDown) return;
+            else isMaterialPointerDown = true;
+
             base.OnPointerDown(eventData);
 
             if (RecipeManager.Instance.GetQueuePeekName() == materialName)
@@ -62,8 +69,11 @@ namespace AlchemyPlanet.GameScene
 
         public void OnPointerUp(PointerEventData eventData)
         {
+            if (isMaterialPointerUp) return;
+            else isMaterialPointerUp = true;
+
             if (Time.timeScale == 0) return;
-            else MaterialManager.Instance.RespawnMaterial(this);
+            MaterialManager.Instance.RespawnMaterial(this);
 
             if (RecipeManager.Instance.GetQueuePeekName() == materialName)
             {
