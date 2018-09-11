@@ -10,10 +10,14 @@ namespace AlchemyPlanet.GameScene
         public enum ItemName { IncreasePurify, NoReducedOxygen, RainbowColorBall, SlowReducedOxygen, Sprint, PopinPotionBlack }
 
         public ItemName itemName;
+        private bool isItemPointerUp;
 
         public virtual void OnPointerUp(PointerEventData eventData)
         {
-            switch(itemName)
+            if (isItemPointerUp) return;
+            else isItemPointerUp = true;
+
+            switch (itemName)
             {
                 case ItemName.IncreasePurify: ItemManager.Instance.IncreasePurify(); break;
                 case ItemName.NoReducedOxygen: ItemManager.Instance.NoReducedOxygen(); break;

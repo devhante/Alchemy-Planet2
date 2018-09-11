@@ -40,13 +40,49 @@ namespace AlchemyPlanet.GameScene
             Key++;
         }
 
+        public void SpawnBossMonster()
+        {
+            SpawnMonster();
+            Monsters[Key - 1].transform.localScale = new Vector3(2.5f, 2.5f, 0);
+        }
+
         IEnumerator SpawnMonsterCoroutine()
         {
-            while (true)
+            int count = 0;
+
+            while (count < 1)
             {
                 SpawnMonster();
                 yield return new WaitForSeconds(SpawnCooltime);
+                count++;
             }
+
+            StartCoroutine("SpawnBossMonsterCoroutine");
+        }
+
+        IEnumerator SpawnBossMonsterCoroutine()
+        {
+            // Zoom Out
+            while (Camera.main.orthographicSize <= 9.4f)
+            {
+                Camera.main.orthographicSize += Time.deltaTime * 2;
+                Camera.main.transform.position += new Vector3(Time.deltaTime * 0.8f, -Time.deltaTime * 0.2f);
+                yield return null; 
+            }
+            Camera.main.orthographicSize = 9.4f;
+
+            // Spawn
+            SpawnBossMonster();
+
+            // Shake
+            Vector3 originPos = Camera.main.transform.position;
+            while (Monsters[Key - 1].isMoving)
+            {
+                Camera.main.transform.localPosition = (Vector3)Random.insideUnitCircle * 0.1f + originPos;
+                yield return null;
+            }
+            Camera.main.transform.localPosition = originPos;
+            
         }
 
         public void KillMonster(int key)
