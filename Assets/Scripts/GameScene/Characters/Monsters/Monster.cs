@@ -8,6 +8,8 @@ namespace AlchemyPlanet.GameScene
     {
         [HideInInspector]
         public int index;
+        [HideInInspector]
+        public bool isMoving = true;
 
         protected float attackCoolTime;
         protected float attackRange;
@@ -71,6 +73,7 @@ namespace AlchemyPlanet.GameScene
                     // 사정거리 밖이라 이동
                     if (GetDistanceBetweenPlayer() > attackRange + (index * 0.5f))
                     {
+                        isMoving = true;
                         StopCoroutine("AttackCoroutine");
                         isAttackCoroutinePlaying = false;
                         MoveToward();
@@ -78,10 +81,13 @@ namespace AlchemyPlanet.GameScene
                     // 사정거리 안이라 멈춰서 공격
                     else
                     {
+                        isMoving = false;
                         if (isAttackCoroutinePlaying == false)
                             StartCoroutine("AttackCoroutine");
                     }
                 }
+
+                else isMoving = false;
 
                 yield return new WaitForSeconds(0.02f);
             }
