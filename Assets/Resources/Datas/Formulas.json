@@ -1,18 +1,1 @@
-[
-  {
-    "formula": {
-      "A002": 3,
-      "A003": 3
-    },
-    "result": "A004",
-    "resultcount": 1
-  },
-  {
-    "formula": {
-      "A001": 2,
-      "A003": 2
-    },
-    "result": "A002",
-    "resultcount": 1
-  }
-]
+[{"formula":{"Blue":3,"Yellow":3},"result":"Perple","resultcount":1},{"formula":{"Red":2,"Blue":2},"result":"Perple","resultcount":1}]

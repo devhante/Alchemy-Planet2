@@ -33,8 +33,8 @@ namespace AlchemyPlanet.Data
             }
 
             //CreateSampleDialog();
-            //CreateSampleMaterials();
-            //CreateSampleFomulas();
+            CreateSampleMaterials();
+            CreateSampleFomulas();
             //CreateSampleStructure(); // 타운관리모드 테스트할때 이거 주석 풀기
 
             LoadMaterials();
@@ -77,8 +77,8 @@ namespace AlchemyPlanet.Data
         public void CreateSampleFomulas()
         {
             List<Formula> formulas = new List<Formula> {
-            new Formula(new Dictionary<string, int>{ {"A002",3 }, {"A003", 3} }, "A004", 1),
-            new Formula(new Dictionary<string, int>{ {"A001",2 }, {"A003", 2} }, "A002", 1)
+            new Formula(new Dictionary<string, int>{ { "Blue", 3 }, { "Yellow", 3} }, "Perple", 1),
+            new Formula(new Dictionary<string, int>{ { "Red", 2 }, { "Blue", 2} }, "Perple", 1)
         };
 
             using (StreamWriter file = File.CreateText("Assets/Resources/Datas/Formulas.json"))
