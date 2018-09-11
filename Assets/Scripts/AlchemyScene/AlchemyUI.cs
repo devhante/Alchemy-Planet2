@@ -7,46 +7,40 @@ namespace AlchemyPlanet.AlchemyScene
 {
     public class AlchemyUI : Common.UI<AlchemyUI>
     {
-        [SerializeField] private Button InventoryButton;
-        [SerializeField] private Button resultButton;
-        [SerializeField] private Button[] ingredientButtons;
-        [SerializeField] private Button makeButton;
+        [SerializeField] private Button[] PosionButtons = new Button[5];
+        //제작할 아이템의 5 가지 종류를 나타내는 선반위의 UI
 
-        public GameObject resultSelectUI;
-        public GameObject ingredientSelectUI;
+        [SerializeField] private List<Button> ItemList = new List<Button>();
+        //연금술 책에 있는 목표로 할 아이템의 리스트
+
+        [SerializeField] private Button RequestButton;
+        [SerializeField] private Text PageInfo;
+        [SerializeField] private Button BookmarkButton;
+        [SerializeField] private Button SortButton;
 
         protected override void Awake()
         {
             base.Awake();
 
-            InventoryButton.onClick.AddListener(OnClickInventoryButton);
+            foreach (var item in PosionButtons)
+                item.onClick.AddListener(OnClickPosionButton);
 
-            resultButton.onClick.AddListener(OnClickResultButton);
+            RequestButton.onClick.AddListener(OnClickRequestButton);
+        }
+        
+        private void OnClickRequestButton()
+        {
 
-            foreach (var item in ingredientButtons)
-                item.onClick.AddListener(OnClickIngredientButton);
+        }
 
-            makeButton.onClick.AddListener(OnClickMakeButton);
+        private void OnClickPosionButton()
+        {
+
         }
 
         private void OnClickInventoryButton()
         {
             TownScene.UIManager.Instance.OpenMenu<TownScene.InventoryCell>();
         }
-
-        private void OnClickResultButton()
-        {
-            Instantiate(resultSelectUI, Vector3.zero, Quaternion.identity);
-        }
-
-        private void OnClickIngredientButton()
-        {
-            Instantiate(ingredientSelectUI, Vector3.zero, Quaternion.identity);
-        }
-
-        private void OnClickMakeButton()
-        {
-            
-        }   
     }
 }
