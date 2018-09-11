@@ -8,6 +8,7 @@ namespace AlchemyPlanet.AlchemyScene
 
         [SerializeField] private AlchemyUI AlchemyUIPrefab;
         [SerializeField] private MakeUI MakeUIPrefab;
+        [SerializeField] private RequestUI RequestUIPrefab;
 
         public Stack<Common.UI> menuStack = new Stack<Common.UI>();
 
@@ -27,7 +28,7 @@ namespace AlchemyPlanet.AlchemyScene
         {
             var prefab = GetPrefab<T>();
             var instance = Instantiate<Common.UI>(prefab, transform);
-
+            
             menuStack.Push(instance);
         }
         
@@ -35,7 +36,7 @@ namespace AlchemyPlanet.AlchemyScene
         {
             var instance = menuStack.Pop();
             GameObject.Destroy(instance.gameObject);
-            if (menuStack.Count > 1)
+            if (menuStack.Count > 0)
             {
                 menuStack.Peek().gameObject.SetActive(true);
             }
@@ -47,6 +48,8 @@ namespace AlchemyPlanet.AlchemyScene
                 return AlchemyUIPrefab as T;
             else if (typeof(T) == typeof(MakeUI))
                 return MakeUIPrefab as T;
+            else if (typeof(T) == typeof(RequestUI))
+                return RequestUIPrefab as T;
             else
                 throw new MissingReferenceException();
         }

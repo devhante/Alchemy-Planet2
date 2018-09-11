@@ -26,15 +26,15 @@ namespace AlchemyPlanet.AlchemyScene
 
             RequestButton.onClick.AddListener(OnClickRequestButton);
         }
-        
-        private void OnClickRequestButton()
-        {
-
-        }
 
         private void OnClickPosionButton()
         {
 
+        }
+
+        private void OnClickRequestButton()
+        {
+            UIManager.Instance.OpenMenu<RequestUI>();
         }
 
         private void OnClickInventoryButton()

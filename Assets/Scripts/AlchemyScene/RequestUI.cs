@@ -30,7 +30,7 @@ namespace AlchemyPlanet.AlchemyScene
 
         private void OnClickBackButton()
         {
-
+            UIManager.Instance.CloseMenu();
         }
 
         private void OnClickUpdateRequestButton()
