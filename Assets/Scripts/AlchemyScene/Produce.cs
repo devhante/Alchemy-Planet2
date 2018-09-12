@@ -4,10 +4,6 @@ using AlchemyPlanet.Data;
 using UnityEngine;
 
 namespace AlchemyPlanet.AlchemyScene {
-    public enum ItemKind
-    {
-        Diffuser, Quest, PurifyPosion, Material, Event
-    }
 
     public class Produce : MonoBehaviour
     {

@@ -12,10 +12,10 @@ namespace AlchemyPlanet.AlchemyScene
 
         private void Awake()
         {
-            Instance = this;
-            DontDestroyOnLoad(this.gameObject);
             formulas = Data.DataManager.Instance.LoadFormulas();
-            requests = Data.DataManager.Instance.LoadRequests();
+            //requests = Data.DataManager.Instance.LoadRequests();
+
+            Instance = this;
         }
     }
 }

@@ -79,10 +79,10 @@ namespace AlchemyPlanet.Data
         public void CreateSampleFomulas()
         {
             List<Formula> formulas = new List<Formula> {
-            new Formula(new Dictionary<string, int>{ { "작은 오렌지", 3 }, { "블루베리", 3} }, "파릇한 새싹", 1),
-            new Formula(new Dictionary<string, int>{ { "붉은 꽃잎", 2 }, { "블루베리", 2} }, "라벤더", 1),
-            new Formula(new Dictionary<string, int>{ { "파릇한 새싹", 2 }, { "라벤더", 2} }, "정화약", 1)
-        };
+                new Formula(new Dictionary<string, int>{ { "작은 오렌지", 3 }, { "블루베리", 3} }, "파릇한 새싹", 1),
+                new Formula(new Dictionary<string, int>{ { "붉은 꽃잎", 2 }, { "블루베리", 2} }, "라벤더", 1),
+                new Formula(new Dictionary<string, int>{ { "파릇한 새싹", 2 }, { "라벤더", 2} }, "정화약", 1)
+            };
 
             using (StreamWriter file = File.CreateText("Assets/Resources/Datas/Formulas.json"))
             {
@@ -237,7 +237,7 @@ namespace AlchemyPlanet.Data
 
         public List<Formula> LoadFormulas()
         {
-            using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/Formulas").bytes), System.Text.Encoding.Default))
+            using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/Formulas").bytes), System.Text.Encoding.UTF8))
             {
                 JsonSerializer serializer = new JsonSerializer();
                 List<Formula> formulas = (List<Formula>)serializer.Deserialize(file, typeof(List<Formula>));
@@ -246,10 +246,10 @@ namespace AlchemyPlanet.Data
         }
 
         public List<Request> LoadRequests(){
-            using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/Requests").bytes), System.Text.Encoding.Default))
+            using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/Requests").bytes), System.Text.Encoding.UTF8))
             {
                 JsonSerializer serializer = new JsonSerializer();
-                List<Request> requests;
+                //List<Request> requests;
             }
                 throw new NotImplementedException();
         }
