@@ -35,6 +35,8 @@ namespace AlchemyPlanet.Data
             //CreateSampleDialog();
             CreateSampleMaterials();
             CreateSampleFomulas();
+            CreateSampleRequest();
+
             //CreateSampleStructure(); // 타운관리모드 테스트할때 이거 주석 풀기
 
             LoadMaterials();
@@ -88,6 +90,22 @@ namespace AlchemyPlanet.Data
             {
                 JsonSerializer serializer = new JsonSerializer();
                 serializer.Serialize(file, formulas);
+            }
+        }
+
+        public void CreateSampleRequest()
+        {
+            List<Request> requests = new List<Request> {
+                new Request(new Dictionary<string, int>{ { "작은 오렌지", 3 }, { "블루베리", 2} }, "변비약이 필요해요", 12000, 6, 300),
+                new Request(new Dictionary<string, int>{ { "붉은 꽃잎", 3 }, { "파릇한 새싹", 3} }, "감기약이 필요해요", 11000, 6, 300),
+                new Request(new Dictionary<string, int>{ { "라벤더", 3 }, { "정화약", 1} }, "위장약이 필요해요", 12000, 4, 300),
+                new Request(new Dictionary<string, int>{ { "파릇한 새싹", 3 }, { "정화약", 1} }, "아무튼약이 필요해요", 12000, 6, 200)
+            };
+
+            using (StreamWriter file = File.CreateText("Assets/Resources/Datas/Requests.json"))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Serialize(file, requests);
             }
         }
 
@@ -249,9 +267,9 @@ namespace AlchemyPlanet.Data
             using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/Requests").bytes), System.Text.Encoding.UTF8))
             {
                 JsonSerializer serializer = new JsonSerializer();
-                //List<Request> requests;
+                List<Request> requests = (List<Request>)serializer.Deserialize(file, typeof(List<Request>));
+                return requests;
             }
-                throw new NotImplementedException();
         }
     }
 
