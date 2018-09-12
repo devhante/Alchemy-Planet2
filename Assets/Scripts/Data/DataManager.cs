@@ -61,10 +61,12 @@ namespace AlchemyPlanet.Data
         public void CreateSampleMaterials()
         {
             Dictionary<string, Material> materials = new Dictionary<string, Material> {
-            {"Red", new Material("Red", "빨강")},
-            {"Blue", new Material("Blue", "파랑")},
-            {"Yellow", new Material("Yellow", "노랑")},
-            {"Perple", new Material("Perple", "보라")}
+            {"파릇한 새싹", new Material("파릇한 새싹",ItemKind.Material , "파릇파릇한 연두색 새싹. 언젠가 큰 나무가 될 수 있을거라 믿으며 자라나고있다.")},
+            {"붉은 꽃잎", new Material("붉은 꽃잎",ItemKind.Material, "붉은색 꽃에서 떨어져나온 꽃잎. 향기가 좋아 방향제로 자주 쓰인다.")},
+            {"작은 오렌지", new Material("작은 오렌지",ItemKind.Material, "새콤한 맛이 나는 작은 오렌지. 과즙이 팡팡.")},
+            {"블루베리", new Material("블루베리",ItemKind.Material, "새콤달콤한 블루베리. 톡톡터지는 식감이 좋다. ")},
+            {"라벤더", new Material("라벤더",ItemKind.Material, "향기로운 라벤더. 방향제는 물론 장식용으로도 쓰인다.")},
+            {"정화약", new Material("정화약",ItemKind.PurifyPosion, "뭐라고 적지...")}
         };
 
             using (StreamWriter file = File.CreateText("Assets/Resources/Datas/Materials.json"))
@@ -77,8 +79,9 @@ namespace AlchemyPlanet.Data
         public void CreateSampleFomulas()
         {
             List<Formula> formulas = new List<Formula> {
-            new Formula(new Dictionary<string, int>{ { "Blue", 3 }, { "Yellow", 3} }, "Perple", 1),
-            new Formula(new Dictionary<string, int>{ { "Red", 2 }, { "Blue", 2} }, "Perple", 1)
+            new Formula(new Dictionary<string, int>{ { "작은 오렌지", 3 }, { "블루베리", 3} }, "파릇한 새싹", 1),
+            new Formula(new Dictionary<string, int>{ { "붉은 꽃잎", 2 }, { "블루베리", 2} }, "라벤더", 1),
+            new Formula(new Dictionary<string, int>{ { "파릇한 새싹", 2 }, { "라벤더", 2} }, "정화약", 1)
         };
 
             using (StreamWriter file = File.CreateText("Assets/Resources/Datas/Formulas.json"))
@@ -114,7 +117,7 @@ namespace AlchemyPlanet.Data
                 JsonSerializer serializer = new JsonSerializer();
                 Dictionary<string, Material> materials = (Dictionary<string, Material>)serializer.Deserialize(file, typeof(Dictionary<string, Material>));
 
-                Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Items/UI");
+                Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Items/");
 
 
                 for (int i = 0; i < sprites.Length; i++)
@@ -284,8 +287,8 @@ namespace AlchemyPlanet.Data
             structures[2].setup = false;
             structures[2].position = new Vector2(-4f, 2.5f);
 
-            inventory.Add("Red", 1);
-            inventory.Add("Blue", 2);
+            inventory.Add("붉은 꽃잎", 1);
+            inventory.Add("블루베리", 2);
         }
 
         public void SetBuildingImage()
@@ -403,15 +406,22 @@ namespace AlchemyPlanet.Data
     }
 
     #region AlchemyData
+    public enum ItemKind
+    {
+        Diffuser, Quest, PurifyPosion, Material, Event
+    }
+
     public class Material
     {
         public string item_name;
+        public ItemKind item_kind;
         public string discription;
         public Sprite image;
 
-        public Material(string item_name, string discription)
+        public Material(string item_name, ItemKind item_kind, string discription)
         {
             this.item_name = item_name;
+            this.item_kind = item_kind;
             this.discription = discription;
         }
     }
