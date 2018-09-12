@@ -178,7 +178,7 @@ namespace AlchemyPlanet.TownScene
 
                     if (count == 1)
                     {
-                        yield return new WaitForSeconds(0.4f);
+                        yield return new WaitForSeconds(0.2f);
                         GetComponent<Animator>().cullingMode = AnimatorCullingMode.CullCompletely;
                     }
                     writting = false;
