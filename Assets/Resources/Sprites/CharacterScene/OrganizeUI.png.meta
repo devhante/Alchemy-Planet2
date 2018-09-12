@@ -1,26 +1,23 @@
 fileFormatVersion: 2
-guid: 95c4ab0bfeceeac4f8c42523a817c1fe
+guid: 7bc004bee0b91664b9788fff0a0a276f
 TextureImporter:
   fileIDToRecycleName:
-    21300000: UI_0
-    21300002: UI_1
-    21300004: UI_2
-    21300006: UI_3
-    21300008: UI_4
-    21300010: UI_5
-    21300012: UI_6
-    21300014: UI_7
-    21300016: UI_8
-    21300018: UI_9
-    21300020: Yellow
-    21300022: Blue
-    21300024: Red
-    21300026: Green
-    21300028: Purple
-    21300030: UI_15
-    21300032: UI_16
-    21300034: UI_17
-    21300036: UI_18
+    21300000: OrganizeUI_PartyNameBox
+    21300002: OrganizeUI_CurrentPageLight
+    21300004: OrganizeUI_PageLight
+    21300006: OrganizeUI_PartyLevelBox
+    21300008: OrganizeUI_PartyBackgroundBox
+    21300010: OrganizeUI_PartyLeftButton
+    21300012: OrganizeUI_PartyRightButton
+    21300014: OrganizeUI_PartyCharacterBox
+    21300016: OrganizeUI_PartyLeaderSkillBox
+    21300018: OrganizeUI_CharacterListCell
+    21300020: OrganizeUI_CharacterListBackground
+    21300022: OrganizeUI_CharacterSample
+    21300024: OrganizeUI_BackButton
+    21300026: OrganizeUI_OkayButton
+    21300028: OrganizeUI_BookmarkButton
+    21300030: OrganizeUI_SortButton
   externalObjects: {}
   serializedVersion: 5
   mipmaps:
@@ -98,17 +95,6 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
-    buildTarget: iPhone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-  - serializedVersion: 2
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -123,13 +109,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: UI_0
+      name: OrganizeUI_PartyNameBox
       rect:
         serializedVersion: 2
-        x: 13
-        y: 885
-        width: 65
-        height: 28
+        x: 51
+        y: 801
+        width: 130
+        height: 49
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,19 +123,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 265503d4c35634a41a16d67ba942e580
+      spriteID: 4a57f518d04ac24478a0ffa03b90ca1c
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_1
+      name: OrganizeUI_CurrentPageLight
       rect:
         serializedVersion: 2
-        x: 762
-        y: 811
-        width: 393
-        height: 98
+        x: 215
+        y: 802
+        width: 18
+        height: 21
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -157,19 +143,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 44ef397624ec79d45b8cde32407807cc
+      spriteID: f850e170cf101f943987bc05545beeca
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_2
+      name: OrganizeUI_PageLight
       rect:
         serializedVersion: 2
-        x: 17
-        y: 860
-        width: 705
-        height: 20
+        x: 244
+        y: 802
+        width: 18
+        height: 22
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -177,19 +163,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f0bb9cfbd7a64914fb6d9e43b8a662ed
+      spriteID: d2d3b4df75f36d047a433001ce33715e
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_3
+      name: OrganizeUI_PartyLevelBox
       rect:
         serializedVersion: 2
-        x: 20
-        y: 828
-        width: 701
-        height: 16
+        x: 292
+        y: 807
+        width: 82
+        height: 30
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -197,19 +183,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2cad3cc9e7435e147af62d557312a4d8
+      spriteID: b166b0fffbe3c31438e7ed98391f42bd
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_4
+      name: OrganizeUI_PartyBackgroundBox
       rect:
         serializedVersion: 2
-        x: 14
-        y: 783
-        width: 720
-        height: 37
+        x: 37
+        y: 675
+        width: 680
+        height: 110
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -217,19 +203,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5939281bec91f4a4bb377d91415bc9a9
+      spriteID: 2a0cc57256163494787e490592104058
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_5
+      name: OrganizeUI_PartyLeftButton
       rect:
         serializedVersion: 2
-        x: 807
-        y: 760
-        width: 337
-        height: 32
+        x: 752
+        y: 655
+        width: 47
+        height: 110
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -237,19 +223,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d73ec1dfedbf70e48abdacb5ee5b20d1
+      spriteID: 64a81342e283fdb44a527f07acaf0d88
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_6
+      name: OrganizeUI_PartyRightButton
       rect:
         serializedVersion: 2
-        x: 15
-        y: 705
-        width: 720
-        height: 56
+        x: 821
+        y: 655
+        width: 47
+        height: 110
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -257,19 +243,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b9704941a3d544646ac54aff242a7254
+      spriteID: 4f4acf288aa35634ca501b23a3fe7251
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_7
+      name: OrganizeUI_PartyCharacterBox
       rect:
         serializedVersion: 2
-        x: 810
-        y: 708
-        width: 329
-        height: 32
+        x: 891
+        y: 657
+        width: 123
+        height: 110
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -277,19 +263,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1821a5f5f947ce1408f26023be9439e0
+      spriteID: 7927a8bb8e68521458d9e872da024c5c
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_8
+      name: OrganizeUI_PartyLeaderSkillBox
       rect:
         serializedVersion: 2
-        x: 15
-        y: 68
-        width: 719
-        height: 620
+        x: 36
+        y: 625
+        width: 677
+        height: 42
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -297,19 +283,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3e2c9ec6a500c1c4f9b0cba437e56b30
+      spriteID: dd53b5665a9fb3f45928e9584bdd10f7
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_9
+      name: OrganizeUI_CharacterListCell
       rect:
         serializedVersion: 2
-        x: 799
-        y: 620
-        width: 55
-        height: 55
+        x: 756
+        y: 520
+        width: 108
+        height: 109
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -317,19 +303,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d152d13f5ff5ca8428842b9304d7f594
+      spriteID: b2b197acbd107d24391915cf49350530
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Yellow
+      name: OrganizeUI_CharacterListBackground
       rect:
         serializedVersion: 2
-        x: 876
-        y: 612
-        width: 65
-        height: 69
+        x: 39
+        y: 189
+        width: 674
+        height: 426
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -337,19 +323,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aa3d3bd987db060409e55f9ce6ccf51b
+      spriteID: 73c635b2c3844504d91a562af7d5bfb5
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue
+      name: OrganizeUI_CharacterSample
       rect:
         serializedVersion: 2
-        x: 965
-        y: 616
-        width: 44
-        height: 59
+        x: 753
+        y: 391
+        width: 109
+        height: 108
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -357,19 +343,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 63199b1b889ae5d4f81290fbb1bed677
+      spriteID: 1638a063a4a3b9541863f27484d955e1
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Red
+      name: OrganizeUI_BackButton
       rect:
         serializedVersion: 2
-        x: 1035
-        y: 609
-        width: 67
-        height: 74
+        x: 46
+        y: 95
+        width: 138
+        height: 71
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -377,19 +363,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f145435c9310f8c4b8827297859e382f
+      spriteID: 2381405e85e0ef843b0773b43a4f523d
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Green
+      name: OrganizeUI_OkayButton
       rect:
         serializedVersion: 2
-        x: 799
-        y: 541
-        width: 61
-        height: 54
+        x: 286
+        y: 91
+        width: 182
+        height: 76
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -397,19 +383,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3d22283937f0f904e843e51391b89aa8
+      spriteID: bd3a6405b407d03458adecc5dc41dd7a
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Purple
+      name: OrganizeUI_BookmarkButton
       rect:
         serializedVersion: 2
-        x: 877
-        y: 536
-        width: 64
-        height: 63
+        x: 538
+        y: 87
+        width: 74
+        height: 77
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -417,19 +403,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4034c35f0a76acc46aaf5ce228b55175
+      spriteID: 08afa22c0bad1ca4bbb114bff15bf090
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_15
+      name: OrganizeUI_SortButton
       rect:
         serializedVersion: 2
-        x: 788
-        y: 418
-        width: 85
-        height: 86
+        x: 620
+        y: 87
+        width: 74
+        height: 77
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -437,67 +423,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cb0def362452cb34e9253ba8740985dd
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: UI_16
-      rect:
-        serializedVersion: 2
-        x: 890
-        y: 412
-        width: 98
-        height: 100
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e11c24cbecfaf2642906e41528ed2edb
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: UI_17
-      rect:
-        serializedVersion: 2
-        x: 1020
-        y: 424
-        width: 64
-        height: 66
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ec574b9d1720c45439e7f838d29d11bc
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: UI_18
-      rect:
-        serializedVersion: 2
-        x: 774
-        y: 372
-        width: 456
-        height: 15
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 13dd93c31593f07458cfb9ce72562c3d
+      spriteID: d47f30acb1c8ac14c80807bd39875a99
       vertices: []
       indices: 
       edges: []
@@ -505,7 +431,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5cc3a3ab78e9d6a4796c25274cb1c06a
+    spriteID: 8a6b150ab0a4f174db8d84e79b74a248
     vertices: []
     indices: 
     edges: []
