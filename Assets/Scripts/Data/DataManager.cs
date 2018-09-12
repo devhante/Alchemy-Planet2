@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using System.Collections;
+using System;
 
 namespace AlchemyPlanet.Data
 {
@@ -18,7 +19,6 @@ namespace AlchemyPlanet.Data
 
         public int selected_stage = 0;
         public NPCDAta selected_dialog;
-
 
         private void Awake()
         {
@@ -61,10 +61,12 @@ namespace AlchemyPlanet.Data
         public void CreateSampleMaterials()
         {
             Dictionary<string, Material> materials = new Dictionary<string, Material> {
-            {"Red", new Material("Red", "빨강")},
-            {"Blue", new Material("Blue", "파랑")},
-            {"Yellow", new Material("Yellow", "노랑")},
-            {"Perple", new Material("Perple", "보라")}
+            {"파릇한 새싹", new Material("파릇한 새싹",ItemKind.Material , "파릇파릇한 연두색 새싹.\n언젠가 큰 나무가 될 수 있을거라 믿으며\n자라나고있다.")},
+            {"붉은 꽃잎", new Material("붉은 꽃잎",ItemKind.Material, "붉은색 꽃에서 떨어져나온 꽃잎.\n향기가 좋아 방향제로 자주 쓰인다.")},
+            {"작은 오렌지", new Material("작은 오렌지",ItemKind.Material, "새콤한 맛이 나는 작은 오렌지.\n과즙이 팡팡.")},
+            {"블루베리", new Material("블루베리",ItemKind.Material, "새콤달콤한 블루베리.\n톡톡터지는 식감이 좋다. ")},
+            {"라벤더", new Material("라벤더",ItemKind.Material, "향기로운 라벤더.\n방향제는 물론 장식용으로도 쓰인다.")},
+            {"정화약", new Material("정화약",ItemKind.PurifyPosion, "뭐라고 적지...")}
         };
 
             using (StreamWriter file = File.CreateText("Assets/Resources/Datas/Materials.json"))
@@ -77,9 +79,10 @@ namespace AlchemyPlanet.Data
         public void CreateSampleFomulas()
         {
             List<Formula> formulas = new List<Formula> {
-            new Formula(new Dictionary<string, int>{ { "Blue", 3 }, { "Yellow", 3} }, "Perple", 1),
-            new Formula(new Dictionary<string, int>{ { "Red", 2 }, { "Blue", 2} }, "Perple", 1)
-        };
+                new Formula(new Dictionary<string, int>{ { "작은 오렌지", 3 }, { "블루베리", 3} }, "파릇한 새싹", 1),
+                new Formula(new Dictionary<string, int>{ { "붉은 꽃잎", 2 }, { "블루베리", 2} }, "라벤더", 1),
+                new Formula(new Dictionary<string, int>{ { "파릇한 새싹", 2 }, { "라벤더", 2} }, "정화약", 1)
+            };
 
             using (StreamWriter file = File.CreateText("Assets/Resources/Datas/Formulas.json"))
             {
@@ -114,7 +117,7 @@ namespace AlchemyPlanet.Data
                 JsonSerializer serializer = new JsonSerializer();
                 Dictionary<string, Material> materials = (Dictionary<string, Material>)serializer.Deserialize(file, typeof(Dictionary<string, Material>));
 
-                Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Items/UI");
+                Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Items/Items/");
 
 
                 for (int i = 0; i < sprites.Length; i++)
@@ -241,12 +244,25 @@ namespace AlchemyPlanet.Data
                 return formulas;
             }
         }
+
+        public List<Request> LoadRequests(){
+            using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/Requests").bytes), System.Text.Encoding.UTF8))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                //List<Request> requests;
+            }
+                throw new NotImplementedException();
+        }
     }
 
     public class PlayerData
     {
         public string player_id;
         public string player_name;
+
+        public int level;
+        public int MAX_EXP;
+        public int exp;
 
         //재화
         public int unicoin;
@@ -263,7 +279,12 @@ namespace AlchemyPlanet.Data
         public PlayerData()
         {
             this.player_id = Social.localUser.id;
-            this.player_name = "Popin";
+            this.player_name = "포핀";
+
+            this.level = 0;
+            this.MAX_EXP = 100;
+            this.exp = 0;
+
             this.unicoin = 0;
             this.cosmoston = 0;
             this.oxygentank = 10;
@@ -271,6 +292,25 @@ namespace AlchemyPlanet.Data
 
             this.inventory = new Dictionary<string, int>();
             this.structures = new List<Structure>();
+
+            AddSampleDatas();
+        }
+
+        //따로 처리해줘야 하는 경험치는 아래 함수를 사용한다.
+        public void UpdateExp(int value)
+        {
+            exp += value;
+
+            while(exp < MAX_EXP)
+            {
+                this.level++;
+                this.exp -= this.MAX_EXP;
+                this.MAX_EXP = this.level * 100;
+            }
+        }
+
+        public void AddSampleDatas()
+        {
             structures.Add(DataManager.Instance.structures["Tree"].Clone());
             structures[0].id = 20;
             structures[0].setup = true;
@@ -284,8 +324,8 @@ namespace AlchemyPlanet.Data
             structures[2].setup = false;
             structures[2].position = new Vector2(-4f, 2.5f);
 
-            inventory.Add("Red", 1);
-            inventory.Add("Blue", 2);
+            inventory.Add("붉은 꽃잎", 1);
+            inventory.Add("블루베리", 2);
         }
 
         public void SetBuildingImage()
@@ -317,6 +357,8 @@ namespace AlchemyPlanet.Data
             illusts = DataManager.Instance.LoadIllust(dialogs);
         }
     }
+
+    #region TownData
 
     public class Structure
     {
@@ -401,17 +443,25 @@ namespace AlchemyPlanet.Data
             return strc;
         }
     }
+    #endregion TownData
 
     #region AlchemyData
+    public enum ItemKind
+    {
+        Diffuser, Quest, PurifyPosion, Material, Event
+    }
+
     public class Material
     {
         public string item_name;
+        public ItemKind item_kind;
         public string discription;
         public Sprite image;
 
-        public Material(string item_name, string discription)
+        public Material(string item_name, ItemKind item_kind, string discription)
         {
             this.item_name = item_name;
+            this.item_kind = item_kind;
             this.discription = discription;
         }
     }
@@ -427,6 +477,29 @@ namespace AlchemyPlanet.Data
             this.formula = formula;
             this.result = result;
             this.resultcount = resultcount;
+        }
+    }
+
+    public class Request
+    {
+        public Dictionary<string, int> requires;
+        //필요물품
+
+        public string request_name;
+        //리퀘스트 이름
+
+        public int unicoin;
+        public int cosmoston;
+        public int exp;
+        //보상
+
+        public Request(Dictionary<string, int> requires, string request_name, int unicoin, int cosmoston, int exp)
+        {
+            this.requires = requires;
+            this.request_name = request_name;
+            this.unicoin = unicoin;
+            this.cosmoston = cosmoston;
+            this.exp = exp;
         }
     }
     #endregion AlchemyData
