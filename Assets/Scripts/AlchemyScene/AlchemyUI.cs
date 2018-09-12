@@ -10,6 +10,9 @@ namespace AlchemyPlanet.AlchemyScene
         [SerializeField] private Button[] PosionButtons = new Button[5];
         //제작할 아이템의 5 가지 종류를 나타내는 선반위의 UI
 
+        [SerializeField] private GameObject Book;
+        //아이템 리스트를 띄울 책
+
         [SerializeField] private List<Button> ProduceList = new List<Button>();
         //연금술 책에 있는 목표로 할 아이템의 리스트
         [SerializeField] private Button ProducePrefab;
@@ -34,8 +37,9 @@ namespace AlchemyPlanet.AlchemyScene
             foreach (var produce in AlchemyManager.Instance.formulas)
             {
                 Data.Material m = Data.DataManager.Instance.materials[produce.result];
-                var button = GameObject.Instantiate(ProducePrefab);
+                var button = GameObject.Instantiate(ProducePrefab, Book.transform);
                 button.GetComponent<Image>().sprite = m.image;
+                button.onClick.AddListener(ProduceButton);
                 ProduceList.Add(button);
             }
 
@@ -48,6 +52,11 @@ namespace AlchemyPlanet.AlchemyScene
         private void OnClickPosionButton()
         {
 
+        }
+
+        public void ProduceButton()
+        {
+            UIManager.Instance.OpenMenu<MakeUI>();
         }
 
         private void OnClickRequestButton()

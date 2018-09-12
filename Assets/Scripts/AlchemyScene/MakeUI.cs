@@ -3,12 +3,13 @@ using UnityEngine.UI;
 
 namespace AlchemyPlanet.AlchemyScene
 {
-    public class MakeUI : Common.UI<AlchemyUI> {
+    public class MakeUI : Common.UI<MakeUI> {
         [SerializeField] private Button[] MateraiButtons = new Button[5];
-        //제작할 아이템의 5 가지 종류를 나타내는 선반위의 UI
 
         [SerializeField] private Button ResultButton;
         [SerializeField] private Button MakeButton;
+        [SerializeField] private Button BackButton;
+        [SerializeField] private Button BookmarkButton;
 
         protected override void Awake()
         {
@@ -18,13 +19,14 @@ namespace AlchemyPlanet.AlchemyScene
                 item.onClick.AddListener(OnClickMateraiButton);
 
             MakeButton.onClick.AddListener(OnClickMakeButton);
-
             ResultButton.onClick.AddListener(OnClickResultButton);
+            BackButton.onClick.AddListener(OnClickBackButton);
+            BookmarkButton.onClick.AddListener(OnClickBookmarkButton);
         }
-        
+
         private void OnClickMateraiButton()
         {
-
+            TownScene.UIManager.Instance.OpenMenu<TownScene.InventoryCell>();
         }
 
         private void OnClickMakeButton()
@@ -32,12 +34,17 @@ namespace AlchemyPlanet.AlchemyScene
 
         }
 
-        private void OnClickInventoryButton()
+        private void OnClickResultButton()
         {
-            TownScene.UIManager.Instance.OpenMenu<TownScene.InventoryCell>();
+
         }
 
-        private void OnClickResultButton()
+        private void OnClickBackButton()
+        {
+            UIManager.Instance.CloseMenu();
+        }
+
+        private void OnClickBookmarkButton()
         {
 
         }
