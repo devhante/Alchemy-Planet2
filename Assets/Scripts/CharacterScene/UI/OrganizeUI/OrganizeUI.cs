@@ -18,7 +18,7 @@ namespace AlchemyPlanet.CharacterScene
         public Button backButton;
         public GameObject characterListCells;
         public GameObject characterListCellImage;
-        public List<Character> characterSpritesKey;
+        public List<CharacterEnum> characterSpritesKey;
         public List<Sprite> characterSpritesValue;
 
         private void OnDestroy()
@@ -72,7 +72,7 @@ namespace AlchemyPlanet.CharacterScene
             }
         }
 
-        private Sprite GetCharacterSprite(Character c)
+        private Sprite GetCharacterSprite(CharacterEnum c)
         {
             int index = 0;
 

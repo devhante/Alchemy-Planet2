@@ -7,7 +7,7 @@ using System;
 
 namespace AlchemyPlanet.Data
 {
-    public enum Character { Popin }
+    public enum CharacterEnum { Popin }
 
     public class DataManager : MonoBehaviour
     {
@@ -299,6 +299,9 @@ namespace AlchemyPlanet.Data
         //캐릭터
         public List<Character> characters;
 
+        //파티 편성
+        public CharacterEnum[,] party;
+
         public PlayerData()
         {
             this.player_id = Social.localUser.id;
@@ -315,7 +318,10 @@ namespace AlchemyPlanet.Data
 
             this.inventory = new Dictionary<string, int>();
             this.structures = new List<Structure>();
-            this.characters = new List<Character>{ Character.Popin };
+            this.characters = new List<Character> { new Character(CharacterEnum.Popin, 1, 50, 10, 6, "아무거나 적어놓는다") };
+
+            party = new CharacterEnum[9,3];
+            party[0,0] = CharacterEnum.Popin;
 
             AddSampleDatas();
         }
@@ -379,6 +385,26 @@ namespace AlchemyPlanet.Data
             //dialogs = DataManager.Instance.LoadDialog("Sample");
             dialogs = DataManager.Instance.LoadDialog(this.npc_name);
             illusts = DataManager.Instance.LoadIllust(dialogs);
+        }
+    }
+
+    public class Character
+    {
+        public CharacterEnum name;
+        public int level;
+        public int addtional_health;
+        public int speed;
+        public int atk;
+        public string leader_skill_info;
+
+        public Character(CharacterEnum name, int level, int addtional_health, int speed, int atk, string leader_skill_info)
+        {
+            this.name = name;
+            this.level = level;
+            this.addtional_health = addtional_health;
+            this.speed = speed;
+            this.atk = atk;
+            this.leader_skill_info = leader_skill_info;
         }
     }
 
