@@ -7,6 +7,8 @@ using System;
 
 namespace AlchemyPlanet.Data
 {
+    public enum Character { Popin }
+
     public class DataManager : MonoBehaviour
     {
         public static DataManager Instance { get; private set; }
@@ -276,6 +278,9 @@ namespace AlchemyPlanet.Data
         public List<Structure> structures;
         public List<GameObject> setupBuildilngs;
 
+        //캐릭터
+        public List<Character> characters;
+
         public PlayerData()
         {
             this.player_id = Social.localUser.id;
@@ -292,6 +297,7 @@ namespace AlchemyPlanet.Data
 
             this.inventory = new Dictionary<string, int>();
             this.structures = new List<Structure>();
+            this.characters = new List<Character>{ Character.Popin };
 
             AddSampleDatas();
         }
