@@ -52,19 +52,27 @@ namespace AlchemyPlanet.AlchemyScene
             }
             foreach (var produce in AlchemyManager.Instance.formulas)
             {
-                Data.Material m = Data.DataManager.Instance.materials[produce.result];
-                if (m.item_kind.Equals(kind))
+                Data.Material p = Data.DataManager.Instance.materials[produce.result];
+                if (p.item_kind.Equals(kind))
                 {
                     var button = GameObject.Instantiate(ProducePrefab, Book.transform);
-                    button.GetComponent<Image>().sprite = m.image;
-                    button.onClick.AddListener(ProduceButton);
+                    button.GetComponent<Image>().sprite = p.image;
+                    button.onClick.AddListener(() => ProduceButton(produce, p));
                 }
             }
         }
 
-        public void ProduceButton()
+        public void ProduceButton(Data.Formula produce, Data.Material m)
         {
             UIManager.Instance.OpenMenu<MakeUI>();
+            MakeUI.Instance.ResultButton.image.sprite = m.image;
+            int count = 0;
+            foreach (var kv in produce.formula)
+            {
+                MakeUI.Instance.MateraiButtons[count++].image.sprite =
+                    Data.DataManager.Instance.materials[kv.Key].image;
+                //value로 부터 숫자도 받아와야 함
+            }
         }
 
         private void OnClickRequestButton()

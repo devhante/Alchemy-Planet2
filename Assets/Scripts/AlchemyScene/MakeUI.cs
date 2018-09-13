@@ -4,9 +4,9 @@ using UnityEngine.UI;
 namespace AlchemyPlanet.AlchemyScene
 {
     public class MakeUI : Common.UI<MakeUI> {
-        [SerializeField] private Button[] MateraiButtons = new Button[5];
+        [SerializeField] public Button[] MateraiButtons = new Button[5];
 
-        [SerializeField] private Button ResultButton;
+        [SerializeField] public Button ResultButton;
         [SerializeField] private Button MakeButton;
         [SerializeField] private Button BackButton;
         [SerializeField] private Button BookmarkButton;
