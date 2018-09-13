@@ -16,13 +16,14 @@ namespace AlchemyPlanet.TownScene
         public Button removeButton;             // 건물 보관 버튼
         public Button exitButton;               // 타운관리 나가기 버튼
 
-        
+
         private List<string> ownBuildings = new List<string>();                 // 소유중인 건물
         private List<GameObject> setupBuildings = new List<GameObject>();       // 설치된 건물
         private GameObject clickedBuilding;                                     // 선택된 건물
         private Touch tempTouch;                                                // 터치들
         private Vector3 touchedPos;                                             // 터치위치
         private int page;                                                       // 현재 건물이미지 페이지
+        private float touchTime;                                                // 터치시간
 
 
         private void OnEnable()
@@ -63,7 +64,6 @@ namespace AlchemyPlanet.TownScene
                     ownBuildings.Add(strc.structureName);
             }
             setupBuildings = DataManager.Instance.CurrentPlayerData.setupBuildilngs;
-
         }
 
         void SetBuilding()
@@ -125,11 +125,12 @@ namespace AlchemyPlanet.TownScene
             if (Input.touchCount > 0)
             {
                 tempTouch = Input.GetTouch(0);
+                touchTime += tempTouch.deltaTime;
                 if (tempTouch.phase == TouchPhase.Began && !EventSystem.current.IsPointerOverGameObject(0))
                 {
                     touchedPos = Camera.main.ScreenToWorldPoint(tempTouch.position);
                     RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);
-                    if (hit.collider != null && hit.collider.tag == "Building")
+                    if (hit.collider != null && hit.collider.tag == "Building" && touchTime > 0.7f)
                     {
                         if (clickedBuilding != null)
                         {
@@ -145,6 +146,10 @@ namespace AlchemyPlanet.TownScene
                         clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
                         clickedBuilding = null;
                     }
+                }
+                if (tempTouch.phase == TouchPhase.Ended)
+                {
+                    touchTime = 0;
                 }
             }
         }
