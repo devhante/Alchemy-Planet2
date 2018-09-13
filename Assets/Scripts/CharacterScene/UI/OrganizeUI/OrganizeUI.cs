@@ -1,5 +1,4 @@
 ﻿using AlchemyPlanet.Data;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -68,7 +67,7 @@ namespace AlchemyPlanet.CharacterScene
             for(int i = startIndex; i < endIndex; i++)
             {
                 GameObject go = Instantiate(characterListCellImage, characterListCells.transform.GetChild(i));
-                go.GetComponent<Image>().sprite = GetCharacterSprite(DataManager.Instance.CurrentPlayerData.characters[i]);
+                go.GetComponent<Image>().sprite = GetCharacterSprite(DataManager.Instance.CurrentPlayerData.characters[i].name);
             }
         }
 
