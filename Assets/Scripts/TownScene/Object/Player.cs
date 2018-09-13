@@ -35,7 +35,7 @@ namespace AlchemyPlanet.TownScene
                 if (tempTouch.phase != TouchPhase.Ended && !EventSystem.current.IsPointerOverGameObject(tempTouch.fingerId))
                 {
                     touchedPos = Camera.main.ScreenToWorldPoint(tempTouch.position);
-                    RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);
+                    RaycastHit2D hit = Physics2D.Raycast(touchedPos,  Vector2.zero, 0, LayerMask.GetMask("NPC"));
                     if (tempTouch.phase == TouchPhase.Began && hit.collider != null && hit.collider.tag == "NPC")
                     {
                         if (TownUI.Instance.turnOnBuildBar)
@@ -61,7 +61,7 @@ namespace AlchemyPlanet.TownScene
                         transform.Translate(Vector2.right * speed * Time.deltaTime);
                     }
                 }
-                if (tempTouch.phase == TouchPhase.Ended)
+                if (tempTouch.phase == TouchPhase.Ended || EventSystem.current.IsPointerOverGameObject(tempTouch.fingerId))
                 {
                     animator.SetBool("Run", false);
                 }
@@ -69,7 +69,10 @@ namespace AlchemyPlanet.TownScene
             else if (Input.GetMouseButton(0) && !talking && !EventSystem.current.IsPointerOverGameObject())
             {
                 touchedPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);
+                RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero, 0, LayerMask.GetMask("NPC"));
+
+                if (hit.collider!=null)
+                    Debug.Log(hit.collider.name);
                 if (Input.GetMouseButtonDown(0) && hit.collider != null && hit.collider.tag == "NPC")
                 {
                     if (TownUI.Instance.turnOnBuildBar)
@@ -95,7 +98,7 @@ namespace AlchemyPlanet.TownScene
                     transform.Translate(Vector2.right * speed * Time.deltaTime);
                 }
             }
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0) || EventSystem.current.IsPointerOverGameObject())
             {
                 animator.SetBool("Run", false);
             }
