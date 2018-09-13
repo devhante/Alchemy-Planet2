@@ -33,6 +33,9 @@ namespace AlchemyPlanet.AlchemyScene
                 yield return null;
             }
 
+            if (Data.DataManager.Instance.CurrentPlayerData.request[0] == null)
+                Data.DataManager.Instance.CurrentPlayerData.UpdateRequest();
+
             OnClickItemKindButton(Data.ItemKind.Diffuser);
 
             for (int i=0; i<ItemKindButtons.Length; ++i)

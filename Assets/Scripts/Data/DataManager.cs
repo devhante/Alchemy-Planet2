@@ -302,6 +302,9 @@ namespace AlchemyPlanet.Data
         //파티 편성
         public CharacterEnum[,] party;
 
+        //의뢰
+        public Request[] request;
+
         public PlayerData()
         {
             this.player_id = Social.localUser.id;
@@ -315,6 +318,7 @@ namespace AlchemyPlanet.Data
             this.cosmoston = 0;
             this.oxygentank = 10;
             this.Max_oxygentank = 10;
+            
 
             this.inventory = new Dictionary<string, int>();
             this.structures = new List<Structure>();
@@ -322,6 +326,8 @@ namespace AlchemyPlanet.Data
 
             party = new CharacterEnum[9,3];
             party[0,0] = CharacterEnum.Popin;
+
+            request = new Request[4];
 
             AddSampleDatas();
         }
@@ -336,6 +342,15 @@ namespace AlchemyPlanet.Data
                 this.level++;
                 this.exp -= this.MAX_EXP;
                 this.MAX_EXP = this.level * 100;
+            }
+        }
+
+        public void UpdateRequest()
+        {
+            for(int i=0; i<request.Length; ++i)
+            {
+                int rand = UnityEngine.Random.Range(0, 4);
+                request[i] = AlchemyScene.AlchemyManager.Instance.requests[rand];
             }
         }
 
