@@ -69,9 +69,14 @@ namespace AlchemyPlanet.AlchemyScene
             int count = 0;
             foreach (var kv in produce.formula)
             {
-                MakeUI.Instance.MateraiButtons[count++].image.sprite =
+                MakeUI.Instance.MateraiButtons[count].image.sprite =
                     Data.DataManager.Instance.materials[kv.Key].image;
-                //value로 부터 숫자도 받아와야 함
+
+                int inven_item_count = 0;
+                Data.DataManager.Instance.CurrentPlayerData.inventory.TryGetValue(kv.Key, out inven_item_count);
+
+                MakeUI.Instance.MateraiButtons[count++].GetComponentInChildren<Text>().text =
+                    string.Format("{0} / {1}", kv.Value, inven_item_count);
             }
         }
 
