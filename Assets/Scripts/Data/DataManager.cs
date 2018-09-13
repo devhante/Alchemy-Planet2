@@ -354,7 +354,7 @@ namespace AlchemyPlanet.Data
             structures[2].setup = false;
             structures[2].position = new Vector2(-4f, 2.5f);
 
-            inventory.Add("붉은 꽃잎", 1);
+            inventory.Add("붉은 꽃잎", 3);
             inventory.Add("블루베리", 2);
         }
 

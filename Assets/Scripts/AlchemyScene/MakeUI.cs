@@ -11,6 +11,8 @@ namespace AlchemyPlanet.AlchemyScene
         [SerializeField] private Button BackButton;
         [SerializeField] private Button BookmarkButton;
 
+        public Data.Formula selected_formula;
+
         protected override void Awake()
         {
             base.Awake();
@@ -24,14 +26,40 @@ namespace AlchemyPlanet.AlchemyScene
             BookmarkButton.onClick.AddListener(OnClickBookmarkButton);
         }
 
+        public void SetFormula()
+        {
+            ResultButton.image.sprite = Data.DataManager.Instance.materials[selected_formula.result].image;
+            int count = 0;
+            foreach (var kv in selected_formula.formula)
+            {
+                MateraiButtons[count].image.sprite =
+                    Data.DataManager.Instance.materials[kv.Key].image;
+
+                int inven_item_count = 0;
+                Data.DataManager.Instance.CurrentPlayerData.inventory.TryGetValue(kv.Key, out inven_item_count);
+
+                MateraiButtons[count++].GetComponentInChildren<Text>().text =
+                    string.Format("{0} / {1}", kv.Value, inven_item_count);
+
+                if (kv.Value > inven_item_count)
+                {
+                    MakeButton.image.color = new Color32(150, 150, 150, 255);
+                    MakeButton.onClick.RemoveListener(OnClickMakeButton);
+                }
+            }
+        }
+
         private void OnClickMateraiButton()
         {
-            TownScene.UIManager.Instance.OpenMenu<TownScene.InventoryCell>();
+            //TownScene.UIManager.Instance.OpenMenu<TownScene.InventoryCell>();
         }
 
         private void OnClickMakeButton()
         {
-
+            foreach (var kv in selected_formula.formula)
+                Data.DataManager.Instance.CurrentPlayerData.inventory[kv.Key] -= kv.Value;
+            Data.DataManager.Instance.CurrentPlayerData.inventory.Add(selected_formula.result, 1);
+            UIManager.Instance.CloseMenu();
         }
 
         private void OnClickResultButton()

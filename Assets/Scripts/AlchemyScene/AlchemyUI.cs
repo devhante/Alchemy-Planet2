@@ -57,27 +57,16 @@ namespace AlchemyPlanet.AlchemyScene
                 {
                     var button = GameObject.Instantiate(ProducePrefab, Book.transform);
                     button.GetComponent<Image>().sprite = p.image;
-                    button.onClick.AddListener(() => ProduceButton(produce, p));
+                    button.onClick.AddListener(() => ProduceButton(produce));
                 }
             }
         }
 
-        public void ProduceButton(Data.Formula produce, Data.Material m)
+        public void ProduceButton(Data.Formula produce)
         {
             UIManager.Instance.OpenMenu<MakeUI>();
-            MakeUI.Instance.ResultButton.image.sprite = m.image;
-            int count = 0;
-            foreach (var kv in produce.formula)
-            {
-                MakeUI.Instance.MateraiButtons[count].image.sprite =
-                    Data.DataManager.Instance.materials[kv.Key].image;
-
-                int inven_item_count = 0;
-                Data.DataManager.Instance.CurrentPlayerData.inventory.TryGetValue(kv.Key, out inven_item_count);
-
-                MakeUI.Instance.MateraiButtons[count++].GetComponentInChildren<Text>().text =
-                    string.Format("{0} / {1}", kv.Value, inven_item_count);
-            }
+            MakeUI.Instance.selected_formula = produce;
+            MakeUI.Instance.SetFormula();
         }
 
         private void OnClickRequestButton()
