@@ -8,18 +8,14 @@ namespace AlchemyPlanet.AlchemyScene
     {
         public static AlchemyManager Instance;
         public List<Data.Formula> formulas;
+        public List<Data.Request> requests;
 
         private void Awake()
         {
-            Instance = this;
-            DontDestroyOnLoad(this.gameObject);
             formulas = Data.DataManager.Instance.LoadFormulas();
-        }
+            requests = Data.DataManager.Instance.LoadRequests();
 
-        private void Start()
-        {
-            Data.Material material;
-            Data.DataManager.Instance.materials.TryGetValue("Red", out material);
+            Instance = this;
         }
     }
 }
