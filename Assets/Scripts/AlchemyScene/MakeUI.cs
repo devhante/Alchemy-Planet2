@@ -57,7 +57,11 @@ namespace AlchemyPlanet.AlchemyScene
         private void OnClickMakeButton()
         {
             foreach (var kv in selected_formula.formula)
+            {
                 Data.DataManager.Instance.CurrentPlayerData.inventory[kv.Key] -= kv.Value;
+                if (Data.DataManager.Instance.CurrentPlayerData.inventory[kv.Key] <= 0)
+                    Data.DataManager.Instance.CurrentPlayerData.inventory.Remove(kv.Key);
+            }
             Data.DataManager.Instance.CurrentPlayerData.inventory.Add(selected_formula.result, 1);
             UIManager.Instance.CloseMenu();
         }
