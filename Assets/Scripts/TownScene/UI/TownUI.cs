@@ -67,7 +67,7 @@ namespace AlchemyPlanet.TownScene
             {
                 mainCamera.GetComponent<MainCamera>().StartCoroutine("ZoomOut");
                 UIManager.Instance.TownUIOff();
-                UIManager.Instance.OpenMenu<TownManager>();
+                UIManager.Instance.OpenMenu<TownManagement>();
             });
             TownUpgradeButton.onClick.AddListener(() =>
             {

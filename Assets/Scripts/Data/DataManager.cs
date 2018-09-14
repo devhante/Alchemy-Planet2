@@ -293,8 +293,10 @@ namespace AlchemyPlanet.Data
         //재료
         public Dictionary<string, int> inventory;
 
+        //건물
         public List<Structure> structures;
         public List<GameObject> setupBuildilngs;
+        public int boundary; // 경계
 
         //캐릭터
         public List<Character> characters;
@@ -316,6 +318,8 @@ namespace AlchemyPlanet.Data
             this.inventory = new Dictionary<string, int>();
             this.structures = new List<Structure>();
             this.characters = new List<Character>{ Character.Popin };
+
+            this.boundary = 15;
 
             AddSampleDatas();
         }

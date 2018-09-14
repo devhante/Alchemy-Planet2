@@ -7,7 +7,7 @@ using AlchemyPlanet.Data;
 
 namespace AlchemyPlanet.TownScene
 {
-    public class TownManager : Common.UI<TownManager>
+    public class TownManagement : Common.UI<TownManagement>
     {
         public List<GameObject> buildingImages; // 건물 미리보기
         public Button leftButton;               // 건물이미지 페이지 왼쪽으로 넘기기
@@ -170,17 +170,15 @@ namespace AlchemyPlanet.TownScene
 
         IEnumerator MoveBuilding()     //건물 위치 변경
         {
-            while (TouchPhase.Ended != tempTouch.phase)
+            while (TouchPhase.Moved != tempTouch.phase)
             {
-                if (tempTouch.phase == TouchPhase.Moved)
-                {
-                    touchedPos = tempTouch.position;
+                touchedPos = tempTouch.position;
 
-                    clickedBuilding.transform.position = new Vector3(
-                        Mathf.RoundToInt(Camera.main.ScreenToWorldPoint(touchedPos).x),
-                        clickedBuilding.transform.position.y,
-                        clickedBuilding.transform.position.z);
-                }
+                clickedBuilding.transform.position = new Vector3(
+                    Mathf.RoundToInt(Camera.main.ScreenToWorldPoint(touchedPos).x),
+                    clickedBuilding.transform.position.y,
+                    clickedBuilding.transform.position.z);
+
                 yield return null;
             }
         }
