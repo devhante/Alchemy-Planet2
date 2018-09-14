@@ -10,6 +10,7 @@ namespace AlchemyPlanet.GameScene
         public GameObject[] recipePrefabs;
         public GameObject[] dropMaterialPrefabs;
         public GameObject monster;
+        public GameObject bossMonster;
         public GameObject popinBullet;
         public GameObject harpRadishealBullet;
         public GameObject line;

@@ -77,6 +77,11 @@ namespace AlchemyPlanet.GameScene
             dropMaterialList = new Dictionary<MaterialName, int>();
         }
 
+        private void Start()
+        {
+            StartCoroutine("SprintEffectCoroutine");
+        }
+
         public IEnumerator GainScoreByTimeCoroutine()
         {
             while(true)
@@ -193,6 +198,32 @@ namespace AlchemyPlanet.GameScene
                 if (Popin.Instance.PotionRed) increase += 2;
 
             MoveSpeed = 1 + increase;
+        }
+
+        IEnumerator SprintEffectCoroutine()
+        {
+            bool isSprintEffectPlaying = false;
+            GameObject sprintEffectObject = null;
+
+            while (true)
+            {
+                if (MoveSpeed >= 3 && isSprintEffectPlaying == false)
+                {
+                    isSprintEffectPlaying = true;
+                    sprintEffectObject = Instantiate(ItemManager.Instance.sprintEffect, GameObject.FindWithTag("Player").transform.position, Quaternion.identity);
+                    GameUI.Instance.TopWind.SetActive(true);
+                    GameUI.Instance.BottomWind.SetActive(true);
+                }
+                else if (MoveSpeed < 3 && isSprintEffectPlaying == true)
+                {
+                    isSprintEffectPlaying = false;
+                    Destroy(sprintEffectObject);
+                    GameUI.Instance.TopWind.SetActive(false);
+                    GameUI.Instance.BottomWind.SetActive(false);
+                }
+
+                yield return null;
+            }
         }
     }
 }

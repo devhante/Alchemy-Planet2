@@ -34,4 +34,13 @@ namespace AlchemyPlanet.TownScene
             requireTime = rtime;
         }
     }
+
+    public class StructureUpgradeInfo
+    {
+        public string type;
+        public int userId;
+        public int structureId;
+        public DateTime startDate;
+        public int requireTime;
+    }
 }
