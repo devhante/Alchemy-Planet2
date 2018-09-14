@@ -31,7 +31,6 @@ namespace AlchemyPlanet.Data
             {
                 Debug.Log(e.Data);
                 var message = JsonConvert.DeserializeObject<Message>(e.Data);
-                Debug.Log(e.Data);
 
                 if (message.status == "GetStructureUpgradeInfo")
                 {
