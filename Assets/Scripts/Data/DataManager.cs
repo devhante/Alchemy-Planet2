@@ -35,9 +35,9 @@ namespace AlchemyPlanet.Data
             }
 
             //CreateSampleDialog();
-            CreateSampleMaterials();
-            CreateSampleFomulas();
-            CreateSampleRequest();
+            //CreateSampleMaterials();
+            //CreateSampleFomulas();
+            //CreateSampleRequest();
 
             //CreateSampleStructure(); // 타운관리모드 테스트할때 이거 주석 풀기
 
@@ -204,28 +204,37 @@ namespace AlchemyPlanet.Data
         }
 
         #region PlayerData
-        public static PlayerData PlayerStringToData(string dataString)
-        {
-            PlayerData data = JsonConvert.DeserializeObject<PlayerData>(dataString);
-            return data;
-        }
 
-        public string PlayerDataToString(PlayerData data)
-        {
-            string dataString = JsonConvert.SerializeObject(data);
-            return dataString;
-        }
+        //public static PlayerData PlayerStringToData(string dataString)
+        //{
+        //    PlayerData data = JsonConvert.DeserializeObject<PlayerData>(dataString);
+        //    return data;
+        //}
 
-        public string PlayerDataToString()
-        {
-            string dataString = JsonConvert.SerializeObject(Instance.CurrentPlayerData);
-            return dataString;
-        }
+        //public string PlayerDataToString(PlayerData data)
+        //{
+        //    string dataString = JsonConvert.SerializeObject(data);
+        //    return dataString;
+        //}
+
+        //public string PlayerDataToString()
+        //{
+        //    string dataString = JsonConvert.SerializeObject(Instance.CurrentPlayerData);
+        //    return dataString;
+        //}
 
         public void LoadPlayerData()
         {
             CurrentPlayerData = new PlayerData();
+
+            //WebSocketManager.Instance.SendGetPlayerData(PlayGamesScript.Instance.current_user_id);
         }
+
+        public void SavePlayerData()
+        {
+            WebSocketManager.Instance.SendSetPlayerData(CurrentPlayerData);
+        }
+
         #endregion PlayerData
 
         #region Dialog

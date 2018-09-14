@@ -40,10 +40,17 @@ namespace AlchemyPlanet.Data
                     Debug.Log("TEST_TEST_TEST_TEST_TEST");
                     OnMessageGetStructureUpgradeInfo(data);
                 }
+                if (message.status == "PlayerData")
+                {
+                    string data_string = ConvertLappedJsonString(message.data);
+                    var data = JsonConvert.DeserializeObject<PlayerData>(data_string);
+                    Data.DataManager.Instance.CurrentPlayerData = data;
+                }
+
             };
 
             ws.Connect();
-            SendGetStructureUpgradeInfo(0, 1);
+            SendGetStructureUpgradeInfo("0", 1);
         }
 
         private void OnDestroy()
@@ -58,7 +65,21 @@ namespace AlchemyPlanet.Data
             return BackSlashDeleted.Remove(0, 1).Remove(BackSlashDeleted.Length - 2);
         }
 
-        private void SendGetStructureUpgradeInfo(int uid, int sid)
+        public void SendGetPlayerData(string uid)
+        {
+            var message = new Message("GetPlayerData", uid);
+            var str = JsonConvert.SerializeObject(message);
+            ws.Send(str);
+        }
+
+        public void SendSetPlayerData(PlayerData data)
+        {
+            var message = new Message("SetPlayerData", data);
+            var str = JsonConvert.SerializeObject(message);
+            ws.Send(str);
+        }
+
+        private void SendGetStructureUpgradeInfo(string uid, int sid)
         {
             var data = new StructureUpgradeInfo(uid, sid, new DateTime(), 0);
             var message = new Message("GetStructureUpgradeInfo", data);
@@ -71,7 +92,7 @@ namespace AlchemyPlanet.Data
             Debug.Log(data);
         }
 
-        private void SendSetStructureUpgradeInfo(int uid, int sid, DateTime sDate, int rTime)
+        private void SendSetStructureUpgradeInfo(string uid, int sid, DateTime sDate, int rTime)
         {
             var data = new StructureUpgradeInfo(uid, sid, sDate, rTime);
             var message = new Message("SetStructureUpgradeInfo", data);
