@@ -25,6 +25,9 @@ namespace AlchemyPlanet.TownScene
         bool writting = false;
         bool touched = false;
 
+        //특수 요청으로 다음 대화를 불러오기 전 플레이어 이름을 세팅한다
+        bool namebox = false;
+
         public int count = 0;
 
         //상단의 버튼
@@ -73,6 +76,14 @@ namespace AlchemyPlanet.TownScene
         public void OnCliked()
         {
             autoplay = false;
+
+            if (namebox)
+            {
+                UIManager.Instance.OpenMenu<NameSetUI>();
+                namebox = false;
+                return;
+            }
+
             if (!writting)
             {
                 StartCoroutine(SetView(count++));
@@ -130,6 +141,7 @@ namespace AlchemyPlanet.TownScene
                     writting = true;
 
                     d_name.text = data.dialogs[num].name;
+                    //만약 이름이 {P}로 되어있으면 플레이어 이름으로 적용
                     if (data.dialogs[num].name.Equals("{P}"))
                         d_name.text = Data.DataManager.Instance.CurrentPlayerData.player_name;
 
@@ -159,7 +171,15 @@ namespace AlchemyPlanet.TownScene
                     #region PrintDialog
                     //다음 내용을 불러오고, Text를 초기화
                     string script = data.dialogs[num].content;
+                    //{P}라고 세팅 된 부분을 플레이어 이름으로 변경
                     script = script.Replace("{P}", Data.DataManager.Instance.CurrentPlayerData.player_name);
+
+                    if (script.Contains("{{GiveMeYourName}}"))
+                    {
+                        namebox = true;
+                        script = script.Replace("{{GiveMeYourName}}", "");
+                    }
+                    
 
                     d_script.text = "";
 
