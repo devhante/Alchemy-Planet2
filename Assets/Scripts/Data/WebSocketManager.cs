@@ -29,12 +29,19 @@ namespace AlchemyPlanet.Data
 
             ws.OnMessage += (sender, e) =>
             {
-                var test = JsonConvert.DeserializeObject<StructureUpgradeInfo>(e.Data);
-                Debug.Log(test.userId);
+                Debug.Log(e.Data);
+                var message = JsonConvert.DeserializeObject<Message>(e.Data);
+                Debug.Log(e.Data);
+
+                if (message.status == "GetStructureUpgradeInfo")
+                {
+                    var data = JsonConvert.DeserializeObject<StructureUpgradeInfo>(message.data);
+                    OnMessageGetStructureUpgradeInfo(data);
+                }
             };
 
             ws.Connect();
-            GetStructureUpgradeInfo(0, 1);
+            SendGetStructureUpgradeInfo(0, 1);
         }
 
         private void OnDestroy()
@@ -43,17 +50,24 @@ namespace AlchemyPlanet.Data
             ws.Close();
         }
 
-        private void GetStructureUpgradeInfo(int uid, int sid)
+        private void SendGetStructureUpgradeInfo(int uid, int sid)
         {
-            var obj = new GetStructureUpgradeInfo(uid, sid);
-            var str = JsonConvert.SerializeObject(obj);
+            var data = new StructureUpgradeInfo(uid, sid);
+            var message = new Message("GetStructureUpgradeInfo", data);
+            var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
 
-        private void SetStructureUpgradeInfo(int uid, int sid, DateTime sDate, int rTime)
+        private void OnMessageGetStructureUpgradeInfo(StructureUpgradeInfo data)
         {
-            var obj = new SetStructureUpgradeInfo(uid, sid, sDate, rTime);
-            var str = JsonConvert.SerializeObject(obj);
+            Debug.Log(data);
+        }
+
+        private void SendSetStructureUpgradeInfo(int uid, int sid, DateTime sDate, int rTime)
+        {
+            var data = new StructureUpgradeInfo(uid, sid, sDate, rTime);
+            var message = new Message("SetStructureUpgradeInfo", data);
+            var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
     }

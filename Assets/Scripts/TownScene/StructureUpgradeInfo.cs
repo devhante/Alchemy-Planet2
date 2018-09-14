@@ -5,42 +5,25 @@ using UnityEngine;
 
 namespace AlchemyPlanet.TownScene
 {
-    public class GetStructureUpgradeInfo
-    {
-        public string type = "GetStructureUpgradeInfo";
-        public int userId;
-        public int structureId;
-
-        public GetStructureUpgradeInfo(int uid, int sid)
-        {
-            userId = uid;
-            structureId = sid;
-        }
-    }
-
-    public class SetStructureUpgradeInfo
-    {
-        public string type = "SetStructureUpgradeInfo";
-        public int userId;
-        public int structureId;
-        public DateTime startDate;
-        public int requireTime;
-
-        public SetStructureUpgradeInfo(int uid, int sid, DateTime sdate, int rtime)
-        {
-            userId = uid;
-            structureId = sid;
-            startDate = sdate;
-            requireTime = rtime;
-        }
-    }
-
     public class StructureUpgradeInfo
     {
-        public string type;
-        public int userId;
-        public int structureId;
-        public DateTime startDate;
-        public int requireTime;
+        public int userId { get; set; }
+        public int structureId { get; set; }
+        public DateTime startDate { get; set; }
+        public int requireTime { get; set; }
+
+        public StructureUpgradeInfo(int userId, int structureId)
+        {
+            this.userId = userId;
+            this.structureId = structureId;
+        }
+
+        public StructureUpgradeInfo(int userId, int structureId, DateTime startDate, int requireTime)
+        {
+            this.userId = userId;
+            this.structureId = structureId;
+            this.startDate = startDate;
+            this.requireTime = requireTime;
+        }
     }
 }
