@@ -20,6 +20,7 @@ namespace AlchemyPlanet.AlchemyScene
             BackButton.onClick.AddListener(OnClickBackButton);
 
             UpdateRequestButton.onClick.AddListener(OnClickUpdateRequestButton);
+            CheckUnicoin();
         }
 
         private void UpdateRequest()
@@ -60,8 +61,26 @@ namespace AlchemyPlanet.AlchemyScene
 
         private void OnClickUpdateRequestButton()
         {
-            Data.DataManager.Instance.CurrentPlayerData.UpdateRequest();
-            UpdateRequest();
+            if (CheckUnicoin())
+            {
+                Data.DataManager.Instance.CurrentPlayerData.unicoin -= 1000;
+                Data.DataManager.Instance.CurrentPlayerData.UpdateRequest();
+                UpdateRequest();
+                Common.StateBar.Instance.UpdateState();
+            }
+        }
+
+        private bool CheckUnicoin()
+        {
+            if (Data.DataManager.Instance.CurrentPlayerData.unicoin < 1000){
+                UpdateRequestButton.image.color = new Color32(150, 150, 150, 255);
+                UpdateRequestButton.onClick.RemoveAllListeners();
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }
