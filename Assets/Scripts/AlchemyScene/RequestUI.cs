@@ -15,18 +15,27 @@ namespace AlchemyPlanet.AlchemyScene
         {
             base.Awake();
 
-            foreach (var item in RequestButtons)
+            UpdateRequest();
+
+            BackButton.onClick.AddListener(OnClickBackButton);
+
+            UpdateRequestButton.onClick.AddListener(OnClickUpdateRequestButton);
+        }
+
+        private void UpdateRequest()
+        {
+            for (int i = 0; i < RequestButtons.Length; ++i)
             {
-                Image[] requiers = item.transform.GetComponentsInChildren<Image>();
-                Text[] texts = item.transform.GetComponentsInChildren<Text>();
-                int rand = Random.Range(0, 4);
-                var req = AlchemyManager.Instance.requests[rand];
+                Image[] requiers = RequestButtons[i].transform.GetComponentsInChildren<Image>();
+                Text[] texts = RequestButtons[i].transform.GetComponentsInChildren<Text>();
+
+                var req = Data.DataManager.Instance.CurrentPlayerData.request[i];
 
                 int index = 1;
-                //여기 키, 값 전부 받도록 수정
-                foreach (string n in req.requires.Keys)
+                foreach (var kv in req.requires)
                 {
-                    requiers[index].sprite = Data.DataManager.Instance.materials[n].image;
+                    requiers[index].sprite = Data.DataManager.Instance.materials[kv.Key].image;
+                    //개수 표현 필요
                     ++index;
                 }
 
@@ -35,12 +44,8 @@ namespace AlchemyPlanet.AlchemyScene
                 texts[2].text = req.cosmoston.ToString();
                 texts[3].text = req.exp.ToString();
 
-                item.onClick.AddListener(OnClickRequestButton);
+                RequestButtons[i].onClick.AddListener(OnClickRequestButton);
             }
-
-            BackButton.onClick.AddListener(OnClickBackButton);
-
-            UpdateRequestButton.onClick.AddListener(OnClickUpdateRequestButton);
         }
 
         private void OnClickRequestButton()
@@ -55,7 +60,8 @@ namespace AlchemyPlanet.AlchemyScene
 
         private void OnClickUpdateRequestButton()
         {
-
+            Data.DataManager.Instance.CurrentPlayerData.UpdateRequest();
+            UpdateRequest();
         }
     }
 }
