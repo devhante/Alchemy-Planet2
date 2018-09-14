@@ -18,6 +18,7 @@ namespace AlchemyPlanet.TownScene
         void Start()
         {
             animator = GetComponent<Animator>();
+            animator.SetBool("Run", false);
         }
 
         // Update is called once per frame
@@ -28,13 +29,14 @@ namespace AlchemyPlanet.TownScene
 
         void DetectTouch()    // 클릭감지
         {
-            if (Input.touchCount > 0 && !talking)
+            if (Input.touchCount == 1 && !talking)
             {
                 tempTouch = Input.GetTouch(0);
                 if (tempTouch.phase != TouchPhase.Ended && !EventSystem.current.IsPointerOverGameObject(tempTouch.fingerId))
                 {
                     touchedPos = Camera.main.ScreenToWorldPoint(tempTouch.position);
                     RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero, 0, LayerMask.GetMask("NPC"));
+
                     if (tempTouch.phase == TouchPhase.Began && hit.collider != null && hit.collider.tag == "NPC")
                     {
                         if (TownUI.Instance.turnOnBuildBar)
@@ -48,27 +50,28 @@ namespace AlchemyPlanet.TownScene
                     }
                     else
                     {
-                        animator.SetBool("Run", true);
                         if (transform.position.x - touchedPos.x < 0)
                         {
                             RaycastHit2D wall = Physics2D.Raycast(transform.position, Vector2.right, 1, LayerMask.GetMask("Wall"));
                             transform.rotation = Quaternion.Euler(0, 0, 0);
-                            if(wall.collider==null)
-                            transform.Translate(Vector2.right * speed * Time.deltaTime);
+                            if (wall.collider == null)
+                                transform.Translate(Vector2.right * speed * Time.deltaTime);
                         }
                         else if (transform.position.x - touchedPos.x > 0)
                         {
                             RaycastHit2D wall = Physics2D.Raycast(transform.position, Vector2.left, 1, LayerMask.GetMask("Wall"));
                             transform.rotation = Quaternion.Euler(0, 180, 0);
-                            if(wall.collider==null)
-                            transform.Translate(Vector2.right * speed * Time.deltaTime);
+                            if (wall.collider == null)
+                                transform.Translate(Vector2.right * speed * Time.deltaTime);
                         }
+                        animator.SetBool("Run", true);
                     }
                 }
                 if (tempTouch.phase == TouchPhase.Ended || EventSystem.current.IsPointerOverGameObject(tempTouch.fingerId))
                 {
                     animator.SetBool("Run", false);
                 }
+                    Debug.Log(animator.GetBool("Run"));
             }
             else if (Input.GetMouseButton(0) && !talking && !EventSystem.current.IsPointerOverGameObject())
             {

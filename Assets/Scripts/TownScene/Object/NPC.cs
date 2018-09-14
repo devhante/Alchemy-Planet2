@@ -96,7 +96,7 @@ namespace AlchemyPlanet.TownScene
                 if(wall.collider != null)
                 {
                     moveChoice = 2;
-                    moving = false;
+                    moving = true;
                     animator.SetBool("Run", false);
                     StartCoroutine("StopMove");
                     yield break;
@@ -122,7 +122,7 @@ namespace AlchemyPlanet.TownScene
                 if (wall.collider != null)
                 {
                     moveChoice = 2;
-                    moving = false;
+                    moving = true;
                     animator.SetBool("Run", false);
                     StartCoroutine("StopMove");
                     yield break;

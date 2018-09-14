@@ -48,6 +48,7 @@ namespace AlchemyPlanet.TownScene
             GetBuilding();
             clickedBuilding = null;
             SetImage();
+            touchTime = 0;
         }
 
         void Update()
@@ -125,32 +126,30 @@ namespace AlchemyPlanet.TownScene
             if (Input.touchCount > 0)
             {
                 tempTouch = Input.GetTouch(0);
-                touchTime += tempTouch.deltaTime;
-                if (tempTouch.phase == TouchPhase.Began && !EventSystem.current.IsPointerOverGameObject(0))
+                touchedPos = Camera.main.ScreenToWorldPoint(tempTouch.position);
+                RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);
+                touchTime += tempTouch.deltaTime; 
+                if (hit.collider != null && hit.collider.tag == "Building"  && tempTouch.phase == TouchPhase.Stationary && 
+                    !EventSystem.current.IsPointerOverGameObject(tempTouch.fingerId)&&touchTime>0.7f && clickedBuilding == null)
                 {
-                    touchedPos = Camera.main.ScreenToWorldPoint(tempTouch.position);
-                    RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);
-                    if (hit.collider != null && hit.collider.tag == "Building" && touchTime > 0.7f)
-                    {
-                        if (clickedBuilding != null)
-                        {
-                            clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
-                            clickedBuilding = null;
-                        }
-                        clickedBuilding = hit.collider.gameObject;
-                        clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0);
-                        StartCoroutine("MoveBuilding");
-                    }
-                    else if (hit.collider == null && clickedBuilding != null)
+                    if (clickedBuilding != null)
                     {
                         clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
                         clickedBuilding = null;
                     }
+                    clickedBuilding = hit.collider.gameObject;
+                    clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0);
                 }
-                if (tempTouch.phase == TouchPhase.Ended)
+                else if ((hit.collider == null || hit.collider!=null&&hit.collider.gameObject != clickedBuilding)&& clickedBuilding != null && 
+                    tempTouch.phase == TouchPhase.Began && !EventSystem.current.IsPointerOverGameObject(tempTouch.fingerId))
                 {
-                    touchTime = 0;
+                    clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
+                    clickedBuilding = null;
                 }
+                else if (tempTouch.phase == TouchPhase.Ended)
+                    touchTime = 0;
+                if(clickedBuilding != null&&hit.collider != null && hit.collider.gameObject == clickedBuilding)
+                    StartCoroutine("MoveBuilding");
             }
         }
 
@@ -170,7 +169,7 @@ namespace AlchemyPlanet.TownScene
 
         IEnumerator MoveBuilding()     //건물 위치 변경
         {
-            while (TouchPhase.Moved != tempTouch.phase)
+            while (TouchPhase.Ended != tempTouch.phase)
             {
                 touchedPos = tempTouch.position;
 
@@ -225,6 +224,7 @@ namespace AlchemyPlanet.TownScene
             setupBuildings.Add(clickedBuilding);
             SetImage();
             SetBuilding();
+            StartCoroutine("MoveBuilding");
         }
 
         void RemoveBuilding()   // 건물 철거
