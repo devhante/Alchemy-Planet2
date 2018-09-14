@@ -371,6 +371,8 @@ namespace AlchemyPlanet.Data
 
             inventory.Add("붉은 꽃잎", 3);
             inventory.Add("블루베리", 2);
+
+            unicoin += 100000;
         }
 
         public void SetBuildingImage()
