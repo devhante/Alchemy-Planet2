@@ -6,6 +6,9 @@ namespace AlchemyPlanet.GameScene
 {
     public class Monster : MonoBehaviour
     {
+        public float maxHealth;
+        public float attackPower;
+
         [HideInInspector]
         public int index;
         [HideInInspector]
@@ -13,9 +16,8 @@ namespace AlchemyPlanet.GameScene
 
         protected float attackCoolTime;
         protected float attackRange;
-        protected float attackPower;
         protected float moveSpeed;
-        protected float maxHealth;
+        
         protected SpriteRenderer bodySpriteRenderer;
         protected SpriteRenderer faceSpriteRenderer;
 

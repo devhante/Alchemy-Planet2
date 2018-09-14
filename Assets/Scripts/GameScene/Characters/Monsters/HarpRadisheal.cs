@@ -19,9 +19,7 @@ namespace AlchemyPlanet.GameScene
 
             attackCoolTime = 5;
             attackRange = 4;
-            attackPower = 2;
             moveSpeed = 2;
-            maxHealth = 300;
             health = maxHealth;
         }
 
