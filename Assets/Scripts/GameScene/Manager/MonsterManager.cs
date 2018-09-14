@@ -46,14 +46,14 @@ namespace AlchemyPlanet.GameScene
             Monsters.Add(Key, harpRadisheal);
             harpRadisheal.index = Monsters.Count - 1;
             harpRadisheal.ChangeSortingLayer(harpRadisheal.index * -2, harpRadisheal.index * -2 + 1);
-            Key++; ;
+            Key++;
         }
 
         IEnumerator SpawnMonsterCoroutine()
         {
             int count = 0;
 
-            while (count < 1)
+            while (count < 5)
             {
                 SpawnMonster();
                 yield return new WaitForSeconds(SpawnCooltime);
@@ -85,7 +85,10 @@ namespace AlchemyPlanet.GameScene
                 yield return null;
             }
             Camera.main.transform.localPosition = originPos;
-            
+
+            while (Monsters.Count > 0)
+                yield return null;
+            StartCoroutine("SpawnMonsterCoroutine");
         }
 
         public void KillMonster(int key)
