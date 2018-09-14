@@ -188,6 +188,12 @@ namespace AlchemyPlanet.TownScene
             if (clickedBuilding == null && tempTouch.phase == TouchPhase.Moved)
             {
                 TownUI.Instance.mainCamera.transform.position += Vector3.left * tempTouch.deltaPosition.x / 2 * tempTouch.deltaTime;
+                if (TownUI.Instance.mainCamera.transform.position.x > DataManager.Instance.CurrentPlayerData.boundary)
+                    TownUI.Instance.mainCamera.transform.position = new Vector3(DataManager.Instance.CurrentPlayerData.boundary,
+                        TownUI.Instance.mainCamera.transform.position.y, TownUI.Instance.mainCamera.transform.position.z);
+                else if (TownUI.Instance.mainCamera.transform.position.x < -DataManager.Instance.CurrentPlayerData.boundary)
+                    TownUI.Instance.mainCamera.transform.position = new Vector3(-DataManager.Instance.CurrentPlayerData.boundary, 
+                        TownUI.Instance.mainCamera.transform.position.y, TownUI.Instance.mainCamera.transform.position.z);
             }
         }
 
