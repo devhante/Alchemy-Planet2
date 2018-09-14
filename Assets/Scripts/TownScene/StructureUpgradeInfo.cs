@@ -12,12 +12,6 @@ namespace AlchemyPlanet.TownScene
         public DateTime startDate { get; set; }
         public int requireTime { get; set; }
 
-        public StructureUpgradeInfo(int userId, int structureId)
-        {
-            this.userId = userId;
-            this.structureId = structureId;
-        }
-
         public StructureUpgradeInfo(int userId, int structureId, DateTime startDate, int requireTime)
         {
             this.userId = userId;

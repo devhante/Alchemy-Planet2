@@ -31,11 +31,13 @@ namespace AlchemyPlanet.Data
             {
                 Debug.Log(e.Data);
                 var message = JsonConvert.DeserializeObject<Message>(e.Data);
-                Debug.Log(e.Data);
-
-                if (message.status == "GetStructureUpgradeInfo")
+                
+                if (message.status == "StructureUpgradeInfo")
                 {
-                    var data = JsonConvert.DeserializeObject<StructureUpgradeInfo>(message.data);
+                    Debug.Log(message.data);
+                    string data_string = ConvertLappedJsonString(message.data);
+                    var data = JsonConvert.DeserializeObject<StructureUpgradeInfo>(data_string);
+                    Debug.Log("TEST_TEST_TEST_TEST_TEST");
                     OnMessageGetStructureUpgradeInfo(data);
                 }
             };
@@ -50,9 +52,15 @@ namespace AlchemyPlanet.Data
             ws.Close();
         }
 
+        private string ConvertLappedJsonString(string Jsonstring)
+        {
+            string BackSlashDeleted = Jsonstring.Replace("\\\"", "\"");
+            return BackSlashDeleted.Remove(0, 1).Remove(BackSlashDeleted.Length - 2);
+        }
+
         private void SendGetStructureUpgradeInfo(int uid, int sid)
         {
-            var data = new StructureUpgradeInfo(uid, sid);
+            var data = new StructureUpgradeInfo(uid, sid, new DateTime(), 0);
             var message = new Message("GetStructureUpgradeInfo", data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
