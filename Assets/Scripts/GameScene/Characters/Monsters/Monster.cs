@@ -6,6 +6,9 @@ namespace AlchemyPlanet.GameScene
 {
     public class Monster : MonoBehaviour
     {
+        public float maxHealth;
+        public float attackPower;
+
         [HideInInspector]
         public int index;
         [HideInInspector]
@@ -13,9 +16,8 @@ namespace AlchemyPlanet.GameScene
 
         protected float attackCoolTime;
         protected float attackRange;
-        protected float attackPower;
         protected float moveSpeed;
-        protected float maxHealth;
+        
         protected SpriteRenderer bodySpriteRenderer;
         protected SpriteRenderer faceSpriteRenderer;
 
@@ -46,9 +48,9 @@ namespace AlchemyPlanet.GameScene
 
         protected virtual void Awake()
         {
-            animator = GetComponent<Animator>();
+            animator = transform.GetComponent<Animator>();
             // monster > canvas > healthbar_background > healthbar
-            healthBar = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>();
+            healthBar = transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<Image>();
             rigidbody2d = GetComponent<Rigidbody2D>();
         }
 
@@ -179,7 +181,7 @@ namespace AlchemyPlanet.GameScene
                 {
                     transform.position += new Vector3(-moveSpeed * 3 * Time.deltaTime, 0, 0);
 
-                    if (GetDistanceBetweenPlayer() < 1.5f)
+                    if (GetDistanceBetweenPlayer() < 1.4f)
                     {
                         Health -= 100;
                         rigidbody2d.AddForce(new Vector2(130, 170));

@@ -7,7 +7,7 @@ using System;
 
 namespace AlchemyPlanet.Data
 {
-    public enum Character { Popin }
+    public enum CharacterEnum { Popin }
 
     public class DataManager : MonoBehaviour
     {
@@ -301,6 +301,12 @@ namespace AlchemyPlanet.Data
         //캐릭터
         public List<Character> characters;
 
+        //파티 편성
+        public CharacterEnum[,] party;
+
+        //의뢰
+        public Request[] request;
+
         public PlayerData()
         {
             this.player_id = Social.localUser.id;
@@ -314,10 +320,16 @@ namespace AlchemyPlanet.Data
             this.cosmoston = 0;
             this.oxygentank = 10;
             this.Max_oxygentank = 10;
+            
 
             this.inventory = new Dictionary<string, int>();
             this.structures = new List<Structure>();
-            this.characters = new List<Character>{ Character.Popin };
+            this.characters = new List<Character> { new Character(CharacterEnum.Popin, 1, 50, 10, 6, "아무거나 적어놓는다") };
+
+            party = new CharacterEnum[9,3];
+            party[0,0] = CharacterEnum.Popin;
+
+            request = new Request[4];
 
             this.boundary = 15;
 
@@ -337,6 +349,15 @@ namespace AlchemyPlanet.Data
             }
         }
 
+        public void UpdateRequest()
+        {
+            for(int i=0; i<request.Length; ++i)
+            {
+                int rand = UnityEngine.Random.Range(0, 4);
+                request[i] = AlchemyScene.AlchemyManager.Instance.requests[rand];
+            }
+        }
+
         public void AddSampleDatas()
         {
             structures.Add(DataManager.Instance.structures["Tree"].Clone());
@@ -352,8 +373,10 @@ namespace AlchemyPlanet.Data
             structures[2].setup = false;
             structures[2].position = new Vector2(-4f, 2.5f);
 
-            inventory.Add("붉은 꽃잎", 1);
+            inventory.Add("붉은 꽃잎", 3);
             inventory.Add("블루베리", 2);
+
+            unicoin += 100000;
         }
 
         public void SetBuildingImage()
@@ -383,6 +406,26 @@ namespace AlchemyPlanet.Data
             //dialogs = DataManager.Instance.LoadDialog("Sample");
             dialogs = DataManager.Instance.LoadDialog(this.npc_name);
             illusts = DataManager.Instance.LoadIllust(dialogs);
+        }
+    }
+
+    public class Character
+    {
+        public CharacterEnum name;
+        public int level;
+        public int addtional_health;
+        public int speed;
+        public int atk;
+        public string leader_skill_info;
+
+        public Character(CharacterEnum name, int level, int addtional_health, int speed, int atk, string leader_skill_info)
+        {
+            this.name = name;
+            this.level = level;
+            this.addtional_health = addtional_health;
+            this.speed = speed;
+            this.atk = atk;
+            this.leader_skill_info = leader_skill_info;
         }
     }
 

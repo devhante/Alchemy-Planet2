@@ -42,15 +42,18 @@ namespace AlchemyPlanet.GameScene
 
         public void SpawnBossMonster()
         {
-            SpawnMonster();
-            Monsters[Key - 1].transform.localScale = new Vector3(2.5f, 2.5f, 0);
+            HarpRadisheal harpRadisheal = Instantiate(PrefabManager.Instance.bossMonster, SpawnPoint, Quaternion.identity).GetComponent<HarpRadisheal>();
+            Monsters.Add(Key, harpRadisheal);
+            harpRadisheal.index = Monsters.Count - 1;
+            harpRadisheal.ChangeSortingLayer(harpRadisheal.index * -2, harpRadisheal.index * -2 + 1);
+            Key++;
         }
 
         IEnumerator SpawnMonsterCoroutine()
         {
             int count = 0;
 
-            while (count < 1)
+            while (count < 5)
             {
                 SpawnMonster();
                 yield return new WaitForSeconds(SpawnCooltime);
@@ -78,11 +81,14 @@ namespace AlchemyPlanet.GameScene
             Vector3 originPos = Camera.main.transform.position;
             while (Monsters[Key - 1].isMoving)
             {
-                Camera.main.transform.localPosition = (Vector3)Random.insideUnitCircle * 0.1f + originPos;
+                Camera.main.transform.localPosition = (Vector3)Random.insideUnitCircle * 0.05f + originPos;
                 yield return null;
             }
             Camera.main.transform.localPosition = originPos;
-            
+
+            while (Monsters.Count > 0)
+                yield return null;
+            StartCoroutine("SpawnMonsterCoroutine");
         }
 
         public void KillMonster(int key)

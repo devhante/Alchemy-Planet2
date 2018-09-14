@@ -12,16 +12,14 @@ namespace AlchemyPlanet.GameScene
         {
             base.Awake();
 
-            bodySpriteRenderer = GetComponent<SpriteRenderer>();
+            bodySpriteRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
             faceSpriteRenderer = transform.GetChild(1).GetComponent<SpriteRenderer>();
-            bulletSpawnPoint = transform.GetChild(2).gameObject;
+            bulletSpawnPoint = transform.GetChild(3).gameObject;
             isAttackCoroutinePlaying = false;
 
             attackCoolTime = 5;
             attackRange = 4;
-            attackPower = 2;
             moveSpeed = 2;
-            maxHealth = 300;
             health = maxHealth;
         }
 

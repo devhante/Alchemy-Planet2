@@ -25,14 +25,16 @@ namespace AlchemyPlanet.Data
 
         private void Start()
         {
-            ws = new WebSocket("ws://127.0.0.1:3000");
+            ws = new WebSocket("ws://54.180.47.195:3000/");
 
             ws.OnMessage += (sender, e) =>
             {
-                Debug.Log(e.Data);
+                var test = JsonConvert.DeserializeObject<StructureUpgradeInfo>(e.Data);
+                Debug.Log(test.userId);
             };
 
             ws.Connect();
+            GetStructureUpgradeInfo(0, 1);
         }
 
         private void OnDestroy()
