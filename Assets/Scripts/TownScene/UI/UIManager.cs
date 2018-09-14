@@ -14,7 +14,7 @@ namespace AlchemyPlanet.TownScene
         [SerializeField] private InventoryCell InventoryPrefab;
         [SerializeField] private TownManager TownManagerUIPrefab;
         [SerializeField] private TownUpgrade TownUpgradeUIPrefab;
-        [SerializeField] private NewPlayerUI NewPlayerUIPrefab;
+        [SerializeField] private NameSetUI NameSetUIPrefab;
 
         [SerializeField] private GameObject TopDownUI;
 
@@ -106,8 +106,8 @@ namespace AlchemyPlanet.TownScene
                 return TownManagerUIPrefab as T;
             else if (typeof(T) == typeof(TownUpgrade))
                 return TownUpgradeUIPrefab as T;
-            else if (typeof(T) == typeof(NewPlayerUI))
-                return NewPlayerUIPrefab as T;
+            else if (typeof(T) == typeof(NameSetUI))
+                return NameSetUIPrefab as T;
             else
                 throw new MissingReferenceException();
         }
