@@ -12,6 +12,8 @@ namespace AlchemyPlanet.Data
         [SerializeField] private GameObject Tutorial_Prefab;
         public static PlayGamesScript Instance { get; private set; }
 
+        public string current_user_id;
+
         const string SAVE_NAME = "PlayData";
         bool isSaving;
         bool isCloudDataLoaded = false;
@@ -23,7 +25,7 @@ namespace AlchemyPlanet.Data
                 Instance = this;
                 DontDestroyOnLoad(this.gameObject);
 
-                GameObject.Instantiate(Tutorial_Prefab);
+                //GameObject.Instantiate(Tutorial_Prefab);
             }
             else if (Instance != this)
             {
@@ -42,6 +44,12 @@ namespace AlchemyPlanet.Data
             if (!PlayerPrefs.HasKey("IsFirstTime"))
             {
                 PlayerPrefs.SetInt("IsFirstTime", 1);
+
+                Data.DataManager.Instance.CurrentPlayerData = new PlayerData();
+                current_user_id = Social.localUser.id;
+
+                Data.DataManager.Instance.SavePlayerData();
+
                 GameObject.Instantiate(Tutorial_Prefab);
             }
 
@@ -62,7 +70,8 @@ namespace AlchemyPlanet.Data
                 if (success)
                 {
                     //LoadData();
-                    ShowAchievementsUI();
+                    //ShowAchievementsUI();
+                    current_user_id = Social.localUser.id;
                 }
                 else
                     Debug.Log("Failed!");
@@ -252,10 +261,7 @@ namespace AlchemyPlanet.Data
             Social.ShowAchievementsUI();
         }
         #endregion /Achievements
-
-
-
-
+        
         #region Leaderboards
         public static void AddScoreToLeaderboard(string leaderboardId, long score)
         {
