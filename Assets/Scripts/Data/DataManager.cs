@@ -232,7 +232,7 @@ namespace AlchemyPlanet.Data
 
         public void SavePlayerData()
         {
-            WebSocketManager.Instance.SendSetPlayerData(CurrentPlayerData);
+
         }
 
         #endregion PlayerData
@@ -281,6 +281,18 @@ namespace AlchemyPlanet.Data
                 List<Request> requests = (List<Request>)serializer.Deserialize(file, typeof(List<Request>));
                 return requests;
             }
+        }
+    }
+
+    public class PlayerName
+    {
+        public string playerId;
+        public string playerName;
+
+        public PlayerName(string playerId, string playerName)
+        {
+            this.playerId = playerId;
+            this.playerName = playerName;
         }
     }
 
