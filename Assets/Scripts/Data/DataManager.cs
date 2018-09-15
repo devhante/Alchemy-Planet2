@@ -314,8 +314,10 @@ namespace AlchemyPlanet.Data
         //재료
         public Dictionary<string, int> inventory;
 
+        //건물
         public List<Structure> structures;
         public List<GameObject> setupBuildilngs;
+        public int boundary; // 경계
 
         //캐릭터
         public List<Character> characters;
@@ -349,6 +351,8 @@ namespace AlchemyPlanet.Data
             party[0,0] = CharacterEnum.Popin;
 
             request = new Request[4];
+
+            this.boundary = 15;
 
             AddSampleDatas();
         }
