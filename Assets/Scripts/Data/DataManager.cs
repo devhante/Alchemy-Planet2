@@ -503,8 +503,10 @@ namespace AlchemyPlanet.Data
         {
             StructureObject.GetComponent<SpriteRenderer>().sprite = image;
             StructureObject.transform.position = position;
-            StructureObject.GetComponent<BoxCollider2D>().offset = new Vector2(0, 0);
-            StructureObject.GetComponent<BoxCollider2D>().size = StructureObject.GetComponent<SpriteRenderer>().bounds.size;
+            if(StructureObject.GetComponent<PolygonCollider2D>())
+                GameObject.DestroyImmediate(StructureObject.GetComponent<PolygonCollider2D>(), true);
+            StructureObject.AddComponent<PolygonCollider2D>();
+            StructureObject.GetComponent<PolygonCollider2D>().isTrigger = true;
             StructureObject.GetComponent<SpriteRenderer>().sortingOrder = -90;
             StructureObject.name = id.ToString();
             StructureObject.GetComponent<SpriteRenderer>().flipX = flip;
