@@ -71,7 +71,6 @@ namespace AlchemyPlanet.TownScene
                 {
                     animator.SetBool("Run", false);
                 }
-                    Debug.Log(animator.GetBool("Run"));
             }
             else if (Input.GetMouseButton(0) && !talking && !EventSystem.current.IsPointerOverGameObject())
             {

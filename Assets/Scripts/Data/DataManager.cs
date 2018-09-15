@@ -174,7 +174,10 @@ namespace AlchemyPlanet.Data
                     if (structures.ContainsKey(sprites[i].name))
                     {
                         if (sprites[i].name == structures[sprites[i].name].structureName)
+                        {
                             structures[sprites[i].name].image = sprites[i];
+                            structures[sprites[i].name].position = new Vector2(0, sprites[i].bounds.size.y/2 - 0.5f);
+                        }
                     }
                 }
 
@@ -197,7 +200,10 @@ namespace AlchemyPlanet.Data
                     if (structures.ContainsKey(sprites[i].name))
                     {
                         if (sprites[i].name == structures[sprites[i].name].structureName)
+                        {
                             structures[sprites[i].name].image = sprites[i];
+                            structures[sprites[i].name].position = new Vector2(0, sprites[i].bounds.size.y / 2 - 1);
+                        }
                     }
                 }
             }
@@ -371,16 +377,10 @@ namespace AlchemyPlanet.Data
         {
             structures.Add(DataManager.Instance.structures["Tree"].Clone());
             structures[0].id = 20;
-            structures[0].setup = true;
-            structures[0].position = new Vector2(-2f, 2.5f);
             structures.Add(DataManager.Instance.structures["House"].Clone());
             structures[1].id = 10;
-            structures[1].setup = true;
-            structures[1].position = new Vector2(2f, 1.6f);
             structures.Add(DataManager.Instance.structures["Tree"].Clone());
             structures[2].id = 21;
-            structures[2].setup = false;
-            structures[2].position = new Vector2(-4f, 2.5f);
 
             inventory.Add("붉은 꽃잎", 3);
             inventory.Add("블루베리", 2);
