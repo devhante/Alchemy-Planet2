@@ -176,7 +176,7 @@ namespace AlchemyPlanet.Data
                         if (sprites[i].name == structures[sprites[i].name].structureName)
                         {
                             structures[sprites[i].name].image = sprites[i];
-                            structures[sprites[i].name].position = new Vector2(0, sprites[i].bounds.size.y/2 - 0.5f);
+                            structures[sprites[i].name].position = new Vector2(0, sprites[i].bounds.size.y / 2 - 0.5f);
                         }
                     }
                 }
@@ -280,7 +280,8 @@ namespace AlchemyPlanet.Data
             }
         }
 
-        public List<Request> LoadRequests(){
+        public List<Request> LoadRequests()
+        {
             using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/Requests").bytes), System.Text.Encoding.UTF8))
             {
                 JsonSerializer serializer = new JsonSerializer();
@@ -347,14 +348,14 @@ namespace AlchemyPlanet.Data
             this.cosmoston = 0;
             this.oxygentank = 10;
             this.Max_oxygentank = 10;
-            
+
 
             this.inventory = new Dictionary<string, int>();
             this.structures = new List<Structure>();
             this.characters = new List<Character> { new Character(CharacterEnum.Popin, 1, 50, 10, 6, "아무거나 적어놓는다") };
 
-            party = new CharacterEnum[9,3];
-            party[0,0] = CharacterEnum.Popin;
+            party = new CharacterEnum[9, 3];
+            party[0, 0] = CharacterEnum.Popin;
 
             request = new Request[4];
 
@@ -368,7 +369,7 @@ namespace AlchemyPlanet.Data
         {
             exp += value;
 
-            while(exp < MAX_EXP)
+            while (exp < MAX_EXP)
             {
                 this.level++;
                 this.exp -= this.MAX_EXP;
@@ -378,7 +379,7 @@ namespace AlchemyPlanet.Data
 
         public void UpdateRequest()
         {
-            for(int i=0; i<request.Length; ++i)
+            for (int i = 0; i < request.Length; ++i)
             {
                 int rand = UnityEngine.Random.Range(0, 4);
                 request[i] = AlchemyScene.AlchemyManager.Instance.requests[rand];
@@ -388,11 +389,11 @@ namespace AlchemyPlanet.Data
         public void AddSampleDatas()
         {
             structures.Add(DataManager.Instance.structures["Tree"].Clone());
-            structures[0].id = 20;
+            GiveId(structures[0]);
             structures.Add(DataManager.Instance.structures["House"].Clone());
-            structures[1].id = 10;
+            GiveId(structures[1]);
             structures.Add(DataManager.Instance.structures["Tree"].Clone());
-            structures[2].id = 21;
+            GiveId(structures[2]);
 
             inventory.Add("붉은 꽃잎", 3);
             inventory.Add("블루베리", 2);
@@ -411,6 +412,30 @@ namespace AlchemyPlanet.Data
                         obj.GetComponent<SpriteRenderer>().sprite = strc.image;
                     }
                 }
+            }
+        }
+
+        public void GiveId(Structure strc)
+        {
+            if (strc is Building)
+            {
+                int buildingCount = 0;
+                foreach (Structure structure in structures)
+                {
+                    if (structure is Building)
+                        buildingCount++;
+                }
+                strc.id = int.Parse("1" + buildingCount.ToString());
+            }
+            else
+            {
+                int interiorCount = 0;
+                foreach (Structure structure in structures)
+                {
+                    if (structure is Interior)
+                        interiorCount++;
+                }
+                strc.id = int.Parse("2" + interiorCount.ToString());
             }
         }
     }

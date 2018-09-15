@@ -29,8 +29,8 @@ namespace AlchemyPlanet.TownScene
         private void OnEnable()
         {
             // 버튼 기능 적용
-            leftButton.onClick.AddListener(() => { page -= page > 0 ? 1 : 0; });
-            rightButton.onClick.AddListener(() => { page += ownBuildings.Count > (page + 1) * 5 ? 1 : 0; });
+            leftButton.onClick.AddListener(() => { ChangePage(false); });
+            rightButton.onClick.AddListener(() => { ChangePage(true); });
             rotateButton.onClick.AddListener(() => { RotateBuilding(); });
             removeButton.onClick.AddListener(() => { RemoveBuilding(); });
             exitButton.onClick.AddListener(() => { Exit(); });
@@ -112,7 +112,7 @@ namespace AlchemyPlanet.TownScene
                 {
                     if (!buildingImages[i].activeSelf)
                         buildingImages[i].SetActive(true);
-                    buildingImages[i].GetComponent<Image>().sprite = DataManager.Instance.structures[ownBuildingsImages[i]].image;
+                    buildingImages[i].GetComponent<Image>().sprite = DataManager.Instance.structures[ownBuildingsImages[i + page * 5]].image;
                     buildingImages[i].name = ownBuildingsImages[i].ToString();
                 }
                 else
@@ -262,6 +262,16 @@ namespace AlchemyPlanet.TownScene
                 else
                     clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0);
             }
+        }
+
+        void ChangePage(bool over)
+        {
+            if (over)
+                page += ownBuildings.Count > (page + 1) * 5 ? 1 : 0;
+            else
+                page -= page > 0 ? 1 : 0;
+            SetImage();
+            Debug.Log(page);
         }
     }
 }
