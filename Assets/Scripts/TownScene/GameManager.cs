@@ -15,13 +15,13 @@ namespace AlchemyPlanet.Data
         // Use this for initialization
         void Start()
         {
-            SetBoundary();
             SetFloor();
         }
 
         void SetFloor()
         {
-            float floorX=-boundary;
+            SetBoundary();
+            float floorX =-boundary;
             while (floorX <= boundary)
             {
                 Instantiate(floor, new Vector2(floorX, -1), Quaternion.Euler(0, 0, 0));

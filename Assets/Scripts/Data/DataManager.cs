@@ -176,7 +176,6 @@ namespace AlchemyPlanet.Data
                         if (sprites[i].name == structures[sprites[i].name].structureName)
                         {
                             structures[sprites[i].name].image = sprites[i];
-                            structures[sprites[i].name].position = new Vector2(0, sprites[i].bounds.size.y / 2 - 0.5f);
                         }
                     }
                 }
@@ -202,7 +201,6 @@ namespace AlchemyPlanet.Data
                         if (sprites[i].name == structures[sprites[i].name].structureName)
                         {
                             structures[sprites[i].name].image = sprites[i];
-                            structures[sprites[i].name].position = new Vector2(0, sprites[i].bounds.size.y / 2 - 1);
                         }
                     }
                 }
@@ -395,13 +393,18 @@ namespace AlchemyPlanet.Data
             structures.Add(DataManager.Instance.structures["Tree"].Clone());
             GiveId(structures[2]);
 
+            (structures[1] as Building).material1Name = "붉은 꽃잎";
+            (structures[1] as Building).material1Count = 1;
+            (structures[1] as Building).material2Name = "블루베리";
+            (structures[1] as Building).material2Count = 2;
+
             inventory.Add("붉은 꽃잎", 3);
             inventory.Add("블루베리", 2);
 
             unicoin += 100000;
         }
 
-        public void SetBuildingImage()
+        public void SetBuilding()
         {
             foreach (GameObject obj in setupBuildilngs)
             {
@@ -410,6 +413,11 @@ namespace AlchemyPlanet.Data
                     if (strc.id == int.Parse(obj.name.Substring(0, obj.name.Length - 7)))
                     {
                         obj.GetComponent<SpriteRenderer>().sprite = strc.image;
+                        obj.transform.position = new Vector2(obj.transform.position.x, strc.image.bounds.size.y / 2 - 1);
+                        GameObject.Destroy(obj.GetComponent<PolygonCollider2D>());
+                        obj.AddComponent<PolygonCollider2D>();
+                        obj.GetComponent<PolygonCollider2D>().isTrigger = true;
+                        break;
                     }
                 }
             }
@@ -501,6 +509,7 @@ namespace AlchemyPlanet.Data
         }
         public void Build()
         {
+            position = new Vector2(position.x, image.bounds.size.y / 2 - 1);
             StructureObject.GetComponent<SpriteRenderer>().sprite = image;
             StructureObject.transform.position = position;
             if(StructureObject.GetComponent<PolygonCollider2D>())
@@ -518,6 +527,11 @@ namespace AlchemyPlanet.Data
         public string buildingDiscription;
         public int buildingLevel;
         public bool upgrading = false;
+        public string material1Name;
+        public string material2Name;
+        public int material1Count;
+        public int material2Count;
+
 
         public Building(string buildingName, string buildingDiscription, int buildingLevel)
         {
@@ -539,9 +553,9 @@ namespace AlchemyPlanet.Data
         {
             upgrading = true;
             image = Resources.Load<Sprite>("Sprites/Town/Tent");
-
+            // 시간 보내고 받기 서버랑 연동하자 민제야!!
             buildingLevel++;
-            image = Resources.Load<Sprite>("Sprties/Town/" + structureName + buildingLevel.ToString());
+            image = Resources.Load<Sprite>("Sprites/Town/" + structureName + buildingLevel.ToString());
             upgrading = false;
         }
     }

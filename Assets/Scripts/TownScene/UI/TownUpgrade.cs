@@ -13,14 +13,14 @@ namespace AlchemyPlanet.TownScene
         public Button closeButton;
         public List<GameObject> buildingImages;
 
-        private List<string> ownBuildings = new List<string>();                   // 소유중인 건물
+        private List<Building> ownBuildings = new List<Building>();                   // 소유중인 건물
         private int page;                                                         // 현재 건물이미지 페이지
 
         private void OnEnable()
         {
             GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            leftButton.onClick.AddListener(() => { page -= page > 0 ? 1 : 0; });
-            rightButton.onClick.AddListener(() => { page += ownBuildings.Count > (page + 1) * 6 ? 1 : 0; });
+            leftButton.onClick.AddListener(() => { ChangePage(false); });
+            rightButton.onClick.AddListener(() => { ChangePage(true); });
             closeButton.onClick.AddListener(() => { UIManager.Instance.CloseMenu(); });
 
             buildingImages[0].GetComponent<Button>().onClick.AddListener(() => OpenBuildingInfo(0));
@@ -44,7 +44,7 @@ namespace AlchemyPlanet.TownScene
             foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures)
             {
                 if (strc is Building)
-                    ownBuildings.Add(strc.structureName);
+                    ownBuildings.Add(strc as Building);
             }
         }
 
@@ -56,14 +56,24 @@ namespace AlchemyPlanet.TownScene
                 {
                     if (!buildingImages[i].activeSelf)
                         buildingImages[i].SetActive(true);
-                    buildingImages[i].GetComponent<Image>().sprite = DataManager.Instance.structures[ownBuildings[i]].image;
-                    buildingImages[i].name = DataManager.Instance.structures[ownBuildings[i]].structureName;
+                    buildingImages[i].name = ownBuildings[i + page * 6].structureName;
+                    buildingImages[i].GetComponent<Image>().sprite = ownBuildings[i + page * 6].image;
                 }
                 else
                 {
                     buildingImages[i].gameObject.SetActive(false);
                 }
             }
+        }
+
+        void ChangePage(bool over)
+        {
+            if (over)
+                page += ownBuildings.Count > (page + 1) * 6 ? 1 : 0;
+            else
+                page -= page > 0 ? 1 : 0;
+            SetImage();
+            Debug.Log(page);
         }
     }
 }
