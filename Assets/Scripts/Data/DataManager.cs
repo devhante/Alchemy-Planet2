@@ -174,7 +174,10 @@ namespace AlchemyPlanet.Data
                     if (structures.ContainsKey(sprites[i].name))
                     {
                         if (sprites[i].name == structures[sprites[i].name].structureName)
+                        {
                             structures[sprites[i].name].image = sprites[i];
+                            structures[sprites[i].name].position = new Vector2(0, sprites[i].bounds.size.y / 2 - 0.5f);
+                        }
                     }
                 }
 
@@ -197,7 +200,10 @@ namespace AlchemyPlanet.Data
                     if (structures.ContainsKey(sprites[i].name))
                     {
                         if (sprites[i].name == structures[sprites[i].name].structureName)
+                        {
                             structures[sprites[i].name].image = sprites[i];
+                            structures[sprites[i].name].position = new Vector2(0, sprites[i].bounds.size.y / 2 - 1);
+                        }
                     }
                 }
             }
@@ -274,7 +280,8 @@ namespace AlchemyPlanet.Data
             }
         }
 
-        public List<Request> LoadRequests(){
+        public List<Request> LoadRequests()
+        {
             using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/Requests").bytes), System.Text.Encoding.UTF8))
             {
                 JsonSerializer serializer = new JsonSerializer();
@@ -347,8 +354,10 @@ namespace AlchemyPlanet.Data
         {
             StructureObject.GetComponent<SpriteRenderer>().sprite = image;
             StructureObject.transform.position = position;
-            StructureObject.GetComponent<BoxCollider2D>().offset = new Vector2(0, 0);
-            StructureObject.GetComponent<BoxCollider2D>().size = StructureObject.GetComponent<SpriteRenderer>().bounds.size;
+            if(StructureObject.GetComponent<PolygonCollider2D>())
+                GameObject.DestroyImmediate(StructureObject.GetComponent<PolygonCollider2D>(), true);
+            StructureObject.AddComponent<PolygonCollider2D>();
+            StructureObject.GetComponent<PolygonCollider2D>().isTrigger = true;
             StructureObject.GetComponent<SpriteRenderer>().sortingOrder = -90;
             StructureObject.name = id.ToString();
             StructureObject.GetComponent<SpriteRenderer>().flipX = flip;

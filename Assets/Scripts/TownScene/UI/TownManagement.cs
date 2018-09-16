@@ -29,8 +29,8 @@ namespace AlchemyPlanet.TownScene
         private void OnEnable()
         {
             // 버튼 기능 적용
-            leftButton.onClick.AddListener(() => { page -= page > 0 ? 1 : 0; });
-            rightButton.onClick.AddListener(() => { page += ownBuildings.Count > (page + 1) * 5 ? 1 : 0; });
+            leftButton.onClick.AddListener(() => { ChangePage(false); });
+            rightButton.onClick.AddListener(() => { ChangePage(true); });
             rotateButton.onClick.AddListener(() => { RotateBuilding(); });
             removeButton.onClick.AddListener(() => { RemoveBuilding(); });
             exitButton.onClick.AddListener(() => { Exit(); });
@@ -55,6 +55,7 @@ namespace AlchemyPlanet.TownScene
         {
             DetectTouch();
             MoveCamera();
+            CheckCollision();
         }
 
         void GetBuilding()   // 소유중인 건물 받아오기
@@ -111,7 +112,7 @@ namespace AlchemyPlanet.TownScene
                 {
                     if (!buildingImages[i].activeSelf)
                         buildingImages[i].SetActive(true);
-                    buildingImages[i].GetComponent<Image>().sprite = DataManager.Instance.structures[ownBuildingsImages[i]].image;
+                    buildingImages[i].GetComponent<Image>().sprite = DataManager.Instance.structures[ownBuildingsImages[i + page * 5]].image;
                     buildingImages[i].name = ownBuildingsImages[i].ToString();
                 }
                 else
@@ -128,27 +129,34 @@ namespace AlchemyPlanet.TownScene
                 tempTouch = Input.GetTouch(0);
                 touchedPos = Camera.main.ScreenToWorldPoint(tempTouch.position);
                 RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);
-                touchTime += tempTouch.deltaTime; 
-                if (hit.collider != null && hit.collider.tag == "Building"  && tempTouch.phase == TouchPhase.Stationary && 
-                    !EventSystem.current.IsPointerOverGameObject(tempTouch.fingerId)&&touchTime>0.7f && clickedBuilding == null)
+                if (tempTouch.phase == TouchPhase.Stationary)
+                    touchTime += tempTouch.deltaTime;
+                else if (tempTouch.phase != TouchPhase.Stationary)
+                    touchTime = 0;
+
+                // 건물 선택하기 0.7초 동안 눌러야 선택됨
+                if (hit.collider != null && hit.collider.tag == "Building" &&
+                    !EventSystem.current.IsPointerOverGameObject(tempTouch.fingerId) && touchTime > 0.7f && clickedBuilding == null)
                 {
                     if (clickedBuilding != null)
                     {
                         clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
+                        if (clickedBuilding.GetComponent<StructureCollision>().CheckCollision())
+                            RemoveBuilding();
                         clickedBuilding = null;
                     }
                     clickedBuilding = hit.collider.gameObject;
-                    clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0);
+                    StartCoroutine("MoveBuilding");
                 }
-                else if ((hit.collider == null || hit.collider!=null&&hit.collider.gameObject != clickedBuilding)&& clickedBuilding != null && 
+                else if ((hit.collider == null || hit.collider != null && hit.collider.gameObject != clickedBuilding) && clickedBuilding != null &&
                     tempTouch.phase == TouchPhase.Began && !EventSystem.current.IsPointerOverGameObject(tempTouch.fingerId))
                 {
                     clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
+                    if (clickedBuilding.GetComponent<StructureCollision>().CheckCollision())
+                        RemoveBuilding();
                     clickedBuilding = null;
                 }
-                else if (tempTouch.phase == TouchPhase.Ended)
-                    touchTime = 0;
-                if(clickedBuilding != null&&hit.collider != null && hit.collider.gameObject == clickedBuilding)
+                if (clickedBuilding != null && hit.collider != null && hit.collider.gameObject == clickedBuilding)
                     StartCoroutine("MoveBuilding");
             }
         }
@@ -158,6 +166,8 @@ namespace AlchemyPlanet.TownScene
             if (clickedBuilding != null)
             {
                 clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
+                if (clickedBuilding.GetComponent<StructureCollision>().CheckCollision())
+                    RemoveBuilding();
                 clickedBuilding = null;
             }
 
@@ -191,7 +201,7 @@ namespace AlchemyPlanet.TownScene
                     TownUI.Instance.mainCamera.transform.position = new Vector3(DataManager.Instance.CurrentPlayerData.boundary,
                         TownUI.Instance.mainCamera.transform.position.y, TownUI.Instance.mainCamera.transform.position.z);
                 else if (TownUI.Instance.mainCamera.transform.position.x < -DataManager.Instance.CurrentPlayerData.boundary)
-                    TownUI.Instance.mainCamera.transform.position = new Vector3(-DataManager.Instance.CurrentPlayerData.boundary, 
+                    TownUI.Instance.mainCamera.transform.position = new Vector3(-DataManager.Instance.CurrentPlayerData.boundary,
                         TownUI.Instance.mainCamera.transform.position.y, TownUI.Instance.mainCamera.transform.position.z);
             }
         }
@@ -207,24 +217,26 @@ namespace AlchemyPlanet.TownScene
             if (clickedBuilding != null)
             {
                 clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
+                if (clickedBuilding.GetComponent<StructureCollision>().CheckCollision())
+                    RemoveBuilding();
                 clickedBuilding = null;
             }
+
             foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures)
             {
                 if (strc.structureName == str && !strc.setup)
                 {
                     strc.Build();
-                    clickedBuilding = Instantiate(strc.StructureObject);
+                    clickedBuilding = Instantiate(strc.StructureObject, strc.position, Quaternion.Euler(0, 0, 0));
                     ownBuildings.Remove(strc.structureName);
                     break;
                 }
             }
-            clickedBuilding.transform.position = new Vector3(TownUI.Instance.mainCamera.transform.position.x, clickedBuilding.transform.position.y);
-            clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0);
+            clickedBuilding.transform.position = new Vector2(TownUI.Instance.mainCamera.transform.position.x, clickedBuilding.transform.position.y);
+
             setupBuildings.Add(clickedBuilding);
             SetImage();
             SetBuilding();
-            StartCoroutine("MoveBuilding");
         }
 
         void RemoveBuilding()   // 건물 철거
@@ -239,6 +251,27 @@ namespace AlchemyPlanet.TownScene
             clickedBuilding = null;
             SetImage();
             SetBuilding();
+        }
+
+        void CheckCollision()
+        {
+            if (clickedBuilding != null)
+            {
+                if (clickedBuilding.GetComponent<StructureCollision>().CheckCollision())
+                    clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0);
+                else
+                    clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0);
+            }
+        }
+
+        void ChangePage(bool over)
+        {
+            if (over)
+                page += ownBuildings.Count > (page + 1) * 5 ? 1 : 0;
+            else
+                page -= page > 0 ? 1 : 0;
+            SetImage();
+            Debug.Log(page);
         }
     }
 }
