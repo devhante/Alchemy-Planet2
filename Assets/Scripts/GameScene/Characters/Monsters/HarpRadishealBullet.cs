@@ -39,7 +39,9 @@ namespace AlchemyPlanet.GameScene
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.tag == "Player")
+            Debug.Log("흐으으으으음... " + collision.gameObject.tag);
+
+            if (collision.gameObject.tag == "Player")
             {
                 StopCoroutine("MoveCoroutine");
                 Player.Instance.Hit(damage);
@@ -56,7 +58,7 @@ namespace AlchemyPlanet.GameScene
         {
             PlayExplodeAnimation();
 
-            while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
+            while (animator.GetCurrentAnimatorStateInfo(0).IsName("HarpRadisheal_BulletExplode") == false || animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
                 yield return null;
 
             Destroy(gameObject);
