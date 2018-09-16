@@ -39,8 +39,6 @@ namespace AlchemyPlanet.GameScene
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            Debug.Log("흐으으으으음... " + collision.gameObject.tag);
-
             if (collision.gameObject.tag == "Player")
             {
                 StopCoroutine("MoveCoroutine");
