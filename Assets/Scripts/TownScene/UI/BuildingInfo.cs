@@ -51,8 +51,6 @@ public class BuildingInfo : MonoBehaviour
 
      void SetMaterial()
     {
-        Debug.Log(building.material1Name);
-        Debug.Log(building.material2Name);
         material1Image.sprite = DataManager.Instance.materials[building.material1Name].image;
         material2Image.sprite = DataManager.Instance.materials[building.material2Name].image;
         material1Text.text = DataManager.Instance.CurrentPlayerData.inventory[building.material1Name].ToString() 
@@ -63,10 +61,6 @@ public class BuildingInfo : MonoBehaviour
 
     void UpgradeBuilding()
     {
-        Debug.Log(!building.upgrading);
-        Debug.Log(DataManager.Instance.CurrentPlayerData.inventory[building.material2Name] >= building.material2Count);
-        Debug.Log(DataManager.Instance.CurrentPlayerData.inventory[building.material1Name] >= building.material1Count);
-
         if (!building.upgrading && DataManager.Instance.CurrentPlayerData.inventory[building.material2Name]>=building.material2Count
             && DataManager.Instance.CurrentPlayerData.inventory[building.material1Name] >= building.material1Count)
         {

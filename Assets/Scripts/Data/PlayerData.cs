@@ -240,17 +240,16 @@ namespace AlchemyPlanet.Data
         public void AddSampleDatas()
         {
             structures.Add(DataManager.Instance.structures["Tree"].Clone());
-            structures[0].id = 20;
-            structures[0].setup = true;
-            structures[0].position = new Vector2(-2f, 2.5f);
+            GiveId(structures[0]);
             structures.Add(DataManager.Instance.structures["House"].Clone());
-            structures[1].id = 10;
-            structures[1].setup = true;
-            structures[1].position = new Vector2(2f, 1.6f);
+            GiveId(structures[1]);
             structures.Add(DataManager.Instance.structures["Tree"].Clone());
-            structures[2].id = 21;
-            structures[2].setup = false;
-            structures[2].position = new Vector2(-4f, 2.5f);
+            GiveId(structures[2]);
+
+            (structures[1] as Building).material1Name = "붉은 꽃잎";
+            (structures[1] as Building).material1Count = 1;
+            (structures[1] as Building).material2Name = "블루베리";
+            (structures[1] as Building).material2Count = 2;
 
             inventory.Add("붉은 꽃잎", 3);
             inventory.Add("블루베리", 2);
@@ -258,7 +257,7 @@ namespace AlchemyPlanet.Data
             unicoin += 100000;
         }
 
-        public void SetBuildingImage()
+        public void SetBuilding()
         {
             foreach (GameObject obj in setupBuildilngs)
             {
@@ -267,8 +266,37 @@ namespace AlchemyPlanet.Data
                     if (strc.id == int.Parse(obj.name.Substring(0, obj.name.Length - 7)))
                     {
                         obj.GetComponent<SpriteRenderer>().sprite = strc.image;
+                        obj.transform.position = new Vector2(obj.transform.position.x, strc.image.bounds.size.y / 2 - 1);
+                        GameObject.Destroy(obj.GetComponent<PolygonCollider2D>());
+                        obj.AddComponent<PolygonCollider2D>();
+                        obj.GetComponent<PolygonCollider2D>().isTrigger = true;
+                        break;
                     }
                 }
+            }
+        }
+
+        public void GiveId(Structure strc)
+        {
+            if (strc is Building)
+            {
+                int buildingCount = 0;
+                foreach (Structure structure in structures)
+                {
+                    if (structure is Building)
+                        buildingCount++;
+                }
+                strc.id = int.Parse("1" + buildingCount.ToString());
+            }
+            else
+            {
+                int interiorCount = 0;
+                foreach (Structure structure in structures)
+                {
+                    if (structure is Interior)
+                        interiorCount++;
+                }
+                strc.id = int.Parse("2" + interiorCount.ToString());
             }
         }
     }
