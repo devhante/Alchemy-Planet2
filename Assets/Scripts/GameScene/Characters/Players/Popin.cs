@@ -22,7 +22,6 @@ namespace AlchemyPlanet.GameScene
         }
 
         public bool PotionGreen { get; set; }
-        public bool PotionRed { get; set; }
 
         public GameObject itemPopinPotionBlack;
         public Image skillBar;
@@ -135,14 +134,10 @@ namespace AlchemyPlanet.GameScene
             yield return new WaitForSeconds(2);
             GameObject effect = Instantiate(PrefabManager.Instance.potionEffectRed, transform.position + new Vector3(0.05f, -0.7f, 0), Quaternion.identity, transform);
 
-            PotionRed = true;
-            GameManager.Instance.UpdateSpeed();
+            ItemManager.Instance.Sprint();
+            ItemManager.Instance.Sprint();
 
-            yield return new WaitForSeconds(5);
-
-            PotionRed = false;
-            GameManager.Instance.UpdateSpeed();
-
+            yield return new WaitForSeconds(4);
             Destroy(effect);
         }
 
@@ -217,8 +212,9 @@ namespace AlchemyPlanet.GameScene
             yield return new WaitForSeconds(2);
             GameObject effect = Instantiate(PrefabManager.Instance.potionEffectRainbow, transform.position + new Vector3(0.05f, -0.7f, 0), Quaternion.identity, transform);
 
-            PotionRed = true;
-            GameManager.Instance.UpdateSpeed();
+            ItemManager.Instance.Sprint();
+            ItemManager.Instance.Sprint();
+
             PotionGreen = true;
             float purify = GameUI.Instance.GetGage(Gages.PURIFY);
             GameUI.Instance.UpdateGage(Gages.PURIFY, 100 - purify);
@@ -229,7 +225,6 @@ namespace AlchemyPlanet.GameScene
                 yield return new WaitForSeconds(1);
             }
 
-            PotionRed = false;
             GameManager.Instance.UpdateSpeed();
             PotionGreen = false;
             GameUI.Instance.UpdateGage(Gages.PURIFY, purify - 100);
