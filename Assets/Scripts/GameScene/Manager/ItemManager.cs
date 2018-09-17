@@ -146,7 +146,7 @@ namespace AlchemyPlanet.GameScene
 
         IEnumerator SprintCoroutine()
         {
-            float duration = 2;
+            float duration = 2.5f;
 
             IsSprinting = true;
             GameManager.Instance.UpdateSpeed();
