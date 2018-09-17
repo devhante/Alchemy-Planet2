@@ -55,7 +55,7 @@ namespace AlchemyPlanet.AlchemyScene
             }
             foreach (var produce in AlchemyManager.Instance.formulas)
             {
-                Data.Material p = Data.DataManager.Instance.materials[produce.result];
+                Data.ItemData p = Data.DataManager.Instance.itemInfo[produce.result];
                 if (p.item_kind.Equals(kind))
                 {
                     var button = GameObject.Instantiate(ProducePrefab, Book.transform);
@@ -65,7 +65,7 @@ namespace AlchemyPlanet.AlchemyScene
             }
         }
 
-        public void ProduceButton(Data.Formula produce)
+        public void ProduceButton(Data.FormulaData produce)
         {
             UIManager.Instance.OpenMenu<MakeUI>();
             MakeUI.Instance.selected_formula = produce;

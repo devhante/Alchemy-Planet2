@@ -7,7 +7,7 @@ namespace AlchemyPlanet.AlchemyScene
     public class AlchemyManager : MonoBehaviour
     {
         public static AlchemyManager Instance;
-        public List<Data.Formula> formulas;
+        public List<Data.FormulaData> formulas;
         public List<Data.Request> requests;
 
         private void Awake()

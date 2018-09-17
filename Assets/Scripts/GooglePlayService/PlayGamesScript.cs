@@ -47,7 +47,7 @@ namespace AlchemyPlanet.Data
 
                 Data.DataManager.Instance.CurrentPlayerData = new PlayerData();
                 current_user_id = Social.localUser.id;
-
+ 
                 Data.DataManager.Instance.SavePlayerData();
 
                 GameObject.Instantiate(Tutorial_Prefab);
