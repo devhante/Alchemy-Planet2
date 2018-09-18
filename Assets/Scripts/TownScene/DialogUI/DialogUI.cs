@@ -53,6 +53,14 @@ namespace AlchemyPlanet.TownScene
             count = 1;
         }
 
+        private void Start()
+        {
+            d_illust[0].transform.DOMoveX(140, 0.4f).SetEase(Ease.OutQuart);
+            d_illust[1].transform.DOMoveX(540, 0.4f).SetEase(Ease.OutQuart);
+            d_box.transform.DOScale(1, 0.3f).SetEase(Ease.InBack);
+            d_box.transform.DOMove(new Vector2(Screen.width / 2, Screen.height / 4), 0.3f).SetEase(Ease.InBack);
+        }
+
         private void Update()
         {
             if (Input.GetMouseButtonDown(0))
@@ -195,12 +203,7 @@ namespace AlchemyPlanet.TownScene
                     //완성본으로 변경
                     d_script.text = script;
                     #endregion PrintDialog
-
-                    if (count == 1)
-                    {
-                        yield return new WaitForSeconds(0.2f);
-                        GetComponent<Animator>().cullingMode = AnimatorCullingMode.CullCompletely;
-                    }
+                    
                     writting = false;
                 }
 
