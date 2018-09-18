@@ -68,7 +68,7 @@ namespace AlchemyPlanet.Data
                 {
                     string data_string = ConvertLappedJsonString(message.data);
                     var data = JsonConvert.DeserializeObject<PlayerStructure[]>(data_string);
-
+                    
                     Debug.Log(data[0].structureUniqueId + " | " + data[1].structureUniqueId + " | " + data[2].structureUniqueId);
                 }
 
@@ -287,7 +287,7 @@ namespace AlchemyPlanet.Data
 
         #region Send_PlayerStructure
         
-        private void SendFindPlayerStructures(string playerId)
+        public void SendFindPlayerStructures(string playerId)
         {
             var data = new PlayerStructure(playerId, "", "", 0);
             var message = new Message("findPlayerStructures", data);
