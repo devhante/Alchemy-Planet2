@@ -113,7 +113,13 @@ namespace AlchemyPlanet.Data
 
             ws.Connect();
 
-            //SendDropTable("PlayerName");
+
+            if(ws.IsConnected)
+            {
+                //SendDropTable("PlayerName");
+                SendFindPlayerName("0");
+                SendFindPlayerLevel("0");
+            }
         }
         
 

@@ -33,9 +33,9 @@ namespace AlchemyPlanet.TownScene
             {
                 itemButtonList[i].SetActive(true);
                 itemButtonList[i].GetComponent<ItemInfo>().SetInfo(
-                    DataManager.Instance.materials[itemName].item_name,
-                    DataManager.Instance.materials[itemName].discription,
-                    DataManager.Instance.materials[itemName].image,
+                    DataManager.Instance.itemInfo[itemName].item_name,
+                    DataManager.Instance.itemInfo[itemName].discription,
+                    DataManager.Instance.itemInfo[itemName].image,
                     DataManager.Instance.CurrentPlayerData.inventory[itemName]);
                 i++;
             }

@@ -53,6 +53,14 @@ namespace AlchemyPlanet.TownScene
             count = 1;
         }
 
+        private void Start()
+        {
+            d_illust[0].transform.DOMoveX(140, 0.4f).SetEase(Ease.OutQuart);
+            d_illust[1].transform.DOMoveX(540, 0.4f).SetEase(Ease.OutQuart);
+            d_box.transform.DOScale(1, 0.3f).SetEase(Ease.InBack);
+            d_box.transform.DOMove(new Vector2(Screen.width / 2, Screen.height / 4), 0.3f).SetEase(Ease.InBack);
+        }
+
         private void Update()
         {
             if (Input.GetMouseButtonDown(0))
@@ -125,6 +133,25 @@ namespace AlchemyPlanet.TownScene
             }
         }
 
+        public void CloseMenu()
+        {
+            count = 1;
+            UIManager.Instance.CloseMenu();
+
+            //NPC에게서 불러온 대화일 경우
+            if (NPC != null)
+            {
+                NPC.StartCoroutine("TalkEnd");
+                NPC = null;
+            }
+            //대화씬에서 불러온 대화일 경우
+            else
+            {
+                DataManager.Instance.selected_dialog = null;
+                Common.DialogScene.Instance.IsOver();
+            }
+        }
+
         private IEnumerator SetView(int num)
         {
             NPCDAta data;
@@ -146,25 +173,20 @@ namespace AlchemyPlanet.TownScene
                         d_name.text = Data.DataManager.Instance.CurrentPlayerData.player_name;
 
                     #region SetIllust
-                    d_illust[0].sprite = data.illusts[data.dialogs[num].illusts[0].name];
-                    if (data.dialogs[num].illusts[0].mode == IllustMode.Back)
-                    {
-                        d_illust[0].color = new Color32(120, 120, 120, 255);
-                    }
-                    else
-                    {
-                        d_illust[0].color = new Color32(255, 255, 255, 255);
-                    }
 
-                    d_illust[1].sprite = data.illusts[data.dialogs[num].illusts[1].name];    
-
-                    if (data.dialogs[num].illusts[1].mode == IllustMode.Back)
+                    for(int i=0; i<d_illust.Length; ++i)
                     {
-                        d_illust[1].color = new Color32(120, 120, 120, 255);
-                    }
-                    else
-                    {
-                        d_illust[1].color = new Color32(255, 255, 255, 255);
+                        d_illust[i].sprite = data.illusts[data.dialogs[num].illusts[i].name];
+                        if (data.dialogs[num].illusts[i].mode == IllustMode.Back)
+                        {
+                            d_illust[i].color = new Color32(120, 120, 120, 255);
+                            d_illust[i].transform.DOScale(0.95f, 0.2f).SetEase(Ease.OutExpo);
+                        }
+                        else
+                        {
+                            d_illust[i].color = new Color32(255, 255, 255, 255);
+                            d_illust[i].transform.DOScale(1, 0.2f).SetEase(Ease.OutExpo);
+                        }
                     }
                     #endregion SetIllust
 
@@ -195,33 +217,16 @@ namespace AlchemyPlanet.TownScene
                     //완성본으로 변경
                     d_script.text = script;
                     #endregion PrintDialog
-
-                    if (count == 1)
-                    {
-                        yield return new WaitForSeconds(0.2f);
-                        GetComponent<Animator>().cullingMode = AnimatorCullingMode.CullCompletely;
-                    }
+                    
                     writting = false;
                 }
 
                 else
                 {
-                    count = 1;
-                    UIManager.Instance.CloseMenu();
-
-                    //NPC에게서 불러온 대화일 경우
-                    if (NPC != null)
-                    {
-                        NPC.StartCoroutine("TalkEnd");
-                        NPC = null;
-                    }
-                    //대화씬에서 불러온 대화일 경우
-                    else
-                    {
-                        DataManager.Instance.selected_dialog = null;
-                        Common.DialogScene.Instance.IsOver();
-                    }
-
+                    d_illust[0].transform.DOMoveX(-300, 0.4f).SetEase(Ease.OutQuart);
+                    d_illust[1].transform.DOMoveX(Screen.width + 300, 0.4f).SetEase(Ease.OutQuart);
+                    d_box.transform.DOMoveY(- Screen.height / 4, 0.3f).SetEase(Ease.InBack)
+                        .OnComplete(() => CloseMenu());
                     break;
                 }
                 if (autoplay)

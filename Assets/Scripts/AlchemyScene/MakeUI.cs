@@ -11,7 +11,7 @@ namespace AlchemyPlanet.AlchemyScene
         [SerializeField] private Button BackButton;
         [SerializeField] private Button BookmarkButton;
 
-        public Data.Formula selected_formula;
+        public Data.FormulaData selected_formula;
 
         protected override void Awake()
         {
@@ -28,12 +28,12 @@ namespace AlchemyPlanet.AlchemyScene
 
         public void SetFormula()
         {
-            ResultButton.image.sprite = Data.DataManager.Instance.materials[selected_formula.result].image;
+            ResultButton.image.sprite = Data.DataManager.Instance.itemInfo[selected_formula.result].image;
             int count = 0;
             foreach (var kv in selected_formula.formula)
             {
                 MateraiButtons[count].image.sprite =
-                    Data.DataManager.Instance.materials[kv.Key].image;
+                    Data.DataManager.Instance.itemInfo[kv.Key].image;
 
                 int inven_item_count = 0;
                 Data.DataManager.Instance.CurrentPlayerData.inventory.TryGetValue(kv.Key, out inven_item_count);

@@ -7,10 +7,10 @@ namespace AlchemyPlanet.AlchemyScene {
 
     public class Produce : MonoBehaviour
     {
-        public Data.Material materialInfo;
+        public Data.ItemData materialInfo;
         public ItemKind kind;
 
-        public Produce(Data.Material materialInfo, ItemKind kind)
+        public Produce(Data.ItemData materialInfo, ItemKind kind)
         {
             this.materialInfo = materialInfo;
             this.kind = kind;
