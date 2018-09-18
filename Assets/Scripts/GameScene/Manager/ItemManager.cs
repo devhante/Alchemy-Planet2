@@ -18,6 +18,7 @@ namespace AlchemyPlanet.GameScene
         private int noReducedOxygenCount = 0;
         private int slowReducedOxygenCount = 0;
         private int sprintCount = 0;
+       
 
         private void OnDestroy()
         {
@@ -145,7 +146,7 @@ namespace AlchemyPlanet.GameScene
 
         IEnumerator SprintCoroutine()
         {
-            float duration = 2;
+            float duration = 2.5f;
 
             IsSprinting = true;
             GameManager.Instance.UpdateSpeed();
@@ -153,7 +154,7 @@ namespace AlchemyPlanet.GameScene
             while (sprintCount > 0)
             {
                 yield return new WaitForSeconds(duration);
-                sprintCount--;
+                sprintCount--; 
             }
 
             IsSprinting = false;

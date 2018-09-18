@@ -160,12 +160,11 @@ namespace AlchemyPlanet.Data
         public string player_name;
 
         public int level;
-        public int MAX_EXP;
         public int exp;
 
         //재화
         public int unicoin;
-        public int cosmoston;
+        public int cosmostone;
         public int oxygentank;
         public int Max_oxygentank;
 
@@ -191,12 +190,11 @@ namespace AlchemyPlanet.Data
             this.player_id = Social.localUser.id;
             this.player_name = "포핀";
 
-            this.level = 0;
-            this.MAX_EXP = 100;
+            this.level = 1;
             this.exp = 0;
 
             this.unicoin = 0;
-            this.cosmoston = 0;
+            this.cosmostone = 0;
             this.oxygentank = 10;
             this.Max_oxygentank = 10;
 
@@ -219,12 +217,12 @@ namespace AlchemyPlanet.Data
         public void UpdateExp(int value)
         {
             exp += value;
+            int MAX_EXP = this.level * 100;
 
             while (exp < MAX_EXP)
             {
                 this.level++;
-                this.exp -= this.MAX_EXP;
-                this.MAX_EXP = this.level * 100;
+                this.exp -= MAX_EXP;
             }
         }
 
@@ -239,11 +237,11 @@ namespace AlchemyPlanet.Data
 
         public void AddSampleDatas()
         {
-            structures.Add(DataManager.Instance.structures["Tree"].Clone());
+            structures.Add(DataManager.Instance.structureInfo["Tree"].Clone());
             GiveId(structures[0]);
-            structures.Add(DataManager.Instance.structures["House"].Clone());
+            structures.Add(DataManager.Instance.structureInfo["House"].Clone());
             GiveId(structures[1]);
-            structures.Add(DataManager.Instance.structures["Tree"].Clone());
+            structures.Add(DataManager.Instance.structureInfo["Tree"].Clone());
             GiveId(structures[2]);
 
             (structures[1] as Building).material1Name = "붉은 꽃잎";

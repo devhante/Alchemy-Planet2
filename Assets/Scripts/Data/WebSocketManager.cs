@@ -100,8 +100,6 @@ namespace AlchemyPlanet.Data
                 {
                     string data_string = ConvertLappedJsonString(message.data);
                     var data = JsonConvert.DeserializeObject<PlayerParty[]>(data_string);
-
-                    Debug.Log(data[0].characterId + " | " + data[1].characterId + " | " + data[2].characterId);
                 }
 
                 if (message.status == "PlayerRequest")
@@ -115,7 +113,13 @@ namespace AlchemyPlanet.Data
 
             ws.Connect();
 
-            //SendDropTable("PlayerName");
+
+            if(ws.IsConnected)
+            {
+                //SendDropTable("PlayerName");
+                SendFindPlayerName("0");
+                SendFindPlayerLevel("0");
+            }
         }
         
 
@@ -443,37 +447,37 @@ namespace AlchemyPlanet.Data
 
         #region Send_PlayerParty
 
-        private void SendFindPlayerParties(string playerId)
+        public void SendFindPlayerParties(string playerId)
         {
             var data = new PlayerParty(playerId, 0, 0, "");
             var message = new Message("findPlayerParties", data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendInsertPlayerParty(string playerId, int playerIndex, int slotIndox, string characterId)
+        public void SendInsertPlayerParty(string playerId, int partyIndex, int slotIndox, string characterId)
         {
-            var data = new PlayerParty(playerId, playerIndex, slotIndox, characterId);
+            var data = new PlayerParty(playerId, partyIndex, slotIndox, characterId);
             var message = new Message("insertPlayerParty", data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendDeletePlayerParty(string playerId, int playerIndex, int slotIndox)
+        public void SendDeletePlayerParty(string playerId, int partyIndex, int slotIndox)
         {
-            var data = new PlayerParty(playerId, playerIndex, slotIndox, "");
+            var data = new PlayerParty(playerId, partyIndex, slotIndox, "");
             var message = new Message("deletePlayerParty", data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendDeletePlayerParties(string playerId)
+        public void SendDeletePlayerParties(string playerId)
         {
             var data = new PlayerParty(playerId, 0, 0, "");
             var message = new Message("deletePlayerParties", data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendUpdatePlayerParty(string playerId, int playerIndex, int slotIndox, string characterId)
+        public void SendUpdatePlayerParty(string playerId, int partyIndex, int slotIndox, string characterId)
         {
-            var data = new PlayerParty(playerId, playerIndex, slotIndox, characterId);
+            var data = new PlayerParty(playerId, partyIndex, slotIndox, characterId);
             var message = new Message("updatePlayerParty", data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);

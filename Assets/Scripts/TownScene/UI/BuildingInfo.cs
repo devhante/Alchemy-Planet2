@@ -36,8 +36,8 @@ public class BuildingInfo : MonoBehaviour
         descText.text = "설명 : " + building.buildingDiscription;
         levelText.text = "Lv." + building.buildingLevel;
 
-        material1Image.sprite = DataManager.Instance.materials[building.material1Name].image;
-        material2Image.sprite = DataManager.Instance.materials[building.material2Name].image;
+        material1Image.sprite = DataManager.Instance.itemInfo[building.material1Name].image;
+        material2Image.sprite = DataManager.Instance.itemInfo[building.material2Name].image;
         material1Text.text = DataManager.Instance.CurrentPlayerData.inventory[building.material1Name].ToString()
             + " / " + building.material1Count.ToString();
         material2Text.text = DataManager.Instance.CurrentPlayerData.inventory[building.material2Name].ToString()

@@ -35,7 +35,7 @@ namespace AlchemyPlanet.AlchemyScene
                 int index = 1;
                 foreach (var kv in req.requires)
                 {
-                    requiers[index].sprite = Data.DataManager.Instance.materials[kv.Key].image;
+                    requiers[index].sprite = Data.DataManager.Instance.itemInfo[kv.Key].image;
                     //개수 표현 필요
                     ++index;
                 }
