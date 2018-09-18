@@ -223,7 +223,10 @@ namespace AlchemyPlanet.TownScene
 
                 else
                 {
-                    CloseMenu();
+                    d_illust[0].transform.DOMoveX(-300, 0.4f).SetEase(Ease.OutQuart);
+                    d_illust[1].transform.DOMoveX(Screen.width + 300, 0.4f).SetEase(Ease.OutQuart);
+                    d_box.transform.DOMoveY(- Screen.height / 4, 0.3f).SetEase(Ease.InBack)
+                        .OnComplete(() => CloseMenu());
                     break;
                 }
                 if (autoplay)
