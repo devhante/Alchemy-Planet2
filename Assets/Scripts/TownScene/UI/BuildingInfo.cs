@@ -31,32 +31,27 @@ public class BuildingInfo : MonoBehaviour
     public void SetInfo(Building building)
     {
         this.building = building;
-        OpenInfo();
-    }
-
-    void OpenInfo()
-    {
         buildingImage.sprite = building.image;
         nameText.text = "이름 : " + building.structureName;
         descText.text = "설명 : " + building.buildingDiscription;
         levelText.text = "Lv." + building.buildingLevel;
+
+        material1Image.sprite = DataManager.Instance.materials[building.material1Name].image;
+        material2Image.sprite = DataManager.Instance.materials[building.material2Name].image;
+        material1Text.text = DataManager.Instance.CurrentPlayerData.inventory[building.material1Name].ToString()
+            + " / " + building.material1Count.ToString();
+        material2Text.text = DataManager.Instance.CurrentPlayerData.inventory[building.material2Name].ToString()
+            + " / " + building.material2Count.ToString();
+    }
+
+    public void OpenInfo()
+    {
         backGroundImage.gameObject.SetActive(true);
-        SetMaterial();
     }
 
     void CloseInfo()
     {
         backGroundImage.gameObject.SetActive(false);
-    }
-
-     void SetMaterial()
-    {
-        material1Image.sprite = DataManager.Instance.materials[building.material1Name].image;
-        material2Image.sprite = DataManager.Instance.materials[building.material2Name].image;
-        material1Text.text = DataManager.Instance.CurrentPlayerData.inventory[building.material1Name].ToString() 
-            + " / " + building.material1Count.ToString();
-        material2Text.text = DataManager.Instance.CurrentPlayerData.inventory[building.material2Name].ToString() 
-            + " / " + building.material2Count.ToString();
     }
 
     void UpgradeBuilding()
@@ -66,10 +61,8 @@ public class BuildingInfo : MonoBehaviour
         {
             DataManager.Instance.CurrentPlayerData.inventory[building.material1Name] -= building.material1Count;
             DataManager.Instance.CurrentPlayerData.inventory[building.material2Name] -= building.material2Count;
-            building.Upgrade();
-            DataManager.Instance.CurrentPlayerData.SetBuilding();
             OpenInfo();
-            AlchemyPlanet.TownScene.TownUpgrade.Instance.SendMessage("SetImage");
+            building.UpgradeStart();
         }
     }
 }
