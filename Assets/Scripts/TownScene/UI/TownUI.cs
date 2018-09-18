@@ -19,6 +19,7 @@ namespace AlchemyPlanet.TownScene
         [SerializeField] private Button UIOffButton;
         [SerializeField] private Button BuildingPlacementButton;
         [SerializeField] private Button BuildingManagementButton;
+        [SerializeField] private Button InventoryButton;
 
         protected override void Awake()
         {
@@ -71,6 +72,12 @@ namespace AlchemyPlanet.TownScene
             BuildingManagementButton.onClick.AddListener(() =>
             {
                 UIManager.Instance.OpenMenu<BuildingManagement>();
+            });
+            InventoryButton.onClick.AddListener(() =>
+            {
+                UIManager.Instance.OpenMenu<InventoryCell>();
+
+                InventoryCell.Instance.SetItem();
             });
         }
 
