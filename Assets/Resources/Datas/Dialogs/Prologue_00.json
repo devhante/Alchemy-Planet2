@@ -4,30 +4,14 @@
     "content": "늦으셨군요. 가실 시간입니다",
     "illusts": [
       {
-        "name": "시드",
+        "name": "",
         "pos": 0,
         "mode": 0
       },
       {
-        "name": "마칭냥",
+        "name": "",
         "pos": 2,
         "mode": 1
-      }
-    ]
-  },
-  {
-    "name": "???",
-    "content": "곧 있으면 출발할 겁니다. 늦기 전에 갑시다.",
-    "illusts": [
-      {
-        "name": "시드",
-        "pos": 0,
-        "mode": 1
-      },
-      {
-        "name": "마칭냥",
-        "pos": 2,
-        "mode": 0
       }
     ]
   }

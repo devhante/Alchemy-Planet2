@@ -20,8 +20,8 @@ namespace AlchemyPlanet.Common {
 
         public void IsOver()
         {
-            Tutorial.Instance.process++;
-            Tutorial.Instance.CheckCurrentScene();
+            //Tutorial.Instance.process++;
+            //Tutorial.Instance.CheckCurrentScene();
         }
     }
 
