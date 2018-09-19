@@ -37,7 +37,7 @@ namespace AlchemyPlanet.TownScene
         {
             switch (level)
             {
-                case 0: case 1: case 7: case 8:
+                case 0: case 1: case 7: case 8: case 10:
                     TopDownUI.SetActive(false); break;
                 default:
                     TopDownUI.SetActive(true); break;

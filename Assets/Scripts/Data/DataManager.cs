@@ -7,7 +7,7 @@ using System;
 
 namespace AlchemyPlanet.Data
 {
-    public enum CharacterEnum { Popin }
+    public enum CharacterEnum { Popin = 1 }
 
     public class DataManager : MonoBehaviour
     {

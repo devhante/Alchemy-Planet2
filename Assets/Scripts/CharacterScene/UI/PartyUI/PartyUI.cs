@@ -50,6 +50,8 @@ namespace AlchemyPlanet.CharacterScene
                     buttonLeft.gameObject.SetActive(true);
                     buttonRight.gameObject.SetActive(true);
                 }));
+
+            GameManager.Instance.CurrentCharacters.MoveLeft();
         }
 
         public void OnClickButtonRight()
@@ -71,6 +73,8 @@ namespace AlchemyPlanet.CharacterScene
                     buttonLeft.gameObject.SetActive(true);
                     buttonRight.gameObject.SetActive(true);
                 }));
+
+            GameManager.Instance.CurrentCharacters.MoveRight();
         }
     }
 }
