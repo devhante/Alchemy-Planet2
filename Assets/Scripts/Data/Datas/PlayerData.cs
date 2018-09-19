@@ -255,21 +255,17 @@ namespace AlchemyPlanet.Data
             unicoin += 100000;
         }
 
-        public void SetBuilding()
+        public void SetBuilding(Building building)
         {
             foreach (GameObject obj in setupBuildilngs)
             {
-                foreach (Structure strc in structures)
+                if (building.id == int.Parse(obj.name.Substring(0, obj.name.Length - 7)))
                 {
-                    if (strc.id == int.Parse(obj.name.Substring(0, obj.name.Length - 7)))
-                    {
-                        obj.GetComponent<SpriteRenderer>().sprite = strc.image;
-                        obj.transform.position = new Vector2(obj.transform.position.x, strc.image.bounds.size.y / 2 - 1);
-                        GameObject.Destroy(obj.GetComponent<PolygonCollider2D>());
-                        obj.AddComponent<PolygonCollider2D>();
-                        obj.GetComponent<PolygonCollider2D>().isTrigger = true;
-                        break;
-                    }
+                    obj.GetComponent<SpriteRenderer>().sprite = building.image;
+                    obj.transform.position = new Vector2(obj.transform.position.x, building.image.bounds.size.y / 2 - 1);
+                    GameObject.Destroy(obj.GetComponent<PolygonCollider2D>());
+                    obj.AddComponent<PolygonCollider2D>().isTrigger = true;
+                    break;
                 }
             }
         }

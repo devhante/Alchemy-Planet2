@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -50,7 +51,7 @@ namespace AlchemyPlanet.Data
         public string material2Name;
         public int material1Count;
         public int material2Count;
-
+        public DateTime UpgradeEndTime;
 
         public Building(string buildingName, string buildingDiscription, int buildingLevel)
         {
@@ -68,14 +69,25 @@ namespace AlchemyPlanet.Data
             strc.setup = setup;
             return strc;
         }
-        public void Upgrade()
+        public void UpgradeStart()
         {
             upgrading = true;
             image = Resources.Load<Sprite>("Sprites/Town/Tent");
-            // 시간 보내고 받기 서버랑 연동하자 민제야!!
+            DataManager.Instance.CurrentPlayerData.SetBuilding(this);
+            AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetImage");
+            int UpgradeTime = buildingLevel * 10;
+            UpgradeEndTime = DateTime.Now.AddSeconds(UpgradeTime);
+            WebSocketManager.Instance.SendInsertPlayerUpgradingStructure(
+                DataManager.Instance.CurrentPlayerData.player_id, id.ToString(), UpgradeTime);
+        }
+
+        public void UpgradeEnd()
+        {
             buildingLevel++;
             image = Resources.Load<Sprite>("Sprites/Town/" + structureName + buildingLevel.ToString());
             upgrading = false;
+            DataManager.Instance.CurrentPlayerData.SetBuilding(this);
+            AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetImage");
         }
     }
 

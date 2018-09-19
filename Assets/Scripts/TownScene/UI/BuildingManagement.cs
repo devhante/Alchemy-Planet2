@@ -6,7 +6,7 @@ using AlchemyPlanet.Data;
 
 namespace AlchemyPlanet.TownScene
 {
-    public class TownUpgrade : Common.UI<TownUpgrade>
+    public class BuildingManagement : Common.UI<BuildingManagement>
     {
         public Button leftButton;
         public Button rightButton;
@@ -37,6 +37,7 @@ namespace AlchemyPlanet.TownScene
         void OpenBuildingInfo(int n)
         {
             buildingImages[n].GetComponent<BuildingInfo>().SetInfo(ownBuildings[n]);
+            buildingImages[n].GetComponent<BuildingInfo>().OpenInfo();
         }
 
         void GetOwnBuilding()   // 소유중인 건물 받아오기
@@ -58,6 +59,7 @@ namespace AlchemyPlanet.TownScene
                         buildingImages[i].SetActive(true);
                     buildingImages[i].name = ownBuildings[i + page * 6].structureName;
                     buildingImages[i].GetComponent<Image>().sprite = ownBuildings[i + page * 6].image;
+                    buildingImages[i].GetComponent<BuildingInfo>().SetInfo(ownBuildings[i]);
                 }
                 else
                 {

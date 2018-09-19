@@ -18,6 +18,11 @@ namespace AlchemyPlanet.Data
             SetFloor();
         }
 
+        private void Update()
+        {
+            CheckUpgradeTime();
+        }
+
         void SetFloor()
         {
             SetBoundary();
@@ -35,6 +40,23 @@ namespace AlchemyPlanet.Data
             boundary = DataManager.Instance.CurrentPlayerData.boundary;
             pollutedForest1.transform.position = new Vector3(-boundary, pollutedForest1.transform.position.y);
             pollutedForest2.transform.position = new Vector3(boundary, pollutedForest1.transform.position.y);
+        }
+
+        void CheckUpgradeTime()
+        {
+            System.TimeSpan timeDiff;
+            foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures)
+            {
+                if (strc is Building && (strc as Building).upgrading)
+                {
+                    timeDiff = (strc as Building).UpgradeEndTime - System.DateTime.Now;
+
+                    if (timeDiff.TotalSeconds < 0)
+                    {
+                        (strc as Building).UpgradeEnd();
+                    }
+                }
+            }
         }
     }
 }

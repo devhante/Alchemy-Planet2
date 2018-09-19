@@ -7,7 +7,7 @@ using AlchemyPlanet.Data;
 
 namespace AlchemyPlanet.TownScene
 {
-    public class TownManagement : Common.UI<TownManagement>
+    public class BuildingPlacement : Common.UI<BuildingPlacement>
     {
         public List<GameObject> buildingImages; // 건물 미리보기
         public Button leftButton;               // 건물이미지 페이지 왼쪽으로 넘기기

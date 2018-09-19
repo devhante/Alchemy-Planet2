@@ -17,8 +17,8 @@ namespace AlchemyPlanet.TownScene
         [SerializeField] private Button buildingbutton;
         [SerializeField] private GameObject buildBar;
         [SerializeField] private Button UIOffButton;
-        [SerializeField] private Button TownManageButton;
-        [SerializeField] private Button TownUpgradeButton;
+        [SerializeField] private Button BuildingPlacementButton;
+        [SerializeField] private Button BuildingManagementButton;
         [SerializeField] private Button InventoryButton;
 
         protected override void Awake()
@@ -63,15 +63,15 @@ namespace AlchemyPlanet.TownScene
                 UIManager.Instance.TownUIOff();
                 UIManager.Instance.OpenMenu<EmptyUI>();
             });
-            TownManageButton.onClick.AddListener(() =>
+            BuildingPlacementButton.onClick.AddListener(() =>
             {
                 mainCamera.GetComponent<MainCamera>().StartCoroutine("ZoomOut");
                 UIManager.Instance.TownUIOff();
-                UIManager.Instance.OpenMenu<TownManagement>();
+                UIManager.Instance.OpenMenu<BuildingPlacement>();
             });
-            TownUpgradeButton.onClick.AddListener(() =>
+            BuildingManagementButton.onClick.AddListener(() =>
             {
-                UIManager.Instance.OpenMenu<TownUpgrade>();
+                UIManager.Instance.OpenMenu<BuildingManagement>();
             });
             InventoryButton.onClick.AddListener(() =>
             {
@@ -79,7 +79,6 @@ namespace AlchemyPlanet.TownScene
 
                 InventoryCell.Instance.SetItem();
             });
-
         }
 
         IEnumerator MoveBar()

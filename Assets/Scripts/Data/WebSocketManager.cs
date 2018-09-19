@@ -369,28 +369,28 @@ namespace AlchemyPlanet.Data
 
         #region Send_PlayerUpgradingStructure
 
-        private void SendFindPlayerUpgradingStructures(string playerId)
+        public void SendFindPlayerUpgradingStructures(string playerId)
         {
             var data = new PlayerUpgradingStructure(playerId, "", new DateTime(), 0);
             var message = new Message("findPlayerUpgradingStructures", data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendInsertPlayerUpgradingStructure(string playerId, string structureUniqueId, int requireTime)
+        public void SendInsertPlayerUpgradingStructure(string playerId, string structureUniqueId, int requireTime)
         {
             var data = new PlayerUpgradingStructure(playerId, structureUniqueId, new DateTime(), requireTime);
             var message = new Message("insertPlayerUpgradingStructure", data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendDeletePlayerUpgradingStructure(string playerId, string structureUniqueId)
+        public void SendDeletePlayerUpgradingStructure(string playerId, string structureUniqueId)
         {
             var data = new PlayerUpgradingStructure(playerId, structureUniqueId, new DateTime(), 0);
             var message = new Message("deletePlayerUpgradingStructure", data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendDeletePlayerUpgradingStructures(string playerId)
+        public void SendDeletePlayerUpgradingStructures(string playerId)
         {
             var data = new PlayerUpgradingStructure(playerId, "", new DateTime(), 0);
             var message = new Message("deletePlayerUpgradingStructures", data);

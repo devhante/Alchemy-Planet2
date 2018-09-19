@@ -12,8 +12,8 @@ namespace AlchemyPlanet.TownScene
         [SerializeField] private DialogLogMenu DialogLogMenuPrefab;
         [SerializeField] private EmptyUI EmptyUIPrefab;
         [SerializeField] private InventoryCell InventoryPrefab;
-        [SerializeField] private TownManagement TownManagerUIPrefab;
-        [SerializeField] private TownUpgrade TownUpgradeUIPrefab;
+        [SerializeField] private BuildingPlacement BuildingPlacementPrefab;
+        [SerializeField] private BuildingManagement BuildingManagementPrefab;
         [SerializeField] private NameSetUI NameSetUIPrefab;
 
         [SerializeField] private GameObject TopDownUI;
@@ -102,10 +102,10 @@ namespace AlchemyPlanet.TownScene
                 return EmptyUIPrefab as T;
             else if (typeof(T) == typeof(InventoryCell))
                 return InventoryPrefab as T;
-            else if (typeof(T) == typeof(TownManagement))
-                return TownManagerUIPrefab as T;
-            else if (typeof(T) == typeof(TownUpgrade))
-                return TownUpgradeUIPrefab as T;
+            else if (typeof(T) == typeof(BuildingPlacement))
+                return BuildingPlacementPrefab as T;
+            else if (typeof(T) == typeof(BuildingManagement))
+                return BuildingManagementPrefab as T;
             else if (typeof(T) == typeof(NameSetUI))
                 return NameSetUIPrefab as T;
             else
