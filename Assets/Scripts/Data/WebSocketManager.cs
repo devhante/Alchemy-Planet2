@@ -101,7 +101,7 @@ namespace AlchemyPlanet.Data
                     string data_string = ConvertLappedJsonString(message.data);
                     var data = JsonConvert.DeserializeObject<PlayerParty[]>(data_string);
 
-                    UnityMainThreadDispatcher.Instance().Enqueue(() => CharacterScene.GameManager.Instance.GetPlayerParty(data));
+                    UnityMainThreadDispatcher.Instance().Enqueue(() => CharacterScene.GameManager.Instance.InitParty(data));
                 }
 
                 if (message.status == "PlayerRequest")

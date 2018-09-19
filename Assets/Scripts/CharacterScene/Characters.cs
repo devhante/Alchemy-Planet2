@@ -42,27 +42,69 @@ namespace AlchemyPlanet.CharacterScene
             float speed = 10;
             float originPosX = transform.position.x;
 
+            GameManager.Instance.CurrentCharacters = GameManager.Instance.InstantiateCharacters();
+            GameManager.Instance.CurrentCharacters.transform.position = new Vector3(originPosX + 5, GameManager.Instance.CurrentCharacters.transform.position.y, GameManager.Instance.CurrentCharacters.transform.position.z);
+
+            foreach (var item in Slots)
+                if (item.transform.childCount > 0)
+                {
+                    item.transform.localScale = new Vector3(item.transform.localScale.x * -1, item.transform.localScale.y, item.transform.localScale.z);
+                    item.transform.GetChild(0).GetComponent<Animator>().SetBool("isMoving", true);
+                }
+            foreach(var item in GameManager.Instance.CurrentCharacters.Slots)
+                if (item.transform.childCount > 0)
+                {
+                    item.transform.localScale = new Vector3(item.transform.localScale.x * -1, item.transform.localScale.y, item.transform.localScale.z);
+                    item.transform.GetChild(0).GetComponent<Animator>().SetBool("isMoving", true);
+                }
+
             while (originPosX - transform.position.x <= 5)
             {
                 transform.position += Vector3.left * Time.deltaTime * speed;
+                GameManager.Instance.CurrentCharacters.transform.position += Vector3.left * Time.deltaTime * speed;
                 yield return null;
             }
 
             transform.position = new Vector3(originPosX - 5, transform.position.y, transform.position.z);
- ;        }
+            GameManager.Instance.CurrentCharacters.transform.position = new Vector3(originPosX, GameManager.Instance.CurrentCharacters.transform.position.y, GameManager.Instance.CurrentCharacters.transform.position.z);
+
+            foreach (var item in GameManager.Instance.CurrentCharacters.Slots)
+                if (item.transform.childCount > 0)
+                {
+                    item.transform.localScale = new Vector3(item.transform.localScale.x * -1, item.transform.localScale.y, item.transform.localScale.z);
+                    item.transform.GetChild(0).GetComponent<Animator>().SetBool("isMoving", false);
+                }
+            Destroy(gameObject);
+        }
 
         IEnumerator MoveRightCoroutine()
         {
             float speed = 10;
             float originPosX = transform.position.x;
+            GameManager.Instance.CurrentCharacters = GameManager.Instance.InstantiateCharacters();
+            GameManager.Instance.CurrentCharacters.transform.position = new Vector3(originPosX - 5, GameManager.Instance.CurrentCharacters.transform.position.y, GameManager.Instance.CurrentCharacters.transform.position.z);
+
+            foreach (var item in Slots)
+                if (item.transform.childCount > 0)
+                    item.transform.GetChild(0).GetComponent<Animator>().SetBool("isMoving", true);
+            foreach (var item in GameManager.Instance.CurrentCharacters.Slots)
+                if (item.transform.childCount > 0)
+                    item.transform.GetChild(0).GetComponent<Animator>().SetBool("isMoving", true);
 
             while (originPosX - transform.position.x >= -5)
             {
                 transform.position += Vector3.right * Time.deltaTime * speed;
+                GameManager.Instance.CurrentCharacters.transform.position += Vector3.right * Time.deltaTime * speed;
                 yield return null;
             }
 
             transform.position = new Vector3(originPosX + 5, transform.position.y, transform.position.z);
+            GameManager.Instance.CurrentCharacters.transform.position = new Vector3(originPosX, GameManager.Instance.CurrentCharacters.transform.position.y, GameManager.Instance.CurrentCharacters.transform.position.z);
+
+            foreach (var item in GameManager.Instance.CurrentCharacters.Slots)
+                if (item.transform.childCount > 0)
+                    item.transform.GetChild(0).GetComponent<Animator>().SetBool("isMoving", false);
+            Destroy(gameObject);
         }
     }
 }
