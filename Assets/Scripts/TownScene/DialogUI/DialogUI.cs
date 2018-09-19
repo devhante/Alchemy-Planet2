@@ -15,6 +15,9 @@ namespace AlchemyPlanet.TownScene
         [SerializeField] private float d_interval = 1f;
         private WaitForSeconds dialog_interval;
 
+        [SerializeField] private Image backPanel;
+        [SerializeField] private Image fadePanel;
+
         [SerializeField] private Image d_box;
 
         [SerializeField] private Text d_name;
@@ -27,6 +30,8 @@ namespace AlchemyPlanet.TownScene
 
         //특수 요청으로 다음 대화를 불러오기 전 플레이어 이름을 세팅한다
         bool namebox = false;
+        //특수 요청으로 다음 대화를 불러오기 카메라 효과를 준다
+        bool fade = false;
 
         public int count = 0;
 
@@ -57,8 +62,9 @@ namespace AlchemyPlanet.TownScene
         {
             d_illust[0].transform.DOMoveX(140, 0.4f).SetEase(Ease.OutQuart);
             d_illust[1].transform.DOMoveX(540, 0.4f).SetEase(Ease.OutQuart);
+            d_box.DOFade(1, 0.3f).SetEase(Ease.InBack);
             d_box.transform.DOScale(1, 0.3f).SetEase(Ease.InBack);
-            d_box.transform.DOMove(new Vector2(Screen.width / 2, Screen.height / 4), 0.3f).SetEase(Ease.InBack);
+            d_box.transform.DOMove(new Vector2(Screen.width / 2, Screen.height / 6), 0.3f).SetEase(Ease.InBack);
         }
 
         private void Update()
@@ -90,6 +96,22 @@ namespace AlchemyPlanet.TownScene
                 UIManager.Instance.OpenMenu<NameSetUI>();
                 namebox = false;
                 return;
+            }
+
+            if (fade)
+            {
+                fadePanel.gameObject.SetActive(true);
+                d_box.transform.DOMoveY(-Screen.height / 4, 0.3f).SetEase(Ease.InBack).OnComplete(() =>
+                {
+                    fadePanel.DOFade(0, 2).SetEase(Ease.InBack).OnComplete(() => {
+                        fadePanel.gameObject.SetActive(false);
+                    });
+                    backPanel.DOFade(0, 2).SetEase(Ease.InBack).OnComplete(() =>
+                    {
+                        d_box.transform.DOMove(new Vector2(Screen.width / 2, Screen.height / 6), 0.3f).SetEase(Ease.InBack);
+                    });
+                });
+
             }
 
             if (!writting)
@@ -148,7 +170,8 @@ namespace AlchemyPlanet.TownScene
             else
             {
                 DataManager.Instance.selected_dialog = null;
-                Common.DialogScene.Instance.IsOver();
+                if(Common.DialogScene.Instance)
+                    Common.DialogScene.Instance.IsOver();
             }
         }
 
@@ -176,16 +199,24 @@ namespace AlchemyPlanet.TownScene
 
                     for(int i=0; i<d_illust.Length; ++i)
                     {
-                        d_illust[i].sprite = data.illusts[data.dialogs[num].illusts[i].name];
-                        if (data.dialogs[num].illusts[i].mode == IllustMode.Back)
+                        if (data.dialogs[num].illusts[i].name.Equals(""))
                         {
-                            d_illust[i].color = new Color32(120, 120, 120, 255);
-                            d_illust[i].transform.DOScale(0.95f, 0.2f).SetEase(Ease.OutExpo);
+                            d_illust[i].gameObject.SetActive(false);
                         }
                         else
                         {
-                            d_illust[i].color = new Color32(255, 255, 255, 255);
-                            d_illust[i].transform.DOScale(1, 0.2f).SetEase(Ease.OutExpo);
+                            d_illust[i].gameObject.SetActive(true);
+                            d_illust[i].sprite = data.illusts[data.dialogs[num].illusts[i].name];
+                            if (data.dialogs[num].illusts[i].mode == IllustMode.Back)
+                            {
+                                d_illust[i].color = new Color32(120, 120, 120, 255);
+                                d_illust[i].transform.DOScale(0.95f, 0.2f).SetEase(Ease.OutExpo);
+                            }
+                            else
+                            {
+                                d_illust[i].color = new Color32(255, 255, 255, 255);
+                                d_illust[i].transform.DOScale(1, 0.2f).SetEase(Ease.OutExpo);
+                            }
                         }
                     }
                     #endregion SetIllust
@@ -201,7 +232,13 @@ namespace AlchemyPlanet.TownScene
                         namebox = true;
                         script = script.Replace("{{GiveMeYourName}}", "");
                     }
-                    
+
+                    if (script.Contains("{{FadeCam}}"))
+                    {
+                        fade = true;
+                        script = script.Replace("{{FadeCam}}", "");
+                    }
+
 
                     d_script.text = "";
 
