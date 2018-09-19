@@ -96,10 +96,12 @@ namespace AlchemyPlanet.Data
                     Debug.Log(data[0].level + " | " + data[1].level + " | " + data[2].level);
                 }
 
-                if (message.status == "PlayerParty")
+                if (message.status == "7100")
                 {
                     string data_string = ConvertLappedJsonString(message.data);
                     var data = JsonConvert.DeserializeObject<PlayerParty[]>(data_string);
+
+                    UnityMainThreadDispatcher.Instance().Enqueue(() => CharacterScene.GameManager.Instance.GetPlayerParty(data));
                 }
 
                 if (message.status == "PlayerRequest")
@@ -447,38 +449,38 @@ namespace AlchemyPlanet.Data
 
         #region Send_PlayerParty
 
-        public void SendFindPlayerParties(string playerId)
+        public void SendFindPlayerParties(string status, string playerId)
         {
             var data = new PlayerParty(playerId, 0, 0, "");
-            var message = new Message("findPlayerParties", data);
+            var message = new Message("710" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        public void SendInsertPlayerParty(string playerId, int partyIndex, int slotIndox, string characterId)
+        public void SendInsertPlayerParty(string status, string playerId, int partyIndex, int slotIndex, string characterId)
         {
-            var data = new PlayerParty(playerId, partyIndex, slotIndox, characterId);
-            var message = new Message("insertPlayerParty", data);
+            var data = new PlayerParty(playerId, partyIndex, slotIndex, characterId);
+            var message = new Message("720" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        public void SendDeletePlayerParty(string playerId, int partyIndex, int slotIndox)
+        public void SendDeletePlayerParty(string status, string playerId, int partyIndex, int slotIndex)
         {
-            var data = new PlayerParty(playerId, partyIndex, slotIndox, "");
-            var message = new Message("deletePlayerParty", data);
+            var data = new PlayerParty(playerId, partyIndex, slotIndex, "");
+            var message = new Message("730" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        public void SendDeletePlayerParties(string playerId)
+        public void SendDeletePlayerParties(string status, string playerId)
         {
             var data = new PlayerParty(playerId, 0, 0, "");
-            var message = new Message("deletePlayerParties", data);
+            var message = new Message("731" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        public void SendUpdatePlayerParty(string playerId, int partyIndex, int slotIndox, string characterId)
+        public void SendUpdatePlayerParty(string status, string playerId, int partyIndex, int slotIndex, string characterId)
         {
-            var data = new PlayerParty(playerId, partyIndex, slotIndox, characterId);
-            var message = new Message("updatePlayerParty", data);
+            var data = new PlayerParty(playerId, partyIndex, slotIndex, characterId);
+            var message = new Message("740" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
