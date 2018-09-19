@@ -1,47 +1,15 @@
 [
   {
-    "name": "벨",
-    "content": "흑.. 디자이너님",
+    "name": "???",
+    "content": "곧 있으면 출발할 겁니다. 늦기전에 갑시다.",
     "illusts": [
       {
-        "name": "시드",
+        "name": "",
         "pos": 0,
         "mode": 0
       },
       {
-        "name": "마칭냥",
-        "pos": 2,
-        "mode": 1
-      }
-    ]
-  },
-  {
-    "name": "{P}",
-    "content": "프롤로그 대사 기획이 없어요...",
-    "illusts": [
-      {
-        "name": "시드",
-        "pos": 0,
-        "mode": 1
-      },
-      {
-        "name": "마칭냥",
-        "pos": 2,
-        "mode": 0
-      }
-    ]
-  },
-  {
-    "name": "벨",
-    "content": "대사 좀 적어 주세요..",
-    "illusts": [
-      {
-        "name": "시드",
-        "pos": 0,
-        "mode": 0
-      },
-      {
-        "name": "마칭냥",
+        "name": "",
         "pos": 2,
         "mode": 1
       }
