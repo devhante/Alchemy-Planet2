@@ -51,6 +51,9 @@ namespace AlchemyPlanet.CharacterScene
                     buttonRight.gameObject.SetActive(true);
                 }));
 
+
+            if (GameManager.Instance.PartyIndex == 1) GameManager.Instance.PartyIndex = 9;
+            else GameManager.Instance.PartyIndex--;
             GameManager.Instance.CurrentCharacters.MoveLeft();
         }
 
@@ -74,6 +77,8 @@ namespace AlchemyPlanet.CharacterScene
                     buttonRight.gameObject.SetActive(true);
                 }));
 
+            if (GameManager.Instance.PartyIndex == 9) GameManager.Instance.PartyIndex = 1;
+            else GameManager.Instance.PartyIndex++;
             GameManager.Instance.CurrentCharacters.MoveRight();
         }
     }
