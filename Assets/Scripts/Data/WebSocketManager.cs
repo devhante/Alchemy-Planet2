@@ -36,7 +36,7 @@ namespace AlchemyPlanet.Data
                     string data_string = ConvertLappedJsonString(message.data);
                     var data = JsonConvert.DeserializeObject<CollectionName>(data_string);
 
-                    DataManager.Instance.CommitName(data);
+                    UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitName(data));
                 }
 
                 if (message.status == "2100")
@@ -44,7 +44,7 @@ namespace AlchemyPlanet.Data
                     string data_string = ConvertLappedJsonString(message.data);
                     var data = JsonConvert.DeserializeObject<CollectionLevel>(data_string);
 
-                    DataManager.Instance.CommitLevel(data); ;
+                    UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitLevel(data));
                 }
 
                 if (message.status == "3100")
@@ -52,7 +52,7 @@ namespace AlchemyPlanet.Data
                     string data_string = ConvertLappedJsonString(message.data);
                     var data = JsonConvert.DeserializeObject<CollectionGoods>(data_string);
 
-                    DataManager.Instance.CommitGoods(data);
+                    UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitGoods(data));
                 }
 
                 if (message.status == "4100")
@@ -60,7 +60,7 @@ namespace AlchemyPlanet.Data
                     string data_string = ConvertLappedJsonString(message.data);
                     var data = JsonConvert.DeserializeObject<CollectionItem[]>(data_string);
 
-                    DataManager.Instance.CommitItem(data);
+                    UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitItem(data));
                 }
 
                 if (message.status == "5100")
@@ -76,7 +76,7 @@ namespace AlchemyPlanet.Data
                     string data_string = ConvertLappedJsonString(message.data);
                     var data = JsonConvert.DeserializeObject<CollectionCharacter[]>(data_string);
 
-                    DataManager.Instance.CommitCharacter(data);
+                    UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitCharacter(data));
                 }
 
                 if (message.status == "7100")
@@ -84,7 +84,7 @@ namespace AlchemyPlanet.Data
                     string data_string = ConvertLappedJsonString(message.data);
                     var data = JsonConvert.DeserializeObject<CollectionParty[]>(data_string);
 
-                    DataManager.Instance.CommitParty(data);
+                    UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitParty(data));
                 }
 
                 if (message.status == "7101")
