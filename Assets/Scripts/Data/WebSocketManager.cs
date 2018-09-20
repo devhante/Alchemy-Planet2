@@ -35,7 +35,7 @@ namespace AlchemyPlanet.Data
                 if (message.status == "PlayerName")
                 {
                     string data_string = ConvertLappedJsonString(message.data);
-                    var data = JsonConvert.DeserializeObject<PlayerName>(data_string);
+                    var data = JsonConvert.DeserializeObject<CollectionName>(data_string);
 
                     Debug.Log(data.playerName);
                 }
@@ -43,7 +43,7 @@ namespace AlchemyPlanet.Data
                 if (message.status == "PlayerLevel")
                 {
                     string data_string = ConvertLappedJsonString(message.data);
-                    var data = JsonConvert.DeserializeObject<PlayerLevel>(data_string);
+                    var data = JsonConvert.DeserializeObject<CollectionLevel>(data_string);
 
                     Debug.Log(data.level);
                 }
@@ -51,7 +51,7 @@ namespace AlchemyPlanet.Data
                 if (message.status == "PlayerGoods")
                 {
                     string data_string = ConvertLappedJsonString(message.data);
-                    var data = JsonConvert.DeserializeObject<PlayerGoods>(data_string);
+                    var data = JsonConvert.DeserializeObject<CollectionGoods>(data_string);
 
                     Debug.Log(data.uniCoin + " | " + data.cosmoStone + " | " + data.oxygenTank);
                 }
@@ -59,7 +59,7 @@ namespace AlchemyPlanet.Data
                 if (message.status == "PlayerItem")
                 {
                     string data_string = ConvertLappedJsonString(message.data);
-                    var data = JsonConvert.DeserializeObject<PlayerItem[]>(data_string);
+                    var data = JsonConvert.DeserializeObject<CollectionItem[]>(data_string);
 
                     Debug.Log(data[0].itemId + " | " + data[1].itemId + " | " + data[2].itemId);
                 }
@@ -67,45 +67,31 @@ namespace AlchemyPlanet.Data
                 if (message.status == "PlayerStructure")
                 {
                     string data_string = ConvertLappedJsonString(message.data);
-                    var data = JsonConvert.DeserializeObject<PlayerStructure[]>(data_string);
+                    var data = JsonConvert.DeserializeObject<CollectionStructure[]>(data_string);
 
-                    Debug.Log(data[0].structureUniqueId + " | " + data[1].structureUniqueId + " | " + data[2].structureUniqueId);
-                }
-
-                if (message.status == "PlayerTownStructure")
-                {
-                    string data_string = ConvertLappedJsonString(message.data);
-                    var data = JsonConvert.DeserializeObject<PlayerTownStructure[]>(data_string);
-
-                    Debug.Log(data[0].structureUniqueId + " | " + data[1].structureUniqueId + " | " + data[2].structureUniqueId);
-                }
-
-                if (message.status == "PlayerUpgradingStructure")
-                {
-                    string data_string = ConvertLappedJsonString(message.data);
-                    var data = JsonConvert.DeserializeObject<PlayerUpgradingStructure[]>(data_string);
-
-                    Debug.Log(data[0].structureUniqueId + " | " + data[1].structureUniqueId + " | " + data[2].structureUniqueId);
+                    Debug.Log(data[0].playerStructureId + " | " + data[1].playerStructureId + " | " + data[2].playerStructureId);
                 }
 
                 if (message.status == "PlayerCharacter")
                 {
                     string data_string = ConvertLappedJsonString(message.data);
-                    var data = JsonConvert.DeserializeObject<PlayerCharacter[]>(data_string);
+                    var data = JsonConvert.DeserializeObject<CollectionCharacter[]>(data_string);
 
                     Debug.Log(data[0].level + " | " + data[1].level + " | " + data[2].level);
                 }
 
-                if (message.status == "PlayerParty")
+                if (message.status == "7100")
                 {
                     string data_string = ConvertLappedJsonString(message.data);
-                    var data = JsonConvert.DeserializeObject<PlayerParty[]>(data_string);
+                    var data = JsonConvert.DeserializeObject<CollectionParty[]>(data_string);
+
+                    UnityMainThreadDispatcher.Instance().Enqueue(() => CharacterScene.GameManager.Instance.InitParty(data));
                 }
 
                 if (message.status == "PlayerRequest")
                 {
                     string data_string = ConvertLappedJsonString(message.data);
-                    var data = JsonConvert.DeserializeObject<PlayerRequest[]>(data_string);
+                    var data = JsonConvert.DeserializeObject<CollectionRequest[]>(data_string);
 
                     Debug.Log(data[0].requestId + " | " + data[1].requestId + " | " + data[2].requestId);
                 }
@@ -117,8 +103,8 @@ namespace AlchemyPlanet.Data
             if(ws.IsConnected)
             {
                 //SendDropTable("PlayerName");
-                SendFindPlayerName("0");
-                SendFindPlayerLevel("0");
+                SendFindName("0", "0");
+                SendFindLevel("0", "0");
             }
         }
         
@@ -142,380 +128,300 @@ namespace AlchemyPlanet.Data
             ws.Send(str);
         }
 
-        #region Send_PlayerName
+        #region Send_Name
 
-        private void SendFindPlayerName(string playerId)
+        private void SendFindName(string status, string playerId)
         {
-            var data = new PlayerName(playerId, "");
-            var message = new Message("findPlayerName", data);
+            var data = new CollectionName(playerId, "");
+            var message = new Message("110" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendInsertPlayerName(string playerId, string playerName)
+        private void SendInsertName(string status, string playerId, string playerName)
         {
-            var data = new PlayerName(playerId, playerName);
-            var message = new Message("insertPlayerName", data);
+            var data = new CollectionName(playerId, playerName);
+            var message = new Message("120" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendDeletePlayerName(string playerId)
+        private void SendDeleteName(string status, string playerId)
         {
-            var data = new PlayerName(playerId, "");
-            var message = new Message("deletePlayerName", data);
+            var data = new CollectionName(playerId, "");
+            var message = new Message("130" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendUpdatePlayerName(string playerId, string playerName)
+        private void SendUpdateName(string status, string playerId, string playerName)
         {
-            var data = new PlayerName(playerId, playerName);
-            var message = new Message("updatePlayerName", data);
-            var str = JsonConvert.SerializeObject(message);
-            ws.Send(str);
-        }
-
-        #endregion Send_PlayerName
-
-        #region Send_PlayerLevel
-
-        private void SendFindPlayerLevel(string playerId)
-        {
-            var data = new PlayerLevel(playerId, 0, 0);
-            var message = new Message("findPlayerLevel", data);
-            var str = JsonConvert.SerializeObject(message);
-            ws.Send(str);
-        }
-        private void SendInsertPlayerLevel(string playerId, int level, int exp)
-        {
-            var data = new PlayerLevel(playerId, level, exp);
-            var message = new Message("insertPlayerLevel", data);
-            var str = JsonConvert.SerializeObject(message);
-            ws.Send(str);
-        }
-        private void SendDeletePlayerLevel(string playerId)
-        {
-            var data = new PlayerLevel(playerId, 0, 0);
-            var message = new Message("deletePlayerLevel", data);
-            var str = JsonConvert.SerializeObject(message);
-            ws.Send(str);
-        }
-        private void SendUpdatePlayerLevel(string playerId, int level, int exp)
-        {
-            var data = new PlayerLevel(playerId, level, exp);
-            var message = new Message("updatePlayerLevel", data);
+            var data = new CollectionName(playerId, playerName);
+            var message = new Message("140" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
 
-        #endregion Send_PlayerLevel
+        #endregion Send_Name
 
-        #region Send_PlayerGoods
+        #region Send_Level
 
-        private void SendFindPlayerGoods(string playerId)
+        private void SendFindLevel(string status, string playerId)
         {
-            var data = new PlayerGoods(playerId, 0, 0, 0);
-            var message = new Message("findPlayerGoods", data);
+            var data = new CollectionLevel(playerId, 0, 0);
+            var message = new Message("210" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendInsertPlayerGoods(string playerId, int unicoin, int cosmostone, int oxygentank)
+        private void SendInsertLevel(string status, string playerId, int level, int exp)
         {
-            var data = new PlayerGoods(playerId, unicoin, cosmostone, oxygentank);
-            var message = new Message("insertPlayerGoods", data);
+            var data = new CollectionLevel(playerId, level, exp);
+            var message = new Message("220" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendDeletePlayerGoods(string playerId)
+        private void SendDeleteLevel(string status, string playerId)
         {
-            var data = new PlayerGoods(playerId, 0, 0, 0);
-            var message = new Message("deletePlayerGoods", data);
+            var data = new CollectionLevel(playerId, 0, 0);
+            var message = new Message("230" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendUpdatePlayerGoods(string playerId, int unicoin, int cosmostone, int oxygentank)
+        private void SendUpdateLevel(string status, string playerId, int level, int exp)
         {
-            var data = new PlayerGoods(playerId, unicoin, cosmostone, oxygentank);
-            var message = new Message("updatePlayerGoods", data);
+            var data = new CollectionLevel(playerId, level, exp);
+            var message = new Message("240" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
 
-        #endregion Send_PlayerGoods
+        #endregion Send_Level
 
-        #region Send_PlayerItem
+        #region Send_Goods
 
-        private void SendFindPlayerItems(string playerId)
+        private void SendFindGoods(string status, string playerId)
         {
-            var data = new PlayerItem(playerId, "", 0);
-            var message = new Message("findPlayerItems", data);
+            var data = new CollectionGoods(playerId, 0, 0, 0);
+            var message = new Message("310" + status, data);
+            var str = JsonConvert.SerializeObject(message);
+            ws.Send(str);
+        }
+        private void SendInsertGoods(string status, string playerId, int unicoin, int cosmostone, int oxygentank)
+        {
+            var data = new CollectionGoods(playerId, unicoin, cosmostone, oxygentank);
+            var message = new Message("320" + status, data);
+            var str = JsonConvert.SerializeObject(message);
+            ws.Send(str);
+        }
+        private void SendDeleteGoods(string status, string playerId)
+        {
+            var data = new CollectionGoods(playerId, 0, 0, 0);
+            var message = new Message("330" + status, data);
+            var str = JsonConvert.SerializeObject(message);
+            ws.Send(str);
+        }
+        private void SendUpdateGoods(string status, string playerId, int unicoin, int cosmostone, int oxygentank)
+        {
+            var data = new CollectionGoods(playerId, unicoin, cosmostone, oxygentank);
+            var message = new Message("340" + status, data);
+            var str = JsonConvert.SerializeObject(message);
+            ws.Send(str);
+        }
+
+        #endregion Send_Goods
+
+        #region Send_Item
+
+        private void SendFindItems(string status, string playerId)
+        {
+            var data = new CollectionItem(playerId, "", 0);
+            var message = new Message("410" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
         
-        private void SendInsertPlayerItem(string playerId, string itemId, int count)
+        private void SendInsertItem(string status, string playerId, string itemId, int count)
         {
-            var data = new PlayerItem(playerId, itemId, count);
-            var message = new Message("insertPlayerItem", data);
+            var data = new CollectionItem(playerId, itemId, count);
+            var message = new Message("420" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
 
-        private void SendDeletePlayerItem(string playerId, string itemId)
+        private void SendDeleteItem(string status, string playerId, string itemId)
         {
-            var data = new PlayerItem(playerId, itemId, 0);
-            var message = new Message("deletePlayerItem", data);
+            var data = new CollectionItem(playerId, itemId, 0);
+            var message = new Message("430" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
 
-        private void SendDeletePlayerItems(string playerId)
+        private void SendDeleteItems(string status, string playerId)
         {
-            var data = new PlayerItem(playerId, "", 0);
-            var message = new Message("deletePlayerItems", data);
+            var data = new CollectionItem(playerId, "", 0);
+            var message = new Message("431" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
 
-        private void SendUpdatePlayerItem(string playerId, string itemId, int count)
+        private void SendUpdateItem(string status, string playerId, string itemId, int count)
         {
-            var data = new PlayerItem(playerId, itemId, count);
-            var message = new Message("updatePlayerItem", data);
+            var data = new CollectionItem(playerId, itemId, count);
+            var message = new Message("440" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
 
-        #endregion Send_PlayerItem
+        #endregion Send_Item
 
         #region Send_PlayerStructure
         
-        private void SendFindPlayerStructures(string playerId)
+        private void SendFindStructures(string status, string playerId)
         {
-            var data = new PlayerStructure(playerId, "", "", 0);
-            var message = new Message("findPlayerStructures", data);
+            var data = new CollectionStructure(playerId, "", "", 0, 0, false, false, false, new DateTime());
+            var message = new Message("510" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendInsertPlayerStructure(string playerId, string structureUniqueId, string structureId, int level)
+        private void SendInsertStructure(string status, string playerId, string playerStructureId, string structureId, int level, int position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
         {
-            var data = new PlayerStructure(playerId, structureUniqueId, structureId, level);
-            var message = new Message("insertPlayerStructure", data);
+            var data = new CollectionStructure(playerId, playerStructureId, structureId, level, position, isConstructed, isFlipped, isUpgrading, endDate);
+            var message = new Message("520" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendDeletePlayerStructure(string playerId, string structureUniqueId)
+        private void SendDeleteStructure(string status, string playerId, string playerStructureId)
         {
-            var data = new PlayerStructure(playerId, structureUniqueId, "", 0);
-            var message = new Message("deletePlayerStructure", data);
+            var data = new CollectionStructure(playerId, playerStructureId, "", 0, 0, false, false, false, new DateTime());
+            var message = new Message("530" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendDeletePlayerStructures(string playerId)
+        private void SendDeleteStructures(string status, string playerId)
         {
-            var data = new PlayerStructure(playerId, "", "", 0);
-            var message = new Message("deletePlayerStructures", data);
+            var data = new CollectionStructure(playerId, "", "", 0, 0, false, false, false, new DateTime());
+            var message = new Message("531" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendUpdatePlayerStructure(string playerId, string structureUniqueId, string structureId, int level)
+        private void SendUpdateStructure(string status, string playerId, string playerStructureId, string structureId, int level, int position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
         {
-            var data = new PlayerStructure(playerId, structureUniqueId, structureId, level);
-            var message = new Message("updatePlayerStructure", data);
+            var data = new CollectionStructure(playerId, playerStructureId, structureId, level, position, isConstructed, isFlipped, isUpgrading, endDate);
+            var message = new Message("540" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
 
         #endregion Send_PlayerStructure
 
-        #region Send_PlayerTownStructure
+        #region Send_Character
 
-        private void SendFindPlayerTownStructures(string playerId)
+        private void SendFindCharacters(string status, string playerId)
         {
-            var data = new PlayerTownStructure(playerId, "", 0);
-            var message = new Message("findPlayerTownStructures", data);
+            var data = new CollectionCharacter(playerId, "", 0, 0, 0, 0);
+            var message = new Message("610" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendInsertPlayerTownStructure(string playerId, string structureUniqueId, int position)
+        private void SendInsertCharacter(string status, string playerId, string characterId, int level, int health, int speed, int attackPower)
         {
-            var data = new PlayerTownStructure(playerId, structureUniqueId, position);
-            var message = new Message("insertPlayerTownStructure", data);
+            var data = new CollectionCharacter(playerId, characterId, level, health, speed, attackPower);
+            var message = new Message("620" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendDeletePlayerTownStructure(string playerId, string structureUniqueId)
+        private void SendDeleteCharacter(string status, string playerId, string characterId)
         {
-            var data = new PlayerTownStructure(playerId, structureUniqueId, 0);
-            var message = new Message("deletePlayerTownStructure", data);
+            var data = new CollectionCharacter(playerId, characterId, 0, 0, 0, 0);
+            var message = new Message("630" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendDeletePlayerTownStructures(string playerId)
+        private void SendDeleteCharacters(string status, string playerId)
         {
-            var data = new PlayerTownStructure(playerId, "", 0);
-            var message = new Message("deletePlayerTownStructures", data);
+            var data = new CollectionCharacter(playerId, "", 0, 0, 0, 0);
+            var message = new Message("631" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendUpdatePlayerTownStructure(string playerId, string structureUniqueId, int position)
+        private void SendUpdateCharacter(string status, string playerId, string characterId, int level, int health, int speed, int attackPower)
         {
-            var data = new PlayerTownStructure(playerId, structureUniqueId, position);
-            var message = new Message("updatePlayerTownStructure", data);
-            var str = JsonConvert.SerializeObject(message);
-            ws.Send(str);
-        }
-
-        #endregion Send_PlayerTownStructure
-
-        #region Send_PlayerUpgradingStructure
-
-        public void SendFindPlayerUpgradingStructures(string playerId)
-        {
-            var data = new PlayerUpgradingStructure(playerId, "", new DateTime(), 0);
-            var message = new Message("findPlayerUpgradingStructures", data);
-            var str = JsonConvert.SerializeObject(message);
-            ws.Send(str);
-        }
-        public void SendInsertPlayerUpgradingStructure(string playerId, string structureUniqueId, int requireTime)
-        {
-            var data = new PlayerUpgradingStructure(playerId, structureUniqueId, new DateTime(), requireTime);
-            var message = new Message("insertPlayerUpgradingStructure", data);
-            var str = JsonConvert.SerializeObject(message);
-            ws.Send(str);
-        }
-        public void SendDeletePlayerUpgradingStructure(string playerId, string structureUniqueId)
-        {
-            var data = new PlayerUpgradingStructure(playerId, structureUniqueId, new DateTime(), 0);
-            var message = new Message("deletePlayerUpgradingStructure", data);
-            var str = JsonConvert.SerializeObject(message);
-            ws.Send(str);
-        }
-        public void SendDeletePlayerUpgradingStructures(string playerId)
-        {
-            var data = new PlayerUpgradingStructure(playerId, "", new DateTime(), 0);
-            var message = new Message("deletePlayerUpgradingStructures", data);
-            var str = JsonConvert.SerializeObject(message);
-            ws.Send(str);
-        }
-        private void SendUpdatePlayerUpgradingStructure(string playerId, string structureUniqueId , int requireTime)
-        {
-            var data = new PlayerUpgradingStructure(playerId, structureUniqueId, new DateTime(), requireTime);
-            var message = new Message("updatePlayerUpgradingStructure", data);
+            var data = new CollectionCharacter(playerId, characterId, level, health, speed, attackPower);
+            var message = new Message("640" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
 
-        #endregion Send_PlayerUpgradingStructure
+        #endregion Send_Character
 
-        #region Send_PlayerCharacter
+        #region Send_Party
 
-        private void SendFindPlayerCharacters(string playerId)
+        public void SendFindParties(string status, string playerId)
         {
-            var data = new PlayerCharacter(playerId, "", 0, 0, 0, 0);
-            var message = new Message("findPlayerCharacters", data);
+            var data = new CollectionParty(playerId, 0, 0, "");
+            var message = new Message("710" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendInsertPlayerCharacter(string playerId, string characterId, int level, int health, int speed, int attackPower)
+        public void SendInsertParty(string status, string playerId, int partyIndex, int slotIndex, string characterId)
         {
-            var data = new PlayerCharacter(playerId, characterId, level, health, speed, attackPower);
-            var message = new Message("insertPlayerCharacter", data);
+            var data = new CollectionParty(playerId, partyIndex, slotIndex, characterId);
+            var message = new Message("720" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendDeletePlayerCharacter(string playerId, string characterId)
+        public void SendDeleteParty(string status, string playerId, int partyIndex, int slotIndex)
         {
-            var data = new PlayerCharacter(playerId, characterId, 0, 0, 0, 0);
-            var message = new Message("deletePlayerCharacter", data);
+            var data = new CollectionParty(playerId, partyIndex, slotIndex, "");
+            var message = new Message("730" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendDeletePlayerCharacters(string playerId)
+        public void SendDeleteParties(string status, string playerId)
         {
-            var data = new PlayerCharacter(playerId, "", 0, 0, 0, 0);
-            var message = new Message("deletePlayerCharacters", data);
+            var data = new CollectionParty(playerId, 0, 0, "");
+            var message = new Message("731" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendUpdatePlayerCharacter(string playerId, string characterId, int level, int health, int speed, int attackPower)
+        public void SendUpdatePlayerParty(string status, string playerId, int partyIndex, int slotIndex, string characterId)
         {
-            var data = new PlayerCharacter(playerId, characterId, level, health, speed, attackPower);
-            var message = new Message("updatePlayerCharacter", data);
-            var str = JsonConvert.SerializeObject(message);
-            ws.Send(str);
-        }
-
-        #endregion Send_PlayerCharacter
-
-        #region Send_PlayerParty
-
-        public void SendFindPlayerParties(string playerId)
-        {
-            var data = new PlayerParty(playerId, 0, 0, "");
-            var message = new Message("findPlayerParties", data);
-            var str = JsonConvert.SerializeObject(message);
-            ws.Send(str);
-        }
-        public void SendInsertPlayerParty(string playerId, int partyIndex, int slotIndox, string characterId)
-        {
-            var data = new PlayerParty(playerId, partyIndex, slotIndox, characterId);
-            var message = new Message("insertPlayerParty", data);
-            var str = JsonConvert.SerializeObject(message);
-            ws.Send(str);
-        }
-        public void SendDeletePlayerParty(string playerId, int partyIndex, int slotIndox)
-        {
-            var data = new PlayerParty(playerId, partyIndex, slotIndox, "");
-            var message = new Message("deletePlayerParty", data);
-            var str = JsonConvert.SerializeObject(message);
-            ws.Send(str);
-        }
-        public void SendDeletePlayerParties(string playerId)
-        {
-            var data = new PlayerParty(playerId, 0, 0, "");
-            var message = new Message("deletePlayerParties", data);
-            var str = JsonConvert.SerializeObject(message);
-            ws.Send(str);
-        }
-        public void SendUpdatePlayerParty(string playerId, int partyIndex, int slotIndox, string characterId)
-        {
-            var data = new PlayerParty(playerId, partyIndex, slotIndox, characterId);
-            var message = new Message("updatePlayerParty", data);
+            var data = new CollectionParty(playerId, partyIndex, slotIndex, characterId);
+            var message = new Message("740" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
 
-        #endregion Send_PlayerParty
+        #endregion Send_Party
 
-        #region Send_PlayerRequest
+        #region Send_Request
 
-        private void SendFindPlayerRequests(string playerId)
+        private void SendFindRequests(string status, string playerId)
         {
-            var data = new PlayerRequest(playerId, "");
-            var message = new Message("findPlayerRequests", data);
+            var data = new CollectionRequest(playerId, "");
+            var message = new Message("810" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendInsertPlayerRequest(string playerId, string requestId)
+        private void SendInsertRequest(string status, string playerId, string requestId)
         {
-            var data = new PlayerRequest(playerId, requestId);
-            var message = new Message("insertPlayerRequest", data);
+            var data = new CollectionRequest(playerId, requestId);
+            var message = new Message("820" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendDeletePlayerRequest(string playerId, string requestId)
+        private void SendDeleteRequest(string status, string playerId, string requestId)
         {
-            var data = new PlayerRequest(playerId, requestId);
-            var message = new Message("deletePlayerRequest", data);
+            var data = new CollectionRequest(playerId, requestId);
+            var message = new Message("830" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        private void SendDeletePlayerRequests(string playerId)
+        private void SendDeleteRequests(string status, string playerId)
         {
-            var data = new PlayerRequest(playerId, "");
-            var message = new Message("deletePlayerRequests", data);
+            var data = new CollectionRequest(playerId, "");
+            var message = new Message("831" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
 
-        #endregion Send_PlayerRequest
+        #endregion Send_Request
     }
 }
