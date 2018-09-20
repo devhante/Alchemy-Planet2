@@ -48,12 +48,16 @@ namespace AlchemyPlanet.CharacterScene
 
         private void OnClickOkayButton()
         {
+            WebSocketManager.Instance.SendFindPlayerParties("0", "0");
+
             UIManager.Instance.DestroyUI();
             UIManager.Instance.CreateMainUI();
         }
 
         private void OnClickBackButton()
         {
+            WebSocketManager.Instance.SendFindPlayerParties("0", "0");
+
             UIManager.Instance.DestroyUI();
             UIManager.Instance.CreateMainUI();
         }

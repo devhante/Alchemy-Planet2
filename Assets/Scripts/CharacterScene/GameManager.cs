@@ -29,10 +29,10 @@ namespace AlchemyPlanet.CharacterScene
             Instance = this;
             Parties = new CharacterEnum[9, 3];
             PartyIndex = 1;
-            WebSocketManager.Instance.SendFindPlayerParties("0", "0");
+            WebSocketManager.Instance.SendFindParties("0", "0");
         }
 
-        public void InitParty(PlayerParty[] data)
+        public void InitParty(CollectionParty[] data)
         {
             foreach (var item in data)
                 Parties[item.partyIndex - 1, item.slotIndex - 1] = (CharacterEnum)int.Parse(item.characterId);
