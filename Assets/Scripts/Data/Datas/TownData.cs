@@ -15,7 +15,6 @@ namespace AlchemyPlanet.Data
         public bool setup = false;
         public bool flip = false;
 
-
         public virtual Structure Clone()
         {
             Structure strc = new Structure();
