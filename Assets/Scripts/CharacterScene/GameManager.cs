@@ -25,6 +25,8 @@ namespace AlchemyPlanet.CharacterScene
         {
             Instance = this;
             PartyIndex = 1;
+
+            CurrentCharacters = InstantiateCharacters();
         }
 
         public Characters InstantiateCharacters()

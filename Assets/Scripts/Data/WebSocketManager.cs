@@ -101,7 +101,6 @@ namespace AlchemyPlanet.Data
 
             if(ws.IsConnected)
             {
-
             }
         }
         
