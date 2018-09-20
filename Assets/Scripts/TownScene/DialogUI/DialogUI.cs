@@ -103,15 +103,19 @@ namespace AlchemyPlanet.TownScene
                 fadePanel.gameObject.SetActive(true);
                 d_box.transform.DOMoveY(-Screen.height / 4, 0.3f).SetEase(Ease.InBack).OnComplete(() =>
                 {
-                    fadePanel.DOFade(0, 2).SetEase(Ease.InBack).OnComplete(() => {
+                    fadePanel.DOFade(0, 3).SetEase(Ease.InBack).OnComplete(() => {
                         fadePanel.gameObject.SetActive(false);
                     });
-                    backPanel.DOFade(0, 2).SetEase(Ease.InBack).OnComplete(() =>
+                    backPanel.DOFade(0, 3).SetEase(Ease.InBack).OnComplete(() =>
                     {
-                        d_box.transform.DOMove(new Vector2(Screen.width / 2, Screen.height / 6), 0.3f).SetEase(Ease.InBack);
+                        d_box.transform.DOMove(new Vector2(Screen.width / 2, Screen.height / 6), 0.3f).SetEase(Ease.InBack).OnComplete(() =>
+                        {
+                            StartCoroutine(SetView(count++));
+                        });
                     });
                 });
-
+                fade = false;
+                return;
             }
 
             if (!writting)
@@ -133,7 +137,8 @@ namespace AlchemyPlanet.TownScene
             else
             {
                 DataManager.Instance.selected_dialog = null;
-                Common.DialogScene.Instance.IsOver();
+                if(Common.DialogScene.Instance)
+                    Common.DialogScene.Instance.IsOver();
             }
         }
         public void AutoPlay()
