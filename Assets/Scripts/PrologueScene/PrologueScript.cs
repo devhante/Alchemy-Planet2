@@ -11,7 +11,7 @@ namespace AlchemyPlanet.PrologueScene
 
         void Start()
         {
-            StartCoroutine(LateStart(1));
+            //StartCoroutine(LateStart(1));
         }
 
         private IEnumerator LateStart(int seconds)
