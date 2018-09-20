@@ -17,8 +17,13 @@ namespace AlchemyPlanet.CharacterScene
         public Button backButton;
         public GameObject characterListCells;
         public GameObject characterListCellImage;
+        public GameObject partyBoxCharacter1;
+        public GameObject partyBoxCharacter2;
+        public GameObject partyBoxCharacter3;
         public List<CharacterEnum> characterSpritesKey;
         public List<Sprite> characterSpritesValue;
+
+        private List<GameObject> partyBoxCharacterObjects = new List<GameObject>();
 
         private void OnDestroy()
         {
@@ -34,21 +39,46 @@ namespace AlchemyPlanet.CharacterScene
             backButton.onClick.AddListener(OnClickBackButton);
 
             LoadCharacterSprite(0);
+            LoadParty();
         }
 
         private void OnClickLeftButton()
         {
             partyBoxPageLights.ChangeLightToLeft();
+
+            if (GameManager.Instance.PartyIndex == 1) GameManager.Instance.PartyIndex = 9;
+            else GameManager.Instance.PartyIndex--;
+
+            foreach (var item in partyBoxCharacterObjects)
+                Destroy(item);
+
+            partyBoxCharacter1.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = "";
+            partyBoxCharacter2.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = "";
+            partyBoxCharacter3.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = "";
+
+            LoadParty();
         }
 
         private void OnClickRightButton()
         {
             partyBoxPageLights.ChangeLightToRight();
+
+            if (GameManager.Instance.PartyIndex == 9) GameManager.Instance.PartyIndex = 1;
+            else GameManager.Instance.PartyIndex++;
+
+            foreach (var item in partyBoxCharacterObjects)
+                Destroy(item);
+
+            partyBoxCharacter1.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = "";
+            partyBoxCharacter2.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = "";
+            partyBoxCharacter3.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = "";
+
+            LoadParty();
         }
 
         private void OnClickOkayButton()
         {
-            GameManager.Instance.InstantiateCharacters();
+            GameManager.Instance.CurrentCharacters = GameManager.Instance.InstantiateCharacters();
 
             UIManager.Instance.DestroyUI();
             UIManager.Instance.CreateMainUI();
@@ -56,7 +86,7 @@ namespace AlchemyPlanet.CharacterScene
 
         private void OnClickBackButton()
         {
-            GameManager.Instance.InstantiateCharacters();
+            GameManager.Instance.CurrentCharacters = GameManager.Instance.InstantiateCharacters();
 
             UIManager.Instance.DestroyUI();
             UIManager.Instance.CreateMainUI();
@@ -89,6 +119,40 @@ namespace AlchemyPlanet.CharacterScene
             }
 
             return characterSpritesValue[index];
+        }
+
+        private void LoadParty()
+        {
+            if (DataManager.Instance.CurrentPlayerData.party[GameManager.Instance.PartyIndex - 1, 0] != 0)
+            {
+                partyBoxCharacterObjects.Add(Instantiate(characterListCellImage, partyBoxCharacter1.transform.GetChild(0)));
+                partyBoxCharacterObjects[partyBoxCharacterObjects.Count - 1].GetComponent<Image>().sprite = GetCharacterSprite(DataManager.Instance.CurrentPlayerData.party[GameManager.Instance.PartyIndex - 1, 0]);
+                foreach (var item in DataManager.Instance.CurrentPlayerData.characters)
+                    if (item.name == DataManager.Instance.CurrentPlayerData.party[GameManager.Instance.PartyIndex - 1, 0])
+                    {
+                        partyBoxCharacter1.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = item.level.ToString();
+                    }
+            }
+            if (DataManager.Instance.CurrentPlayerData.party[GameManager.Instance.PartyIndex - 1, 1] != 0)
+            {
+                partyBoxCharacterObjects.Add(Instantiate(characterListCellImage, partyBoxCharacter2.transform.GetChild(0)));
+                partyBoxCharacterObjects[partyBoxCharacterObjects.Count - 1].GetComponent<Image>().sprite = GetCharacterSprite(DataManager.Instance.CurrentPlayerData.party[GameManager.Instance.PartyIndex - 1, 1]);
+                foreach (var item in DataManager.Instance.CurrentPlayerData.characters)
+                    if (item.name == DataManager.Instance.CurrentPlayerData.party[GameManager.Instance.PartyIndex - 1, 1])
+                    {
+                        partyBoxCharacter2.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = item.level.ToString();
+                    }
+            }
+            if (DataManager.Instance.CurrentPlayerData.party[GameManager.Instance.PartyIndex - 1, 2] != 0)
+            {
+                partyBoxCharacterObjects.Add(Instantiate(characterListCellImage, partyBoxCharacter3.transform.GetChild(0)));
+                partyBoxCharacterObjects[partyBoxCharacterObjects.Count - 1].GetComponent<Image>().sprite = GetCharacterSprite(DataManager.Instance.CurrentPlayerData.party[GameManager.Instance.PartyIndex - 1, 2]);
+                foreach (var item in DataManager.Instance.CurrentPlayerData.characters)
+                    if (item.name == DataManager.Instance.CurrentPlayerData.party[GameManager.Instance.PartyIndex - 1, 2])
+                    {
+                        partyBoxCharacter3.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = item.level.ToString();
+                    }
+            }
         }
     }
 }

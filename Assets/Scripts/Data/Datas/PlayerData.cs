@@ -183,7 +183,6 @@ namespace AlchemyPlanet.Data
             this.characters = new List<Character>();
 
             party = new CharacterEnum[9, 3];
-            party[0, 0] = CharacterEnum.Popin;
 
             request = new Request[4];
 
@@ -227,11 +226,6 @@ namespace AlchemyPlanet.Data
             (structures[1] as Building).material1Count = 1;
             (structures[1] as Building).material2Name = "블루베리";
             (structures[1] as Building).material2Count = 2;
-
-            inventory.Add("붉은 꽃잎", 3);
-            inventory.Add("블루베리", 2);
-
-            unicoin += 100000;
         }
 
         public void SetBuilding(Building building)
