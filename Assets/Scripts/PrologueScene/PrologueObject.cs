@@ -39,6 +39,14 @@ namespace AlchemyPlanet.PrologueScene
                 }
             }
         }
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Player") && kind == ObjectKind.Object)
+            {
+                Debug.Log("Off");
+                CloseBubble();
+            }
+        }
 
         public void OpenDialog()
         {
@@ -49,7 +57,12 @@ namespace AlchemyPlanet.PrologueScene
 
         public void ShowBubble()
         {
+            bubble.SetActive(true);
             bubble.transform.DOScale(1, 0.5f);
+        }
+        public void CloseBubble()
+        {
+            bubble.transform.DOScale(0, 0.5f).OnComplete(() => bubble.SetActive(false));
         }
         public void MoveNext()
         {
