@@ -62,7 +62,6 @@ namespace AlchemyPlanet.TownScene
         {
             d_illust[0].transform.DOMoveX(140, 0.4f).SetEase(Ease.OutQuart);
             d_illust[1].transform.DOMoveX(540, 0.4f).SetEase(Ease.OutQuart);
-            d_box.DOFade(1, 0.3f).SetEase(Ease.InBack);
             d_box.transform.DOScale(1, 0.3f).SetEase(Ease.InBack);
             d_box.transform.DOMove(new Vector2(Screen.width / 2, Screen.height / 6), 0.3f).SetEase(Ease.InBack);
         }
