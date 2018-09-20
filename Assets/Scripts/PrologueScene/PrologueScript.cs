@@ -11,7 +11,7 @@ namespace AlchemyPlanet.PrologueScene
 
         void Start()
         {
-            //StartCoroutine(LateStart(1));
+            StartCoroutine(LateStart(1));
         }
 
         private IEnumerator LateStart(int seconds)
@@ -39,13 +39,17 @@ namespace AlchemyPlanet.PrologueScene
                 yield return new WaitForEndOfFrame();
             }
 
-            //mainCamera.FadeOut();
+            mainCamera.FadeOut();
 
             yield return new WaitForSeconds(3);
 
             DataManager.Instance.selected_dialog = new NPCDAta("Prologue_Bell");
             TownScene.UIManager.Instance.OpenMenu<TownScene.DialogUI>();
             TownScene.DialogUI.Instance.SetDialog();
+
+            yield return new WaitForSeconds(3);
+
+            mainCamera.FadeIn();
         }
     }
 }
