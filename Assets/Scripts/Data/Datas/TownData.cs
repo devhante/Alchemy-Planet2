@@ -89,7 +89,8 @@ namespace AlchemyPlanet.Data
 
             Debug.Log(AlchemyPlanet.TownScene.BuildingManagement.Instance);
 
-            AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetImage");
+            if(AlchemyPlanet.TownScene.BuildingManagement.Instance != null)
+                AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetImage");
         }
     }
 
