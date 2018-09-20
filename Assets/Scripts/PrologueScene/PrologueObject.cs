@@ -12,7 +12,12 @@ namespace AlchemyPlanet.PrologueScene
         [SerializeField] private string objcect_name;
         [SerializeField] private ObjectKind kind;
 
+        //Object일 떄 필요한 말풍선
         [SerializeField] private GameObject bubble;
+
+        //Nexxt Stage
+        [SerializeField] private GameObject currentStages;
+        [SerializeField] private GameObject nextStage;
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
@@ -66,7 +71,8 @@ namespace AlchemyPlanet.PrologueScene
         }
         public void MoveNext()
         {
-
+            currentStages.SetActive(false);
+            nextStage.SetActive(true);
         }
     }
 }
