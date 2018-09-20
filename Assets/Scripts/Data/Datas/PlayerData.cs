@@ -4,25 +4,25 @@ using UnityEngine;
 
 namespace AlchemyPlanet.Data
 {
-    public class PlayerName
+    public class CollectionName
     {
         public string playerId;
         public string playerName;
 
-        public PlayerName(string playerId, string playerName)
+        public CollectionName(string playerId, string playerName)
         {
             this.playerId = playerId;
             this.playerName = playerName;
         }
     }
 
-    public class PlayerLevel
+    public class CollectionLevel
     {
         public string playerId;
         public int level;
         public int exp;
 
-        public PlayerLevel(string playerId, int level, int exp)
+        public CollectionLevel(string playerId, int level, int exp)
         {
             this.playerId = playerId;
             this.level = level;
@@ -30,14 +30,14 @@ namespace AlchemyPlanet.Data
         }
     }
 
-    public class PlayerGoods
+    public class CollectionGoods
     {
         public string playerId;
         public int uniCoin;
         public int cosmoStone;
         public int oxygenTank;
 
-        public PlayerGoods(string playerId, int uniCoin, int cosmoStone, int oxygenTank)
+        public CollectionGoods(string playerId, int uniCoin, int cosmoStone, int oxygenTank)
         {
             this.playerId = playerId;
             this.uniCoin = uniCoin;
@@ -46,13 +46,13 @@ namespace AlchemyPlanet.Data
         }
     }
 
-    public class PlayerItem
+    public class CollectionItem
     {
         public string playerId;
         public string itemId;
         public int number;
 
-        public PlayerItem(string playerId, string itemId, int number)
+        public CollectionItem(string playerId, string itemId, int number)
         {
             this.playerId = playerId;
             this.itemId = itemId;
@@ -60,53 +60,33 @@ namespace AlchemyPlanet.Data
         }
     }
 
-    public class PlayerStructure
+    public class CollectionStructure
     {
         public string playerId;
-        public string structureUniqueId;
+        public string playerStructureId;
         public string structureId;
         public int level;
+        public int position;
+        public bool isConstructed;
+        public bool isFlipped;
+        public bool isUpgrading;
+        public DateTime endDate;
 
-        public PlayerStructure(string playerId, string structureUniqueId, string structureId, int level)
+        public CollectionStructure(string playerId, string playerStructureId, string structureId, int level, int position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
         {
             this.playerId = playerId;
-            this.structureUniqueId = structureUniqueId;
+            this.playerStructureId = playerStructureId;
             this.structureId = structureId;
             this.level = level;
+            this.position = position;
+            this.isConstructed = isConstructed;
+            this.isFlipped = isFlipped;
+            this.isUpgrading = isUpgrading;
+            this.endDate = endDate;
         }
     }
 
-    public class PlayerTownStructure
-    {
-        public string playerId;
-        public string structureUniqueId;
-        public int posion;
-
-        public PlayerTownStructure(string playerId, string structureUniqueId, int posion)
-        {
-            this.playerId = playerId;
-            this.structureUniqueId = structureUniqueId;
-            this.posion = posion;
-        }
-    }
-
-    public class PlayerUpgradingStructure
-    {
-        public string playerId;
-        public string structureUniqueId;
-        public DateTime startDate;
-        public int requireTime;
-
-        public PlayerUpgradingStructure(string playerId, string structureUniqueId, DateTime startDate, int requireTime)
-        {
-            this.playerId = playerId;
-            this.structureUniqueId = structureUniqueId;
-            this.startDate = startDate;
-            this.requireTime = requireTime;
-        }
-    }
-
-    public class PlayerCharacter
+    public class CollectionCharacter
     {
         public string playerId;
         public string characterId;
@@ -115,7 +95,7 @@ namespace AlchemyPlanet.Data
         public int speed;
         public int attackPower;
 
-        public PlayerCharacter(string playerId, string characterId, int level, int health, int speed, int attackPower)
+        public CollectionCharacter(string playerId, string characterId, int level, int health, int speed, int attackPower)
         {
             this.playerId = playerId;
             this.characterId = characterId;
@@ -126,14 +106,14 @@ namespace AlchemyPlanet.Data
         }
     }
 
-    public class PlayerParty
+    public class CollectionParty
     {
         public string playerId;
         public int partyIndex;
         public int slotIndex;
         public string characterId;
 
-        public PlayerParty(string playerId, int partyIndex, int slotIndex, string characterId)
+        public CollectionParty(string playerId, int partyIndex, int slotIndex, string characterId)
         {
             this.playerId = playerId;
             this.partyIndex = partyIndex;
@@ -142,12 +122,12 @@ namespace AlchemyPlanet.Data
         }
     }
 
-    public class PlayerRequest
+    public class CollectionRequest
     {
         public string playerId;
         public string requestId;
 
-        public PlayerRequest(string playerId, string requestId)
+        public CollectionRequest(string playerId, string requestId)
         {
             this.playerId = playerId;
             this.requestId = requestId;
