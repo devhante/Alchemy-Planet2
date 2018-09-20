@@ -11,7 +11,7 @@ namespace AlchemyPlanet.Data
         public string structureName;
         public Sprite image;
         public GameObject StructureObject;
-        public Vector2 position;
+        public float position;
         public bool setup = false;
         public bool flip = false;
 
@@ -29,9 +29,8 @@ namespace AlchemyPlanet.Data
         }
         public void Build()
         {
-            position = new Vector2(position.x, image.bounds.size.y / 2 - 1);
             StructureObject.GetComponent<SpriteRenderer>().sprite = image;
-            StructureObject.transform.position = position;
+            StructureObject.transform.position = new Vector2(position, image.bounds.size.y / 2 - 1);
             if (StructureObject.GetComponent<PolygonCollider2D>())
                 GameObject.DestroyImmediate(StructureObject.GetComponent<PolygonCollider2D>(), true);
             StructureObject.AddComponent<PolygonCollider2D>();
@@ -61,12 +60,15 @@ namespace AlchemyPlanet.Data
         }
         public override Structure Clone()
         {
-
-            Structure strc = new Building(structureName, buildingDiscription, buildingLevel);
+            Building strc = new Building(structureName, buildingDiscription, buildingLevel);
             strc.image = image;
             strc.StructureObject = StructureObject;
             strc.position = position;
             strc.setup = setup;
+            strc.material1Name = material1Name;
+            strc.material2Name = material2Name;
+            strc.material1Count = material1Count;
+            strc.material2Count = material2Count;
             return strc;
         }
         public void UpgradeStart()
@@ -85,6 +87,9 @@ namespace AlchemyPlanet.Data
             image = Resources.Load<Sprite>("Sprites/Town/" + structureName + buildingLevel.ToString());
             upgrading = false;
             DataManager.Instance.CurrentPlayerData.SetBuilding(this);
+
+            Debug.Log(AlchemyPlanet.TownScene.BuildingManagement.Instance);
+
             AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetImage");
         }
     }

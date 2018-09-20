@@ -162,9 +162,10 @@ namespace AlchemyPlanet.Data
                 JsonSerializer serializer = new JsonSerializer();
                 Dictionary<string, Building> Buildings = (Dictionary<string, Building>)serializer.Deserialize(file, typeof(Dictionary<string, Building>));
 
+
                 foreach (string str in Buildings.Keys)
                 {
-                    this.structureInfo.Add(str, new Building(Buildings[str].structureName, Buildings[str].buildingDiscription, Buildings[str].buildingLevel));
+                    this.structureInfo.Add(str, Buildings[str].Clone());
                     structureInfo[str].StructureObject = Resources.Load<GameObject>("Prefabs/TownScene/Structure");
                 }
 
@@ -179,6 +180,12 @@ namespace AlchemyPlanet.Data
                             structureInfo[sprites[i].name].image = sprites[i];
                         }
                     }
+                }
+                
+                foreach(Building building in structureInfo.Values)
+                {
+                    if (building.image == null)
+                        building.image = Resources.Load<Sprite>("Sprites/Town/" + building.structureName);
                 }
 
             }

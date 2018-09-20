@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace AlchemyPlanet.Data
@@ -219,15 +221,10 @@ namespace AlchemyPlanet.Data
         {
             structures.Add(DataManager.Instance.structureInfo["Tree"].Clone());
             GiveId(structures[0]);
-            structures.Add(DataManager.Instance.structureInfo["House"].Clone());
+            structures.Add((DataManager.Instance.structureInfo["House"] as Building).Clone());
             GiveId(structures[1]);
             structures.Add(DataManager.Instance.structureInfo["Tree"].Clone());
             GiveId(structures[2]);
-
-            (structures[1] as Building).material1Name = "붉은 꽃잎";
-            (structures[1] as Building).material1Count = 1;
-            (structures[1] as Building).material2Name = "블루베리";
-            (structures[1] as Building).material2Count = 2;
 
             inventory.Add("붉은 꽃잎", 3);
             inventory.Add("블루베리", 2);

@@ -31,12 +31,15 @@ namespace AlchemyPlanet.TownScene
             int i = 0;
             foreach (string itemName in DataManager.Instance.CurrentPlayerData.inventory.Keys)
             {
-                itemButtonList[i].SetActive(true);
-                itemButtonList[i].GetComponent<ItemInfo>().SetInfo(
-                    DataManager.Instance.itemInfo[itemName].item_name,
-                    DataManager.Instance.itemInfo[itemName].discription,
-                    DataManager.Instance.itemInfo[itemName].image,
-                    DataManager.Instance.CurrentPlayerData.inventory[itemName]);
+                if (DataManager.Instance.CurrentPlayerData.inventory[itemName]>0)
+                {
+                    itemButtonList[i].SetActive(true);
+                    itemButtonList[i].GetComponent<ItemInfo>().SetInfo(
+                        DataManager.Instance.itemInfo[itemName].item_name,
+                        DataManager.Instance.itemInfo[itemName].discription,
+                        DataManager.Instance.itemInfo[itemName].image,
+                        DataManager.Instance.CurrentPlayerData.inventory[itemName]);
+                }
                 i++;
             }
         }
