@@ -77,8 +77,6 @@ namespace AlchemyPlanet.Data
             AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetImage");
             int UpgradeTime = buildingLevel * 10;
             UpgradeEndTime = DateTime.Now.AddSeconds(UpgradeTime);
-            WebSocketManager.Instance.SendInsertPlayerUpgradingStructure(
-                DataManager.Instance.CurrentPlayerData.player_id, id.ToString(), UpgradeTime);
         }
 
         public void UpgradeEnd()

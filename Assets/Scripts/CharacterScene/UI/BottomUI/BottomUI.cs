@@ -24,6 +24,8 @@ namespace AlchemyPlanet.CharacterScene
 
         private void OnClickButtonOrganize()
         {
+            Destroy(GameManager.Instance.CurrentCharacters);
+
             UIManager.Instance.DestroyUI();
             UIManager.Instance.CreateOrganizeUI();
         }

@@ -50,6 +50,11 @@ namespace AlchemyPlanet.CharacterScene
                     buttonLeft.gameObject.SetActive(true);
                     buttonRight.gameObject.SetActive(true);
                 }));
+
+
+            if (GameManager.Instance.PartyIndex == 1) GameManager.Instance.PartyIndex = 9;
+            else GameManager.Instance.PartyIndex--;
+            GameManager.Instance.CurrentCharacters.MoveLeft();
         }
 
         public void OnClickButtonRight()
@@ -71,6 +76,10 @@ namespace AlchemyPlanet.CharacterScene
                     buttonLeft.gameObject.SetActive(true);
                     buttonRight.gameObject.SetActive(true);
                 }));
+
+            if (GameManager.Instance.PartyIndex == 9) GameManager.Instance.PartyIndex = 1;
+            else GameManager.Instance.PartyIndex++;
+            GameManager.Instance.CurrentCharacters.MoveRight();
         }
     }
 }
