@@ -210,29 +210,58 @@ namespace AlchemyPlanet.Data
 
         #region PlayerData
 
-        //public static PlayerData PlayerStringToData(string dataString)
-        //{
-        //    PlayerData data = JsonConvert.DeserializeObject<PlayerData>(dataString);
-        //    return data;
-        //}
-
-        //public string PlayerDataToString(PlayerData data)
-        //{
-        //    string dataString = JsonConvert.SerializeObject(data);
-        //    return dataString;
-        //}
-
-        //public string PlayerDataToString()
-        //{
-        //    string dataString = JsonConvert.SerializeObject(Instance.CurrentPlayerData);
-        //    return dataString;
-        //}
-
         public void LoadPlayerData()
         {
             CurrentPlayerData = new PlayerData();
 
-            //WebSocketManager.Instance.SendGetPlayerData(PlayGamesScript.Instance.current_user_id);
+            WebSocketManager.Instance.SendFindName("0", "0");
+            WebSocketManager.Instance.SendFindLevel("0", "0");
+            WebSocketManager.Instance.SendFindGoods("0", "0");
+            WebSocketManager.Instance.SendFindItems("0", "0");
+            WebSocketManager.Instance.SendFindCharacters("0", "0");
+            WebSocketManager.Instance.SendFindParties("0","0");
+        }
+        
+        public void CommitName(CollectionName data)
+        {
+            CurrentPlayerData.player_name = data.playerName;
+        }
+
+        public void CommitLevel(CollectionLevel data)
+        {
+            CurrentPlayerData.level = data.level;
+            CurrentPlayerData.exp = data.exp;
+
+            Common.StateBar.Instance.UpdateState();
+        }
+
+        public void CommitGoods(CollectionGoods data)
+        {
+            CurrentPlayerData.unicoin = data.uniCoin;
+            CurrentPlayerData.cosmostone = data.cosmoStone;
+            CurrentPlayerData.oxygentank = data.oxygenTank;
+
+            Common.StateBar.Instance.UpdateState();
+        }
+
+        public void CommitItem(CollectionItem[] data)
+        {
+            foreach (var item in data)
+                CurrentPlayerData.inventory.Add(item.itemId,item.number);
+        }
+
+        //Structure 정의필요
+        
+        public void CommitCharacter(CollectionCharacter[] data)
+        {
+            foreach (var item in data)
+                CurrentPlayerData.characters.Add(new Character((CharacterEnum)Int32.Parse(item.characterId), item.level, item.health, item.speed, item.attackPower, ""));
+        }
+
+        public void CommitParty(CollectionParty[] data)
+        {
+            foreach (var item in data)
+                CurrentPlayerData.party[item.partyIndex - 1, item.slotIndex - 1] = (CharacterEnum)int.Parse(item.characterId);
         }
 
         public void SavePlayerData()

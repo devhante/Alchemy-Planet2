@@ -178,10 +178,9 @@ namespace AlchemyPlanet.Data
             this.oxygentank = 10;
             this.Max_oxygentank = 10;
 
-
             this.inventory = new Dictionary<string, int>();
             this.structures = new List<Structure>();
-            this.characters = new List<Character> { new Character(CharacterEnum.Popin, 1, 50, 10, 6, "아무거나 적어놓는다") };
+            this.characters = new List<Character>();
 
             party = new CharacterEnum[9, 3];
             party[0, 0] = CharacterEnum.Popin;
