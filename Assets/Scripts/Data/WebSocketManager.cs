@@ -87,14 +87,6 @@ namespace AlchemyPlanet.Data
                     UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitParty(data));
                 }
 
-                if (message.status == "7101")
-                {
-                    string data_string = ConvertLappedJsonString(message.data);
-                    var data = JsonConvert.DeserializeObject<CollectionParty[]>(data_string);
-
-                    UnityMainThreadDispatcher.Instance().Enqueue(() => CharacterScene.GameManager.Instance.InitParty(data));
-                }
-
                 if (message.status == "8100")
                 {
                     string data_string = ConvertLappedJsonString(message.data);
