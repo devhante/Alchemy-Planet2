@@ -25,7 +25,6 @@ public class BuildingInfo : MonoBehaviour
     private void OnEnable()
     {
         closeButton.onClick.AddListener(() => { CloseInfo(); });
-        upgradeButton.onClick.AddListener(() => { UpgradeBuilding(); });
     }
 
     public void SetInfo(Building building)
@@ -36,10 +35,24 @@ public class BuildingInfo : MonoBehaviour
         descText.text = "설명 : " + building.buildingDiscription;
         levelText.text = "Lv." + building.buildingLevel;
 
+        if (DataManager.Instance.CurrentPlayerData.structures.Contains(building))
+        {
+            upgradeButton.onClick.RemoveAllListeners();
+            upgradeButton.onClick.AddListener(() => { UpgradeBuilding(); });
+            upgradeButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Town/UpgradeButton");
+        }
+        else
+        {
+            upgradeButton.onClick.RemoveAllListeners();
+            upgradeButton.onClick.AddListener(() => { MakeBuilding(); });
+            upgradeButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Town/MakeButton");
+        }
+
         material1Image.sprite = DataManager.Instance.itemInfo[building.material1Name].image;
-        material2Image.sprite = DataManager.Instance.itemInfo[building.material2Name].image;
         material1Text.text = DataManager.Instance.CurrentPlayerData.inventory[building.material1Name].ToString()
             + " / " + building.material1Count.ToString();
+
+        material2Image.sprite = DataManager.Instance.itemInfo[building.material2Name].image;
         material2Text.text = DataManager.Instance.CurrentPlayerData.inventory[building.material2Name].ToString()
             + " / " + building.material2Count.ToString();
     }
@@ -61,8 +74,23 @@ public class BuildingInfo : MonoBehaviour
         {
             DataManager.Instance.CurrentPlayerData.inventory[building.material1Name] -= building.material1Count;
             DataManager.Instance.CurrentPlayerData.inventory[building.material2Name] -= building.material2Count;
-            OpenInfo();
             building.UpgradeStart();
+            SetInfo(building);
+        }
+    }
+
+    void MakeBuilding()
+    {
+        if (DataManager.Instance.CurrentPlayerData.inventory[building.material2Name] >= building.material2Count
+            && DataManager.Instance.CurrentPlayerData.inventory[building.material1Name] >= building.material1Count)
+        {
+            DataManager.Instance.CurrentPlayerData.inventory[building.material1Name] -= building.material1Count;
+            DataManager.Instance.CurrentPlayerData.inventory[building.material2Name] -= building.material2Count;
+            DataManager.Instance.CurrentPlayerData.structures.Add(building.Clone() as Building);
+            AlchemyPlanet.TownScene.BuildingManagement.Instance.GetOwnBuilding();
+            AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetImage");
+            SetInfo(DataManager.Instance.CurrentPlayerData.structures.Find(a => a.structureName == building.structureName) as  Building);
+            DataManager.Instance.CurrentPlayerData.GiveId(building);
         }
     }
 }

@@ -80,7 +80,7 @@ namespace AlchemyPlanet.TownScene
                     if (strc.id == int.Parse(obj.name.Substring(0, obj.name.Length - 7)))
                     {
                         strc.flip = obj.GetComponent<SpriteRenderer>().flipX;
-                        strc.position = obj.transform.position;
+                        strc.position = obj.transform.position.x;
                         strc.setup = true;
                         break;
                     }
@@ -213,7 +213,7 @@ namespace AlchemyPlanet.TownScene
                 if (strc.structureName == str && !strc.setup)
                 {
                     strc.Build();
-                    clickedBuilding = Instantiate(strc.StructureObject, strc.position, Quaternion.Euler(0, 0, 0));
+                    clickedBuilding = Instantiate(strc.StructureObject, strc.StructureObject.transform.position, Quaternion.Euler(0, 0, 0));
                     ownBuildings.Remove(strc);
                     break;
                 }

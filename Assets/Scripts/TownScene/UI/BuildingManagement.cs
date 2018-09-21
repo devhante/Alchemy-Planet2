@@ -13,7 +13,7 @@ namespace AlchemyPlanet.TownScene
         public Button closeButton;
         public List<GameObject> buildingImages;
 
-        private List<Building> ownBuildings = new List<Building>();                   // 소유중인 건물
+        private List<Building> ownBuildings;                   // 소유중인 건물
         private int page;                                                         // 현재 건물이미지 페이지
 
         private void OnEnable()
@@ -40,12 +40,25 @@ namespace AlchemyPlanet.TownScene
             buildingImages[n].GetComponent<BuildingInfo>().OpenInfo();
         }
 
-        void GetOwnBuilding()   // 소유중인 건물 받아오기
+        public void GetOwnBuilding()   // 소유중인 건물 받아오기
         {
+            ownBuildings = new List<Building>();
+            List<string> buildingList = new List<string>();
+            foreach (Structure strc in DataManager.Instance.structureInfo.Values)
+            {
+                if (strc is Building)
+                {
+                    ownBuildings.Add(strc as Building);
+                    buildingList.Add(strc.structureName);
+                }
+            }
             foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures)
             {
                 if (strc is Building)
-                    ownBuildings.Add(strc as Building);
+                {
+                    int a = ownBuildings.FindIndex(x => x.structureName.Contains(strc.structureName));
+                    ownBuildings[a] = strc as Building;
+                }
             }
         }
 
@@ -59,7 +72,6 @@ namespace AlchemyPlanet.TownScene
                         buildingImages[i].SetActive(true);
                     buildingImages[i].name = ownBuildings[i + page * 6].structureName;
                     buildingImages[i].GetComponent<Image>().sprite = ownBuildings[i + page * 6].image;
-                    buildingImages[i].GetComponent<BuildingInfo>().SetInfo(ownBuildings[i]);
                 }
                 else
                 {
