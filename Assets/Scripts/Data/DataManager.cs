@@ -227,6 +227,8 @@ namespace AlchemyPlanet.Data
             WebSocketManager.Instance.SendFindItems("0", "0");
             WebSocketManager.Instance.SendFindCharacters("0", "0");
             WebSocketManager.Instance.SendFindParties("0","0");
+            WebSocketManager.Instance.SendFindBuildings("0", "0");
+            WebSocketManager.Instance.SendFindInteriors("0", "0");
         }
         
         public void CommitName(CollectionName data)
@@ -270,6 +272,7 @@ namespace AlchemyPlanet.Data
                 building.setup = item.isConstructed;
                 building.upgrading = item.isUpgrading;
                 building.UpgradeEndTime = item.endDate;
+                CurrentPlayerData.structures.Add(building);
             }
         }
 
@@ -283,6 +286,7 @@ namespace AlchemyPlanet.Data
                 interior.position = item.position;
                 interior.flip = item.isFlipped;
                 interior.setup = item.isConstructed;
+                CurrentPlayerData.structures.Add(interior);
             }
 
         }
