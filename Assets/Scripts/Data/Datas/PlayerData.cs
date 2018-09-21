@@ -62,7 +62,7 @@ namespace AlchemyPlanet.Data
         }
     }
 
-    public class CollectionStructure
+    public class CollectionBuilding
     {
         public string playerId;
         public string playerStructureId;
@@ -74,7 +74,7 @@ namespace AlchemyPlanet.Data
         public bool isUpgrading;
         public DateTime endDate;
 
-        public CollectionStructure(string playerId, string playerStructureId, string structureId, int level, int position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
+        public CollectionBuilding(string playerId, string playerStructureId, string structureId, int level, int position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
         {
             this.playerId = playerId;
             this.playerStructureId = playerStructureId;
@@ -85,6 +85,26 @@ namespace AlchemyPlanet.Data
             this.isFlipped = isFlipped;
             this.isUpgrading = isUpgrading;
             this.endDate = endDate;
+        }
+    }
+
+    public class CollectionInterior
+    {
+        public string playerId;
+        public string playerStructureId;
+        public string structureId;
+        public int position;
+        public bool isConstructed;
+        public bool isFlipped;
+
+        public CollectionInterior(string playerId, string playerStructureId, string structureId, int position, bool isConstructed, bool isFlipped)
+        {
+            this.playerId = playerId;
+            this.playerStructureId = playerStructureId;
+            this.structureId = structureId;
+            this.position = position;
+            this.isConstructed = isConstructed;
+            this.isFlipped = isFlipped;
         }
     }
 
@@ -133,6 +153,20 @@ namespace AlchemyPlanet.Data
         {
             this.playerId = playerId;
             this.requestId = requestId;
+        }
+    }
+
+    public class CollectionStoryStar
+    {
+        public string playerId;
+        public string stageNumber;
+        public int number;
+
+        public CollectionStoryStar(string playerId, string stageNumber, int number)
+        {
+            this.playerId = playerId;
+            this.stageNumber = stageNumber;
+            this.number = number;
         }
     }
 

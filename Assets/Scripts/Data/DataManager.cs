@@ -257,8 +257,36 @@ namespace AlchemyPlanet.Data
                 CurrentPlayerData.inventory.Add(item.itemId,item.number);
         }
 
-        //Structure 정의필요
-        
+        public void CommitBuilding(CollectionBuilding[] data)
+        {
+            foreach (var item in data)
+            {
+                Building building = new Building(item.structureId, "", item.level);
+                building.buildingDiscription = (structureInfo[building.structureName] as Building).buildingDiscription;
+                building.id = int.Parse(item.playerStructureId);
+                building.image = structureInfo[building.structureName].image;
+                building.position = item.position;
+                building.flip = item.isFlipped;
+                building.setup = item.isConstructed;
+                building.upgrading = item.isUpgrading;
+                building.UpgradeEndTime = item.endDate;
+            }
+        }
+
+        public void CommitInterior(CollectionInterior[] data)
+        {
+            foreach (var item in data)
+            {
+                Interior interior = new Interior(item.structureId);
+                interior.id = int.Parse(item.playerStructureId);
+                interior.image = structureInfo[interior.structureName].image;
+                interior.position = item.position;
+                interior.flip = item.isFlipped;
+                interior.setup = item.isConstructed;
+            }
+
+        }
+
         public void CommitCharacter(CollectionCharacter[] data)
         {
             foreach (var item in data)
@@ -270,6 +298,8 @@ namespace AlchemyPlanet.Data
             foreach (var item in data)
                 CurrentPlayerData.party[item.partyIndex - 1, item.slotIndex - 1] = (CharacterEnum)int.Parse(item.characterId);
         }
+
+        // CommitStoryStar 구현 필요
 
         public void SavePlayerData()
         {
