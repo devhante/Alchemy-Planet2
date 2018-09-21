@@ -354,6 +354,16 @@ namespace AlchemyPlanet.Data
                 return requests;
             }
         }
+
+        public List<StoryChallengeData> LoadStoryChallenges()
+        {
+            using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/StoryChallenges").bytes), System.Text.Encoding.UTF8))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                List<StoryChallengeData> storyChallenges = (List<StoryChallengeData>)serializer.Deserialize(file, typeof(List<StoryChallengeData>));
+                return storyChallenges;
+            }
+        }
     }
     
     public class NPCDAta
@@ -407,4 +417,23 @@ namespace AlchemyPlanet.Data
         public string image_address;
     }
     #endregion ShopData
+
+    #region StoryData
+
+    public class StoryChallengeData
+    {
+        public string stage;
+        public string[] challenges;
+
+        public StoryChallengeData(string stage, string challenge1, string challenge2, string challenge3)
+        {
+            this.stage = stage;
+            challenges = new string[3];
+            challenges[0] = challenge1;
+            challenges[1] = challenge2;
+            challenges[2] = challenge3;
+        }
+    }
+
+    #endregion StoryData
 }

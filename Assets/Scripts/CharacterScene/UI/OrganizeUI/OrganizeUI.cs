@@ -17,9 +17,7 @@ namespace AlchemyPlanet.CharacterScene
         public Button backButton;
         public GameObject characterListCells;
         public GameObject characterListCellImage;
-        public GameObject partyBoxCharacter1;
-        public GameObject partyBoxCharacter2;
-        public GameObject partyBoxCharacter3;
+        public GameObject[] partyBoxCharacters;
         public List<CharacterEnum> characterSpritesKey;
         public List<Sprite> characterSpritesValue;
 
@@ -52,10 +50,9 @@ namespace AlchemyPlanet.CharacterScene
             foreach (var item in partyBoxCharacterObjects)
                 Destroy(item);
 
-            partyBoxCharacter1.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = "";
-            partyBoxCharacter2.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = "";
-            partyBoxCharacter3.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = "";
-
+            foreach(var item in partyBoxCharacters)
+                item.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = "";
+            
             LoadParty();
         }
 
@@ -69,9 +66,8 @@ namespace AlchemyPlanet.CharacterScene
             foreach (var item in partyBoxCharacterObjects)
                 Destroy(item);
 
-            partyBoxCharacter1.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = "";
-            partyBoxCharacter2.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = "";
-            partyBoxCharacter3.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = "";
+            foreach (var item in partyBoxCharacters)
+                item.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = "";
 
             LoadParty();
         }
@@ -123,35 +119,18 @@ namespace AlchemyPlanet.CharacterScene
 
         private void LoadParty()
         {
-            if (DataManager.Instance.CurrentPlayerData.party[GameManager.Instance.PartyIndex - 1, 0] != 0)
+            for(int i = 0; i < 3; i++)
             {
-                partyBoxCharacterObjects.Add(Instantiate(characterListCellImage, partyBoxCharacter1.transform.GetChild(0)));
-                partyBoxCharacterObjects[partyBoxCharacterObjects.Count - 1].GetComponent<Image>().sprite = GetCharacterSprite(DataManager.Instance.CurrentPlayerData.party[GameManager.Instance.PartyIndex - 1, 0]);
-                foreach (var item in DataManager.Instance.CurrentPlayerData.characters)
-                    if (item.name == DataManager.Instance.CurrentPlayerData.party[GameManager.Instance.PartyIndex - 1, 0])
-                    {
-                        partyBoxCharacter1.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = item.level.ToString();
-                    }
-            }
-            if (DataManager.Instance.CurrentPlayerData.party[GameManager.Instance.PartyIndex - 1, 1] != 0)
-            {
-                partyBoxCharacterObjects.Add(Instantiate(characterListCellImage, partyBoxCharacter2.transform.GetChild(0)));
-                partyBoxCharacterObjects[partyBoxCharacterObjects.Count - 1].GetComponent<Image>().sprite = GetCharacterSprite(DataManager.Instance.CurrentPlayerData.party[GameManager.Instance.PartyIndex - 1, 1]);
-                foreach (var item in DataManager.Instance.CurrentPlayerData.characters)
-                    if (item.name == DataManager.Instance.CurrentPlayerData.party[GameManager.Instance.PartyIndex - 1, 1])
-                    {
-                        partyBoxCharacter2.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = item.level.ToString();
-                    }
-            }
-            if (DataManager.Instance.CurrentPlayerData.party[GameManager.Instance.PartyIndex - 1, 2] != 0)
-            {
-                partyBoxCharacterObjects.Add(Instantiate(characterListCellImage, partyBoxCharacter3.transform.GetChild(0)));
-                partyBoxCharacterObjects[partyBoxCharacterObjects.Count - 1].GetComponent<Image>().sprite = GetCharacterSprite(DataManager.Instance.CurrentPlayerData.party[GameManager.Instance.PartyIndex - 1, 2]);
-                foreach (var item in DataManager.Instance.CurrentPlayerData.characters)
-                    if (item.name == DataManager.Instance.CurrentPlayerData.party[GameManager.Instance.PartyIndex - 1, 2])
-                    {
-                        partyBoxCharacter3.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = item.level.ToString();
-                    }
+                if (DataManager.Instance.CurrentPlayerData.party[GameManager.Instance.PartyIndex - 1, i] != 0)
+                {
+                    partyBoxCharacterObjects.Add(Instantiate(characterListCellImage, partyBoxCharacters[i].transform.GetChild(0)));
+                    partyBoxCharacterObjects[partyBoxCharacterObjects.Count - 1].GetComponent<Image>().sprite = GetCharacterSprite(DataManager.Instance.CurrentPlayerData.party[GameManager.Instance.PartyIndex - 1, i]);
+                    foreach (var item in DataManager.Instance.CurrentPlayerData.characters)
+                        if (item.name == DataManager.Instance.CurrentPlayerData.party[GameManager.Instance.PartyIndex - 1, i])
+                        {
+                            partyBoxCharacters[i].transform.GetChild(1).GetChild(0).GetComponent<Text>().text = item.level.ToString();
+                        }
+                }
             }
         }
     }

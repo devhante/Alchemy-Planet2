@@ -1,27 +1,42 @@
-﻿using System.Collections;
+﻿using AlchemyPlanet.Data;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StoryLobbyUI : MonoBehaviour
+namespace AlchemyPlanet.StoryLobbyScene
 {
-    public Button starButton;
-    public Button starDescriptionButton;
-
-    private void Awake()
+    public class StoryLobbyUI : MonoBehaviour
     {
-        starButton.onClick.AddListener(OnClickStarButton);
-        starDescriptionButton.onClick.AddListener(OnClickStarDescriptionButton);
-    }
+        public Button starButton;
+        public Button starDescriptionButton;
 
-    private void OnClickStarButton()
-    {
-        starDescriptionButton.gameObject.SetActive(!starDescriptionButton.gameObject.activeSelf);
-        Debug.Log("누름");
-    }
+        private List<StoryChallengeData> list;
 
-    private void OnClickStarDescriptionButton()
-    {
-        starDescriptionButton.gameObject.SetActive(false);
+        private void Awake()
+        {
+            starButton.onClick.AddListener(OnClickStarButton);
+            starDescriptionButton.onClick.AddListener(OnClickStarDescriptionButton);
+
+            list = DataManager.Instance.LoadStoryChallenges();
+        }
+
+        private void Start()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                starDescriptionButton.transform.GetChild(1).GetChild(i).GetComponent<Text>().text = list[0].challenges[i];
+            }
+        }
+
+        private void OnClickStarButton()
+        {
+            starDescriptionButton.gameObject.SetActive(!starDescriptionButton.gameObject.activeSelf);
+        }
+
+        private void OnClickStarDescriptionButton()
+        {
+            starDescriptionButton.gameObject.SetActive(false);
+        }
     }
 }
