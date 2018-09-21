@@ -68,13 +68,13 @@ namespace AlchemyPlanet.Data
         public string playerStructureId;
         public string structureId;
         public int level;
-        public int position;
+        public float position;
         public bool isConstructed;
         public bool isFlipped;
         public bool isUpgrading;
         public DateTime endDate;
 
-        public CollectionBuilding(string playerId, string playerStructureId, string structureId, int level, int position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
+        public CollectionBuilding(string playerId, string playerStructureId, string structureId, int level, float position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
         {
             this.playerId = playerId;
             this.playerStructureId = playerStructureId;
@@ -93,11 +93,11 @@ namespace AlchemyPlanet.Data
         public string playerId;
         public string playerStructureId;
         public string structureId;
-        public int position;
+        public float position;
         public bool isConstructed;
         public bool isFlipped;
 
-        public CollectionInterior(string playerId, string playerStructureId, string structureId, int position, bool isConstructed, bool isFlipped)
+        public CollectionInterior(string playerId, string playerStructureId, string structureId, float position, bool isConstructed, bool isFlipped)
         {
             this.playerId = playerId;
             this.playerStructureId = playerStructureId;

@@ -293,7 +293,7 @@ namespace AlchemyPlanet.Data
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        public void SendInsertBuilding(string status, string playerId, string playerStructureId, string structureId, int level, int position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
+        public void SendInsertBuilding(string status, string playerId, string playerStructureId, string structureId, int level, float position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
         {
             var data = new CollectionBuilding(playerId, playerStructureId, structureId, level, position, isConstructed, isFlipped, isUpgrading, endDate);
             var message = new Message("0520" + status, data);
@@ -314,7 +314,7 @@ namespace AlchemyPlanet.Data
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        public void SendUpdateBuilding(string status, string playerId, string playerStructureId, string structureId, int level, int position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
+        public void SendUpdateBuilding(string status, string playerId, string playerStructureId, string structureId, int level, float position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
         {
             var data = new CollectionBuilding(playerId, playerStructureId, structureId, level, position, isConstructed, isFlipped, isUpgrading, endDate);
             var message = new Message("0540" + status, data);
@@ -329,7 +329,7 @@ namespace AlchemyPlanet.Data
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        public void SendInsertInteriors(string status, string playerId, string playerStructureId, string structureId, int position, bool isConstructed, bool isFlipped)
+        public void SendInsertInteriors(string status, string playerId, string playerStructureId, string structureId, float position, bool isConstructed, bool isFlipped)
         {
             var data = new CollectionInterior(playerId, playerStructureId, structureId, position, isConstructed, isFlipped);
             var message = new Message("0620" + status, data);
@@ -350,7 +350,7 @@ namespace AlchemyPlanet.Data
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        public void SendUpdateInterior(string status, string playerId, string playerStructureId, string structureId, int position, bool isConstructed, bool isFlipped)
+        public void SendUpdateInterior(string status, string playerId, string playerStructureId, string structureId, float position, bool isConstructed, bool isFlipped)
         {
             var data = new CollectionInterior(playerId, playerStructureId, structureId, position, isConstructed, isFlipped);
             var message = new Message("0640" + status, data);
