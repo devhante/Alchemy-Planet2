@@ -7,10 +7,10 @@ TextureImporter:
     21300004: MainUI_PartySlotCover
     21300006: MainUI_PartySlotBackground
     21300008: MainUI_PartyPurifier
-    21300010: MainUI_PartyLeftButton
-    21300012: MainUI_PartyLeader
+    21300010: MainUI_PartyButtonLeft
+    21300012: MainUI_PartyCrown
     21300014: MainUI_ProfilePopin
-    21300016: MainUI_PartyRightButton
+    21300016: MainUI_PartyButtonRight
     21300018: MainUI_BottomButtonDiffuser
     21300020: MainUI_BottomButtonUpgrade
     21300022: MainUI_BottomButtonOrganize
@@ -210,7 +210,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MainUI_PartyLeftButton
+      name: MainUI_PartyButtonLeft
       rect:
         serializedVersion: 2
         x: 729
@@ -230,7 +230,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MainUI_PartyLeader
+      name: MainUI_PartyCrown
       rect:
         serializedVersion: 2
         x: 774
@@ -270,7 +270,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MainUI_PartyRightButton
+      name: MainUI_PartyButtonRight
       rect:
         serializedVersion: 2
         x: 732
