@@ -1,1 +1,36 @@
-{"House":{"buildingDiscription":"집","buildingLevel":1,"structureName":"House","image":null,"StructureObject":null,"setup":false}}
+{
+  "House": {
+    "buildingDiscription": "집",
+    "buildingLevel": 1,
+    "upgrading": false,
+    "material1Name": "붉은 꽃잎",
+    "material2Name": "블루베리",
+    "material1Count": 2,
+    "material2Count": 2,
+    "UpgradeEndTime": "0001-01-01T00:00:00",
+    "id": 0,
+    "structureName": "House",
+    "image": null,
+    "StructureObject": null,
+    "position": 0.0,
+    "setup": false,
+    "flip": false
+  },
+  "Campfire": {
+    "buildingDiscription": "모닥불",
+    "buildingLevel": 1,
+    "upgrading": false,
+    "material1Name": "붉은 꽃잎",
+    "material2Name": "블루베리",
+    "material1Count": 1,
+    "material2Count": 1,
+    "UpgradeEndTime": "0001-01-01T00:00:00",
+    "id": 0,
+    "structureName": "Campfire",
+    "image": null,
+    "StructureObject": null,
+    "position": 0.0,
+    "setup": false,
+    "flip": false
+  }
+}

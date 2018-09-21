@@ -76,9 +76,7 @@ namespace AlchemyPlanet.TownScene
             {
                 touchedPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero, 0, LayerMask.GetMask("NPC"));
-
-                if (hit.collider != null)
-                    Debug.Log(hit.collider.name);
+                
                 if (Input.GetMouseButtonDown(0) && hit.collider != null && hit.collider.tag == "NPC")
                 {
                     if (TownUI.Instance.turnOnBuildBar)
