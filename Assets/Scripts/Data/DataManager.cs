@@ -263,9 +263,9 @@ namespace AlchemyPlanet.Data
         {
             foreach (var item in data)
             {
-                Building building = new Building(item.structureId, "", item.level);
+                Building building = new Building(item.buildingId, "", item.level);
                 building.buildingDiscription = (structureInfo[building.structureName] as Building).buildingDiscription;
-                building.id = int.Parse(item.playerStructureId);
+                building.id = int.Parse(item.playerBuildingId);
                 building.image = structureInfo[building.structureName].image;
                 building.position = item.position;
                 building.flip = item.isFlipped;
@@ -280,8 +280,8 @@ namespace AlchemyPlanet.Data
         {
             foreach (var item in data)
             {
-                Interior interior = new Interior(item.structureId);
-                interior.id = int.Parse(item.playerStructureId);
+                Interior interior = new Interior(item.interiorId);
+                interior.id = int.Parse(item.playerInteriorId);
                 interior.image = structureInfo[interior.structureName].image;
                 interior.position = item.position;
                 interior.flip = item.isFlipped;

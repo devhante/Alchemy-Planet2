@@ -226,6 +226,8 @@ namespace AlchemyPlanet.Data
 
             request = new Request[4];
 
+            stroystar = new Dictionary<string, int>();
+
             this.boundary = 15;
 
             AddSampleDatas();
