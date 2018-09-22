@@ -34,15 +34,54 @@ namespace AlchemyPlanet.GameScene
             IsSprinting = false;
         }
 
-        public void CreateItem()
+        public void CreateItem(ItemName itemName)
         {
             if (Objects.Count < MaxItemNumber)
             {
                 Vector3 position = MaterialManager.Instance.GetNewMaterialPosition();
-                int itemIndex = Random.Range(0, PrefabManager.Instance.itemPrefabs.Length);
-                GameObject instance = Instantiate(PrefabManager.Instance.itemPrefabs[itemIndex], position, Quaternion.identity, transform);
+                GameObject prefab = new GameObject();
+
+                switch(itemName)
+                {
+                    case ItemName.IncreasePurify:
+                        prefab = PrefabManager.Instance.itemPrefabs[0]; break;
+                    case ItemName.NoReducedOxygen:
+                        prefab = PrefabManager.Instance.itemPrefabs[1]; break;
+                    case ItemName.RainbowColorBall:
+                        prefab = PrefabManager.Instance.itemPrefabs[2]; break;
+                    case ItemName.SlowReducedOxygen:
+                        prefab = PrefabManager.Instance.itemPrefabs[3]; break;
+                    case ItemName.Sprint:
+                        prefab = PrefabManager.Instance.itemPrefabs[4]; break;
+                }
+
+                GameObject instance = Instantiate(prefab, position, Quaternion.identity, transform);
                 Objects.Add(instance);
             }
+        }
+
+        public ItemName GetItemName()
+        {
+            int result = 0;
+            float random = Random.Range(0f, 1f);
+            int length = GameSettings.Instance.itemChanges_Value.Length;
+
+            for (int i = 0; i < length; i++)
+            {
+                Debug.Log(random);
+                random -= GameSettings.Instance.itemChanges_Value[i];
+                Debug.Log(random);
+                if (random <= 0)
+                {
+                    result = i;
+                    break;
+                }
+
+                if (i == length - 1)
+                    result = length - 1;
+            }
+
+            return GameSettings.Instance.itemChanges_Key[result];
         }
 
         public void IncreasePurify()

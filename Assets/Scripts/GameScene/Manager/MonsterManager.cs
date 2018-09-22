@@ -10,7 +10,6 @@ namespace AlchemyPlanet.GameScene
         public Dictionary<int, Monster> Monsters { get; private set; }
         public Vector3 SpawnPoint { get; private set; }
         public int Key { get; private set; }
-        public float SpawnCooltime;
 
         private void OnDestroy()
         {
@@ -23,7 +22,6 @@ namespace AlchemyPlanet.GameScene
             Monsters = new Dictionary<int, Monster>();
             SpawnPoint = new Vector3(6, 2, 0);
             Key = 0;
-            SpawnCooltime = 20;
         }
 
         private void Start()
@@ -53,14 +51,14 @@ namespace AlchemyPlanet.GameScene
         {
             int count = 0;
 
-            while (count < 5)
+            while (count < GameSettings.Instance.monsterNumber)
             {
                 SpawnMonster();
-                yield return new WaitForSeconds(SpawnCooltime);
+                yield return new WaitForSeconds(GameSettings.Instance.monsterCooltime);
                 count++;
             }
 
-            StartCoroutine("SpawnBossMonsterCoroutine");
+            //StartCoroutine("SpawnBossMonsterCoroutine");
         }
 
         IEnumerator SpawnBossMonsterCoroutine()
