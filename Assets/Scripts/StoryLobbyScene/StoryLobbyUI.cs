@@ -10,6 +10,11 @@ namespace AlchemyPlanet.StoryLobbyScene
     {
         public Button starButton;
         public Button starDescriptionButton;
+        public Image[] starImages;
+        public Image[] starDescriptionImages;
+
+        public Sprite starOff;
+        public Sprite starOn;
 
         private List<StoryChallengeData> list;
 
