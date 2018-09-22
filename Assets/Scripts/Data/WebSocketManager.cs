@@ -323,7 +323,7 @@ namespace AlchemyPlanet.Data
 
         #endregion Send_Building
 
-        #region Send_PlayerInterior
+        #region Send_Interior
 
         public void SendFindInteriors(string status, string playerId)
         {
@@ -332,7 +332,7 @@ namespace AlchemyPlanet.Data
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        public void SendInsertInterior(string status, string playerId, string playerInteriorId, string InteriorId, int level, int position, bool isConstructed, bool isFlipped)
+        public void SendInsertInterior(string status, string playerId, string playerInteriorId, string InteriorId, int level, float position, bool isConstructed, bool isFlipped)
         {
             var data = new CollectionInterior(playerId, playerInteriorId, InteriorId, position, isConstructed, isFlipped);
             var message = new Message("0620" + status, data);
@@ -353,7 +353,7 @@ namespace AlchemyPlanet.Data
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        public void SendUpdateInterior(string status, string playerId, string playerInteriorId, string InteriorId, int position, bool isConstructed, bool isFlipped)
+        public void SendUpdateInterior(string status, string playerId, string playerInteriorId, string InteriorId, float position, bool isConstructed, bool isFlipped)
         {
             var data = new CollectionInterior(playerId, playerInteriorId, InteriorId, position, isConstructed, isFlipped);
             var message = new Message("0640" + status, data);
@@ -361,7 +361,7 @@ namespace AlchemyPlanet.Data
             ws.Send(str);
         }
 
-        #endregion Send_PlayerInterior
+        #endregion Send_Interior
 
         #region Send_Character
 
