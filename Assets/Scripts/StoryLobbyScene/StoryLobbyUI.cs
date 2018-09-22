@@ -25,9 +25,7 @@ namespace AlchemyPlanet.StoryLobbyScene
         public Sprite stageCircleBlack;
         public Sprite stageCircleYellow;
 
-        public int CurrentChaper { get; set; }
-        public int CurrentStage { get; set; }
-        public int CurrentMaxStage { get; set; }
+        
 
         private List<StoryChallengeData> list;
 
@@ -35,22 +33,21 @@ namespace AlchemyPlanet.StoryLobbyScene
         {
             starButton.onClick.AddListener(OnClickStarButton);
             starDescriptionButton.onClick.AddListener(OnClickStarDescriptionButton);
-
-            CurrentChaper = 1;
-            CurrentMaxStage = 7;
             list = DataManager.Instance.LoadStoryChallenges();
         }
 
         private void Start()
         {
-            InstantiateStageCircles(CurrentMaxStage);
+            StoryManager.Instance.CurrentChaper = 1;
+            StoryManager.Instance.CurrentMaxStage = 7;
+            InstantiateStageCircles(StoryManager.Instance.CurrentMaxStage);
 
             for (int i = 0; i < 3; i++)
             {
-                stageText.text = string.Format("STAGE {0}-{1}", CurrentChaper.ToString(), CurrentStage.ToString());
-                starDescriptionButton.transform.GetChild(1).GetChild(i).GetComponent<Text>().text = list[CurrentStage - 1].challenges[i];
+                stageText.text = string.Format("STAGE {0}-{1}", StoryManager.Instance.CurrentChaper.ToString(), StoryManager.Instance.CurrentStage.ToString());
+                starDescriptionButton.transform.GetChild(1).GetChild(i).GetComponent<Text>().text = list[StoryManager.Instance.CurrentStage - 1].challenges[i];
 
-                if (DataManager.Instance.CurrentPlayerData.stroystar[CurrentChaper.ToString() + "-" + CurrentStage.ToString()] > i)
+                if (DataManager.Instance.CurrentPlayerData.stroystar[StoryManager.Instance.CurrentChaper.ToString() + "-" + StoryManager.Instance.CurrentStage.ToString()] > i)
                 {
                     starImages[i].sprite = starOn;
                     starDescriptionImages[i].sprite = starOn;
@@ -75,23 +72,23 @@ namespace AlchemyPlanet.StoryLobbyScene
 
         private void OnClickButtonLeft()
         {
-            if (CurrentStage == 1) return;
-            if (CurrentStage != CurrentMaxStage)
-                stageCircles.transform.GetChild(CurrentStage - 1).GetComponent<Image>().sprite = stageCircleWhite;
-            stageCircles.transform.GetChild(CurrentStage - 1).GetComponent<Image>().sprite = stageCircleYellow;
-            CurrentStage--;
-            stageText.text = string.Format("STAGE {0}-{1}", CurrentChaper.ToString(), CurrentStage.ToString());
+            if (StoryManager.Instance.CurrentStage == 1) return;
+            if (StoryManager.Instance.CurrentStage != StoryManager.Instance.CurrentMaxStage)
+                stageCircles.transform.GetChild(StoryManager.Instance.CurrentStage - 1).GetComponent<Image>().sprite = stageCircleWhite;
+            stageCircles.transform.GetChild(StoryManager.Instance.CurrentStage - 1).GetComponent<Image>().sprite = stageCircleYellow;
+            StoryManager.Instance.CurrentStage--;
+            stageText.text = string.Format("STAGE {0}-{1}", StoryManager.Instance.CurrentChaper.ToString(), StoryManager.Instance.CurrentStage.ToString());
         }
 
         private void OnClickButtonRight()
         {
-            if (CurrentStage == CurrentMaxStage) return;
-            if (stageCircles.transform.GetChild(CurrentStage).GetComponent<Image>().sprite == stageCircleBlack) return;
-            if (CurrentStage != CurrentMaxStage - 1)
-                stageCircles.transform.GetChild(CurrentStage).GetComponent<Image>().sprite = stageCircleYellow;
-            stageCircles.transform.GetChild(CurrentStage - 1).GetComponent<Image>().sprite = stageCircleWhite;
-            CurrentStage++;
-            stageText.text = string.Format("STAGE {0}-{1}", CurrentChaper.ToString(), CurrentStage.ToString());
+            if (StoryManager.Instance.CurrentStage == StoryManager.Instance.CurrentMaxStage) return;
+            if (stageCircles.transform.GetChild(StoryManager.Instance.CurrentStage).GetComponent<Image>().sprite == stageCircleBlack) return;
+            if (StoryManager.Instance.CurrentStage != StoryManager.Instance.CurrentMaxStage - 1)
+                stageCircles.transform.GetChild(StoryManager.Instance.CurrentStage).GetComponent<Image>().sprite = stageCircleYellow;
+            stageCircles.transform.GetChild(StoryManager.Instance.CurrentStage - 1).GetComponent<Image>().sprite = stageCircleWhite;
+            StoryManager.Instance.CurrentStage++;
+            stageText.text = string.Format("STAGE {0}-{1}", StoryManager.Instance.CurrentChaper.ToString(), StoryManager.Instance.CurrentStage.ToString());
         }
 
         private void InstantiateStageCircles(int stageNumber)
@@ -113,10 +110,10 @@ namespace AlchemyPlanet.StoryLobbyScene
             {
                 if (isCleared == false)
                     stageCircles.transform.GetChild(i - 1).GetComponent<Image>().sprite = stageCircleBlack;
-                else if (DataManager.Instance.CurrentPlayerData.stroystar[CurrentChaper.ToString() + "-" + i.ToString()] == 0)
+                else if (DataManager.Instance.CurrentPlayerData.stroystar[StoryManager.Instance.CurrentChaper.ToString() + "-" + i.ToString()] == 0)
                 {
                     stageCircles.transform.GetChild(i - 1).GetComponent<Image>().sprite = stageCircleYellow;
-                    CurrentStage = i;
+                    StoryManager.Instance.CurrentStage = i;
                     isCleared = false;
                 }
             }
