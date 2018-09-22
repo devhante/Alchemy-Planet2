@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Collections.Generic;
 using Newtonsoft.Json;
@@ -230,7 +230,7 @@ namespace AlchemyPlanet.Data
 
             this.boundary = 15;
 
-            AddSampleDatas();
+            //AddSampleDatas();
         }
 
         //따로 처리해줘야 하는 경험치는 아래 함수를 사용한다.
