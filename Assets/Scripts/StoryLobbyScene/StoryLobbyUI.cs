@@ -31,6 +31,17 @@ namespace AlchemyPlanet.StoryLobbyScene
             for (int i = 0; i < 3; i++)
             {
                 starDescriptionButton.transform.GetChild(1).GetChild(i).GetComponent<Text>().text = list[0].challenges[i];
+
+                if (DataManager.Instance.CurrentPlayerData.stroystar["1-1"] > i)
+                {
+                    starImages[i].sprite = starOn;
+                    starDescriptionImages[i].sprite = starOn;
+                }
+                else
+                {
+                    starImages[i].sprite = starOff;
+                    starDescriptionImages[i].sprite = starOff;
+                }
             }
         }
 
