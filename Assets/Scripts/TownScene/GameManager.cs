@@ -44,16 +44,16 @@ namespace AlchemyPlanet.Data
 
         void CheckUpgradeTime()
         {
-            System.TimeSpan timeDiff;
-            foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures)
+            if (DataManager.Instance.CurrentPlayerData != null)
             {
-                if (strc is Building && (strc as Building).upgrading)
+                foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures)
                 {
-                    timeDiff = (strc as Building).UpgradeEndTime - System.DateTime.Now;
-
-                    if (timeDiff.TotalSeconds < 0)
+                    if (strc is Building && (strc as Building).upgrading)
                     {
-                        (strc as Building).UpgradeEnd();
+                        if ((strc as Building).UpgradeEndTime - System.DateTime.Now.ToBinary() < 0)
+                        {
+                            (strc as Building).UpgradeEnd();
+                        }
                     }
                 }
             }

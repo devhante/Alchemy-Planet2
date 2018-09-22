@@ -49,7 +49,7 @@ namespace AlchemyPlanet.Data
         public string material2Name;
         public int material1Count;
         public int material2Count;
-        public DateTime UpgradeEndTime = new DateTime();
+        public long UpgradeEndTime;
 
         public Building(string buildingName, string buildingDiscription, int buildingLevel)
         {
@@ -77,8 +77,7 @@ namespace AlchemyPlanet.Data
             DataManager.Instance.CurrentPlayerData.SetBuilding(this);
             AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetImage");
             int UpgradeTime = buildingLevel * 10;
-            UpgradeEndTime = DateTime.Now.AddSeconds(UpgradeTime);
-
+            UpgradeEndTime = DateTime.Now.AddSeconds(UpgradeTime).ToBinary();
             WebSocketManager.Instance.SendUpdateBuilding("", DataManager.Instance.CurrentPlayerData.player_id, id.ToString(), structureName, buildingLevel, position, setup, flip, upgrading, UpgradeEndTime);
         }
 
