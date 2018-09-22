@@ -71,19 +71,31 @@ namespace AlchemyPlanet.TownScene
         void SetBuilding()
         {
             foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures)
-                strc.setup = false;
-
+            {
+                if (strc is Building)
+                {
+                    WebSocketManager.Instance.SendUpdateBuilding("", DataManager.Instance.CurrentPlayerData.player_id, strc.id.ToString(), strc.structureName,
+                        (strc as Building).buildingLevel, strc.position, (strc as Building).setup, strc.flip, (strc as Building).upgrading, (strc as Building).UpgradeEndTime);
+                }
+                else
+                {
+                    WebSocketManager.Instance.SendUpdateInterior("", DataManager.Instance.CurrentPlayerData.player_id, strc.id.ToString(), strc.structureName, strc.position, strc.setup, strc.flip);
+                }
+            }
             foreach (GameObject obj in setupBuildings)
             {
-                foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures)
+                Structure strc = DataManager.Instance.CurrentPlayerData.structures.Find(a => a.id == int.Parse(obj.name.Substring(0, obj.name.Length - 7)));
+                strc.flip = obj.GetComponent<SpriteRenderer>().flipX;
+                strc.position = obj.transform.position.x;
+                strc.setup = true;
+                if(strc is Building)
                 {
-                    if (strc.id == int.Parse(obj.name.Substring(0, obj.name.Length - 7)))
-                    {
-                        strc.flip = obj.GetComponent<SpriteRenderer>().flipX;
-                        strc.position = obj.transform.position.x;
-                        strc.setup = true;
-                        break;
-                    }
+                    WebSocketManager.Instance.SendUpdateBuilding("", DataManager.Instance.CurrentPlayerData.player_id, strc.id.ToString(), strc.structureName,
+                        (strc as Building).buildingLevel, strc.position, (strc as Building).setup, strc.flip, (strc as Building).upgrading, (strc as Building).UpgradeEndTime);
+                }
+                else
+                {
+                    WebSocketManager.Instance.SendUpdateInterior("", DataManager.Instance.CurrentPlayerData.player_id, strc.id.ToString(), strc.structureName,strc.position,strc.setup,strc.flip);
                 }
             }
 

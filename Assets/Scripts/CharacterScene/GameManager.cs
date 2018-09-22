@@ -11,7 +11,7 @@ namespace AlchemyPlanet.CharacterScene
 
         public GameObject characters;
         public GameObject[] characterPrefabs;
-        public Sprite[] chracterProfiles;
+        public Sprite[] characterProfiles;
 
         public Characters CurrentCharacters { get; set; }
         public int PartyIndex { get; set; }

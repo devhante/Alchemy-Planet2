@@ -91,6 +91,8 @@ public class BuildingInfo : MonoBehaviour
             AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetImage");
             SetInfo(DataManager.Instance.CurrentPlayerData.structures.Find(a => a.structureName == building.structureName) as  Building);
             DataManager.Instance.CurrentPlayerData.GiveId(building);
+            WebSocketManager.Instance.SendInsertBuilding("", DataManager.Instance.CurrentPlayerData.player_id, building.id.ToString(), building.structureName, building.buildingLevel,
+                building.position, building.setup, building.flip, building.upgrading, building.UpgradeEndTime);
         }
     }
 }

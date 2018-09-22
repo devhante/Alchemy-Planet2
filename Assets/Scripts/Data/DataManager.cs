@@ -227,6 +227,8 @@ namespace AlchemyPlanet.Data
             WebSocketManager.Instance.SendFindItems("0", "0");
             WebSocketManager.Instance.SendFindCharacters("0", "0");
             WebSocketManager.Instance.SendFindParties("0","0");
+            WebSocketManager.Instance.SendFindBuildings("0", "0");
+            WebSocketManager.Instance.SendFindInteriors("0", "0");
         }
         
         public void CommitName(CollectionName data)
@@ -259,12 +261,34 @@ namespace AlchemyPlanet.Data
 
         public void CommitBuilding(CollectionBuilding[] data)
         {
-            //
+            foreach (var item in data)
+            {
+                Building building = new Building(item.structureId, "", item.level);
+                building.buildingDiscription = (structureInfo[building.structureName] as Building).buildingDiscription;
+                building.id = int.Parse(item.playerStructureId);
+                building.image = structureInfo[building.structureName].image;
+                building.position = item.position;
+                building.flip = item.isFlipped;
+                building.setup = item.isConstructed;
+                building.upgrading = item.isUpgrading;
+                building.UpgradeEndTime = item.endDate;
+                CurrentPlayerData.structures.Add(building);
+            }
         }
 
         public void CommitInterior(CollectionInterior[] data)
         {
-            //
+            foreach (var item in data)
+            {
+                Interior interior = new Interior(item.structureId);
+                interior.id = int.Parse(item.playerStructureId);
+                interior.image = structureInfo[interior.structureName].image;
+                interior.position = item.position;
+                interior.flip = item.isFlipped;
+                interior.setup = item.isConstructed;
+                CurrentPlayerData.structures.Add(interior);
+            }
+
         }
 
         public void CommitCharacter(CollectionCharacter[] data)
@@ -343,6 +367,16 @@ namespace AlchemyPlanet.Data
                 return requests;
             }
         }
+
+        public List<StoryChallengeData> LoadStoryChallenges()
+        {
+            using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/StoryChallenges").bytes), System.Text.Encoding.UTF8))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                List<StoryChallengeData> storyChallenges = (List<StoryChallengeData>)serializer.Deserialize(file, typeof(List<StoryChallengeData>));
+                return storyChallenges;
+            }
+        }
     }
     
     public class NPCDAta
@@ -396,4 +430,23 @@ namespace AlchemyPlanet.Data
         public string image_address;
     }
     #endregion ShopData
+
+    #region StoryData
+
+    public class StoryChallengeData
+    {
+        public string stage;
+        public string[] challenges;
+
+        public StoryChallengeData(string stage, string challenge1, string challenge2, string challenge3)
+        {
+            this.stage = stage;
+            challenges = new string[3];
+            challenges[0] = challenge1;
+            challenges[1] = challenge2;
+            challenges[2] = challenge3;
+        }
+    }
+
+    #endregion StoryData
 }
