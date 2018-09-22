@@ -229,6 +229,7 @@ namespace AlchemyPlanet.Data
             WebSocketManager.Instance.SendFindParties("0","0");
             WebSocketManager.Instance.SendFindBuildings("0", "0");
             WebSocketManager.Instance.SendFindInteriors("0", "0");
+            WebSocketManager.Instance.SendFindStoryStars("0", "0");
         }
         
         public void CommitName(CollectionName data)
