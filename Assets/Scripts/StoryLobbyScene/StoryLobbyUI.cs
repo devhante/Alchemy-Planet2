@@ -48,7 +48,7 @@ namespace AlchemyPlanet.StoryLobbyScene
             for (int i = 0; i < 3; i++)
             {
                 stageText.text = string.Format("STAGE {0}-{1}", CurrentChaper.ToString(), CurrentStage.ToString());
-                starDescriptionButton.transform.GetChild(1).GetChild(i).GetComponent<Text>().text = list[0].challenges[i];
+                starDescriptionButton.transform.GetChild(1).GetChild(i).GetComponent<Text>().text = list[CurrentStage - 1].challenges[i];
 
                 if (DataManager.Instance.CurrentPlayerData.stroystar[CurrentChaper.ToString() + "-" + CurrentStage.ToString()] > i)
                 {
