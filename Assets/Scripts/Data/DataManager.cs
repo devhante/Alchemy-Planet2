@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
@@ -257,8 +257,16 @@ namespace AlchemyPlanet.Data
                 CurrentPlayerData.inventory.Add(item.itemId,item.number);
         }
 
-        //Structure 정의필요
-        
+        public void CommitBuilding(CollectionBuilding[] data)
+        {
+            //
+        }
+
+        public void CommitInterior(CollectionInterior[] data)
+        {
+            //
+        }
+
         public void CommitCharacter(CollectionCharacter[] data)
         {
             foreach (var item in data)
@@ -269,6 +277,17 @@ namespace AlchemyPlanet.Data
         {
             foreach (var item in data)
                 CurrentPlayerData.party[item.partyIndex - 1, item.slotIndex - 1] = (CharacterEnum)int.Parse(item.characterId);
+        }
+
+        public void CommitRequest(CollectionRequest[] data)
+        {
+            //
+        }
+
+        public void CommitStoryStar(CollectionStroyStar[] data)
+        {
+            foreach (var item in data)
+                CurrentPlayerData.stroystar.Add(item.stageNumber, item.number);
         }
 
         public void SavePlayerData()

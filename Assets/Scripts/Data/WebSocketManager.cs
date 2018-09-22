@@ -31,7 +31,7 @@ namespace AlchemyPlanet.Data
             {
                 var message = JsonConvert.DeserializeObject<Message>(e.Data);
 
-                if (message.status == "1100")
+                if (message.status == "01100")
                 {
                     string data_string = ConvertLappedJsonString(message.data);
                     var data = JsonConvert.DeserializeObject<CollectionName>(data_string);
@@ -39,7 +39,7 @@ namespace AlchemyPlanet.Data
                     UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitName(data));
                 }
 
-                if (message.status == "2100")
+                if (message.status == "02100")
                 {
                     string data_string = ConvertLappedJsonString(message.data);
                     var data = JsonConvert.DeserializeObject<CollectionLevel>(data_string);
@@ -47,7 +47,7 @@ namespace AlchemyPlanet.Data
                     UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitLevel(data));
                 }
 
-                if (message.status == "3100")
+                if (message.status == "03100")
                 {
                     string data_string = ConvertLappedJsonString(message.data);
                     var data = JsonConvert.DeserializeObject<CollectionGoods>(data_string);
@@ -55,7 +55,7 @@ namespace AlchemyPlanet.Data
                     UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitGoods(data));
                 }
 
-                if (message.status == "4100")
+                if (message.status == "04100")
                 {
                     string data_string = ConvertLappedJsonString(message.data);
                     var data = JsonConvert.DeserializeObject<CollectionItem[]>(data_string);
@@ -63,15 +63,23 @@ namespace AlchemyPlanet.Data
                     UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitItem(data));
                 }
 
-                if (message.status == "5100")
+                if (message.status == "05100")
                 {
                     string data_string = ConvertLappedJsonString(message.data);
-                    var data = JsonConvert.DeserializeObject<CollectionStructure[]>(data_string);
+                    var data = JsonConvert.DeserializeObject<CollectionBuilding[]>(data_string);
 
-                    //
+                    UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitBuilding(data));
                 }
 
-                if (message.status == "6100")
+                if (message.status == "06100")
+                {
+                    string data_string = ConvertLappedJsonString(message.data);
+                    var data = JsonConvert.DeserializeObject<CollectionInterior[]>(data_string);
+
+                    UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitInterior(data));
+                }
+
+                if (message.status == "07100")
                 {
                     string data_string = ConvertLappedJsonString(message.data);
                     var data = JsonConvert.DeserializeObject<CollectionCharacter[]>(data_string);
@@ -79,7 +87,7 @@ namespace AlchemyPlanet.Data
                     UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitCharacter(data));
                 }
 
-                if (message.status == "7100")
+                if (message.status == "08100")
                 {
                     string data_string = ConvertLappedJsonString(message.data);
                     var data = JsonConvert.DeserializeObject<CollectionParty[]>(data_string);
@@ -87,12 +95,20 @@ namespace AlchemyPlanet.Data
                     UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitParty(data));
                 }
 
-                if (message.status == "8100")
+                if (message.status == "09100")
                 {
                     string data_string = ConvertLappedJsonString(message.data);
                     var data = JsonConvert.DeserializeObject<CollectionRequest[]>(data_string);
-                    
-                    //
+
+                    UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitRequest(data));
+                }
+
+                if (message.status == "10100")
+                {
+                    string data_string = ConvertLappedJsonString(message.data);
+                    var data = JsonConvert.DeserializeObject<CollectionStroyStar[]>(data_string);
+
+                    UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitStoryStar(data));
                 }
             };
 
@@ -129,28 +145,28 @@ namespace AlchemyPlanet.Data
         public void SendFindName(string status, string playerId)
         {
             var data = new CollectionName(playerId, "");
-            var message = new Message("110" + status, data);
+            var message = new Message("0110" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
         public void SendInsertName(string status, string playerId, string playerName)
         {
             var data = new CollectionName(playerId, playerName);
-            var message = new Message("120" + status, data);
+            var message = new Message("0120" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
         public void SendDeleteName(string status, string playerId)
         {
             var data = new CollectionName(playerId, "");
-            var message = new Message("130" + status, data);
+            var message = new Message("0130" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
         public void SendUpdateName(string status, string playerId, string playerName)
         {
             var data = new CollectionName(playerId, playerName);
-            var message = new Message("140" + status, data);
+            var message = new Message("0140" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
@@ -162,28 +178,28 @@ namespace AlchemyPlanet.Data
         public void SendFindLevel(string status, string playerId)
         {
             var data = new CollectionLevel(playerId, 0, 0);
-            var message = new Message("210" + status, data);
+            var message = new Message("0210" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
         public void SendInsertLevel(string status, string playerId, int level, int exp)
         {
             var data = new CollectionLevel(playerId, level, exp);
-            var message = new Message("220" + status, data);
+            var message = new Message("0220" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
         public void SendDeleteLevel(string status, string playerId)
         {
             var data = new CollectionLevel(playerId, 0, 0);
-            var message = new Message("230" + status, data);
+            var message = new Message("0230" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
         public void SendUpdateLevel(string status, string playerId, int level, int exp)
         {
             var data = new CollectionLevel(playerId, level, exp);
-            var message = new Message("240" + status, data);
+            var message = new Message("0240" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
@@ -195,28 +211,28 @@ namespace AlchemyPlanet.Data
         public void SendFindGoods(string status, string playerId)
         {
             var data = new CollectionGoods(playerId, 0, 0, 0);
-            var message = new Message("310" + status, data);
+            var message = new Message("0310" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
         public void SendInsertGoods(string status, string playerId, int unicoin, int cosmostone, int oxygentank)
         {
             var data = new CollectionGoods(playerId, unicoin, cosmostone, oxygentank);
-            var message = new Message("320" + status, data);
+            var message = new Message("0320" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
         public void SendDeleteGoods(string status, string playerId)
         {
             var data = new CollectionGoods(playerId, 0, 0, 0);
-            var message = new Message("330" + status, data);
+            var message = new Message("0330" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
         public void SendUpdateGoods(string status, string playerId, int unicoin, int cosmostone, int oxygentank)
         {
             var data = new CollectionGoods(playerId, unicoin, cosmostone, oxygentank);
-            var message = new Message("340" + status, data);
+            var message = new Message("0340" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
@@ -228,7 +244,7 @@ namespace AlchemyPlanet.Data
         public void SendFindItems(string status, string playerId)
         {
             var data = new CollectionItem(playerId, "", 0);
-            var message = new Message("410" + status, data);
+            var message = new Message("0410" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
@@ -236,7 +252,7 @@ namespace AlchemyPlanet.Data
         public void SendInsertItem(string status, string playerId, string itemId, int count)
         {
             var data = new CollectionItem(playerId, itemId, count);
-            var message = new Message("420" + status, data);
+            var message = new Message("0420" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
@@ -244,7 +260,7 @@ namespace AlchemyPlanet.Data
         public void SendDeleteItem(string status, string playerId, string itemId)
         {
             var data = new CollectionItem(playerId, itemId, 0);
-            var message = new Message("430" + status, data);
+            var message = new Message("0430" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
@@ -252,7 +268,7 @@ namespace AlchemyPlanet.Data
         public void SendDeleteItems(string status, string playerId)
         {
             var data = new CollectionItem(playerId, "", 0);
-            var message = new Message("431" + status, data);
+            var message = new Message("0431" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
@@ -260,87 +276,127 @@ namespace AlchemyPlanet.Data
         public void SendUpdateItem(string status, string playerId, string itemId, int count)
         {
             var data = new CollectionItem(playerId, itemId, count);
-            var message = new Message("440" + status, data);
+            var message = new Message("0440" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
 
         #endregion Send_Item
 
-        #region Send_PlayerStructure
+        #region Send_Building
         
-        public void SendFindStructures(string status, string playerId)
+        public void SendFindBuildings(string status, string playerId)
         {
-            var data = new CollectionStructure(playerId, "", "", 0, 0, false, false, false, new DateTime());
-            var message = new Message("510" + status, data);
+            var data = new CollectionBuilding(playerId, "", "", 0, 0, false, false, false, new DateTime());
+            var message = new Message("0510" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        public void SendInsertStructure(string status, string playerId, string playerStructureId, string structureId, int level, int position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
+        public void SendInsertBuilding(string status, string playerId, string playerBuildingId, string buildingId, int level, int position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
         {
-            var data = new CollectionStructure(playerId, playerStructureId, structureId, level, position, isConstructed, isFlipped, isUpgrading, endDate);
-            var message = new Message("520" + status, data);
+            var data = new CollectionBuilding(playerId, playerBuildingId, buildingId, level, position, isConstructed, isFlipped, isUpgrading, endDate);
+            var message = new Message("0520" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        public void SendDeleteStructure(string status, string playerId, string playerStructureId)
+        public void SendDeleteBuilding(string status, string playerId, string playerBuildingId)
         {
-            var data = new CollectionStructure(playerId, playerStructureId, "", 0, 0, false, false, false, new DateTime());
-            var message = new Message("530" + status, data);
+            var data = new CollectionBuilding(playerId, playerBuildingId, "", 0, 0, false, false, false, new DateTime());
+            var message = new Message("0530" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        public void SendDeleteStructures(string status, string playerId)
+        public void SendDeleteBuildings(string status, string playerId)
         {
-            var data = new CollectionStructure(playerId, "", "", 0, 0, false, false, false, new DateTime());
-            var message = new Message("531" + status, data);
+            var data = new CollectionBuilding(playerId, "", "", 0, 0, false, false, false, new DateTime());
+            var message = new Message("0531" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        public void SendUpdateStructure(string status, string playerId, string playerStructureId, string structureId, int level, int position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
+        public void SendUpdateBuilding(string status, string playerId, string playerBuildingId, string buildingId, int level, int position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
         {
-            var data = new CollectionStructure(playerId, playerStructureId, structureId, level, position, isConstructed, isFlipped, isUpgrading, endDate);
-            var message = new Message("540" + status, data);
+            var data = new CollectionBuilding(playerId, playerBuildingId, buildingId, level, position, isConstructed, isFlipped, isUpgrading, endDate);
+            var message = new Message("0540" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
 
-        #endregion Send_PlayerStructure
+        #endregion Send_Building
+
+        #region Send_PlayerInterior
+
+        public void SendFindInteriors(string status, string playerId)
+        {
+            var data = new CollectionInterior(playerId, "", "", 0, false, false);
+            var message = new Message("0610" + status, data);
+            var str = JsonConvert.SerializeObject(message);
+            ws.Send(str);
+        }
+        public void SendInsertInterior(string status, string playerId, string playerInteriorId, string InteriorId, int level, int position, bool isConstructed, bool isFlipped)
+        {
+            var data = new CollectionInterior(playerId, playerInteriorId, InteriorId, position, isConstructed, isFlipped);
+            var message = new Message("0620" + status, data);
+            var str = JsonConvert.SerializeObject(message);
+            ws.Send(str);
+        }
+        public void SendDeleteInterior(string status, string playerId, string playerInteriorId)
+        {
+            var data = new CollectionInterior(playerId, playerInteriorId, "", 0, false, false);
+            var message = new Message("0630" + status, data);
+            var str = JsonConvert.SerializeObject(message);
+            ws.Send(str);
+        }
+        public void SendDeleteInteriors(string status, string playerId)
+        {
+            var data = new CollectionInterior(playerId, "", "", 0, false, false);
+            var message = new Message("0631" + status, data);
+            var str = JsonConvert.SerializeObject(message);
+            ws.Send(str);
+        }
+        public void SendUpdateInterior(string status, string playerId, string playerInteriorId, string InteriorId, int position, bool isConstructed, bool isFlipped)
+        {
+            var data = new CollectionInterior(playerId, playerInteriorId, InteriorId, position, isConstructed, isFlipped);
+            var message = new Message("0640" + status, data);
+            var str = JsonConvert.SerializeObject(message);
+            ws.Send(str);
+        }
+
+        #endregion Send_PlayerInterior
 
         #region Send_Character
 
         public void SendFindCharacters(string status, string playerId)
         {
             var data = new CollectionCharacter(playerId, "", 0, 0, 0, 0);
-            var message = new Message("610" + status, data);
+            var message = new Message("0710" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
         public void SendInsertCharacter(string status, string playerId, string characterId, int level, int health, int speed, int attackPower)
         {
             var data = new CollectionCharacter(playerId, characterId, level, health, speed, attackPower);
-            var message = new Message("620" + status, data);
+            var message = new Message("0720" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
         public void SendDeleteCharacter(string status, string playerId, string characterId)
         {
             var data = new CollectionCharacter(playerId, characterId, 0, 0, 0, 0);
-            var message = new Message("630" + status, data);
+            var message = new Message("0730" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
         public void SendDeleteCharacters(string status, string playerId)
         {
             var data = new CollectionCharacter(playerId, "", 0, 0, 0, 0);
-            var message = new Message("631" + status, data);
+            var message = new Message("0731" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
         public void SendUpdateCharacter(string status, string playerId, string characterId, int level, int health, int speed, int attackPower)
         {
             var data = new CollectionCharacter(playerId, characterId, level, health, speed, attackPower);
-            var message = new Message("640" + status, data);
+            var message = new Message("0740" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
@@ -352,35 +408,35 @@ namespace AlchemyPlanet.Data
         public void SendFindParties(string status, string playerId)
         {
             var data = new CollectionParty(playerId, 0, 0, "");
-            var message = new Message("710" + status, data);
+            var message = new Message("0810" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
         public void SendInsertParty(string status, string playerId, int partyIndex, int slotIndex, string characterId)
         {
             var data = new CollectionParty(playerId, partyIndex, slotIndex, characterId);
-            var message = new Message("720" + status, data);
+            var message = new Message("0820" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
         public void SendDeleteParty(string status, string playerId, int partyIndex, int slotIndex)
         {
             var data = new CollectionParty(playerId, partyIndex, slotIndex, "");
-            var message = new Message("730" + status, data);
+            var message = new Message("0830" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
         public void SendDeleteParties(string status, string playerId)
         {
             var data = new CollectionParty(playerId, 0, 0, "");
-            var message = new Message("731" + status, data);
+            var message = new Message("0831" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
         public void SendUpdatePlayerParty(string status, string playerId, int partyIndex, int slotIndex, string characterId)
         {
             var data = new CollectionParty(playerId, partyIndex, slotIndex, characterId);
-            var message = new Message("740" + status, data);
+            var message = new Message("0840" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
@@ -392,32 +448,72 @@ namespace AlchemyPlanet.Data
         public void SendFindRequests(string status, string playerId)
         {
             var data = new CollectionRequest(playerId, "");
-            var message = new Message("810" + status, data);
+            var message = new Message("0910" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
         public void SendInsertRequest(string status, string playerId, string requestId)
         {
             var data = new CollectionRequest(playerId, requestId);
-            var message = new Message("820" + status, data);
+            var message = new Message("0920" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
         public void SendDeleteRequest(string status, string playerId, string requestId)
         {
             var data = new CollectionRequest(playerId, requestId);
-            var message = new Message("830" + status, data);
+            var message = new Message("0930" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
         public void SendDeleteRequests(string status, string playerId)
         {
             var data = new CollectionRequest(playerId, "");
-            var message = new Message("831" + status, data);
+            var message = new Message("0931" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
 
         #endregion Send_Request
+
+        #region Send_StoryStar
+
+        public void SendFindStoryStars(string status, string playerId)
+        {
+            var data = new CollectionStroyStar(playerId, "", 0);
+            var message = new Message("1010" + status, data);
+            var str = JsonConvert.SerializeObject(message);
+            ws.Send(str);
+        }
+        public void SendInsertStoryStar(string status, string playerId, string stageNumber, int number)
+        {
+            var data = new CollectionStroyStar(playerId, stageNumber, number);
+            var message = new Message("1020" + status, data);
+            var str = JsonConvert.SerializeObject(message);
+            ws.Send(str);
+        }
+        public void SendDeleteStoryStar(string status, string playerId, string stageNumber)
+        {
+            var data = new CollectionStroyStar(playerId, stageNumber, 0);
+            var message = new Message("1030" + status, data);
+            var str = JsonConvert.SerializeObject(message);
+            ws.Send(str);
+        }
+        public void SendDeleteStoryStars(string status, string playerId)
+        {
+            var data = new CollectionStroyStar(playerId, "", 0);
+            var message = new Message("1031" + status, data);
+            var str = JsonConvert.SerializeObject(message);
+            ws.Send(str);
+        }
+        public void SendUpdatePlayerStoryStar(string status, string playerId, string stageNumber, int number)
+        {
+            var data = new CollectionStroyStar(playerId, stageNumber, number);
+            var message = new Message("1040" + status, data);
+            var str = JsonConvert.SerializeObject(message);
+            ws.Send(str);
+        }
+
+        #endregion Send_StoryStar
     }
 }

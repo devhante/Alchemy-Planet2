@@ -62,11 +62,11 @@ namespace AlchemyPlanet.Data
         }
     }
 
-    public class CollectionStructure
+    public class CollectionBuilding
     {
         public string playerId;
-        public string playerStructureId;
-        public string structureId;
+        public string playerBuildingId;
+        public string buildingId;
         public int level;
         public int position;
         public bool isConstructed;
@@ -74,17 +74,37 @@ namespace AlchemyPlanet.Data
         public bool isUpgrading;
         public DateTime endDate;
 
-        public CollectionStructure(string playerId, string playerStructureId, string structureId, int level, int position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
+        public CollectionBuilding(string playerId, string playerBuildingId, string buildingId, int level, int position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
         {
             this.playerId = playerId;
-            this.playerStructureId = playerStructureId;
-            this.structureId = structureId;
+            this.playerBuildingId = playerBuildingId;
+            this.buildingId = buildingId;
             this.level = level;
             this.position = position;
             this.isConstructed = isConstructed;
             this.isFlipped = isFlipped;
             this.isUpgrading = isUpgrading;
             this.endDate = endDate;
+        }
+    }
+
+    public class CollectionInterior
+    {
+        public string playerId;
+        public string playerInteriorId;
+        public string interiorId;
+        public int position;
+        public bool isConstructed;
+        public bool isFlipped;
+
+        public CollectionInterior(string playerId, string playerInteriorId, string interiorId, int position, bool isConstructed, bool isFlipped)
+        {
+            this.playerId = playerId;
+            this.playerInteriorId = playerInteriorId;
+            this.interiorId = interiorId;
+            this.position = position;
+            this.isConstructed = isConstructed;
+            this.isFlipped = isFlipped;
         }
     }
 
@@ -136,6 +156,21 @@ namespace AlchemyPlanet.Data
         }
     }
 
+
+    public class CollectionStroyStar
+    {
+        public string playerId;
+        public string stageNumber;
+        public int number;
+
+        public CollectionStroyStar(string playerId, string stageNumber, int number)
+        {
+            this.playerId = playerId;
+            this.stageNumber = stageNumber;
+            this.number = number;
+        }
+    }
+
     public class PlayerData
     {
         public string player_id;
@@ -166,6 +201,9 @@ namespace AlchemyPlanet.Data
 
         //의뢰
         public Request[] request;
+
+        //스토리 별
+        public Dictionary<string, int> stroystar;
 
         public PlayerData()
         {
