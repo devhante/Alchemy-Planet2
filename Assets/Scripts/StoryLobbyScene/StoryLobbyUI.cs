@@ -33,6 +33,8 @@ namespace AlchemyPlanet.StoryLobbyScene
         {
             starButton.onClick.AddListener(OnClickStarButton);
             starDescriptionButton.onClick.AddListener(OnClickStarDescriptionButton);
+            buttonLeft.onClick.AddListener(OnClickButtonLeft);
+            buttonRight.onClick.AddListener(OnClickButtonRight);
             list = DataManager.Instance.LoadStoryChallenges();
         }
 
@@ -75,7 +77,7 @@ namespace AlchemyPlanet.StoryLobbyScene
             if (StoryManager.Instance.CurrentStage == 1) return;
             if (StoryManager.Instance.CurrentStage != StoryManager.Instance.CurrentMaxStage)
                 stageCircles.transform.GetChild(StoryManager.Instance.CurrentStage - 1).GetComponent<Image>().sprite = stageCircleWhite;
-            stageCircles.transform.GetChild(StoryManager.Instance.CurrentStage - 1).GetComponent<Image>().sprite = stageCircleYellow;
+            stageCircles.transform.GetChild(StoryManager.Instance.CurrentStage - 2).GetComponent<Image>().sprite = stageCircleYellow;
             StoryManager.Instance.CurrentStage--;
             stageText.text = string.Format("STAGE {0}-{1}", StoryManager.Instance.CurrentChaper.ToString(), StoryManager.Instance.CurrentStage.ToString());
         }

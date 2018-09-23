@@ -8,6 +8,9 @@ namespace AlchemyPlanet.GameScene
     {
         public static ItemManager Instance { get; private set; }
 
+        public Dictionary<ItemName, int> CreatedItemNumber { get; set; }
+        public Dictionary<ItemName, int> UsedItemNumber { get; set; }
+
         public List<GameObject> Objects { get; private set; }
         public int MaxItemNumber { get; private set; }
         public bool IsSprinting { get; private set; }
@@ -28,10 +31,23 @@ namespace AlchemyPlanet.GameScene
         private void Awake()
         {
             Instance = this;
-
             Objects = new List<GameObject>();
             MaxItemNumber = 3;
             IsSprinting = false;
+
+            CreatedItemNumber = new Dictionary<ItemName, int>();
+            UsedItemNumber = new Dictionary<ItemName, int>();
+
+            CreatedItemNumber.Add(ItemName.IncreasePurify, 0);
+            CreatedItemNumber.Add(ItemName.NoReducedOxygen, 0);
+            CreatedItemNumber.Add(ItemName.RainbowColorBall, 0);
+            CreatedItemNumber.Add(ItemName.SlowReducedOxygen, 0);
+            CreatedItemNumber.Add(ItemName.Sprint, 0);
+            UsedItemNumber.Add(ItemName.IncreasePurify, 0);
+            UsedItemNumber.Add(ItemName.NoReducedOxygen, 0);
+            UsedItemNumber.Add(ItemName.RainbowColorBall, 0);
+            UsedItemNumber.Add(ItemName.SlowReducedOxygen, 0);
+            UsedItemNumber.Add(ItemName.Sprint, 0);
         }
 
         public void CreateItem(ItemName itemName)
@@ -57,6 +73,7 @@ namespace AlchemyPlanet.GameScene
 
                 GameObject instance = Instantiate(prefab, position, Quaternion.identity, transform);
                 Objects.Add(instance);
+                CreatedItemNumber[itemName]++;
             }
         }
 

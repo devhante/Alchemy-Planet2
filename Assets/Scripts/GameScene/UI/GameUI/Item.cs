@@ -26,6 +26,7 @@ namespace AlchemyPlanet.GameScene
                 case ItemName.Sprint: ItemManager.Instance.Sprint(); break;
             }
 
+            ItemManager.Instance.UsedItemNumber[itemName]++;
             DestroyItem();
         }
 
