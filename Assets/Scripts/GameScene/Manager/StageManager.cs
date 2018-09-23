@@ -17,6 +17,7 @@ namespace AlchemyPlanet.GameScene
 
         public float BackgroundSpeed { get; set; }
         public float TileSpeed { get; set; }
+        public float MovedDistance { get; set; }
 
         private readonly float frame = 0.02f;
 
@@ -28,6 +29,7 @@ namespace AlchemyPlanet.GameScene
         private void Awake()
         {
             Instance = this;
+            MovedDistance = 0;
             //CreateJsonFile();
             //LoadStageInfo();
         }
@@ -106,6 +108,8 @@ namespace AlchemyPlanet.GameScene
 
                 foreach (var item in tileQueue)
                     item.transform.position += Vector3.left * speed * frame;
+
+                MovedDistance += speed * frame;
 
                 if(tileQueue.Peek().transform.position.x <= startPoint.x - length)
                 {

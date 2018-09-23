@@ -98,6 +98,21 @@ namespace AlchemyPlanet.StoryLobbyScene
                     GameSettings.Instance.monsterNumber = 10000;
                     GameSettings.Instance.monsterCooltime = 10;
                 }
+
+                else if(CurrentStage == 4)
+                {
+                    GameSettings.Instance.isAbilityActivated = false;
+                    GameSettings.Instance.monsterNumber = 10000;
+                    GameSettings.Instance.monsterCooltime = 10;
+
+                    for (int i = 0; i < GameSettings.Instance.itemChanges_Key.Length; i++)
+                    {
+                        if (GameSettings.Instance.itemChanges_Key[i] == ItemName.Sprint)
+                            GameSettings.Instance.itemChanges_Value[i] = 1;
+                        else
+                            GameSettings.Instance.itemChanges_Value[i] = 0;
+                    }
+                }
             }
         }
 
@@ -145,6 +160,7 @@ namespace AlchemyPlanet.StoryLobbyScene
                     yield return new WaitForSeconds(2);
                     UIManager.Instance.OpenMenu<EndUI>();
                 }
+
                 else if(CurrentStage == 3)
                 {
                     starsObject.transform.GetChild(1).GetComponent<Image>().sprite = starOn;
@@ -183,6 +199,47 @@ namespace AlchemyPlanet.StoryLobbyScene
                     {
                         WebSocketManager.Instance.SendInsertStoryStar("0", "0", "1-4", 0);
                         DataManager.Instance.CurrentPlayerData.stroystar.Add("1-4", 0);
+                    }
+
+                    yield return new WaitForSeconds(2);
+                    UIManager.Instance.OpenMenu<EndUI>();
+                }
+
+                else if(CurrentStage == 4)
+                {
+                    starsObject.transform.GetChild(1).GetComponent<Image>().sprite = starOn;
+                    isStarOn[1] = true;
+
+                    while(true)
+                    {
+                        if (StageManager.Instance.MovedDistance >= 50)
+                        {
+                            starsObject.transform.GetChild(0).GetComponent<Image>().sprite = starOn;
+                            isStarOn[0] = true;
+                        }
+                        if (ItemManager.Instance.UsedItemNumber[ItemName.Sprint] >= 3)
+                        {
+                            starsObject.transform.GetChild(2).GetComponent<Image>().sprite = starOn;
+                            isStarOn[2] = true;
+                        }
+
+                        if (isStarOn[0] == true && isStarOn[2] == true)
+                            break;
+
+                        yield return null;
+                    }
+
+                    int starNumber = 2;
+                    if (isStarOn[1] == true)
+                        starNumber++;
+
+                    WebSocketManager.Instance.SendUpdatePlayerStoryStar("0", "0", "1-4", starNumber);
+                    DataManager.Instance.CurrentPlayerData.stroystar["1-4"] = starNumber;
+
+                    if (DataManager.Instance.CurrentPlayerData.stroystar.ContainsKey("1-5") == false)
+                    {
+                        WebSocketManager.Instance.SendInsertStoryStar("0", "0", "1-5", 0);
+                        DataManager.Instance.CurrentPlayerData.stroystar.Add("1-5", 0);
                     }
 
                     yield return new WaitForSeconds(2);
