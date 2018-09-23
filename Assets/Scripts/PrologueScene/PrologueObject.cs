@@ -5,7 +5,7 @@ using DG.Tweening;
 
 namespace AlchemyPlanet.PrologueScene
 {
-    public enum ObjectKind { NPC, Object, Door }
+    public enum ObjectKind { NPC, Object, Door, Zoom }
 
     public class PrologueObject : MonoBehaviour
     {
@@ -14,6 +14,8 @@ namespace AlchemyPlanet.PrologueScene
 
         //Object일 떄 필요한 말풍선
         [SerializeField] private GameObject bubble;
+
+        [SerializeField] private MainCamera mainCamera;
 
         //Nexxt Stage
         [SerializeField] private GameObject currentStages;
@@ -38,7 +40,12 @@ namespace AlchemyPlanet.PrologueScene
                         }
                     case ObjectKind.Door:
                         {
-                            MoveNext();
+                            StartCoroutine(MoveNext());
+                            break;
+                        }
+                    case ObjectKind.Zoom:
+                        {
+                            mainCamera.ZoomIn(5.5f);
                             break;
                         }
                 }
@@ -63,16 +70,20 @@ namespace AlchemyPlanet.PrologueScene
         public void ShowBubble()
         {
             bubble.SetActive(true);
-            bubble.transform.DOScale(1, 0.5f);
+            bubble.transform.DOScaleY(0.4f, 0.3f);
         }
         public void CloseBubble()
         {
-            bubble.transform.DOScale(0, 0.5f).OnComplete(() => bubble.SetActive(false));
+            bubble.transform.DOScaleY(0, 0.5f).OnComplete(() => bubble.SetActive(false));
         }
-        public void MoveNext()
+
+        public IEnumerator MoveNext()
         {
+            mainCamera.FadeOut();
+            yield return new WaitForSeconds(1);
             currentStages.SetActive(false);
             nextStage.SetActive(true);
+            mainCamera.FadeIn();
         }
     }
 }
