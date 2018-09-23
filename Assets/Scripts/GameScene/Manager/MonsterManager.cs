@@ -7,6 +7,9 @@ namespace AlchemyPlanet.GameScene
     public class MonsterManager : MonoBehaviour
     {
         public static MonsterManager Instance { get; private set; } 
+
+        public int DeadMonsterNumber { get; set; }
+
         public Dictionary<int, Monster> Monsters { get; private set; }
         public Vector3 SpawnPoint { get; private set; }
         public int Key { get; private set; }
@@ -19,6 +22,7 @@ namespace AlchemyPlanet.GameScene
         private void Awake()
         {
             Instance = this;
+            DeadMonsterNumber = 0;
             Monsters = new Dictionary<int, Monster>();
             SpawnPoint = new Vector3(6, 2, 0);
             Key = 0;

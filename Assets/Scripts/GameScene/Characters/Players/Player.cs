@@ -8,6 +8,9 @@ namespace AlchemyPlanet.GameScene
     public class Player : MonoBehaviour
     {
         public static Player Instance { get; private set; }
+
+        public int PlayerHitNumber { get; set; }
+
         protected float attackPower;
         protected Animator animator;
 
@@ -19,6 +22,7 @@ namespace AlchemyPlanet.GameScene
         protected virtual void Awake()
         {
             Instance = this;
+            PlayerHitNumber = 0;
             attackPower = 30;
             animator = GetComponent<Animator>();
         }
@@ -35,6 +39,8 @@ namespace AlchemyPlanet.GameScene
         {
             GameUI.Instance.UpdateGage(Gages.PURIFY, -damage);
             PlayHitAnimation();
+
+            PlayerHitNumber++;
         }
 
         public float GetDamage(int chainNumber)

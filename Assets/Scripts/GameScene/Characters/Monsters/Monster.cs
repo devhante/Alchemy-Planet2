@@ -144,6 +144,8 @@ namespace AlchemyPlanet.GameScene
             StopCoroutine("MoveBackwardCoroutine");
             StopCoroutine("DraggedForwardCoroutine");
             StartCoroutine("DieCoroutine");
+
+            MonsterManager.Instance.DeadMonsterNumber++;
         }
 
         private IEnumerator DieCoroutine()

@@ -92,6 +92,12 @@ namespace AlchemyPlanet.StoryLobbyScene
 
                     yield return null;
                 }
+                else if(CurrentStage == 3)
+                {
+                    GameSettings.Instance.isAbilityActivated = false;
+                    GameSettings.Instance.monsterNumber = 10000;
+                    GameSettings.Instance.monsterCooltime = 10;
+                }
             }
         }
 
@@ -135,6 +141,51 @@ namespace AlchemyPlanet.StoryLobbyScene
                         WebSocketManager.Instance.SendInsertStoryStar("0", "0", "1-3", 0);
                         DataManager.Instance.CurrentPlayerData.stroystar.Add("1-3", 0);
                     }
+
+                    yield return new WaitForSeconds(2);
+                    UIManager.Instance.OpenMenu<EndUI>();
+                }
+                else if(CurrentStage == 3)
+                {
+                    starsObject.transform.GetChild(1).GetComponent<Image>().sprite = starOn;
+                    isStarOn[1] = true;
+
+                    while (true)
+                    {
+                        if(MonsterManager.Instance.DeadMonsterNumber >= 5)
+                        {
+                            starsObject.transform.GetChild(0).GetComponent<Image>().sprite = starOn;
+                            isStarOn[0] = true;
+                        }
+                        if(Player.Instance.PlayerHitNumber > 15)
+                        {
+                            starsObject.transform.GetChild(0).GetComponent<Image>().sprite = starOff;
+                            isStarOn[1] = false;
+                        }
+                        if(MaterialManager.Instance.ChainedNumber >= 10)
+                        {
+                            starsObject.transform.GetChild(2).GetComponent<Image>().sprite = starOn;
+                            isStarOn[2] = true;
+                            break;
+                        }
+
+                        yield return null;
+                    }
+
+                    int starNumber = 2;
+                    if (isStarOn[1] == true)
+                        starNumber++;
+
+                    WebSocketManager.Instance.SendUpdatePlayerStoryStar("0", "0", "1-3", starNumber);
+                    DataManager.Instance.CurrentPlayerData.stroystar["1-3"] = starNumber;
+
+                    if (DataManager.Instance.CurrentPlayerData.stroystar.ContainsKey("1-4") == false)
+                    {
+                        WebSocketManager.Instance.SendInsertStoryStar("0", "0", "1-4", 0);
+                        DataManager.Instance.CurrentPlayerData.stroystar.Add("1-4", 0);
+                    }
+
+                    yield return new WaitForSeconds(2);
                     UIManager.Instance.OpenMenu<EndUI>();
                 }
             }
