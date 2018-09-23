@@ -5,10 +5,10 @@ using UnityEngine.EventSystems;
 
 namespace AlchemyPlanet.GameScene
 {
+    public enum ItemName { IncreasePurify, NoReducedOxygen, RainbowColorBall, SlowReducedOxygen, Sprint, PopinPotionBlack }
+
     public class Item : Bubble, IPointerUpHandler
     {
-        public enum ItemName { IncreasePurify, NoReducedOxygen, RainbowColorBall, SlowReducedOxygen, Sprint, PopinPotionBlack }
-
         public ItemName itemName;
         private bool isItemPointerUp = false;
 
@@ -26,6 +26,7 @@ namespace AlchemyPlanet.GameScene
                 case ItemName.Sprint: ItemManager.Instance.Sprint(); break;
             }
 
+            ItemManager.Instance.UsedItemNumber[itemName]++;
             DestroyItem();
         }
 

@@ -9,6 +9,9 @@ namespace AlchemyPlanet.GameScene
     public class MaterialManager : MonoBehaviour
     {
         public static MaterialManager Instance { get; private set; }
+
+        public int ChainedNumber { get; set; }
+
         public Dictionary<MaterialName, int> MaterialNumbers { get; private set; }
         public List<GameObject> Objects { get; private set; }
         public List<Material> MaterialChain { get; private set; }
@@ -33,6 +36,8 @@ namespace AlchemyPlanet.GameScene
         {
             if (Instance == null) Instance = this;
             else Destroy(gameObject);
+
+            ChainedNumber = 0;
 
             Objects = new List<GameObject>();
             MaterialNumbers = new Dictionary<MaterialName, int>();

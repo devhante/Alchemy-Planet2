@@ -24,7 +24,9 @@ namespace AlchemyPlanet.GameScene
         public bool PotionGreen { get; set; }
 
         public GameObject itemPopinPotionBlack;
+        public GameObject skillBarCanvas;
         public Image skillBar;
+        
 
         private GameObject bulletSpawnPoint;
         private PopinPotionColor[] popinPotionColorList = { PopinPotionColor.Red, PopinPotionColor.Green, PopinPotionColor.Blue, PopinPotionColor.Black, PopinPotionColor.Rainbow };
@@ -39,11 +41,15 @@ namespace AlchemyPlanet.GameScene
             base.Awake();
             Instance = this;
             bulletSpawnPoint = transform.GetChild(5).gameObject;
+            
         }
 
         private void Start()
         {
-            StartCoroutine("UpdateSkillGageCoroutine");
+            if (GameSettings.Instance.isAbilityActivated == false)
+                skillBarCanvas.SetActive(false);
+            if (GameSettings.Instance.isAbilityActivated == true)
+                StartCoroutine("UpdateSkillGageCoroutine");
         }
 
         private void UpdateSkillBar()
@@ -89,13 +95,38 @@ namespace AlchemyPlanet.GameScene
 
                 if (SkillGage == 100)
                 {
-                    int index = Random.Range(0, popinPotionColorList.Length);
-                    Skill(popinPotionColorList[index]);
+                    //int index = Random.Range(0, popinPotionColorList.Length);
+                    PopinPotionColor color = GetPopinPotionColor();
+                    Skill(color);
                     SkillGage = 0;
                 }
 
                 yield return new WaitForEndOfFrame();
             }
+        }
+
+        private PopinPotionColor GetPopinPotionColor()
+        {
+            int result = 0;
+            float random = Random.Range(0f, 1f);
+            int length = GameSettings_Popin.Instance.popinPotionChanges_Value.Length;
+
+            for (int i = 0; i < length; i++)
+            {
+                Debug.Log(random);
+                random -= GameSettings_Popin.Instance.popinPotionChanges_Value[i];
+                Debug.Log(random);
+                if (random <= 0)
+                {
+                    result = i;
+                    break;
+                }
+
+                if (i == length - 1)
+                    result = length - 1;
+            }
+
+            return GameSettings_Popin.Instance.popinPotionChances_Key[result];
         }
 
         public void Skill(PopinPotionColor color)

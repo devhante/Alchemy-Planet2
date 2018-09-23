@@ -40,7 +40,7 @@ namespace AlchemyPlanet.CharacterScene
         IEnumerator MoveLeftCoroutine()
         {
             float speed = 10;
-            float originPosX = transform.position.x;
+            float originPosX = 0;
 
             GameManager.Instance.CurrentCharacters = GameManager.Instance.InstantiateCharacters();
             GameManager.Instance.CurrentCharacters.transform.position = new Vector3(originPosX + 5, GameManager.Instance.CurrentCharacters.transform.position.y, GameManager.Instance.CurrentCharacters.transform.position.z);

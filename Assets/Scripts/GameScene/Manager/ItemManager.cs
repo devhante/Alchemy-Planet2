@@ -8,6 +8,9 @@ namespace AlchemyPlanet.GameScene
     {
         public static ItemManager Instance { get; private set; }
 
+        public Dictionary<ItemName, int> CreatedItemNumber { get; set; }
+        public Dictionary<ItemName, int> UsedItemNumber { get; set; }
+
         public List<GameObject> Objects { get; private set; }
         public int MaxItemNumber { get; private set; }
         public bool IsSprinting { get; private set; }
@@ -28,21 +31,74 @@ namespace AlchemyPlanet.GameScene
         private void Awake()
         {
             Instance = this;
-
             Objects = new List<GameObject>();
             MaxItemNumber = 3;
             IsSprinting = false;
+
+            CreatedItemNumber = new Dictionary<ItemName, int>();
+            UsedItemNumber = new Dictionary<ItemName, int>();
+
+            CreatedItemNumber.Add(ItemName.IncreasePurify, 0);
+            CreatedItemNumber.Add(ItemName.NoReducedOxygen, 0);
+            CreatedItemNumber.Add(ItemName.RainbowColorBall, 0);
+            CreatedItemNumber.Add(ItemName.SlowReducedOxygen, 0);
+            CreatedItemNumber.Add(ItemName.Sprint, 0);
+            UsedItemNumber.Add(ItemName.IncreasePurify, 0);
+            UsedItemNumber.Add(ItemName.NoReducedOxygen, 0);
+            UsedItemNumber.Add(ItemName.RainbowColorBall, 0);
+            UsedItemNumber.Add(ItemName.SlowReducedOxygen, 0);
+            UsedItemNumber.Add(ItemName.Sprint, 0);
         }
 
-        public void CreateItem()
+        public void CreateItem(ItemName itemName)
         {
             if (Objects.Count < MaxItemNumber)
             {
                 Vector3 position = MaterialManager.Instance.GetNewMaterialPosition();
-                int itemIndex = Random.Range(0, PrefabManager.Instance.itemPrefabs.Length);
-                GameObject instance = Instantiate(PrefabManager.Instance.itemPrefabs[itemIndex], position, Quaternion.identity, transform);
+                GameObject prefab = new GameObject();
+
+                switch(itemName)
+                {
+                    case ItemName.IncreasePurify:
+                        prefab = PrefabManager.Instance.itemPrefabs[0]; break;
+                    case ItemName.NoReducedOxygen:
+                        prefab = PrefabManager.Instance.itemPrefabs[1]; break;
+                    case ItemName.RainbowColorBall:
+                        prefab = PrefabManager.Instance.itemPrefabs[2]; break;
+                    case ItemName.SlowReducedOxygen:
+                        prefab = PrefabManager.Instance.itemPrefabs[3]; break;
+                    case ItemName.Sprint:
+                        prefab = PrefabManager.Instance.itemPrefabs[4]; break;
+                }
+
+                GameObject instance = Instantiate(prefab, position, Quaternion.identity, transform);
                 Objects.Add(instance);
+                CreatedItemNumber[itemName]++;
             }
+        }
+
+        public ItemName GetItemName()
+        {
+            int result = 0;
+            float random = Random.Range(0f, 1f);
+            int length = GameSettings.Instance.itemChanges_Value.Length;
+
+            for (int i = 0; i < length; i++)
+            {
+                Debug.Log(random);
+                random -= GameSettings.Instance.itemChanges_Value[i];
+                Debug.Log(random);
+                if (random <= 0)
+                {
+                    result = i;
+                    break;
+                }
+
+                if (i == length - 1)
+                    result = length - 1;
+            }
+
+            return GameSettings.Instance.itemChanges_Key[result];
         }
 
         public void IncreasePurify()

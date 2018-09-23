@@ -1,20 +1,29 @@
 fileFormatVersion: 2
-guid: 04d4856325c2f4443920b2f07be7e88b
+guid: b0be7a40bec0d6643b271b07ba5d8b82
 TextureImporter:
   fileIDToRecycleName:
     21300000: StoryLobbyUI_ChapterBanner
-    21300002: StoryLobbyUI_StarOff
-    21300004: StoryLobbyUI_StarOn
-    21300006: StoryLobbyUI_StarBackground
-    21300008: StoryLobbyUI_StarDescriptionBackground
-    21300010: StoryLobbyUI_StageBoss
-    21300012: StoryLobbyUI_StageButtonRight
-    21300014: StoryLobbyUI_StageCircleWhite
-    21300016: StoryLobbyUI_StageCircleYellow
-    21300018: StoryLobbyUI_StageButtonLeft
-    21300020: StoryLobbyUI_StageLine
-    21300022: StoryLobbyUINew_ButtonStart
-    21300024: StoryLobbyUI_ButtonWatchAgain
+    21300002: StoryLobbyUI_PartyBox
+    21300004: StoryLobbyUI_StarOff
+    21300006: StoryLobbyUI_StarOn
+    21300008: StoryLobbyUI_StarBackground
+    21300010: StoryLobbyUI_PartyBoxTitle
+    21300012: StoryLobbyUI_PartyBoxLeaderSkill
+    21300014: StoryLobbyUI_StarDescriptionBackground
+    21300016: StoryLobbyUI_PartySlotShadow
+    21300018: StoryLobbyUI_PartySlotCover
+    21300020: StoryLobbyUI_PartySlotBackground
+    21300022: StoryLobbyUI_PartyPurifier
+    21300024: StoryLobbyUI_PartyCrown
+    21300026: StoryLobbyUI_StageBoss
+    21300028: StoryLobbyUI_StageButtonRight
+    21300030: StoryLobbyUI_StageCircleWhite
+    21300032: StoryLobbyUI_StageCircleBlack
+    21300034: StoryLobbyUI_StageButtonLeft
+    21300036: StoryLobbyUI_StageCircleYellow
+    21300038: StoryLobbyUI_StageLine
+    21300040: StoryLobbyUI_ButtonStart
+    21300042: StoryLobbyUI_ButtonWatchAgain
   externalObjects: {}
   serializedVersion: 5
   mipmaps:
@@ -120,7 +129,27 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: beeb9f0fffdb3c040835d4ce0166c7ff
+      spriteID: 48a9382ae2247c0439f1cca3fc9daf3e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoryLobbyUI_PartyBox
+      rect:
+        serializedVersion: 2
+        x: 685
+        y: 537
+        width: 550
+        height: 225
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6380ba54928b6f4aad3ecbe049c50f9
       vertices: []
       indices: 
       edges: []
@@ -129,10 +158,10 @@ TextureImporter:
       name: StoryLobbyUI_StarOff
       rect:
         serializedVersion: 2
-        x: 65
+        x: 64
         y: 476
-        width: 65
-        height: 65
+        width: 66
+        height: 68
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,7 +169,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9b84bcded40c24d4d82aa9e5e863fafe
+      spriteID: 21e2c8da68047154181e9b48b030fff1
       vertices: []
       indices: 
       edges: []
@@ -149,10 +178,10 @@ TextureImporter:
       name: StoryLobbyUI_StarOn
       rect:
         serializedVersion: 2
-        x: 147
+        x: 146
         y: 475
-        width: 63
-        height: 65
+        width: 66
+        height: 67
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,7 +189,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ea9a52ea2ccf8314ebd4349bf152cdc0
+      spriteID: 5389cf074a576b140bca6ebed5a4ed23
       vertices: []
       indices: 
       edges: []
@@ -180,7 +209,47 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c83dbc8fcee93b84e9e8b71ffe705151
+      spriteID: a007582a2e7088e4d82fc1ce27e12d6b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoryLobbyUI_PartyBoxTitle
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 488
+        width: 114
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ac37cb7dff5c4547bd0fc72570d4274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoryLobbyUI_PartyBoxLeaderSkill
+      rect:
+        serializedVersion: 2
+        x: 830
+        y: 500
+        width: 455
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b47c6283d3adbe4e91aa3fff926f4f2
       vertices: []
       indices: 
       edges: []
@@ -189,10 +258,10 @@ TextureImporter:
       name: StoryLobbyUI_StarDescriptionBackground
       rect:
         serializedVersion: 2
-        x: 56
-        y: 284
-        width: 352
-        height: 163
+        x: 55
+        y: 283
+        width: 354
+        height: 164
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,7 +269,107 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4bfffedea145ea84b92b9d7109f4fe55
+      spriteID: b1953226f224d6041ac0e7ed467c5541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoryLobbyUI_PartySlotShadow
+      rect:
+        serializedVersion: 2
+        x: 710
+        y: 367
+        width: 105
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 422608dcf62db17489d96e13ca1b3699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoryLobbyUI_PartySlotCover
+      rect:
+        serializedVersion: 2
+        x: 821
+        y: 373
+        width: 98
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb5421473b470a54b9eb9d887d893621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoryLobbyUI_PartySlotBackground
+      rect:
+        serializedVersion: 2
+        x: 927
+        y: 374
+        width: 94
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b90d80cf727f6a64ab9f3200aafadfa8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoryLobbyUI_PartyPurifier
+      rect:
+        serializedVersion: 2
+        x: 1064
+        y: 362
+        width: 89
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ba3e6fb03f6af04fa1125bb15a47a65
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoryLobbyUI_PartyCrown
+      rect:
+        serializedVersion: 2
+        x: 1175
+        y: 438
+        width: 29
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7dd5a3738a1e8b649801fa7c44cbba3e
       vertices: []
       indices: 
       edges: []
@@ -210,9 +379,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 432
-        y: 385
+        y: 384
         width: 36
-        height: 31
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -220,7 +389,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b81ac7b1519ebe94a9f048c0869b7703
+      spriteID: 2279336c0334d3c4fa1f9c7a5bf5f3d6
       vertices: []
       indices: 
       edges: []
@@ -229,9 +398,9 @@ TextureImporter:
       name: StoryLobbyUI_StageButtonRight
       rect:
         serializedVersion: 2
-        x: 492
+        x: 494
         y: 369
-        width: 45
+        width: 43
         height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -240,7 +409,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5db32516b4413274e86a731ba06e6c52
+      spriteID: 0ac3cac7f876bb649ab512be43c460a5
       vertices: []
       indices: 
       edges: []
@@ -260,19 +429,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e1dfa585eed26ed4c89434bd0c484098
+      spriteID: 4ca95168e530e454eb8a1c3e588b2c44
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StoryLobbyUI_StageCircleYellow
+      name: StoryLobbyUI_StageCircleBlack
       rect:
         serializedVersion: 2
-        x: 441
-        y: 308
+        x: 442
+        y: 321
         width: 17
-        height: 17
+        height: 18
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -280,7 +449,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0d641de5a2badfa42b21ec9cfc739269
+      spriteID: f5019254edabf8d48a196ba1f5aeb7a7
       vertices: []
       indices: 
       edges: []
@@ -291,7 +460,7 @@ TextureImporter:
         serializedVersion: 2
         x: 491
         y: 297
-        width: 45
+        width: 43
         height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -300,7 +469,27 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f80bb3812f66cc14884428a69c721708
+      spriteID: 390ff10105cb81b49b636adcb754ca32
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoryLobbyUI_StageCircleYellow
+      rect:
+        serializedVersion: 2
+        x: 442
+        y: 296
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d40b34513f100b44ae77cf5c5498b20
       vertices: []
       indices: 
       edges: []
@@ -320,19 +509,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 52ac54ad7dd7ddc41a0f5d3143420484
+      spriteID: 6d37502d1eb05a245aad44bdad18626c
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StoryLobbyUINew_ButtonStart
+      name: StoryLobbyUI_ButtonStart
       rect:
         serializedVersion: 2
         x: 72
-        y: 56
+        y: 57
         width: 156
-        height: 164
+        height: 163
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -340,7 +529,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 02acb2916fdeb5044858827d4776592d
+      spriteID: 49debbc39b9e5624aac95d25e752e5c0
       vertices: []
       indices: 
       edges: []
@@ -349,9 +538,9 @@ TextureImporter:
       name: StoryLobbyUI_ButtonWatchAgain
       rect:
         serializedVersion: 2
-        x: 264
+        x: 265
         y: 128
-        width: 106
+        width: 105
         height: 76
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -360,7 +549,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3c110a051dc227f48bb7aeb79c02a0c7
+      spriteID: 8d6199673c58c59489449fa232836ae4
       vertices: []
       indices: 
       edges: []
@@ -368,7 +557,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 1170ee3af057dd0458c12933e0634318
+    spriteID: 14fff98218f16314a95272402d426099
     vertices: []
     indices: 
     edges: []
