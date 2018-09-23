@@ -11,6 +11,8 @@ namespace AlchemyPlanet.GameScene
     {
         public static new Popin Instance { get; private set; }
 
+        public Dictionary<PopinPotionColor, int> UsedSkillNumber { get; set; }
+
         private int skillGage;
         public int SkillGage
         {
@@ -41,7 +43,13 @@ namespace AlchemyPlanet.GameScene
             base.Awake();
             Instance = this;
             bulletSpawnPoint = transform.GetChild(5).gameObject;
-            
+
+            UsedSkillNumber = new Dictionary<PopinPotionColor, int>();
+            UsedSkillNumber.Add(PopinPotionColor.Red, 0);
+            UsedSkillNumber.Add(PopinPotionColor.Green, 0);
+            UsedSkillNumber.Add(PopinPotionColor.Blue, 0);
+            UsedSkillNumber.Add(PopinPotionColor.Rainbow, 0);
+            UsedSkillNumber.Add(PopinPotionColor.Black, 0);
         }
 
         private void Start()
@@ -95,10 +103,10 @@ namespace AlchemyPlanet.GameScene
 
                 if (SkillGage == 100)
                 {
-                    //int index = Random.Range(0, popinPotionColorList.Length);
                     PopinPotionColor color = GetPopinPotionColor();
                     Skill(color);
                     SkillGage = 0;
+                    UsedSkillNumber[color]++;
                 }
 
                 yield return new WaitForEndOfFrame();

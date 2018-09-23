@@ -77,6 +77,7 @@ namespace AlchemyPlanet.GameScene
 
             if (RecipeManager.Instance.GetQueuePeekName() == materialName)
             {
+                MaterialManager.Instance.DestroyedMaterialNumber++;
                 Player.Instance.GetMaterialMessage(materialName);
                 Popin.Instance.SkillGage += 5;
                 GameManager.Instance.GainScore(ScoreType.TouchRightRecipe);
@@ -98,6 +99,7 @@ namespace AlchemyPlanet.GameScene
 
             foreach (var item in MaterialManager.Instance.MaterialChain)
             {
+                MaterialManager.Instance.DestroyedMaterialNumber++;
                 Player.Instance.GetMaterialMessage(item.materialName);
                 Popin.Instance.SkillGage += 5;
                 item.ChangeBubbleToUnselectedBubble();

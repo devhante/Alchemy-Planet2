@@ -11,6 +11,7 @@ namespace AlchemyPlanet.GameScene
         public static MaterialManager Instance { get; private set; }
 
         public int ChainedNumber { get; set; }
+        public int DestroyedMaterialNumber { get; set; }
 
         public Dictionary<MaterialName, int> MaterialNumbers { get; private set; }
         public List<GameObject> Objects { get; private set; }
@@ -38,6 +39,7 @@ namespace AlchemyPlanet.GameScene
             else Destroy(gameObject);
 
             ChainedNumber = 0;
+            DestroyedMaterialNumber = 0;
 
             Objects = new List<GameObject>();
             MaterialNumbers = new Dictionary<MaterialName, int>();
