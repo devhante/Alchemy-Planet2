@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using AlchemyPlanet.Data;
+using DG.Tweening;
 
 namespace AlchemyPlanet.PrologueScene
 {
@@ -16,6 +17,7 @@ namespace AlchemyPlanet.PrologueScene
 
         private IEnumerator LateStart(int seconds)
         {
+            //첫 대사
             yield return new WaitForSeconds(seconds);
             DataManager.Instance.selected_dialog = new NPCDAta("Prologue_00");
             TownScene.UIManager.Instance.OpenMenu<TownScene.DialogUI>();
@@ -26,10 +28,16 @@ namespace AlchemyPlanet.PrologueScene
                 yield return new WaitForEndOfFrame();
             }
 
+
+            //카메라 이동
             mainCamera.FadeIn();
 
+            mainCamera.gameObject.transform.DOMoveY(4.4f, 3).OnComplete(() => {
+                mainCamera.SetOffset();
+            });
             yield return new WaitForSeconds(3);
-
+            
+            //다음대사
             DataManager.Instance.selected_dialog = new NPCDAta("Prologue_01");
             TownScene.UIManager.Instance.OpenMenu<TownScene.DialogUI>();
             TownScene.DialogUI.Instance.SetDialog();
@@ -39,6 +47,17 @@ namespace AlchemyPlanet.PrologueScene
                 yield return new WaitForEndOfFrame();
             }
 
+            mainCamera.gameObject.transform.DOMoveY(2.4f, 3).OnComplete(() => {
+                mainCamera.SetOffset();
+            });
+
+            yield return new WaitForSeconds(5);
+
+            //포핀이 이동한다.
+
+            //튜토리얼로 이동한 후~
+
+            /*
             mainCamera.FadeOut();
 
             yield return new WaitForSeconds(3);
@@ -50,6 +69,7 @@ namespace AlchemyPlanet.PrologueScene
             yield return new WaitForSeconds(3);
 
             mainCamera.FadeIn();
+            */
         }
     }
 }

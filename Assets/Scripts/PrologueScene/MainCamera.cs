@@ -25,6 +25,11 @@ namespace AlchemyPlanet.PrologueScene
             StartCoroutine(Follow());
         }
 
+        public void SetOffset()
+        {
+            offset = this.transform.position - player.transform.position;
+        }
+
         public void FadeIn()
         {
             fade.DOFade(0, 2).SetEase(Ease.InBack).OnComplete(() => fade.gameObject.SetActive(false));
@@ -36,11 +41,25 @@ namespace AlchemyPlanet.PrologueScene
             fade.DOFade(1, 2).SetEase(Ease.InBack);
         }
 
+        public void ZoomIn(float zoom)
+        {
+            StartCoroutine(ZoomInCoroutine(zoom));
+        }
+
         IEnumerator Follow()
         {
             while (true)
             {
-                this.gameObject.transform.position = player.transform.position + offset;
+                this.gameObject.transform.position = Vector3.Lerp(this.gameObject.transform.position, player.transform.position + offset, 0.2f);
+                yield return frame;
+            }
+        }
+
+        IEnumerator ZoomInCoroutine(float zoom)
+        {
+            while (Camera.main.orthographicSize > zoom)
+            {
+                Camera.main.orthographicSize -= 0.1f;
                 yield return frame;
             }
         }

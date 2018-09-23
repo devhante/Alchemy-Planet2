@@ -182,10 +182,10 @@ TextureImporter:
       name: Object
       rect:
         serializedVersion: 2
-        x: 56
-        y: 428
-        width: 616
-        height: 320
+        x: 59
+        y: 431
+        width: 611
+        height: 313
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
