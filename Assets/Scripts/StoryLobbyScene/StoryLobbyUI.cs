@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace AlchemyPlanet.StoryLobbyScene
 {
@@ -74,6 +75,14 @@ namespace AlchemyPlanet.StoryLobbyScene
         private void OnClickStarButton()
         {
             starDescriptionButton.gameObject.SetActive(!starDescriptionButton.gameObject.activeSelf);
+
+            if(starDescriptionButton.gameObject.activeSelf == true)
+            {
+                starDescriptionButton.transform.localScale = Vector3.zero;
+                Sequence sq = DOTween.Sequence();
+                sq.Append(starDescriptionButton.transform.DOScale(Vector3.one, 0.5f))
+                    .SetEase(Ease.OutQuint);
+            }
         }
 
         private void OnClickStarDescriptionButton()
@@ -131,6 +140,9 @@ namespace AlchemyPlanet.StoryLobbyScene
                     isCleared = false;
                 }
             }
+
+            if (isCleared == true)
+                StoryManager.Instance.CurrentStage = stageNumber;
         }
     }
 }
