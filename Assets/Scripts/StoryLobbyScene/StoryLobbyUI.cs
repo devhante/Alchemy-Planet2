@@ -85,6 +85,9 @@ namespace AlchemyPlanet.StoryLobbyScene
         private void OnClickButtonRight()
         {
             if (StoryManager.Instance.CurrentStage == StoryManager.Instance.CurrentMaxStage) return;
+            if (StoryManager.Instance.CurrentStage + 1 == StoryManager.Instance.CurrentMaxStage)
+                if (DataManager.Instance.CurrentPlayerData.stroystar.ContainsKey(StoryManager.Instance.CurrentChaper.ToString() + "-" + StoryManager.Instance.CurrentMaxStage.ToString()) == false)
+                    return;
             if (stageCircles.transform.GetChild(StoryManager.Instance.CurrentStage).GetComponent<Image>().sprite == stageCircleBlack) return;
             if (StoryManager.Instance.CurrentStage != StoryManager.Instance.CurrentMaxStage - 1)
                 stageCircles.transform.GetChild(StoryManager.Instance.CurrentStage).GetComponent<Image>().sprite = stageCircleYellow;
