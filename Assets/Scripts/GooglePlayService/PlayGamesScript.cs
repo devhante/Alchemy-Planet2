@@ -14,7 +14,7 @@ namespace AlchemyPlanet.Data
         public static PlayGamesScript Instance { get; private set; }
         [SerializeField] private Button button;
 
-        public string current_user_id;
+        public string current_user_id = "0";
 
         const string SAVE_NAME = "PlayData";
         bool isSaving;

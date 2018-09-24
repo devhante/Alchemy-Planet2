@@ -344,17 +344,21 @@ namespace AlchemyPlanet.Data
             {
                 WebSocketManager.Instance.SendInsertCharacter("0", cp.player_id, ((int)item.name).ToString(), item.level, item.addtional_health, item.speed, item.atk);
             };
-            foreach (var item in cp.party)
+            for(int i=0; i<cp.party.Rank; ++i)
             {
-                WebSocketManager.Instance.SendInsertParty("0", cp.player_id, item., item.Value);
-            };
+                for(int j=0; j<cp.party.Length; ++j)
+                {
+                    WebSocketManager.Instance.SendInsertParty("0", cp.player_id, i, j, ((int )cp.party[i, j]).ToString());
+                }
+            }
+            /*
             foreach (var item in cp.request)
             {
-                WebSocketManager.Instance.SendInsertItem("0", cp.player_id, item.Key, item.Value);
             };
+            */
             foreach (var item in cp.stroystar)
             {
-                WebSocketManager.Instance.SendInsertItem("0", cp.player_id, item.Key, item.Value);
+                WebSocketManager.Instance.SendInsertStoryStar("0", cp.player_id, item.Key, item.Value);
             };
         }
 

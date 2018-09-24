@@ -46,5 +46,11 @@ namespace AlchemyPlanet.PrologueScene
                 animator.SetBool("Run", false);
             }
         }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.CompareTag("NPC"))
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
     }
 }
