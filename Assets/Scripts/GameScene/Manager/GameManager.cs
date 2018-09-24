@@ -11,6 +11,8 @@ namespace AlchemyPlanet.GameScene
     {
         public static GameManager Instance { get; private set; }
 
+        public int Second { get; set; }
+
         private int combo;
         private int score;
         private int coin;
@@ -79,7 +81,14 @@ namespace AlchemyPlanet.GameScene
 
         private void Start()
         {
+            StartCoroutine("SecondCoroutine");
             StartCoroutine("SprintEffectCoroutine");
+        }
+
+        IEnumerator SecondCoroutine()
+        {
+            yield return new WaitForSeconds(1);
+            Second++;
         }
 
         public IEnumerator GainScoreByTimeCoroutine()

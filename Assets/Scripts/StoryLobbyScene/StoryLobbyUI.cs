@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace AlchemyPlanet.StoryLobbyScene
 {
@@ -44,27 +45,44 @@ namespace AlchemyPlanet.StoryLobbyScene
             StoryManager.Instance.CurrentMaxStage = 7;
             InstantiateStageCircles(StoryManager.Instance.CurrentMaxStage);
 
-            for (int i = 0; i < 3; i++)
-            {
-                stageText.text = string.Format("STAGE {0}-{1}", StoryManager.Instance.CurrentChaper.ToString(), StoryManager.Instance.CurrentStage.ToString());
-                starDescriptionButton.transform.GetChild(1).GetChild(i).GetComponent<Text>().text = list[StoryManager.Instance.CurrentStage - 1].challenges[i];
+            StartCoroutine("ChallengeUpdateCoroutine");
+        }
 
-                if (DataManager.Instance.CurrentPlayerData.stroystar[StoryManager.Instance.CurrentChaper.ToString() + "-" + StoryManager.Instance.CurrentStage.ToString()] > i)
+        IEnumerator ChallengeUpdateCoroutine()
+        {
+            while(true)
+            {
+                for (int i = 0; i < 3; i++)
                 {
-                    starImages[i].sprite = starOn;
-                    starDescriptionImages[i].sprite = starOn;
+                    stageText.text = string.Format("STAGE {0}-{1}", StoryManager.Instance.CurrentChaper.ToString(), StoryManager.Instance.CurrentStage.ToString());
+                    starDescriptionButton.transform.GetChild(1).GetChild(i).GetComponent<Text>().text = list[StoryManager.Instance.CurrentStage - 1].challenges[i];
+
+                    if (DataManager.Instance.CurrentPlayerData.stroystar[StoryManager.Instance.CurrentChaper.ToString() + "-" + StoryManager.Instance.CurrentStage.ToString()] > i)
+                    {
+                        starImages[i].sprite = starOn;
+                        starDescriptionImages[i].sprite = starOn;
+                    }
+                    else
+                    {
+                        starImages[i].sprite = starOff;
+                        starDescriptionImages[i].sprite = starOff;
+                    }
                 }
-                else
-                {
-                    starImages[i].sprite = starOff;
-                    starDescriptionImages[i].sprite = starOff;
-                }
+                yield return null;
             }
         }
 
         private void OnClickStarButton()
         {
             starDescriptionButton.gameObject.SetActive(!starDescriptionButton.gameObject.activeSelf);
+
+            if(starDescriptionButton.gameObject.activeSelf == true)
+            {
+                starDescriptionButton.transform.localScale = Vector3.zero;
+                Sequence sq = DOTween.Sequence();
+                sq.Append(starDescriptionButton.transform.DOScale(Vector3.one, 0.5f))
+                    .SetEase(Ease.OutQuint);
+            }
         }
 
         private void OnClickStarDescriptionButton()
@@ -85,6 +103,9 @@ namespace AlchemyPlanet.StoryLobbyScene
         private void OnClickButtonRight()
         {
             if (StoryManager.Instance.CurrentStage == StoryManager.Instance.CurrentMaxStage) return;
+            if (StoryManager.Instance.CurrentStage + 1 == StoryManager.Instance.CurrentMaxStage)
+                if (DataManager.Instance.CurrentPlayerData.stroystar.ContainsKey(StoryManager.Instance.CurrentChaper.ToString() + "-" + StoryManager.Instance.CurrentMaxStage.ToString()) == false)
+                    return;
             if (stageCircles.transform.GetChild(StoryManager.Instance.CurrentStage).GetComponent<Image>().sprite == stageCircleBlack) return;
             if (StoryManager.Instance.CurrentStage != StoryManager.Instance.CurrentMaxStage - 1)
                 stageCircles.transform.GetChild(StoryManager.Instance.CurrentStage).GetComponent<Image>().sprite = stageCircleYellow;
@@ -119,6 +140,9 @@ namespace AlchemyPlanet.StoryLobbyScene
                     isCleared = false;
                 }
             }
+
+            if (isCleared == true)
+                StoryManager.Instance.CurrentStage = stageNumber;
         }
     }
 }
