@@ -44,21 +44,30 @@ namespace AlchemyPlanet.StoryLobbyScene
             StoryManager.Instance.CurrentMaxStage = 7;
             InstantiateStageCircles(StoryManager.Instance.CurrentMaxStage);
 
-            for (int i = 0; i < 3; i++)
-            {
-                stageText.text = string.Format("STAGE {0}-{1}", StoryManager.Instance.CurrentChaper.ToString(), StoryManager.Instance.CurrentStage.ToString());
-                starDescriptionButton.transform.GetChild(1).GetChild(i).GetComponent<Text>().text = list[StoryManager.Instance.CurrentStage - 1].challenges[i];
+            StartCoroutine("ChallengeUpdateCoroutine");
+        }
 
-                if (DataManager.Instance.CurrentPlayerData.stroystar[StoryManager.Instance.CurrentChaper.ToString() + "-" + StoryManager.Instance.CurrentStage.ToString()] > i)
+        IEnumerator ChallengeUpdateCoroutine()
+        {
+            while(true)
+            {
+                for (int i = 0; i < 3; i++)
                 {
-                    starImages[i].sprite = starOn;
-                    starDescriptionImages[i].sprite = starOn;
+                    stageText.text = string.Format("STAGE {0}-{1}", StoryManager.Instance.CurrentChaper.ToString(), StoryManager.Instance.CurrentStage.ToString());
+                    starDescriptionButton.transform.GetChild(1).GetChild(i).GetComponent<Text>().text = list[StoryManager.Instance.CurrentStage - 1].challenges[i];
+
+                    if (DataManager.Instance.CurrentPlayerData.stroystar[StoryManager.Instance.CurrentChaper.ToString() + "-" + StoryManager.Instance.CurrentStage.ToString()] > i)
+                    {
+                        starImages[i].sprite = starOn;
+                        starDescriptionImages[i].sprite = starOn;
+                    }
+                    else
+                    {
+                        starImages[i].sprite = starOff;
+                        starDescriptionImages[i].sprite = starOff;
+                    }
                 }
-                else
-                {
-                    starImages[i].sprite = starOff;
-                    starDescriptionImages[i].sprite = starOff;
-                }
+                yield return null;
             }
         }
 
