@@ -24,10 +24,13 @@ namespace AlchemyPlanet.CharacterScene
 
         private void OnClickButtonOrganize()
         {
-            Destroy(GameManager.Instance.CurrentCharacters.gameObject);
+            //테스트
+            Common.AlertManager.Instance.InstantiateAlert(transform, "준비중입니다.");
 
-            UIManager.Instance.DestroyUI();
-            UIManager.Instance.CreateOrganizeUI();
+            //Destroy(GameManager.Instance.CurrentCharacters.gameObject);
+
+            //UIManager.Instance.DestroyUI();
+            //UIManager.Instance.CreateOrganizeUI();
         }
     }
 }
