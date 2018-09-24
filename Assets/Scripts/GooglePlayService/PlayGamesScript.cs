@@ -4,6 +4,7 @@ using GooglePlayGames.BasicApi.SavedGame;
 using System.Text;
 using UnityEngine;
 using AlchemyPlanet.Data;
+using UnityEngine.UI;
 
 namespace AlchemyPlanet.Data
 {
@@ -11,6 +12,7 @@ namespace AlchemyPlanet.Data
     {
         [SerializeField] private GameObject Tutorial_Prefab;
         public static PlayGamesScript Instance { get; private set; }
+        [SerializeField] private Button button;
 
         public string current_user_id;
 
@@ -46,11 +48,12 @@ namespace AlchemyPlanet.Data
                 PlayerPrefs.SetInt("IsFirstTime", 1);
 
                 Data.DataManager.Instance.CurrentPlayerData = new PlayerData();
+                button.onClick.AddListener(()=>
+                    SceneChangeManager.Instance.ChangeSceneWithLoading("PrologueScene"));
                 current_user_id = Social.localUser.id;
- 
-                Data.DataManager.Instance.SavePlayerData();
 
-                GameObject.Instantiate(Tutorial_Prefab);
+                Data.DataManager.Instance.SavePlayerData();
+                Data.DataManager.Instance.InitPlayerData();
             }
 
             PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()

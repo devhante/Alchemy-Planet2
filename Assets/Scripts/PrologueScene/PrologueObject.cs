@@ -5,7 +5,8 @@ using DG.Tweening;
 
 namespace AlchemyPlanet.PrologueScene
 {
-    public enum ObjectKind { NPC, Object, Door, Zoom }
+    public enum ObjectKind { NPC, Object, Door, Zoom, Switch}
+    public enum ObjectSwitch { NPCTutorial, End }
 
     public class PrologueObject : MonoBehaviour
     {
@@ -20,6 +21,9 @@ namespace AlchemyPlanet.PrologueScene
         //Nexxt Stage
         [SerializeField] private GameObject currentStages;
         [SerializeField] private GameObject nextStage;
+
+        //스위치
+        [SerializeField] private ObjectSwitch switchKind;
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
@@ -46,6 +50,17 @@ namespace AlchemyPlanet.PrologueScene
                     case ObjectKind.Zoom:
                         {
                             mainCamera.ZoomIn(5.5f);
+                            break;
+                        }
+                    case ObjectKind.Switch:
+                        {
+                            switch (switchKind)
+                            {
+                                case ObjectSwitch.NPCTutorial:
+                                    PrologueScript.Instance.isOnNPCPos = true; break;
+                                case ObjectSwitch.End:
+                                    PrologueScript.Instance.isEnd = true; break;
+                            }
                             break;
                         }
                 }
@@ -80,7 +95,8 @@ namespace AlchemyPlanet.PrologueScene
         public IEnumerator MoveNext()
         {
             mainCamera.FadeOut();
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(2);
+
             currentStages.SetActive(false);
             nextStage.SetActive(true);
             mainCamera.FadeIn();

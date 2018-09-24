@@ -219,17 +219,20 @@ namespace AlchemyPlanet.Data
 
         public void LoadPlayerData()
         {
-            CurrentPlayerData = new PlayerData();
+            CurrentPlayerData = new PlayerData
+            {
+                player_id = PlayGamesScript.Instance.current_user_id
+            };
 
-            WebSocketManager.Instance.SendFindName("0", "0");
-            WebSocketManager.Instance.SendFindLevel("0", "0");
-            WebSocketManager.Instance.SendFindGoods("0", "0");
-            WebSocketManager.Instance.SendFindItems("0", "0");
-            WebSocketManager.Instance.SendFindCharacters("0", "0");
-            WebSocketManager.Instance.SendFindParties("0","0");
-            WebSocketManager.Instance.SendFindBuildings("0", "0");
-            WebSocketManager.Instance.SendFindInteriors("0", "0");
-            WebSocketManager.Instance.SendFindStoryStars("0", "0");
+            WebSocketManager.Instance.SendFindName(CurrentPlayerData.player_id, "0");
+            WebSocketManager.Instance.SendFindLevel(CurrentPlayerData.player_id, "0");
+            WebSocketManager.Instance.SendFindGoods(CurrentPlayerData.player_id, "0");
+            WebSocketManager.Instance.SendFindItems(CurrentPlayerData.player_id, "0");
+            WebSocketManager.Instance.SendFindCharacters(CurrentPlayerData.player_id, "0");
+            WebSocketManager.Instance.SendFindParties(CurrentPlayerData.player_id, "0");
+            WebSocketManager.Instance.SendFindBuildings(CurrentPlayerData.player_id, "0");
+            WebSocketManager.Instance.SendFindInteriors(CurrentPlayerData.player_id, "0");
+            WebSocketManager.Instance.SendFindStoryStars(CurrentPlayerData.player_id, "0");
         }
         
         public void CommitName(CollectionName data)
@@ -257,7 +260,12 @@ namespace AlchemyPlanet.Data
         public void CommitItem(CollectionItem[] data)
         {
             foreach (var item in data)
-                CurrentPlayerData.inventory.Add(item.itemId,item.number);
+            {
+                if(CurrentPlayerData.inventory.ContainsKey(item.itemId))
+                    CurrentPlayerData.inventory[item.itemId] = item.number;
+                else
+                    CurrentPlayerData.inventory.Add(item.itemId, item.number);
+            }
         }
 
         public void CommitBuilding(CollectionBuilding[] data)
@@ -318,6 +326,36 @@ namespace AlchemyPlanet.Data
         public void SavePlayerData()
         {
 
+        }
+
+        public void InitPlayerData()
+        {
+            PlayerData cp = CurrentPlayerData;
+            WebSocketManager.Instance.SendInsertName("0", cp.player_id, cp.player_name);
+            WebSocketManager.Instance.SendInsertLevel("0", cp.player_id, cp.level, cp.exp);
+            WebSocketManager.Instance.SendInsertGoods("0", cp.player_id, cp.unicoin, cp.cosmostone, cp.oxygentank);
+
+            foreach (var item in cp.inventory) {
+                WebSocketManager.Instance.SendInsertItem("0", cp.player_id, item.Key, item.Value);
+            };
+
+
+            foreach (var item in cp.characters)
+            {
+                WebSocketManager.Instance.SendInsertCharacter("0", cp.player_id, ((int)item.name).ToString(), item.level, item.addtional_health, item.speed, item.atk);
+            };
+            foreach (var item in cp.party)
+            {
+                WebSocketManager.Instance.SendInsertParty("0", cp.player_id, item., item.Value);
+            };
+            foreach (var item in cp.request)
+            {
+                WebSocketManager.Instance.SendInsertItem("0", cp.player_id, item.Key, item.Value);
+            };
+            foreach (var item in cp.stroystar)
+            {
+                WebSocketManager.Instance.SendInsertItem("0", cp.player_id, item.Key, item.Value);
+            };
         }
 
         #endregion PlayerData
