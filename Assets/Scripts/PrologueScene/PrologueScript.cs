@@ -18,6 +18,7 @@ namespace AlchemyPlanet.PrologueScene
         [SerializeField] private Image SmarteenApp;
         [SerializeField] private Image TeamFoxin;
         [SerializeField] private Image AlchemyPlanet;
+        [SerializeField] private Image Back;
 
         public bool isOnNPCPos = false;
         public bool isEnd = false;
@@ -109,11 +110,16 @@ namespace AlchemyPlanet.PrologueScene
 
             yield return new WaitForSeconds(3);
 
+            Back.gameObject.SetActive(true);
+            mainCamera.FadeIn();
+
             DataManager.Instance.selected_dialog = new NPCDAta("Prologue_Bell");
             TownScene.UIManager.Instance.OpenMenu<TownScene.DialogUI>();
             TownScene.DialogUI.Instance.SetDialog();
 
             yield return new WaitForSeconds(3);
+
+            SceneChangeManager.Instance.ChangeSceneWithLoading("TownScene");
         }
     }
 }

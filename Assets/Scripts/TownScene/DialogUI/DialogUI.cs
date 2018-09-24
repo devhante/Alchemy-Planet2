@@ -60,6 +60,9 @@ namespace AlchemyPlanet.TownScene
 
         private void Start()
         {
+            if(NPC == null && DataManager.Instance.selected_dialog.npc_name == "Prologue_Bell")
+                fadePanel.gameObject.SetActive(true);
+
             d_illust[0].transform.DOMoveX(140, 0.4f).SetEase(Ease.OutQuart);
             d_illust[1].transform.DOMoveX(540, 0.4f).SetEase(Ease.OutQuart);
             d_box.transform.DOScale(1, 0.3f).SetEase(Ease.InBack);
