@@ -6,6 +6,8 @@ namespace AlchemyPlanet.Data
 {
     public class GameManager : MonoBehaviour
     {
+        public static GameManager Instance;
+
         public GameObject pollutedForest1;  // 타운의 경계 오염된숲1
         public GameObject pollutedForest2;  // 타운의 경계 오염된숲2
         public GameObject floor;            // 타운 바닥
@@ -23,7 +25,7 @@ namespace AlchemyPlanet.Data
             CheckUpgradeTime();
         }
 
-        void SetFloor()
+        public void SetFloor()
         {
             SetBoundary();
             float floorX =-boundary;
@@ -38,6 +40,11 @@ namespace AlchemyPlanet.Data
         void SetBoundary()
         {
             boundary = DataManager.Instance.CurrentPlayerData.boundary;
+            Building strc = DataManager.Instance.CurrentPlayerData.buildings.Find(a => a.buildingName == "House");
+            if (strc!=null && strc.setup)
+            {
+                boundary += (strc as Building).buildingLevel * 5;
+            }
             pollutedForest1.transform.position = new Vector3(-boundary, pollutedForest1.transform.position.y);
             pollutedForest2.transform.position = new Vector3(boundary, pollutedForest1.transform.position.y);
         }
@@ -46,13 +53,13 @@ namespace AlchemyPlanet.Data
         {
             if (DataManager.Instance.CurrentPlayerData != null)
             {
-                foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures)
+                foreach (Building strc in DataManager.Instance.CurrentPlayerData.buildings)
                 {
-                    if (strc is Building && (strc as Building).upgrading)
+                    if (strc.upgrading)
                     {
-                        if ((strc as Building).UpgradeEndTime - System.DateTime.Now.ToBinary() < 0)
+                        if (strc.UpgradeEndTime - System.DateTime.Now.ToBinary() < 0)
                         {
-                            (strc as Building).UpgradeEnd();
+                            strc.UpgradeEnd();
                         }
                     }
                 }

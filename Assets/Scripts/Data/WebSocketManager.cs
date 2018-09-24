@@ -332,7 +332,7 @@ namespace AlchemyPlanet.Data
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        public void SendInsertInterior(string status, string playerId, string playerInteriorId, string InteriorId, int level, float position, bool isConstructed, bool isFlipped)
+        public void SendInsertInterior(string status, string playerId, string playerInteriorId, string InteriorId, float position, bool isConstructed, bool isFlipped)
         {
             var data = new CollectionInterior(playerId, playerInteriorId, InteriorId, position, isConstructed, isFlipped);
             var message = new Message("0620" + status, data);

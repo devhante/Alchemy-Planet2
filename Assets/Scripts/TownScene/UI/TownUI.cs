@@ -33,12 +33,20 @@ namespace AlchemyPlanet.TownScene
 
             DataManager.Instance.CurrentPlayerData.setupBuildilngs = new List<GameObject>();
 
-            foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures) // 저장된 타운 불러오기
+            foreach (Building strc in DataManager.Instance.CurrentPlayerData.buildings) // 저장된 타운 불러오기
             {
                 if (strc.setup)
                 {
                     strc.Build();
-                    DataManager.Instance.CurrentPlayerData.setupBuildilngs.Add(Instantiate(strc.StructureObject));
+                    DataManager.Instance.CurrentPlayerData.setupBuildilngs.Add(Instantiate(strc.buildingObject));
+                }
+            }
+            foreach (Interior strc in DataManager.Instance.CurrentPlayerData.interiors) // 저장된 타운 불러오기
+            {
+                if (strc.setup)
+                {
+                    strc.Build();
+                    DataManager.Instance.CurrentPlayerData.setupBuildilngs.Add(Instantiate(strc.interiorObject));
                 }
             }
         }

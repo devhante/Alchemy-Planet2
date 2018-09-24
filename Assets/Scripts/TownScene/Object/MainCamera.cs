@@ -54,7 +54,7 @@ public class MainCamera : MonoBehaviour {
     {
         while (mainCamera.orthographicSize < 12)
         {
-            mainCamera.orthographicSize += 0.5f;
+            mainCamera.orthographicSize += 1f;
             yield return null;
         }
     }

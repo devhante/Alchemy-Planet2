@@ -15,15 +15,21 @@ namespace AlchemyPlanet.TownScene
         public Button rotateButton;             // 건물 회전 버튼
         public Button removeButton;             // 건물 보관 버튼
         public Button exitButton;               // 타운관리 나가기 버튼
+        public Button buildingTap;              // 건물 탭
+        public Button interiorTap;              // 인테리어 탭
 
+        [SerializeField] private Sprite clickTap;       // 선택된 탭
+        [SerializeField] private Sprite notClickTap;    // 선택되지 않은 탭
 
-        private List<Structure> ownBuildings = new List<Structure>();                 // 소유중인 건물
+        private List<Building> ownBuildings = new List<Building>();                 // 소유중인 건물
+        private List<Interior> ownInteriors = new List<Interior>();                 // 소유중인 인테리어
         private List<GameObject> setupBuildings = new List<GameObject>();       // 설치된 건물
         private GameObject clickedBuilding;                                     // 선택된 건물
         private Touch tempTouch;                                                // 터치들
         private Vector3 touchedPos;                                             // 터치위치
         private int page;                                                       // 현재 건물이미지 페이지
         private float touchTime;                                                // 터치시간
+        private string tapType;                                                 // 선택된 탭
 
 
         private void OnEnable()
@@ -41,13 +47,15 @@ namespace AlchemyPlanet.TownScene
             buildingImages[3].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[3].name); });
             buildingImages[4].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[4].name); });
 
+            buildingTap.onClick.AddListener(() => { SetBuildingImage(); });
+            interiorTap.onClick.AddListener(() => { SetInteriorImage(); });
 
 
             TownUI.Instance.player.SetActive(false);
             page = 0;
             GetBuilding();
             clickedBuilding = null;
-            SetImage();
+            SetBuildingImage();
             touchTime = 0;
         }
 
@@ -60,49 +68,61 @@ namespace AlchemyPlanet.TownScene
 
         void GetBuilding()   // 소유중인 건물 받아오기
         {
-            foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures)
+            foreach (Building building in DataManager.Instance.CurrentPlayerData.buildings)
             {
-                if (!strc.setup)
-                    ownBuildings.Add(strc);
+                if (!building.setup)
+                    ownBuildings.Add(building);
             }
+
+            foreach (Interior interior in DataManager.Instance.CurrentPlayerData.interiors)
+            {
+                if (!interior.setup)
+                    ownInteriors.Add(interior);
+            }
+
             setupBuildings = DataManager.Instance.CurrentPlayerData.setupBuildilngs;
         }
 
         void SetBuilding()
         {
-            foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures)
-            {
-                if (strc is Building)
-                {
-                    WebSocketManager.Instance.SendUpdateBuilding("", DataManager.Instance.CurrentPlayerData.player_id, strc.id.ToString(), strc.structureName,
-                        (strc as Building).buildingLevel, strc.position, (strc as Building).setup, strc.flip, (strc as Building).upgrading, (strc as Building).UpgradeEndTime);
-                }
-                else
-                {
-                    WebSocketManager.Instance.SendUpdateInterior("", DataManager.Instance.CurrentPlayerData.player_id, strc.id.ToString(), strc.structureName, strc.position, strc.setup, strc.flip);
-                }
-            }
+            foreach (Building building in DataManager.Instance.CurrentPlayerData.buildings)
+                    WebSocketManager.Instance.SendUpdateBuilding("", DataManager.Instance.CurrentPlayerData.player_id, building.id.ToString(), building.buildingName,
+                        building.buildingLevel, building.position, building.setup, building.flip, building.upgrading, building.UpgradeEndTime);
+
+            foreach (Interior interior in DataManager.Instance.CurrentPlayerData.interiors)
+                WebSocketManager.Instance.SendUpdateInterior("", DataManager.Instance.CurrentPlayerData.player_id, interior.id.ToString(),
+                    interior.interiorName, interior.position, interior.setup, interior.flip);
+
             foreach (GameObject obj in setupBuildings)
             {
-                Structure strc = DataManager.Instance.CurrentPlayerData.structures.Find(a => a.id == int.Parse(obj.name.Substring(0, obj.name.Length - 7)));
-                strc.flip = obj.GetComponent<SpriteRenderer>().flipX;
-                strc.position = obj.transform.position.x;
-                strc.setup = true;
-                if(strc is Building)
+                if (obj.name.StartsWith("1"))
                 {
-                    WebSocketManager.Instance.SendUpdateBuilding("", DataManager.Instance.CurrentPlayerData.player_id, strc.id.ToString(), strc.structureName,
-                        (strc as Building).buildingLevel, strc.position, (strc as Building).setup, strc.flip, (strc as Building).upgrading, (strc as Building).UpgradeEndTime);
+                    Building building = DataManager.Instance.CurrentPlayerData.buildings.Find(a => a.id == int.Parse(obj.name.Substring(0, obj.name.Length - 7)));
+                    building.flip = obj.GetComponent<SpriteRenderer>().flipX;
+                    building.position = obj.transform.position.x;
+                    building.setup = true;
+
+                    WebSocketManager.Instance.SendUpdateBuilding("", DataManager.Instance.CurrentPlayerData.player_id, building.id.ToString(), building.buildingName,
+                        building.buildingLevel, building.position, building.setup, building.flip, building.upgrading, building.UpgradeEndTime);
                 }
-                else
+                else if (obj.name.StartsWith("2"))
                 {
-                    WebSocketManager.Instance.SendUpdateInterior("", DataManager.Instance.CurrentPlayerData.player_id, strc.id.ToString(), strc.structureName,strc.position,strc.setup,strc.flip);
+                    Interior interior = DataManager.Instance.CurrentPlayerData.interiors.Find(a => a.id == int.Parse(obj.name.Substring(0, obj.name.Length - 7)));
+                    interior.flip = obj.GetComponent<SpriteRenderer>().flipX;
+                    interior.position = obj.transform.position.x;
+                    interior.setup = true;
+
+                    WebSocketManager.Instance.SendUpdateInterior("", DataManager.Instance.CurrentPlayerData.player_id, interior.id.ToString(),
+                        interior.interiorName, interior.position, interior.setup, interior.flip);
                 }
             }
 
             DataManager.Instance.CurrentPlayerData.setupBuildilngs = setupBuildings;
+
+            GameManager.Instance.SetFloor();
         }
 
-        void SetImage() // 소유중인 건물이미지 출력하기
+        void SetBuildingImage() // 소유중인 건물이미지 출력하기
         {
             for (int i = 0; i < 5; i++)
             {
@@ -111,13 +131,37 @@ namespace AlchemyPlanet.TownScene
                     if (!buildingImages[i].activeSelf)
                         buildingImages[i].SetActive(true);
                     buildingImages[i].GetComponent<Image>().sprite = ownBuildings[i + page * 5].image;
-                    buildingImages[i].name = ownBuildings[i + page * 5].structureName;
+                    buildingImages[i].name = ownBuildings[i + page * 5].buildingName;
                 }
                 else
                 {
                     buildingImages[i].gameObject.SetActive(false);
                 }
             }
+            tapType = "Building";
+            buildingTap.image.sprite = clickTap;
+            interiorTap.image.sprite = notClickTap;
+        }
+
+        void SetInteriorImage() // 소유중인 건물이미지 출력하기
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                if (i < ownInteriors.Count - page * 5)
+                {
+                    if (!buildingImages[i].activeSelf)
+                        buildingImages[i].SetActive(true);
+                    buildingImages[i].GetComponent<Image>().sprite = ownInteriors[i + page * 5].image;
+                    buildingImages[i].name = ownInteriors[i + page * 5].interiorName;
+                }
+                else
+                {
+                    buildingImages[i].gameObject.SetActive(false);
+                }
+            }
+            tapType = "Interior";
+            interiorTap.image.sprite = clickTap;
+            buildingTap.image.sprite = notClickTap;
         }
 
         void DetectTouch()    // 클릭감지
@@ -212,7 +256,7 @@ namespace AlchemyPlanet.TownScene
 
         void Build(string str)  // 건물 생성 
         {
-            if (clickedBuilding != null)
+            if (clickedBuilding != null)    // 클릭된 건물이 있으면 제거
             {
                 clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
                 if (clickedBuilding.GetComponent<StructureCollision>().CheckCollision())
@@ -220,35 +264,48 @@ namespace AlchemyPlanet.TownScene
                 clickedBuilding = null;
             }
 
-            foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures)
+            if (tapType == "Building")
             {
-                if (strc.structureName == str && !strc.setup)
-                {
-                    strc.Build();
-                    clickedBuilding = Instantiate(strc.StructureObject, strc.StructureObject.transform.position, Quaternion.Euler(0, 0, 0));
-                    ownBuildings.Remove(strc);
-                    break;
-                }
-            }
-            clickedBuilding.transform.position = new Vector2(TownUI.Instance.mainCamera.transform.position.x, clickedBuilding.transform.position.y);
+                Building building = ownBuildings.Find(a => a.buildingName == str);
+                building.Build();
+                clickedBuilding = Instantiate(building.buildingObject, new Vector2(TownUI.Instance.mainCamera.transform.position.x, building.buildingObject.transform.position.y), Quaternion.Euler(0, 0, 0));
 
-            setupBuildings.Add(clickedBuilding);
-            SetImage();
-            SetBuilding();
+                setupBuildings.Add(clickedBuilding);
+                SetBuildingImage();
+            }
+
+            if (tapType == "Interior")
+            {
+                Interior interior = ownInteriors.Find(a => a.interiorName == str);
+                interior.Build();
+                clickedBuilding = Instantiate(interior.interiorObject, new Vector2(TownUI.Instance.mainCamera.transform.position.x, interior.interiorObject.transform.position.y), Quaternion.Euler(0, 0, 0));
+
+                setupBuildings.Add(clickedBuilding);
+                SetInteriorImage();
+            }
+
         }
 
         void RemoveBuilding()   // 건물 철거
         {
-            foreach (Structure strc in DataManager.Instance.CurrentPlayerData.structures)
+            if (clickedBuilding.name.StartsWith("1"))
             {
-                if (strc.id == int.Parse(clickedBuilding.name.Substring(0, clickedBuilding.name.Length - 7)))
-                    ownBuildings.Add(strc);
+                ownBuildings.Add(DataManager.Instance.CurrentPlayerData.buildings.Find(a => a.buildingName == clickedBuilding.name.Substring(0, clickedBuilding.name.Length - 7)));
+                setupBuildings.Remove(clickedBuilding);
+                Destroy(clickedBuilding);
+                clickedBuilding = null;
             }
-            setupBuildings.Remove(clickedBuilding);
-            Destroy(clickedBuilding);
-            clickedBuilding = null;
-            SetImage();
-            SetBuilding();
+            if (clickedBuilding.name.StartsWith("2"))
+            {
+                ownInteriors.Add(DataManager.Instance.CurrentPlayerData.interiors.Find(a => a.interiorName == clickedBuilding.name.Substring(0, clickedBuilding.name.Length - 7)));
+                setupBuildings.Remove(clickedBuilding);
+                Destroy(clickedBuilding);
+                clickedBuilding = null;
+            }
+            if (tapType == "Building")
+                SetBuildingImage();
+            else if(tapType == "Interior")
+                SetInteriorImage();
         }
 
         void CheckCollision()
@@ -264,12 +321,22 @@ namespace AlchemyPlanet.TownScene
 
         void ChangePage(bool over)
         {
-            if (over)
-                page += ownBuildings.Count > (page + 1) * 5 ? 1 : 0;
-            else
-                page -= page > 0 ? 1 : 0;
-            SetImage();
-            Debug.Log(page);
+            if (tapType == "Building")
+            {
+                if (over)
+                    page += ownBuildings.Count > (page + 1) * 5 ? 1 : 0;
+                else
+                    page -= page > 0 ? 1 : 0;
+                SetBuildingImage();
+            }
+            else if (tapType == "Interior")
+            {
+                if (over)
+                    page += ownInteriors.Count > (page + 1) * 5 ? 1 : 0;
+                else
+                    page -= page > 0 ? 1 : 0;
+                SetInteriorImage();
+            }
         }
     }
 }

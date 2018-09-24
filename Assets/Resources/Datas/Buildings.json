@@ -1,6 +1,6 @@
 {
   "House": {
-    "buildingDiscription": "집",
+    "buildingDiscription": "안락한 집, 타운의 공간을 넓혀준다.",
     "buildingLevel": 1,
     "upgrading": false,
     "material1Name": "붉은 꽃잎",
@@ -16,17 +16,34 @@
     "setup": false,
     "flip": false
   },
-  "Campfire": {
-    "buildingDiscription": "모닥불",
+  "ElectricalPowerPlant": {
+    "buildingDiscription": "전기발전시설",
     "buildingLevel": 1,
     "upgrading": false,
     "material1Name": "붉은 꽃잎",
     "material2Name": "블루베리",
-    "material1Count": 1,
-    "material2Count": 1,
+    "material1Count": 2,
+    "material2Count": 2,
     "UpgradeEndTime": 0,
     "id": 0,
-    "structureName": "Campfire",
+    "structureName": "ElectricalPowerPlant",
+    "image": null,
+    "StructureObject": null,
+    "position": 0.0,
+    "setup": false,
+    "flip": false
+  },
+  "WaterPurificationFacility": {
+    "buildingDiscription": "수질정화시설",
+    "buildingLevel": 1,
+    "upgrading": false,
+    "material1Name": "붉은 꽃잎",
+    "material2Name": "블루베리",
+    "material1Count": 2,
+    "material2Count": 2,
+    "UpgradeEndTime": 0,
+    "id": 0,
+    "structureName": "WaterPurificationFacility",
     "image": null,
     "StructureObject": null,
     "position": 0.0,

@@ -1,1 +1,65 @@
-{"Tree":{"id":0,"structureName":"Tree","image":null,"StructureObject":null,"position":0.0,"setup":false,"flip":false}}
+{
+  "Tree": {
+    "id": 0,
+    "structureName": "Tree",
+    "image": null,
+    "StructureObject": null,
+    "position": 0.0,
+    "setup": false,
+    "flip": false
+  },
+  "Maple": {
+    "id": 0,
+    "structureName": "Maple",
+    "image": null,
+    "StructureObject": null,
+    "position": 0.0,
+    "setup": false,
+    "flip": false
+  },
+  "CherryBlossom": {
+    "id": 0,
+    "structureName": "CherryBlossom",
+    "image": null,
+    "StructureObject": null,
+    "position": 0.0,
+    "setup": false,
+    "flip": false
+  },
+  "Mushroom": {
+    "id": 0,
+    "structureName": "Mushroom",
+    "image": null,
+    "StructureObject": null,
+    "position": 0.0,
+    "setup": false,
+    "flip": false
+  },
+  "WildFlower": {
+    "id": 0,
+    "structureName": "WildFlower",
+    "image": null,
+    "StructureObject": null,
+    "position": 0.0,
+    "setup": false,
+    "flip": false
+  },
+  "Forsythia": {
+    "id": 0,
+    "structureName": "Forsythia",
+    "image": null,
+    "StructureObject": null,
+    "position": 0.0,
+    "setup": false,
+    "flip": false
+  },
+  "Stump": {
+    "id": 0,
+    "structureName": "Stump",
+    "image": null,
+    "StructureObject": null,
+    "position": 0.0,
+    "setup": false,
+    "flip": false
+  }
+}

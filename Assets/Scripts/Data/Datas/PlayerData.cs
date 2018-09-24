@@ -189,7 +189,8 @@ namespace AlchemyPlanet.Data
         public Dictionary<string, int> inventory;
 
         //건물
-        public List<Structure> structures;
+        public List<Building> buildings;
+        public List<Interior> interiors;
         public List<GameObject> setupBuildilngs;
         public int boundary; // 경계
 
@@ -219,7 +220,8 @@ namespace AlchemyPlanet.Data
             this.Max_oxygentank = 10;
 
             this.inventory = new Dictionary<string, int>();
-            this.structures = new List<Structure>();
+            this.buildings = new List<Building>();
+            this.interiors = new List<Interior>();
             this.characters = new List<Character>();
 
             party = new CharacterEnum[9, 3];
@@ -257,12 +259,12 @@ namespace AlchemyPlanet.Data
 
         public void AddSampleDatas()
         {
-            structures.Add(DataManager.Instance.structureInfo["Tree"].Clone());
-            GiveId(structures[0]);
-            structures.Add((DataManager.Instance.structureInfo["House"] as Building).Clone());
-            GiveId(structures[1]);
-            structures.Add(DataManager.Instance.structureInfo["Tree"].Clone());
-            GiveId(structures[2]);
+            interiors.Add(DataManager.Instance.interiorInfo["Tree"].Clone());
+            GiveId(interiors[0]);
+            buildings.Add((DataManager.Instance.buildingInfo["House"] as Building).Clone());
+            GiveId(buildings[0]);
+            interiors.Add(DataManager.Instance.interiorInfo["Tree"].Clone());
+            GiveId(interiors[1]);
 
             inventory.Add("붉은 꽃잎", 3);
             inventory.Add("블루베리", 2);
@@ -285,27 +287,21 @@ namespace AlchemyPlanet.Data
             }
         }
 
-        public void GiveId(Structure strc)
+        public void GiveId<T>(T strc)
         {
             if (strc is Building)
             {
                 int buildingCount = 0;
-                foreach (Structure structure in structures)
-                {
-                    if (structure is Building)
-                        buildingCount++;
-                }
-                strc.id = int.Parse("1" + buildingCount.ToString());
+                foreach (Building structure in buildings)
+                    buildingCount++;
+                (strc as Building).id = int.Parse("1" + buildingCount.ToString());
             }
             else
             {
                 int interiorCount = 0;
-                foreach (Structure structure in structures)
-                {
-                    if (structure is Interior)
-                        interiorCount++;
-                }
-                strc.id = int.Parse("2" + interiorCount.ToString());
+                foreach (Interior structure in interiors)
+                    interiorCount++;
+                (strc as Interior).id = int.Parse("2" + interiorCount.ToString());
             }
         }
     }

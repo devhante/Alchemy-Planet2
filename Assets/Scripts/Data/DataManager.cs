@@ -17,7 +17,8 @@ namespace AlchemyPlanet.Data
 
         //데이터 프리로드
         public Dictionary<string, ItemData> itemInfo;
-        public Dictionary<string, Structure> structureInfo;
+        public Dictionary<string, Building> buildingInfo;
+        public Dictionary<string, Interior> interiorInfo;
         //public Dictionary<string, Request> RequestInfo;
 
         public int selected_stage = 0;
@@ -41,6 +42,7 @@ namespace AlchemyPlanet.Data
             //CreateSampleRequest();
 
             //CreateSampleStructure(); // 타운관리모드 테스트할때 이거 주석 풀기
+
 
             LoadMaterials();
             LoadStuructures();
@@ -156,7 +158,8 @@ namespace AlchemyPlanet.Data
 
         private void LoadStuructures()
         {
-            structureInfo = new Dictionary<string, Structure>();
+            buildingInfo = new Dictionary<string, Building>();
+            interiorInfo = new Dictionary<string, Interior>();
             using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/Buildings").bytes), System.Text.Encoding.UTF8))
             {
                 JsonSerializer serializer = new JsonSerializer();
@@ -165,29 +168,22 @@ namespace AlchemyPlanet.Data
 
                 foreach (string str in Buildings.Keys)
                 {
-                    this.structureInfo.Add(str, Buildings[str].Clone());
-                    structureInfo[str].StructureObject = Resources.Load<GameObject>("Prefabs/TownScene/Structure");
+                    this.buildingInfo.Add(str, Buildings[str].Clone());
+                    buildingInfo[str].buildingObject = Resources.Load<GameObject>("Prefabs/TownScene/Structure");
                 }
 
                 Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Town/town");
 
                 for (int i = 0; i < sprites.Length; i++)
                 {
-                    if (structureInfo.ContainsKey(sprites[i].name))
+                    if (buildingInfo.ContainsKey(sprites[i].name))
                     {
-                        if (sprites[i].name == structureInfo[sprites[i].name].structureName)
+                        if (sprites[i].name == buildingInfo[sprites[i].name].buildingName)
                         {
-                            structureInfo[sprites[i].name].image = sprites[i];
+                            buildingInfo[sprites[i].name].image = sprites[i];
                         }
                     }
                 }
-                
-                foreach(Building building in structureInfo.Values)
-                {
-                    if (building.image == null)
-                        building.image = Resources.Load<Sprite>("Sprites/Town/" + building.structureName);
-                }
-
             }
             using (StreamReader file = new StreamReader(new MemoryStream(Resources.Load<TextAsset>("Datas/Interiors").bytes), System.Text.Encoding.UTF8))
             {
@@ -196,19 +192,19 @@ namespace AlchemyPlanet.Data
 
                 foreach (string str in Interiors.Keys)
                 {
-                    this.structureInfo.Add(str, new Interior(Interiors[str].structureName));
-                    structureInfo[str].StructureObject = Resources.Load<GameObject>("Prefabs/TownScene/Structure");
+                    this.interiorInfo.Add(str, new Interior(Interiors[str].interiorName));
+                    interiorInfo[str].interiorObject = Resources.Load<GameObject>("Prefabs/TownScene/Structure");
                 }
 
                 Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Town/town");
 
                 for (int i = 0; i < sprites.Length; i++)
                 {
-                    if (structureInfo.ContainsKey(sprites[i].name))
+                    if (interiorInfo.ContainsKey(sprites[i].name))
                     {
-                        if (sprites[i].name == structureInfo[sprites[i].name].structureName)
+                        if (sprites[i].name == interiorInfo[sprites[i].name].interiorName)
                         {
-                            structureInfo[sprites[i].name].image = sprites[i];
+                            interiorInfo[sprites[i].name].image = sprites[i];
                         }
                     }
                 }
@@ -273,15 +269,15 @@ namespace AlchemyPlanet.Data
             foreach (var item in data)
             {
                 Building building = new Building(item.buildingId, "", item.level);
-                building.buildingDiscription = (structureInfo[building.structureName] as Building).buildingDiscription;
+                building.buildingDiscription = buildingInfo[building.buildingName].buildingDiscription;
                 building.id = int.Parse(item.playerBuildingId);
-                building.image = structureInfo[building.structureName].image;
+                building.image = buildingInfo[building.buildingName].image;
                 building.position = item.position;
                 building.flip = item.isFlipped;
                 building.setup = item.isConstructed;
                 building.upgrading = item.isUpgrading;
                 building.UpgradeEndTime = item.endDate;
-                CurrentPlayerData.structures.Add(building);
+                CurrentPlayerData.buildings.Add(building);
             }
         }
 
@@ -291,11 +287,11 @@ namespace AlchemyPlanet.Data
             {
                 Interior interior = new Interior(item.interiorId);
                 interior.id = int.Parse(item.playerInteriorId);
-                interior.image = structureInfo[interior.structureName].image;
+                interior.image = interiorInfo[interior.interiorName].image;
                 interior.position = item.position;
                 interior.flip = item.isFlipped;
                 interior.setup = item.isConstructed;
-                CurrentPlayerData.structures.Add(interior);
+                CurrentPlayerData.interiors.Add(interior);
             }
 
         }
