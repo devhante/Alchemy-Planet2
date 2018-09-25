@@ -23,22 +23,28 @@ namespace AlchemyPlanet.StoryLobbyScene
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            clickedPositionX = Input.mousePosition.x;
-            StartCoroutine("MoveCoroutine");
+            if (StoryPartyUI.Instance.buttonLeft.gameObject.activeSelf == true)
+            {
+                clickedPositionX = Input.mousePosition.x;
+                StartCoroutine("MoveCoroutine");
+            }
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            StopCoroutine("MoveCoroutine");
+            if (StoryPartyUI.Instance.buttonLeft.gameObject.activeSelf == true)
+            {
+                StopCoroutine("MoveCoroutine");
 
-            float distance = Input.mousePosition.x - clickedPositionX;
+                float distance = Input.mousePosition.x - clickedPositionX;
 
-            if (distance >= 100)
-                StoryPartyUI.Instance.OnClickButtonRight();
-            else if (distance <= -100)
-                StoryPartyUI.Instance.OnClickButtonLeft();
-            else
-                transform.position = new Vector3(originPositionX, transform.position.y, transform.position.z);
+                if (distance >= 100)
+                    StoryPartyUI.Instance.OnClickButtonRight();
+                else if (distance <= -100)
+                    StoryPartyUI.Instance.OnClickButtonLeft();
+                else
+                    transform.position = new Vector3(originPositionX, transform.position.y, transform.position.z);
+            }
         }
 
         IEnumerator MoveCoroutine()
