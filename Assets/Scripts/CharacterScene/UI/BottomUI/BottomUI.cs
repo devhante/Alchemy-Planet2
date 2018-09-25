@@ -25,7 +25,7 @@ namespace AlchemyPlanet.CharacterScene
         private void OnClickButtonOrganize()
         {
             //테스트
-            Common.AlertManager.Instance.InstantiateAlert(transform, "준비중입니다.");
+            Common.AlertManager.Instance.InstantiateAlert("준비중입니다.");
 
             //Destroy(GameManager.Instance.CurrentCharacters.gameObject);
 

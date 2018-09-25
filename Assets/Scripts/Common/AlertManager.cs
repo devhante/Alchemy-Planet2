@@ -10,6 +10,7 @@ namespace AlchemyPlanet.Common
         public static AlertManager Instance { get; private set; }
 
         public GameObject alert;
+        public GameObject canvas;
 
         private void OnDestroy()
         {
@@ -22,12 +23,12 @@ namespace AlchemyPlanet.Common
             DontDestroyOnLoad(gameObject);
         }
 
-        public GameObject InstantiateAlert(Transform parent, string text)
+        public void InstantiateAlert(string text)
         {
-            GameObject instance = Instantiate(alert, parent);
-            instance.transform.GetChild(1).GetComponent<Text>().text = text;
-            instance.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() => Destroy(instance.transform.gameObject));
-            return instance;
+            GameObject canvasObject = Instantiate(canvas);
+            GameObject alertObject = Instantiate(alert, canvasObject.transform);
+            alertObject.transform.GetChild(1).GetComponent<Text>().text = text;
+            alertObject.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() => Destroy(alertObject.transform.gameObject));
         }
     }
 }
