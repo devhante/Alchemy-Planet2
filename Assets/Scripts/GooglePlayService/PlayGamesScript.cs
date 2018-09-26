@@ -10,7 +10,6 @@ namespace AlchemyPlanet.Data
 {
     public class PlayGamesScript : MonoBehaviour
     {
-        [SerializeField] private GameObject Tutorial_Prefab;
         public static PlayGamesScript Instance { get; private set; }
         [SerializeField] private Button button;
 
@@ -41,21 +40,6 @@ namespace AlchemyPlanet.Data
                 PlayerPrefs.SetString(SAVE_NAME, DataManager.Instance.PlayerDataToString(new PlayerData()));
             }
             */
-
-            //게임을 설치, 실행했음을 알리는 키를 설정한다 - 0 = no, 1 = yes 
-            if (!PlayerPrefs.HasKey("IsFirstTime"))
-            {
-                PlayerPrefs.SetInt("IsFirstTime", 1);
-
-                Data.DataManager.Instance.CurrentPlayerData = new PlayerData();
-                button.onClick.AddListener(()=>
-                    SceneChangeManager.Instance.ChangeSceneWithLoading("PrologueScene"));
-                current_user_id = Social.localUser.id;
-
-                Data.DataManager.Instance.SavePlayerData();
-                Data.DataManager.Instance.InitPlayerData();
-            }
-
             PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
                 .EnableSavedGames().Build();
             PlayGamesPlatform.InitializeInstance(config);
@@ -64,17 +48,37 @@ namespace AlchemyPlanet.Data
             SignIn();
         }
 
+        public void FirstTimeFunc()
+        {
+            Debug.Log("FirstTimeFunc");
+            Data.DataManager.Instance.CurrentPlayerData = new PlayerData();
+            button.onClick.AddListener(() => {
+                Debug.Log("FirstTimeFuncClicked");
+                SceneChangeManager.Instance.ChangeSceneWithLoading("PrologueScene");
+            });
+
+            Data.DataManager.Instance.SavePlayerData();
+            Data.DataManager.Instance.InitPlayerData();
+        }
+
+        public void NotFirstTimeFunc()
+        {
+            Debug.Log("NotFirstTimeFunc");
+            button.onClick.AddListener(() =>
+                SceneChangeManager.Instance.ChangeSceneWithLoading("TownScene"));
+        }
+
         void SignIn()
         {
             //구글 인증을 완료하면 클라우드 데이터를 불러온다.
             Social.localUser.Authenticate(success =>
             {
-
                 if (success)
                 {
                     //LoadData();
                     //ShowAchievementsUI();
                     current_user_id = Social.localUser.id;
+                    WebSocketManager.Instance.SendFindName("1", current_user_id);
                 }
                 else
                     Debug.Log("Failed!");

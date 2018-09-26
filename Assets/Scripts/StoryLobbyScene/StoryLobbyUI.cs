@@ -9,6 +9,8 @@ namespace AlchemyPlanet.StoryLobbyScene
 {
     public class StoryLobbyUI : MonoBehaviour
     {
+        public static StoryLobbyUI Instance { get; private set; }
+
         public Button starButton;
         public Button starDescriptionButton;
         public Image[] starImages;
@@ -26,12 +28,17 @@ namespace AlchemyPlanet.StoryLobbyScene
         public Sprite stageCircleBlack;
         public Sprite stageCircleYellow;
 
-        
-
         private List<StoryChallengeData> list;
+
+        private void OnDestroy()
+        {
+            Instance = null;
+        }
 
         private void Awake()
         {
+            Instance = this;
+
             starButton.onClick.AddListener(OnClickStarButton);
             starDescriptionButton.onClick.AddListener(OnClickStarDescriptionButton);
             buttonLeft.onClick.AddListener(OnClickButtonLeft);
