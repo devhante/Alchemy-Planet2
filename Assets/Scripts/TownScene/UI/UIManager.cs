@@ -40,7 +40,10 @@ namespace AlchemyPlanet.TownScene
                 case 0: case 1: case 7: case 8: case 10:
                     TopDownUI.SetActive(false); break;
                 default:
-                    TopDownUI.SetActive(true); break;
+                    {
+                        Common.StateBar.Instance.UpdateState();
+                        TopDownUI.SetActive(true); break;
+                    }
             }
         }
 
