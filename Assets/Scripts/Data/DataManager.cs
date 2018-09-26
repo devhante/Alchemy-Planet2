@@ -220,15 +220,15 @@ namespace AlchemyPlanet.Data
                 player_id = PlayGamesScript.Instance.current_user_id
             };
 
-            WebSocketManager.Instance.SendFindName(CurrentPlayerData.player_id, "0");
-            WebSocketManager.Instance.SendFindLevel(CurrentPlayerData.player_id, "0");
-            WebSocketManager.Instance.SendFindGoods(CurrentPlayerData.player_id, "0");
-            WebSocketManager.Instance.SendFindItems(CurrentPlayerData.player_id, "0");
-            WebSocketManager.Instance.SendFindCharacters(CurrentPlayerData.player_id, "0");
-            WebSocketManager.Instance.SendFindParties(CurrentPlayerData.player_id, "0");
-            WebSocketManager.Instance.SendFindBuildings(CurrentPlayerData.player_id, "0");
-            WebSocketManager.Instance.SendFindInteriors(CurrentPlayerData.player_id, "0");
-            WebSocketManager.Instance.SendFindStoryStars(CurrentPlayerData.player_id, "0");
+            WebSocketManager.Instance.SendFindName("0", CurrentPlayerData.player_id);
+            WebSocketManager.Instance.SendFindLevel("0", CurrentPlayerData.player_id);
+            WebSocketManager.Instance.SendFindGoods("0", CurrentPlayerData.player_id);
+            WebSocketManager.Instance.SendFindItems("0", CurrentPlayerData.player_id);
+            WebSocketManager.Instance.SendFindCharacters("0", CurrentPlayerData.player_id);
+            WebSocketManager.Instance.SendFindParties("0", CurrentPlayerData.player_id);
+            WebSocketManager.Instance.SendFindBuildings("0", CurrentPlayerData.player_id);
+            WebSocketManager.Instance.SendFindInteriors("0", CurrentPlayerData.player_id);
+            WebSocketManager.Instance.SendFindStoryStars("0", CurrentPlayerData.player_id);
         }
         
         public void CommitName(CollectionName data)
