@@ -46,7 +46,6 @@ namespace AlchemyPlanet.Data
 
             LoadMaterials();
             LoadStuructures();
-            LoadPlayerData();
         }
 
         #region CreateSampleData
@@ -217,7 +216,7 @@ namespace AlchemyPlanet.Data
         {
             CurrentPlayerData = new PlayerData
             {
-                player_id = PlayGamesScript.Instance.current_user_id
+                player_id = CurrentPlayerData.player_id
             };
 
             WebSocketManager.Instance.SendFindName("0", CurrentPlayerData.player_id);
@@ -318,46 +317,7 @@ namespace AlchemyPlanet.Data
             foreach (var item in data)
                 CurrentPlayerData.stroystar.Add(item.stageNumber, item.number);
         }
-
-        public void SavePlayerData()
-        {
-
-        }
-
-        public void InitPlayerData()
-        {
-            PlayerData cp = CurrentPlayerData;
-            WebSocketManager.Instance.SendInsertName("0", cp.player_id, cp.player_name);
-            WebSocketManager.Instance.SendInsertLevel("0", cp.player_id, cp.level, cp.exp);
-            WebSocketManager.Instance.SendInsertGoods("0", cp.player_id, cp.unicoin, cp.cosmostone, cp.oxygentank);
-
-            foreach (var item in cp.inventory) {
-                WebSocketManager.Instance.SendInsertItem("0", cp.player_id, item.Key, item.Value);
-            };
-
-
-            foreach (var item in cp.characters)
-            {
-                WebSocketManager.Instance.SendInsertCharacter("0", cp.player_id, ((int)item.name).ToString(), item.level, item.addtional_health, item.speed, item.atk);
-            };
-            for(int i=0; i<cp.party.Rank; ++i)
-            {
-                for(int j=0; j<cp.party.Length; ++j)
-                {
-                    WebSocketManager.Instance.SendInsertParty("0", cp.player_id, i, j, ((int )cp.party[i, j]).ToString());
-                }
-            }
-            /*
-            foreach (var item in cp.request)
-            {
-            };
-            */
-            foreach (var item in cp.stroystar)
-            {
-                WebSocketManager.Instance.SendInsertStoryStar("0", cp.player_id, item.Key, item.Value);
-            };
-        }
-
+        
         #endregion PlayerData
 
         #region Dialog

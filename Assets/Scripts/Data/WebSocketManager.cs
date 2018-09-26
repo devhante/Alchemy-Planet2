@@ -53,10 +53,10 @@ namespace AlchemyPlanet.Data
                         string data_string = ConvertLappedJsonString(message.data);
                         var data = JsonConvert.DeserializeObject<CollectionName>(data_string);
                         UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitName(data));
-                        PlayGamesScript.Instance.NotFirstTimeFunc();
+                        UnityMainThreadDispatcher.Instance().Enqueue(() => PlayGamesScript.Instance.NotFirstTimeFunc());
                     }
                     else
-                        PlayGamesScript.Instance.FirstTimeFunc();
+                        UnityMainThreadDispatcher.Instance().Enqueue(() => PlayGamesScript.Instance.FirstTimeFunc());
                 }
 
                 if (message.status == "02100")

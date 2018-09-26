@@ -49,7 +49,7 @@ namespace AlchemyPlanet.PrologueScene
                         }
                     case ObjectKind.Zoom:
                         {
-                            mainCamera.ZoomIn(5.5f);
+                            mainCamera.ZoomIn(7);
                             break;
                         }
                     case ObjectKind.Switch:
