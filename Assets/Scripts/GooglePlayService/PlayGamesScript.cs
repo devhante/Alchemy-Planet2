@@ -91,7 +91,6 @@ namespace AlchemyPlanet.Data
         {
             Debug.Log("FirstTimeFunc");
             prologueButton.gameObject.SetActive(true);
-            Debug.Log("prologueButton.gameObject.activeSelf = " + prologueButton.gameObject.activeSelf);
         }
 
         public void NotFirstTimeFunc()

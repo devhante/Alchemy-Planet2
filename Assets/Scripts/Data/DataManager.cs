@@ -146,8 +146,7 @@ namespace AlchemyPlanet.Data
                 {
                     if (materials.ContainsKey(sprites[i].name))
                     {
-                        if (sprites[i].name == materials[sprites[i].name].item_name)
-                            materials[sprites[i].name].image = sprites[i];
+                        materials[sprites[i].name].image = sprites[i];
                     }
                 }
 

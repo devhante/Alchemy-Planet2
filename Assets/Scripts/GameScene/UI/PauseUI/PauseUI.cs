@@ -32,7 +32,7 @@ namespace AlchemyPlanet.GameScene
             Exit.onClick.AddListener(() =>
             {
                 Time.timeScale = 1;
-                LoadingSceneManager.LoadScene("PlanetSelect");
+                GameUI.Instance.UpdateGage(Gages.OXYGEN, -100);
             });
         }
     }
