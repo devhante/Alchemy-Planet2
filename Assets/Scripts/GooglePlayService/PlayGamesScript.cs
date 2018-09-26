@@ -11,13 +11,20 @@ namespace AlchemyPlanet.Data
     public class PlayGamesScript : MonoBehaviour
     {
         public static PlayGamesScript Instance { get; private set; }
-        [SerializeField] private Button button;
+        [SerializeField] private Button townButton;
+        [SerializeField] private Button prologueButton;
 
         public string current_user_id = "0";
 
         const string SAVE_NAME = "PlayData";
         bool isSaving;
         bool isCloudDataLoaded = false;
+
+        private void Awake()
+        {
+            townButton.onClick.AddListener(LoadTownScene);
+            prologueButton.onClick.AddListener(LoadPrologueScene);
+        }
 
         void Start()
         {
@@ -51,11 +58,10 @@ namespace AlchemyPlanet.Data
         public void FirstTimeFunc()
         {
             Debug.Log("FirstTimeFunc");
+            prologueButton.gameObject.SetActive(true);
+            Debug.Log("prologueButton.gameObject.activeSelf = " + prologueButton.gameObject.activeSelf);
             Data.DataManager.Instance.CurrentPlayerData = new PlayerData();
-            button.onClick.AddListener(() => {
-                Debug.Log("FirstTimeFuncClicked");
-                SceneChangeManager.Instance.ChangeSceneWithLoading("PrologueScene");
-            });
+
 
             Data.DataManager.Instance.SavePlayerData();
             Data.DataManager.Instance.InitPlayerData();
@@ -64,10 +70,21 @@ namespace AlchemyPlanet.Data
         public void NotFirstTimeFunc()
         {
             Debug.Log("NotFirstTimeFunc");
-            button.onClick.AddListener(() =>
-                SceneChangeManager.Instance.ChangeSceneWithLoading("TownScene"));
+            townButton.gameObject.SetActive(true);
         }
 
+        private void LoadPrologueScene()
+        {
+            Debug.Log("LoadPrologueScene");
+            SceneChangeManager.Instance.ChangeSceneWithLoading("PrologueScene");
+        }
+
+        private void LoadTownScene()
+        {
+            Debug.Log("LoadPrologueScene");
+            SceneChangeManager.Instance.ChangeSceneWithLoading("TownScene");
+        }
+        
         void SignIn()
         {
             //구글 인증을 완료하면 클라우드 데이터를 불러온다.
