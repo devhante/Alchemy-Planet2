@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using AlchemyPlanet.Data;
 
 namespace AlchemyPlanet.GameScene
 {
@@ -33,6 +34,30 @@ namespace AlchemyPlanet.GameScene
                 Time.timeScale = 1;
                 LoadingSceneManager.LoadScene("PlanetSelect");
             });
+
+            SaveGained();
+        }
+
+        private void SaveGained()
+        {
+            var currentPlayerData = DataManager.Instance.CurrentPlayerData;
+
+            currentPlayerData.unicoin += GameManager.Instance.Coin;
+            WebSocketManager.Instance.SendUpdateGoods("0", currentPlayerData.player_id, currentPlayerData.unicoin, currentPlayerData.cosmostone, currentPlayerData.oxygentank);
+
+            foreach (var item in GameManager.Instance.dropMaterialList)
+            {
+                if (currentPlayerData.inventory.ContainsKey(item.Key))
+                {
+                    currentPlayerData.inventory[item.Key] += item.Value;
+                    WebSocketManager.Instance.SendUpdateItem("0", currentPlayerData.player_id, item.Key, item.Value);
+                }
+                else
+                {
+                    currentPlayerData.inventory.Add(item.Key, item.Value);
+                    WebSocketManager.Instance.SendInsertItem("0", currentPlayerData.player_id, item.Key, item.Value);
+                }
+            }
         }
     }
 }

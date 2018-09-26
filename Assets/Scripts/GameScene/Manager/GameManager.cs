@@ -50,7 +50,7 @@ namespace AlchemyPlanet.GameScene
         public float MoveSpeed { get; set; }
         public int Position { get; set; }
         public ComboStatus ComboStatus { get; private set; }
-        public Dictionary<MaterialName, int> dropMaterialList;
+        public Dictionary<string, int> dropMaterialList;
 
         private void OnApplicationPause(bool pause)
         {
@@ -76,7 +76,7 @@ namespace AlchemyPlanet.GameScene
             Coin = 0;
             MoveSpeed = 1;
             Position = 0;
-            dropMaterialList = new Dictionary<MaterialName, int>();
+            dropMaterialList = new Dictionary<string, int>();
         }
 
         private void Start()
