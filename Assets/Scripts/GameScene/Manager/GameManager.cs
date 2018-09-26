@@ -135,13 +135,15 @@ namespace AlchemyPlanet.GameScene
                 case ScoreType.KillMonster: value += 1500; break;
             }
 
-            switch (ComboStatus)
-            {
-                case ComboStatus.Combo10: scoreRate += 0.05f; break;
-                case ComboStatus.Combo30: scoreRate += 0.08f; break;
-                case ComboStatus.Combo50: scoreRate += 0.1f; break;
-                case ComboStatus.Combo100: scoreRate += 0.12f; break;
-            }
+            //switch (ComboStatus)
+            //{
+            //    case ComboStatus.Combo10: scoreRate += 0.05f; break;
+            //    case ComboStatus.Combo30: scoreRate += 0.08f; break;
+            //    case ComboStatus.Combo50: scoreRate += 0.1f; break;
+            //    case ComboStatus.Combo100: scoreRate += 0.12f; break;
+            //}
+
+            scoreRate += GameUI.Instance.GetGage(Gages.PURIFY) * 2;
 
             result = (int)(value * scoreRate);
             Score += result;
