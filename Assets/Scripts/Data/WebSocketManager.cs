@@ -35,8 +35,22 @@ namespace AlchemyPlanet.Data
                 {
                     string data_string = ConvertLappedJsonString(message.data);
                     var data = JsonConvert.DeserializeObject<CollectionName>(data_string);
-                    if(data != null)
+                    if (data != null)
                         UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitName(data));
+                }
+
+                //PlayGamesScript에서 게임 시작할때 불러줌. 처음 접속인지 아닌지 판별.
+                if(message.status == "01101")
+                {
+                    string data_string = ConvertLappedJsonString(message.data);
+                    var data = JsonConvert.DeserializeObject<CollectionName>(data_string);
+                    if (data != null)
+                    {
+                        UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitName(data));
+                        PlayGamesScript.Instance.NotFirstTimeFunc();
+                    }
+                    else
+                        PlayGamesScript.Instance.FirstTimeFunc();
                 }
 
                 if (message.status == "02100")

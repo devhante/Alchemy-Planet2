@@ -41,27 +41,28 @@ namespace AlchemyPlanet.Data
                 PlayerPrefs.SetString(SAVE_NAME, DataManager.Instance.PlayerDataToString(new PlayerData()));
             }
             */
-
-            //게임을 설치, 실행했음을 알리는 키를 설정한다 - 0 = no, 1 = yes 
-            if (!PlayerPrefs.HasKey("IsFirstTime"))
-            {
-                PlayerPrefs.SetInt("IsFirstTime", 1);
-
-                Data.DataManager.Instance.CurrentPlayerData = new PlayerData();
-                button.onClick.AddListener(()=>
-                    SceneChangeManager.Instance.ChangeSceneWithLoading("PrologueScene"));
-                current_user_id = Social.localUser.id;
-
-                Data.DataManager.Instance.SavePlayerData();
-                Data.DataManager.Instance.InitPlayerData();
-            }
-
             PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
                 .EnableSavedGames().Build();
             PlayGamesPlatform.InitializeInstance(config);
             PlayGamesPlatform.Activate();
 
             SignIn();
+        }
+
+        public void FirstTimeFunc()
+        {
+            Data.DataManager.Instance.CurrentPlayerData = new PlayerData();
+            button.onClick.AddListener(() =>
+                SceneChangeManager.Instance.ChangeSceneWithLoading("PrologueScene"));
+
+            Data.DataManager.Instance.SavePlayerData();
+            Data.DataManager.Instance.InitPlayerData();
+        }
+
+        public void NotFirstTimeFunc()
+        {
+            button.onClick.AddListener(() =>
+                SceneChangeManager.Instance.ChangeSceneWithLoading("TownScene"));
         }
 
         void SignIn()
@@ -75,6 +76,7 @@ namespace AlchemyPlanet.Data
                     //LoadData();
                     //ShowAchievementsUI();
                     current_user_id = Social.localUser.id;
+                    WebSocketManager.Instance.SendFindName("1", current_user_id);
                 }
                 else
                     Debug.Log("Failed!");
