@@ -270,6 +270,7 @@ namespace AlchemyPlanet.TownScene
                 building.Build();
                 clickedBuilding = Instantiate(building.buildingObject, new Vector2(TownUI.Instance.mainCamera.transform.position.x, building.buildingObject.transform.position.y), Quaternion.Euler(0, 0, 0));
 
+                ownBuildings.Remove(building);
                 setupBuildings.Add(clickedBuilding);
                 SetBuildingImage();
             }
@@ -280,6 +281,7 @@ namespace AlchemyPlanet.TownScene
                 interior.Build();
                 clickedBuilding = Instantiate(interior.interiorObject, new Vector2(TownUI.Instance.mainCamera.transform.position.x, interior.interiorObject.transform.position.y), Quaternion.Euler(0, 0, 0));
 
+                ownInteriors.Remove(interior);
                 setupBuildings.Add(clickedBuilding);
                 SetInteriorImage();
             }
