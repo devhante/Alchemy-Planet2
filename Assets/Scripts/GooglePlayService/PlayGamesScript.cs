@@ -10,7 +10,6 @@ namespace AlchemyPlanet.Data
 {
     public class PlayGamesScript : MonoBehaviour
     {
-        [SerializeField] private GameObject Tutorial_Prefab;
         public static PlayGamesScript Instance { get; private set; }
         [SerializeField] private Button button;
 
@@ -51,9 +50,12 @@ namespace AlchemyPlanet.Data
 
         public void FirstTimeFunc()
         {
+            Debug.Log("FirstTimeFunc");
             Data.DataManager.Instance.CurrentPlayerData = new PlayerData();
-            button.onClick.AddListener(() =>
-                SceneChangeManager.Instance.ChangeSceneWithLoading("PrologueScene"));
+            button.onClick.AddListener(() => {
+                Debug.Log("FirstTimeFuncClicked");
+                SceneChangeManager.Instance.ChangeSceneWithLoading("PrologueScene");
+            });
 
             Data.DataManager.Instance.SavePlayerData();
             Data.DataManager.Instance.InitPlayerData();
@@ -61,6 +63,7 @@ namespace AlchemyPlanet.Data
 
         public void NotFirstTimeFunc()
         {
+            Debug.Log("NotFirstTimeFunc");
             button.onClick.AddListener(() =>
                 SceneChangeManager.Instance.ChangeSceneWithLoading("TownScene"));
         }
@@ -70,7 +73,6 @@ namespace AlchemyPlanet.Data
             //구글 인증을 완료하면 클라우드 데이터를 불러온다.
             Social.localUser.Authenticate(success =>
             {
-
                 if (success)
                 {
                     //LoadData();
