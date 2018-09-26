@@ -6,7 +6,7 @@ namespace AlchemyPlanet.GameScene
 {
     public class DropMaterial : Drop
     {
-        public MaterialName materialName;
+        public string materialName;
 
         protected override void Gain()
         {

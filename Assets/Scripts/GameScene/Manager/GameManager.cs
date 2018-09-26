@@ -50,7 +50,7 @@ namespace AlchemyPlanet.GameScene
         public float MoveSpeed { get; set; }
         public int Position { get; set; }
         public ComboStatus ComboStatus { get; private set; }
-        public Dictionary<MaterialName, int> dropMaterialList;
+        public Dictionary<string, int> dropMaterialList;
 
         private void OnApplicationPause(bool pause)
         {
@@ -76,7 +76,7 @@ namespace AlchemyPlanet.GameScene
             Coin = 0;
             MoveSpeed = 1;
             Position = 0;
-            dropMaterialList = new Dictionary<MaterialName, int>();
+            dropMaterialList = new Dictionary<string, int>();
         }
 
         private void Start()
@@ -135,13 +135,15 @@ namespace AlchemyPlanet.GameScene
                 case ScoreType.KillMonster: value += 1500; break;
             }
 
-            switch (ComboStatus)
-            {
-                case ComboStatus.Combo10: scoreRate += 0.05f; break;
-                case ComboStatus.Combo30: scoreRate += 0.08f; break;
-                case ComboStatus.Combo50: scoreRate += 0.1f; break;
-                case ComboStatus.Combo100: scoreRate += 0.12f; break;
-            }
+            //switch (ComboStatus)
+            //{
+            //    case ComboStatus.Combo10: scoreRate += 0.05f; break;
+            //    case ComboStatus.Combo30: scoreRate += 0.08f; break;
+            //    case ComboStatus.Combo50: scoreRate += 0.1f; break;
+            //    case ComboStatus.Combo100: scoreRate += 0.12f; break;
+            //}
+
+            scoreRate += GameUI.Instance.GetGage(Gages.PURIFY) * 2;
 
             result = (int)(value * scoreRate);
             Score += result;

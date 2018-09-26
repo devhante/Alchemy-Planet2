@@ -5,19 +5,28 @@ using System.Text;
 using UnityEngine;
 using AlchemyPlanet.Data;
 using UnityEngine.UI;
+using System.IO;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace AlchemyPlanet.Data
 {
     public class PlayGamesScript : MonoBehaviour
     {
         public static PlayGamesScript Instance { get; private set; }
-        [SerializeField] private Button button;
-
-        public string current_user_id = "0";
+        [SerializeField] private Button townButton;
+        [SerializeField] private Button prologueButton;
 
         const string SAVE_NAME = "PlayData";
         bool isSaving;
         bool isCloudDataLoaded = false;
+
+        private void Awake()
+        {
+            townButton.onClick.AddListener(LoadTownScene);
+            prologueButton.onClick.AddListener(LoadPrologueScene);
+        }
 
         void Start()
         {
@@ -32,6 +41,36 @@ namespace AlchemyPlanet.Data
             {
                 Destroy(this.gameObject);
             }
+
+            DataManager.Instance.CurrentPlayerData = new PlayerData();
+
+            try
+            {
+                using (StreamReader sr = new StreamReader(string.Format("{0}/ID.json", Application.persistentDataPath)))
+                {
+                    using (JsonReader reader = new JsonTextReader(sr))
+                    {
+                        JsonSerializer serializer = new JsonSerializer();
+                        Data.DataManager.Instance.CurrentPlayerData.player_id = serializer.Deserialize(reader).ToString();
+                    }
+                }
+            }
+            catch (FileNotFoundException e)
+            {
+                Data.DataManager.Instance.CurrentPlayerData.player_id = GenerateRandomId();
+
+                using (StreamWriter sw = new StreamWriter(string.Format("{0}/ID.json", Application.persistentDataPath)))
+                {
+                    using (JsonWriter writer = new JsonTextWriter(sw))
+                    {
+                        string user_id = Data.DataManager.Instance.CurrentPlayerData.player_id;
+                        JsonSerializer serializer = new JsonSerializer();
+                        serializer.Serialize(writer, user_id);
+                    }
+                }
+            }
+
+            WebSocketManager.Instance.SendFindName("1", DataManager.Instance.CurrentPlayerData.player_id);
 
             /*
             //처음으로 접속했을 경우 데이터를 디폴트로 세팅한다
@@ -51,23 +90,28 @@ namespace AlchemyPlanet.Data
         public void FirstTimeFunc()
         {
             Debug.Log("FirstTimeFunc");
-            Data.DataManager.Instance.CurrentPlayerData = new PlayerData();
-            button.onClick.AddListener(() => {
-                Debug.Log("FirstTimeFuncClicked");
-                SceneChangeManager.Instance.ChangeSceneWithLoading("PrologueScene");
-            });
-
-            Data.DataManager.Instance.SavePlayerData();
-            Data.DataManager.Instance.InitPlayerData();
+            prologueButton.gameObject.SetActive(true);
         }
 
         public void NotFirstTimeFunc()
         {
             Debug.Log("NotFirstTimeFunc");
-            button.onClick.AddListener(() =>
-                SceneChangeManager.Instance.ChangeSceneWithLoading("TownScene"));
+            townButton.gameObject.SetActive(true);
+            DataManager.Instance.LoadPlayerData();
         }
 
+        private void LoadPrologueScene()
+        {
+            Debug.Log("LoadPrologueScene");
+            SceneChangeManager.Instance.ChangeSceneWithLoading("PrologueScene");
+        }
+
+        private void LoadTownScene()
+        {
+            Debug.Log("LoadPrologueScene");
+            SceneChangeManager.Instance.ChangeSceneWithLoading("TownScene");
+        }
+        
         void SignIn()
         {
             //구글 인증을 완료하면 클라우드 데이터를 불러온다.
@@ -77,12 +121,23 @@ namespace AlchemyPlanet.Data
                 {
                     //LoadData();
                     //ShowAchievementsUI();
-                    current_user_id = Social.localUser.id;
-                    WebSocketManager.Instance.SendFindName("1", current_user_id);
                 }
                 else
                     Debug.Log("Failed!");
             });
+        }
+
+        private string GenerateRandomId()
+        {
+            string user_id = "";
+
+            for (int i = 0; i < 14; ++i)
+            {
+                user_id += Random.Range(0, 10).ToString();
+            }
+
+
+            return user_id;
         }
 
         //#region Saved Games

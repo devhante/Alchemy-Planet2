@@ -35,7 +35,7 @@ namespace AlchemyPlanet.GameScene
             Instantiate(instance, spawnPoint, Quaternion.identity);
         }
 
-        public void GainDropMaterial(MaterialName materialName)
+        public void GainDropMaterial(string materialName)
         {
             if (GameManager.Instance.dropMaterialList.ContainsKey(materialName))
                 GameManager.Instance.dropMaterialList[materialName]++;

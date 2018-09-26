@@ -208,7 +208,7 @@ namespace AlchemyPlanet.Data
 
         public PlayerData()
         {
-            this.player_id = Social.localUser.id;
+            this.player_id = "";
             this.player_name = "포핀";
 
             this.level = 1;
@@ -232,7 +232,7 @@ namespace AlchemyPlanet.Data
 
             this.boundary = 15;
 
-            AddSampleDatas();
+            //AddSampleDatas();
         }
 
         //따로 처리해줘야 하는 경험치는 아래 함수를 사용한다.

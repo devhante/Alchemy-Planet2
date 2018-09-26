@@ -117,6 +117,11 @@ namespace AlchemyPlanet.PrologueScene
             TownScene.UIManager.Instance.OpenMenu<TownScene.DialogUI>();
             TownScene.DialogUI.Instance.SetDialog();
 
+            while (TownScene.DialogUI.Instance != null)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+
             yield return new WaitForSeconds(3);
 
             SceneChangeManager.Instance.ChangeSceneWithLoading("TownScene");

@@ -37,10 +37,12 @@ namespace AlchemyPlanet.Data
 
                 if (message.status == "01100")
                 {
-                    string data_string = ConvertLappedJsonString(message.data);
-                    var data = JsonConvert.DeserializeObject<CollectionName>(data_string);
-                    if (data != null)
+                    if(message.data != "null")
+                    {
+                        string data_string = ConvertLappedJsonString(message.data);
+                        var data = JsonConvert.DeserializeObject<CollectionName>(data_string);
                         UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitName(data));
+                    }
                 }
 
                 //PlayGamesScript에서 게임 시작할때 불러줌. 처음 접속인지 아닌지 판별.
@@ -48,86 +50,103 @@ namespace AlchemyPlanet.Data
                 {
                     if (message.data != "null")
                     {
-                        Debug.Log("message.data != null");
                         string data_string = ConvertLappedJsonString(message.data);
                         var data = JsonConvert.DeserializeObject<CollectionName>(data_string);
                         UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitName(data));
-                        PlayGamesScript.Instance.NotFirstTimeFunc();
+                        UnityMainThreadDispatcher.Instance().Enqueue(() => PlayGamesScript.Instance.NotFirstTimeFunc());
                     }
                     else
-                        PlayGamesScript.Instance.FirstTimeFunc();
+                        UnityMainThreadDispatcher.Instance().Enqueue(() => PlayGamesScript.Instance.FirstTimeFunc());
                 }
 
                 if (message.status == "02100")
                 {
-                    string data_string = ConvertLappedJsonString(message.data);
-                    var data = JsonConvert.DeserializeObject<CollectionLevel>(data_string);
-                    if (data != null)
+                    if (message.data != "null")
+                    {
+                        string data_string = ConvertLappedJsonString(message.data);
+                        var data = JsonConvert.DeserializeObject<CollectionLevel>(data_string);
                         UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitLevel(data));
+                    }
                 }
 
                 if (message.status == "03100")
                 {
-                    string data_string = ConvertLappedJsonString(message.data);
-                    var data = JsonConvert.DeserializeObject<CollectionGoods>(data_string);
-                    if (data != null)
+                    if (message.data != "null")
+                    {
+                        string data_string = ConvertLappedJsonString(message.data);
+                        var data = JsonConvert.DeserializeObject<CollectionGoods>(data_string);
                         UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitGoods(data));
+                    }
                 }
 
                 if (message.status == "04100")
                 {
-                    string data_string = ConvertLappedJsonString(message.data);
-                    var data = JsonConvert.DeserializeObject<CollectionItem[]>(data_string);
-                    if (data != null)
+                    if (message.data != "null")
+                    {
+                        string data_string = ConvertLappedJsonString(message.data);
+                        var data = JsonConvert.DeserializeObject<CollectionItem[]>(data_string);
                         UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitItem(data));
+                    }
                 }
 
                 if (message.status == "05100")
                 {
-                    string data_string = ConvertLappedJsonString(message.data);
-                    var data = JsonConvert.DeserializeObject<CollectionBuilding[]>(data_string);
-                    if (data != null)
+                    if (message.data != "null")
+                    {
+                        string data_string = ConvertLappedJsonString(message.data);
+                        var data = JsonConvert.DeserializeObject<CollectionBuilding[]>(data_string);
                         UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitBuilding(data));
+                    }
                 }
 
                 if (message.status == "06100")
                 {
-                    string data_string = ConvertLappedJsonString(message.data);
-                    var data = JsonConvert.DeserializeObject<CollectionInterior[]>(data_string);
-                    if (data != null)
+                    if (message.data != "null")
+                    {
+                        string data_string = ConvertLappedJsonString(message.data);
+                        var data = JsonConvert.DeserializeObject<CollectionInterior[]>(data_string);
                         UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitInterior(data));
+                    }
                 }
 
                 if (message.status == "07100")
                 {
-                    string data_string = ConvertLappedJsonString(message.data);
-                    var data = JsonConvert.DeserializeObject<CollectionCharacter[]>(data_string);
-                    if (data != null)
+                    if (message.data != "null")
+                    {
+                        string data_string = ConvertLappedJsonString(message.data);
+                        var data = JsonConvert.DeserializeObject<CollectionCharacter[]>(data_string);
                         UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitCharacter(data));
+                    }
                 }
 
                 if (message.status == "08100")
                 {
-                    string data_string = ConvertLappedJsonString(message.data);
-                    var data = JsonConvert.DeserializeObject<CollectionParty[]>(data_string);
-                    if (data != null)
+                    if (message.data != "null")
+                    {
+                        string data_string = ConvertLappedJsonString(message.data);
+                        var data = JsonConvert.DeserializeObject<CollectionParty[]>(data_string);
                         UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitParty(data));
+                    }
                 }
 
                 if (message.status == "09100")
                 {
-                    string data_string = ConvertLappedJsonString(message.data);
-                    var data = JsonConvert.DeserializeObject<CollectionRequest[]>(data_string);
-                    if (data != null)
+                    if (message.data != "null")
+                    {
+                        string data_string = ConvertLappedJsonString(message.data);
+                        var data = JsonConvert.DeserializeObject<CollectionRequest[]>(data_string);
                         UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitRequest(data));
+                    }
                 }
 
                 if (message.status == "10100")
                 {
-                    string data_string = ConvertLappedJsonString(message.data);
-                    var data = JsonConvert.DeserializeObject<CollectionStroyStar[]>(data_string);
-                    if (data != null)
+                    if (message.data != "null")
+                    {
+                        string data_string = ConvertLappedJsonString(message.data);
+                        var data = JsonConvert.DeserializeObject<CollectionStroyStar[]>(data_string);
                         UnityMainThreadDispatcher.Instance().Enqueue(() => DataManager.Instance.CommitStoryStar(data));
+                    }
                 }
             };
 

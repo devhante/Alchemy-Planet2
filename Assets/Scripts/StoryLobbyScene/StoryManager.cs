@@ -221,12 +221,12 @@ namespace AlchemyPlanet.StoryLobbyScene
                         yield return null;
                     }
 
-                    WebSocketManager.Instance.SendUpdatePlayerStoryStar("0", PlayGamesScript.Instance.current_user_id, "1-2", 3);
+                    WebSocketManager.Instance.SendUpdatePlayerStoryStar("0", DataManager.Instance.CurrentPlayerData.player_id, "1-2", 3);
                     DataManager.Instance.CurrentPlayerData.stroystar["1-2"] = 3;
 
                     if (DataManager.Instance.CurrentPlayerData.stroystar.ContainsKey("1-3") == false)
                     {
-                        WebSocketManager.Instance.SendInsertStoryStar("0", PlayGamesScript.Instance.current_user_id, "1-3", 0);
+                        WebSocketManager.Instance.SendInsertStoryStar("0", DataManager.Instance.CurrentPlayerData.player_id, "1-3", 0);
                         DataManager.Instance.CurrentPlayerData.stroystar.Add("1-3", 0);
                     }
 
@@ -265,12 +265,12 @@ namespace AlchemyPlanet.StoryLobbyScene
                     if (isStarOn[1] == true)
                         starNumber++;
 
-                    WebSocketManager.Instance.SendUpdatePlayerStoryStar("0", PlayGamesScript.Instance.current_user_id, "1-3", starNumber);
+                    WebSocketManager.Instance.SendUpdatePlayerStoryStar("0", DataManager.Instance.CurrentPlayerData.player_id, "1-3", starNumber);
                     DataManager.Instance.CurrentPlayerData.stroystar["1-3"] = starNumber;
 
                     if (DataManager.Instance.CurrentPlayerData.stroystar.ContainsKey("1-4") == false)
                     {
-                        WebSocketManager.Instance.SendInsertStoryStar("0", PlayGamesScript.Instance.current_user_id, "1-4", 0);
+                        WebSocketManager.Instance.SendInsertStoryStar("0", DataManager.Instance.CurrentPlayerData.player_id, "1-4", 0);
                         DataManager.Instance.CurrentPlayerData.stroystar.Add("1-4", 0);
                     }
 
@@ -311,12 +311,12 @@ namespace AlchemyPlanet.StoryLobbyScene
                     if (isStarOn[1] == true)
                         starNumber++;
 
-                    WebSocketManager.Instance.SendUpdatePlayerStoryStar("0", PlayGamesScript.Instance.current_user_id, "1-4", starNumber);
+                    WebSocketManager.Instance.SendUpdatePlayerStoryStar("0", DataManager.Instance.CurrentPlayerData.player_id, "1-4", starNumber);
                     DataManager.Instance.CurrentPlayerData.stroystar["1-4"] = starNumber;
 
                     if (DataManager.Instance.CurrentPlayerData.stroystar.ContainsKey("1-5") == false)
                     {
-                        WebSocketManager.Instance.SendInsertStoryStar("0", PlayGamesScript.Instance.current_user_id, "1-5", 0);
+                        WebSocketManager.Instance.SendInsertStoryStar("0", DataManager.Instance.CurrentPlayerData.player_id, "1-5", 0);
                         DataManager.Instance.CurrentPlayerData.stroystar.Add("1-5", 0);
                     }
 
@@ -361,12 +361,12 @@ namespace AlchemyPlanet.StoryLobbyScene
                     if (isStarOn[2] == true)
                         starNumber++;
 
-                    WebSocketManager.Instance.SendUpdatePlayerStoryStar("0", PlayGamesScript.Instance.current_user_id, "1-5", starNumber);
+                    WebSocketManager.Instance.SendUpdatePlayerStoryStar("0", DataManager.Instance.CurrentPlayerData.player_id, "1-5", starNumber);
                     DataManager.Instance.CurrentPlayerData.stroystar["1-5"] = starNumber;
 
                     if (DataManager.Instance.CurrentPlayerData.stroystar.ContainsKey("1-6") == false)
                     {
-                        WebSocketManager.Instance.SendInsertStoryStar("0", PlayGamesScript.Instance.current_user_id, "1-6", 0);
+                        WebSocketManager.Instance.SendInsertStoryStar("0", DataManager.Instance.CurrentPlayerData.player_id, "1-6", 0);
                         DataManager.Instance.CurrentPlayerData.stroystar.Add("1-6", 0);
                     }
 
@@ -400,12 +400,12 @@ namespace AlchemyPlanet.StoryLobbyScene
                         yield return null;
                     }
 
-                    WebSocketManager.Instance.SendUpdatePlayerStoryStar("0", PlayGamesScript.Instance.current_user_id, "1-6", 3);
+                    WebSocketManager.Instance.SendUpdatePlayerStoryStar("0", DataManager.Instance.CurrentPlayerData.player_id, "1-6", 3);
                     DataManager.Instance.CurrentPlayerData.stroystar["1-6"] = 3;
 
                     if (DataManager.Instance.CurrentPlayerData.stroystar.ContainsKey("1-7") == false)
                     {
-                        WebSocketManager.Instance.SendInsertStoryStar("0", PlayGamesScript.Instance.current_user_id, "1-7", 0);
+                        WebSocketManager.Instance.SendInsertStoryStar("0", DataManager.Instance.CurrentPlayerData.player_id, "1-7", 0);
                         DataManager.Instance.CurrentPlayerData.stroystar.Add("1-7", 0);
                     }
 
