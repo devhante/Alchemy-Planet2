@@ -6,13 +6,12 @@ using DG.Tweening;
 
 namespace AlchemyPlanet.TownScene
 {
-    public class TownPrologue : Common.UI<TownPrologue>
+    public class TownPrologue
     {
         public List<Sprite> tutorialSprite;
         public List<Button> tutorialButton;
         public Image tutorialImage;
         public Image hand;
-        public Camera mainCamera;
 
         private int stage = 0;
         private bool movingHand = false;
@@ -33,7 +32,17 @@ namespace AlchemyPlanet.TownScene
                 stage = 2;
                 Data.DataManager.Instance.CurrentPlayerData.buildings.Add(Data.DataManager.Instance.buildingInfo["House"]);
                 Data.DataManager.Instance.CurrentPlayerData.GiveId(Data.DataManager.Instance.CurrentPlayerData.buildings[0]);
-                mainCamera.GetComponent<MainCamera>().StartCoroutine("ZoomOut");
+                Data.WebSocketManager.Instance.SendInsertBuilding("0",
+                    Data.DataManager.Instance.CurrentPlayerData.player_id,
+                    Data.DataManager.Instance.CurrentPlayerData.buildings[0].id.ToString(),
+                    Data.DataManager.Instance.CurrentPlayerData.buildings[0].buildingName,
+                    Data.DataManager.Instance.CurrentPlayerData.buildings[0].buildingLevel,
+                    Data.DataManager.Instance.CurrentPlayerData.buildings[0].position,
+                    Data.DataManager.Instance.CurrentPlayerData.buildings[0].setup,
+                    Data.DataManager.Instance.CurrentPlayerData.buildings[0].flip,
+                    Data.DataManager.Instance.CurrentPlayerData.buildings[0].upgrading,
+                    Data.DataManager.Instance.CurrentPlayerData.buildings[0].UpgradeEndTime);
+                TownUI.Instance.mainCamera.GetComponent<MainCamera>().StartCoroutine("ZoomOut");
                 UIManager.Instance.TownUIOff();
                 UIManager.Instance.OpenMenu<BuildingPlacement>();
                 movingHand = false;

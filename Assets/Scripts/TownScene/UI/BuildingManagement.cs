@@ -66,29 +66,36 @@ namespace AlchemyPlanet.TownScene
         {
             ownBuildings = new List<Building>();
 
-            foreach (Building building in DataManager.Instance.buildingInfo.Values)
+            if (DataManager.Instance.interiorInfo.Count >= 1)
             {
-                ownBuildings.Add(building);
+                foreach (Building building in DataManager.Instance.buildingInfo.Values)
+                {
+                    if(DataManager.Instance.CurrentPlayerData.buildings.Find(a=>a.buildingName == building.buildingName) != null)
+                    {
+                        int n = DataManager.Instance.CurrentPlayerData.buildings.FindIndex(a => a.buildingName == building.buildingName);
+                        ownBuildings.Add(DataManager.Instance.CurrentPlayerData.buildings[n]); 
+                    }
+                    else
+                    {
+                        ownBuildings.Add(building);
+                    }
+                }
             }
-
-            foreach (Building building in DataManager.Instance.CurrentPlayerData.buildings)
-            {
-                Building abc = ownBuildings.Find(a => a.buildingName == building.buildingName);
-                abc = building;
-            }
-
             ownInteriors = new List<Interior>();
             ownInteriorsCount = new Dictionary<string, int>();
 
-            foreach (Interior interior in DataManager.Instance.interiorInfo.Values)
+            if (DataManager.Instance.interiorInfo.Count >= 1)
             {
-                ownInteriors.Add(interior);
-                ownInteriorsCount.Add(interior.interiorName, 0);
-            }
-            foreach (Interior interior in DataManager.Instance.CurrentPlayerData.interiors)
-            {
-                if (ownInteriors.Find(a => a.interiorName == interior.interiorName) != null)
-                    ownInteriorsCount[interior.interiorName]++;
+                foreach (Interior interior in DataManager.Instance.interiorInfo.Values)
+                {
+                    ownInteriors.Add(interior);
+                    ownInteriorsCount.Add(interior.interiorName, 0);
+                }
+                foreach(Interior interior in DataManager.Instance.CurrentPlayerData.interiors)
+                {
+                    if (ownInteriors.Find(a => a.interiorName == interior.interiorName) != null)
+                        ownInteriorsCount[interior.interiorName]++;
+                }
             }
         }
 
@@ -104,9 +111,13 @@ namespace AlchemyPlanet.TownScene
                     buildingImages[i].name = ownBuildings[i + page * 9].buildingName;
                     if (!infoText[i].gameObject.activeSelf)
                         infoText[i].gameObject.SetActive(true);
-                    if (DataManager.Instance.CurrentPlayerData.buildings.Contains(ownBuildings[i + page * 9]))
+                    if (ownBuildings[i + page * 9].id != 0)
                     {
-                        if (ownBuildings[i + page * 9].material1Count <= DataManager.Instance.CurrentPlayerData.inventory[ownBuildings[i + page * 9].material1Name] &&
+                        if (
+                            DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownBuildings[i + page * 9].material1Name)&&
+                            DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownBuildings[i + page * 9].material2Name) &&
+                            DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownBuildings[i + page * 9].material3Name) &&
+                            ownBuildings[i + page * 9].material1Count <= DataManager.Instance.CurrentPlayerData.inventory[ownBuildings[i + page * 9].material1Name] &&
                           ownBuildings[i + page * 9].material2Count <= DataManager.Instance.CurrentPlayerData.inventory[ownBuildings[i + page * 9].material2Name] &&
                           ownBuildings[i + page * 9].material3Count <= DataManager.Instance.CurrentPlayerData.inventory[ownBuildings[i + page * 9].material3Name] &&
                           ownBuildings[i + page * 9].money <= DataManager.Instance.CurrentPlayerData.unicoin)
@@ -123,7 +134,10 @@ namespace AlchemyPlanet.TownScene
 
                     else
                     {
-                        if (ownBuildings[i + page * 9].material1Count <= DataManager.Instance.CurrentPlayerData.inventory[ownBuildings[i + page * 9].material1Name] &&
+                        if (DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownBuildings[i + page * 9].material1Name) &&
+                            DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownBuildings[i + page * 9].material2Name) &&
+                            DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownBuildings[i + page * 9].material3Name) &&
+                            ownBuildings[i + page * 9].material1Count <= DataManager.Instance.CurrentPlayerData.inventory[ownBuildings[i + page * 9].material1Name] &&
                       ownBuildings[i + page * 9].material2Count <= DataManager.Instance.CurrentPlayerData.inventory[ownBuildings[i + page * 9].material2Name] &&
                       ownBuildings[i + page * 9].material3Count <= DataManager.Instance.CurrentPlayerData.inventory[ownBuildings[i + page * 9].material3Name] &&
                       ownBuildings[i + page * 9].money <= DataManager.Instance.CurrentPlayerData.unicoin)
@@ -163,7 +177,10 @@ namespace AlchemyPlanet.TownScene
 
                     if (ownInteriorsCount[ownInteriors[i + page * 9].interiorName] > 0)
                     {
-                        if (ownInteriors[i + page * 9].material1Count <= DataManager.Instance.CurrentPlayerData.inventory[ownInteriors[i + page * 9].material1Name] &&
+                        if (DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownInteriors[i + page * 9].material1Name) &&
+                            DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownInteriors[i + page * 9].material2Name) &&
+                            DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownInteriors[i + page * 9].material3Name) &&
+                            ownInteriors[i + page * 9].material1Count <= DataManager.Instance.CurrentPlayerData.inventory[ownInteriors[i + page * 9].material1Name] &&
                        ownInteriors[i + page * 9].material2Count <= DataManager.Instance.CurrentPlayerData.inventory[ownInteriors[i + page * 9].material2Name] &&
                        ownInteriors[i + page * 9].material3Count <= DataManager.Instance.CurrentPlayerData.inventory[ownInteriors[i + page * 9].material3Name] &&
                        ownInteriors[i + page * 9].money <= DataManager.Instance.CurrentPlayerData.unicoin)
@@ -174,7 +191,10 @@ namespace AlchemyPlanet.TownScene
 
                     else
                     {
-                        if (ownInteriors[i + page * 9].material1Count <= DataManager.Instance.CurrentPlayerData.inventory[ownInteriors[i + page * 9].material1Name] &&
+                        if (DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownInteriors[i + page * 9].material1Name) &&
+                            DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownInteriors[i + page * 9].material2Name) &&
+                            DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownInteriors[i + page * 9].material3Name) &&
+                            ownInteriors[i + page * 9].material1Count <= DataManager.Instance.CurrentPlayerData.inventory[ownInteriors[i + page * 9].material1Name] &&
                       ownInteriors[i + page * 9].material2Count <= DataManager.Instance.CurrentPlayerData.inventory[ownInteriors[i + page * 9].material2Name] &&
                       ownInteriors[i + page * 9].material3Count <= DataManager.Instance.CurrentPlayerData.inventory[ownInteriors[i + page * 9].material3Name] &&
                       ownInteriors[i + page * 9].money <= DataManager.Instance.CurrentPlayerData.unicoin)
