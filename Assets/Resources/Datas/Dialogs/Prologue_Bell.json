@@ -49,7 +49,7 @@
   },
   {
     "name": "???",
-    "content": "앗 깨어나셨다!",
+    "content": "{{PlayBGM}}0앗 깨어나셨다!",
     "illusts": [
       {
         "name": "",

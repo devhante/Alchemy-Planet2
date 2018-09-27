@@ -28,12 +28,16 @@ namespace AlchemyPlanet
 
         public void ChangeScene(string scene_name)
         {
+            Common.SoundManager.Instance.StopBGM();
+
             SceneManager.LoadScene(scene_name);
             AlchemyPlanet.TownScene.UIManager.Instance.Clear();
         }
 
         public void ChangeSceneWithLoading(string scene_name)
         {
+            Common.SoundManager.Instance.StopBGM();
+
             LoadingSceneManager.LoadScene(scene_name);
             if (AlchemyPlanet.TownScene.UIManager.Instance)
             {
