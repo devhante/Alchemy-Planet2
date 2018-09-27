@@ -23,6 +23,11 @@ namespace AlchemyPlanet.TownScene
                 DataManager.Instance.CurrentPlayerData.stroystar["1-1"] = 0;
                 WebSocketManager.Instance.SendInsertStoryStar("0", DataManager.Instance.CurrentPlayerData.player_id, "1-1", 0);
 
+                DataManager.Instance.CurrentPlayerData.unicoin = 0;
+                DataManager.Instance.CurrentPlayerData.cosmostone = 0;
+                DataManager.Instance.CurrentPlayerData.oxygentank = 0;
+                WebSocketManager.Instance.SendInsertGoods("0", DataManager.Instance.CurrentPlayerData.player_id, 0, 0, 0);
+
                 UIManager.Instance.CloseMenu();
             });
         }
