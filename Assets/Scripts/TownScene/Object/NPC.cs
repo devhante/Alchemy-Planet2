@@ -25,7 +25,7 @@ namespace AlchemyPlanet.TownScene
         // Use this for initialization
         void Start()
         {
-            data = new NPCDAta(this.gameObject.name);
+            //data = new NPCDAta(this.gameObject.name);
 
             moving = false;
             moveChoice = Random.Range(0, 3);

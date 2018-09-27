@@ -170,7 +170,7 @@ namespace AlchemyPlanet.Data
                     buildingInfo[str].buildingObject = Resources.Load<GameObject>("Prefabs/TownScene/Structure");
                 }
 
-                Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Town/town");
+                Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Town/타운리소스");
 
                 for (int i = 0; i < sprites.Length; i++)
                 {
@@ -191,16 +191,13 @@ namespace AlchemyPlanet.Data
                     interiorInfo[str].interiorObject = Resources.Load<GameObject>("Prefabs/TownScene/Structure");
                 }
 
-                Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Town/town");
+                Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Town/타운리소스");
 
                 for (int i = 0; i < sprites.Length; i++)
                 {
                     if (interiorInfo.ContainsKey(sprites[i].name))
                     {
-                        if (sprites[i].name == interiorInfo[sprites[i].name].interiorName)
-                        {
-                            interiorInfo[sprites[i].name].image = sprites[i];
-                        }
+                        interiorInfo[sprites[i].name].image = sprites[i];
                     }
                 }
             }
