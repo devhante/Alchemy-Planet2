@@ -34,6 +34,8 @@ namespace AlchemyPlanet.TownScene
                 mainCamera.GetComponent<MainCamera>().StartCoroutine("ZoomOut");
                 UIManager.Instance.TownUIOff();
                 UIManager.Instance.OpenMenu<BuildingPlacement>();
+                Data.DataManager.Instance.CurrentPlayerData.buildings.Add(Data.DataManager.Instance.buildingInfo["House"]);
+                Data.DataManager.Instance.CurrentPlayerData.GiveId(Data.DataManager.Instance.CurrentPlayerData.buildings[0]);
                 movingHand = false;
                 sequence.Kill();
             });
