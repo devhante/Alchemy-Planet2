@@ -134,7 +134,7 @@ namespace AlchemyPlanet.Data
 
             for (int i = 0; i < 14; ++i)
             {
-                user_id += Random.Range(0, 10).ToString();
+                user_id += UnityEngine.Random.Range(0, 10).ToString();
             }
 
 
