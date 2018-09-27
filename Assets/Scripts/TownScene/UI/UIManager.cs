@@ -36,15 +36,13 @@ namespace AlchemyPlanet.TownScene
 
         private void OnLevelWasLoaded(int level)
         {
+            Common.StateBar.Instance.UpdateState();
             switch (level)
             {
                 case 0: case 1: case 7: case 8: case 10:
                     TopDownUI.SetActive(false); break;
                 default:
-                    {
-                        Common.StateBar.Instance.UpdateState();
-                        TopDownUI.SetActive(true); break;
-                    }
+                    TopDownUI.SetActive(true); break;
             }
         }
 
