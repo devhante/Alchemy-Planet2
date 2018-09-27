@@ -20,7 +20,7 @@ namespace AlchemyPlanet.StoryLobbyScene
         public int CurrentStage { get; set; }
         public int CurrentMaxStage { get; set; }
 
-        private GameObject starsObject;
+        private Stars starsScript;
 
         private void OnDestroy()
         {
@@ -44,7 +44,7 @@ namespace AlchemyPlanet.StoryLobbyScene
 
             if (scene.name == "GameScene")
             {
-                starsObject = Instantiate(stars, GameUI.Instance.transform);
+                starsScript = Instantiate(stars, GameUI.Instance.transform).GetComponent<Stars>();
 
                 StartCoroutine("ChallengeCoroutine");
                 StartCoroutine("StarCoroutine");
@@ -201,17 +201,17 @@ namespace AlchemyPlanet.StoryLobbyScene
                     {
                         if (ItemManager.Instance.UsedItemNumber[ItemName.RainbowColorBall] > 0)
                         {
-                            starsObject.transform.GetChild(0).GetComponent<Image>().sprite = starOn;
+                            starsScript.stars[0].rate = 1;
                             isStarOn[0] = true;
                         }
                         if(ItemManager.Instance.UsedItemNumber[ItemName.SlowReducedOxygen] > 0)
                         {
-                            starsObject.transform.GetChild(1).GetComponent<Image>().sprite = starOn;
+                            starsScript.stars[1].rate = 1;
                             isStarOn[1] = true;
                         }
                         if(ItemManager.Instance.UsedItemNumber[ItemName.IncreasePurify] > 0)
                         {
-                            starsObject.transform.GetChild(2).GetComponent<Image>().sprite = starOn;
+                            starsScript.stars[2].rate = 1;
                             isStarOn[2] = true;
                         }
 
@@ -236,27 +236,29 @@ namespace AlchemyPlanet.StoryLobbyScene
 
                 else if(CurrentStage == 3)
                 {
-                    starsObject.transform.GetChild(1).GetComponent<Image>().sprite = starOn;
+                    starsScript.stars[1].rate = 1;
                     isStarOn[1] = true;
 
                     while (true)
                     {
+                        starsScript.stars[0].rate = MonsterManager.Instance.DeadMonsterNumber / 5.0f;
                         if(MonsterManager.Instance.DeadMonsterNumber >= 5)
-                        {
-                            starsObject.transform.GetChild(0).GetComponent<Image>().sprite = starOn;
                             isStarOn[0] = true;
-                        }
+
                         if(Player.Instance.PlayerHitNumber > 15)
                         {
-                            starsObject.transform.GetChild(1).GetComponent<Image>().sprite = starOff;
+                            starsScript.stars[1].rate = 0;
                             isStarOn[1] = false;
                         }
+
+                        starsScript.stars[2].rate = MaterialManager.Instance.ChainedNumber / 10.0f;
                         if(MaterialManager.Instance.ChainedNumber >= 10)
                         {
-                            starsObject.transform.GetChild(2).GetComponent<Image>().sprite = starOn;
                             isStarOn[2] = true;
-                            break;
                         }
+
+                        if (isStarOn[0] == true && isStarOn[2] == true)
+                            break;
 
                         yield return null;
                     }
@@ -280,26 +282,24 @@ namespace AlchemyPlanet.StoryLobbyScene
 
                 else if(CurrentStage == 4)
                 {
-                    starsObject.transform.GetChild(1).GetComponent<Image>().sprite = starOn;
+                    starsScript.stars[1].rate = 1;
                     isStarOn[1] = true;
 
                     while(true)
                     {
+                        starsScript.stars[0].rate = StageManager.Instance.MovedDistance / 50.0f;
                         if (StageManager.Instance.MovedDistance >= 50)
-                        {
-                            starsObject.transform.GetChild(0).GetComponent<Image>().sprite = starOn;
                             isStarOn[0] = true;
-                        }
+
                         if(GameScene.GameManager.Instance.Second > 40)
                         {
-                            starsObject.transform.GetChild(1).GetComponent<Image>().sprite = starOff;
+                            starsScript.stars[1].rate = 0;
                             isStarOn[1] = false;
                         }
+
+                        starsScript.stars[2].rate = ItemManager.Instance.UsedItemNumber[ItemName.Sprint] / 3.0f;
                         if (ItemManager.Instance.UsedItemNumber[ItemName.Sprint] >= 3)
-                        {
-                            starsObject.transform.GetChild(2).GetComponent<Image>().sprite = starOn;
                             isStarOn[2] = true;
-                        }
 
                         if (isStarOn[0] == true && isStarOn[2] == true)
                             break;
@@ -332,22 +332,20 @@ namespace AlchemyPlanet.StoryLobbyScene
                         foreach (var item in Popin.Instance.UsedSkillNumber)
                             usedSkillNumber += item.Value;
 
-                        starsObject.transform.GetChild(2).GetComponent<Image>().sprite = starOn;
+                        starsScript.stars[2].rate = 1;
                         isStarOn[2] = true;
 
+                        starsScript.stars[0].rate = usedSkillNumber / 3.0f;
                         if (usedSkillNumber >= 3)
-                        {
-                            starsObject.transform.GetChild(0).GetComponent<Image>().sprite = starOn;
                             isStarOn[0] = true;
-                        }
+
+                        starsScript.stars[1].rate = MaterialManager.Instance.DestroyedMaterialNumber / 50.0f;
                         if (MaterialManager.Instance.DestroyedMaterialNumber >= 50)
-                        {
-                            starsObject.transform.GetChild(1).GetComponent<Image>().sprite = starOn;
                             isStarOn[1] = true;
-                        }
+
                         if (GameScene.GameManager.Instance.Second > 90)
                         {
-                            starsObject.transform.GetChild(2).GetComponent<Image>().sprite = starOff;
+                            starsScript.stars[2].rate = 0;
                             isStarOn[2] = false;
                         }
 
@@ -378,21 +376,17 @@ namespace AlchemyPlanet.StoryLobbyScene
                 {
                     while(true)
                     {
+                        starsScript.stars[0].rate = Popin.Instance.UsedSkillNumber[PopinPotionColor.Rainbow] / 2.0f;
                         if(Popin.Instance.UsedSkillNumber[PopinPotionColor.Rainbow] >= 2)
-                        {
-                            starsObject.transform.GetChild(0).GetComponent<Image>().sprite = starOn;
                             isStarOn[0] = true;
-                        }
+
+                        starsScript.stars[1].rate = Popin.Instance.UsedSkillNumber[PopinPotionColor.Black] / 2.0f;
                         if(Popin.Instance.UsedSkillNumber[PopinPotionColor.Black] >= 2)
-                        {
-                            starsObject.transform.GetChild(1).GetComponent<Image>().sprite = starOn;
                             isStarOn[1] = true;
-                        }
+
+                        starsScript.stars[2].rate = MonsterManager.Instance.DeadMonsterNumber / 5.0f;
                         if(MonsterManager.Instance.DeadMonsterNumber >= 5)
-                        {
-                            starsObject.transform.GetChild(2).GetComponent<Image>().sprite = starOn;
                             isStarOn[2] = true;
-                        }
 
                         if (isStarOn[0] == true && isStarOn[1] == true && isStarOn[2] == true)
                             break;
