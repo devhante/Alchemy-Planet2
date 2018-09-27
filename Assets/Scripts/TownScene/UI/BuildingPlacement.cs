@@ -86,8 +86,8 @@ namespace AlchemyPlanet.TownScene
         void SetBuilding()
         {
             foreach (Building building in DataManager.Instance.CurrentPlayerData.buildings)
-                    WebSocketManager.Instance.SendUpdateBuilding("", DataManager.Instance.CurrentPlayerData.player_id, building.id.ToString(), building.buildingName,
-                        building.buildingLevel, building.position, building.setup, building.flip, building.upgrading, building.UpgradeEndTime);
+                WebSocketManager.Instance.SendUpdateBuilding("", DataManager.Instance.CurrentPlayerData.player_id, building.id.ToString(), building.buildingName,
+                    building.buildingLevel, building.position, building.setup, building.flip, building.upgrading, building.UpgradeEndTime);
 
             foreach (Interior interior in DataManager.Instance.CurrentPlayerData.interiors)
                 WebSocketManager.Instance.SendUpdateInterior("", DataManager.Instance.CurrentPlayerData.player_id, interior.id.ToString(),
@@ -171,14 +171,15 @@ namespace AlchemyPlanet.TownScene
                 tempTouch = Input.GetTouch(0);
                 touchedPos = Camera.main.ScreenToWorldPoint(tempTouch.position);
                 RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);
-                if (tempTouch.phase == TouchPhase.Stationary)
+                if (hit.collider != null && hit.collider.tag == "Building" 
+                    && !EventSystem.current.IsPointerOverGameObject(tempTouch.fingerId))
                     touchTime += tempTouch.deltaTime;
-                else if (tempTouch.phase != TouchPhase.Stationary)
+                if (tempTouch.phase == TouchPhase.Ended || hit.collider == null
+                    || (hit.collider != null && hit.collider.tag != "Building"))
                     touchTime = 0;
 
                 // 건물 선택하기 0.7초 동안 눌러야 선택됨
-                if (hit.collider != null && hit.collider.tag == "Building" &&
-                    !EventSystem.current.IsPointerOverGameObject(tempTouch.fingerId) && touchTime > 0.7f && clickedBuilding == null)
+                if (touchTime > 0.7f && clickedBuilding == null)
                 {
                     if (clickedBuilding != null)
                     {
@@ -215,7 +216,7 @@ namespace AlchemyPlanet.TownScene
 
             SetBuilding();
             TownUI.Instance.player.SetActive(true);
-            foreach(GameObject obj in TownUI.Instance.npc)
+            foreach (GameObject obj in TownUI.Instance.npc)
             {
                 obj.SetActive(true);
             }
@@ -299,18 +300,16 @@ namespace AlchemyPlanet.TownScene
                 ownBuildings.Add(DataManager.Instance.CurrentPlayerData.buildings.Find(a => a.buildingName == clickedBuilding.name.Substring(0, clickedBuilding.name.Length - 7)));
                 setupBuildings.Remove(clickedBuilding);
                 Destroy(clickedBuilding);
-                clickedBuilding = null;
             }
             if (clickedBuilding.name.StartsWith("2"))
             {
                 ownInteriors.Add(DataManager.Instance.CurrentPlayerData.interiors.Find(a => a.interiorName == clickedBuilding.name.Substring(0, clickedBuilding.name.Length - 7)));
                 setupBuildings.Remove(clickedBuilding);
                 Destroy(clickedBuilding);
-                clickedBuilding = null;
             }
             if (tapType == "Building")
                 SetBuildingImage();
-            else if(tapType == "Interior")
+            else if (tapType == "Interior")
                 SetInteriorImage();
         }
 

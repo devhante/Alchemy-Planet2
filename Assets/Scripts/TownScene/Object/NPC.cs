@@ -25,7 +25,7 @@ namespace AlchemyPlanet.TownScene
         // Use this for initialization
         void Start()
         {
-            //data = new NPCDAta(this.gameObject.name);
+            data = new NPCDAta(this.gameObject.name);
 
             moving = false;
             moveChoice = Random.Range(0, 3);
@@ -71,7 +71,6 @@ namespace AlchemyPlanet.TownScene
             {
                 talking = true;
                 UIManager.Instance.OpenMenu<DialogUI>();
-                //클릭된 NPC의 이름으로 수정해야 함
                 DialogUI.Instance.SetDialog(this);
             }
         }

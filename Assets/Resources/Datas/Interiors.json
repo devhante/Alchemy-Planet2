@@ -14,7 +14,7 @@
     "material2Count": 2,
     "material3Count": 2,
     "money": 1000
-  } //,
+  } ,
   //"Maple": {
   //  "id": 0,
   //  "interiorName": "Maple",
@@ -30,8 +30,7 @@
   //  "material2Count": 2,
   //  "material3Count": 2,
   //  "money": 1000
-  //}
-    ,
+  //} ,
   "CherryBlossom": {
     "id": 0,
     "interiorName": "CherryBlossom",

@@ -5,8 +5,8 @@ TextureImporter:
     21300000: CherryBlossom
     21300002: "\uD0C0\uC6B4\uB9AC\uC18C\uC2A4_1"
     21300004: "\uD0C0\uC6B4\uB9AC\uC18C\uC2A4_2"
-    21300006: House
-    21300008: Tree
+    21300006: Tree
+    21300008: House
     21300010: "\uD0C0\uC6B4\uB9AC\uC18C\uC2A4_5"
     21300012: "\uD0C0\uC6B4\uB9AC\uC18C\uC2A4_6"
   externalObjects: {}
@@ -110,11 +110,32 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
+      outline:
+      - - {x: 144.5, y: 38}
+        - {x: 168.5, y: 106}
+        - {x: 126.5, y: 221}
+        - {x: 51.5, y: 251}
+        - {x: -73.5, y: 251}
+        - {x: -177.5, y: 152}
+        - {x: -177.5, y: 24}
+        - {x: -131.5, y: -24}
+        - {x: -44.5, y: -109}
+        - {x: -81.5, y: -251}
+        - {x: 92.5, y: -250}
+        - {x: 24.5, y: -114}
+        - {x: 177.5, y: -82}
+        - {x: 176.5, y: 24}
+      - - {x: 52.5, y: -44}
+        - {x: 58.5, y: -44}
+        - {x: 54.5, y: -43}
+      - - {x: 81.5, y: -37}
+        - {x: 81.5, y: -33}
+        - {x: 90.5, y: -26}
+        - {x: 89.5, y: -35}
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c664755b3948eda44953b074afc5df32
+      spriteID: 0e3935690dd952f4ea0035b3c8915fd9
       vertices: []
       indices: 
       edges: []
@@ -134,7 +155,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 89925836408adea4e9cc7bebf70c3106
+      spriteID: f7f5cb97b8e219149a46ba8eec0f1925
       vertices: []
       indices: 
       edges: []
@@ -143,8 +164,8 @@ TextureImporter:
       name: "\uD0C0\uC6B4\uB9AC\uC18C\uC2A4_2"
       rect:
         serializedVersion: 2
-        x: 475
-        y: 783
+        x: 665
+        y: 955
         width: 151
         height: 115
       alignment: 0
@@ -154,27 +175,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 02cebf6803ac23247a70ad2122bfa9f1
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: House
-      rect:
-        serializedVersion: 2
-        x: 507
-        y: 378
-        width: 560
-        height: 410
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4270f2fdeba5f7a479de9d551c212d3e
+      spriteID: 6495f45eceddc5b45aa709878c8b1915
       vertices: []
       indices: 
       edges: []
@@ -190,11 +191,72 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
+      outline:
+      - - {x: 96.5, y: 238}
+        - {x: -87.5, y: 238}
+        - {x: -174.5, y: 149}
+        - {x: -174.5, y: 50}
+        - {x: -147.5, y: 22}
+        - {x: -79.5, y: -12}
+        - {x: -114.5, y: -46}
+        - {x: -26.5, y: -101}
+        - {x: -70.5, y: -238}
+        - {x: 102.5, y: -238}
+        - {x: 113.5, y: -225}
+        - {x: 50.5, y: -150}
+        - {x: 174.5, y: 42}
+        - {x: 174.5, y: 185}
+      - - {x: 43.5, y: -33}
+        - {x: 46.5, y: -29}
+        - {x: 43.5, y: -38}
+        - {x: 40.5, y: -41}
+        - {x: 41.5, y: -41}
+      - - {x: -24.5, y: -11}
+        - {x: -24.5, y: -10}
+        - {x: -17.5, y: -14}
+        - {x: -15.5, y: -20}
+        - {x: -15.5, y: -19}
+      - - {x: 42.5, y: -7}
+        - {x: 40.5, y: -8}
+        - {x: 38.5, y: -12}
+        - {x: 40.5, y: -11}
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8b19cbe676f495842aaacf66e71d2c02
+      spriteID: e834ac9ca2b73434499644cd36096b2a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: House
+      rect:
+        serializedVersion: 2
+        x: 507
+        y: 378
+        width: 560
+        height: 410
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -31, y: 205}
+        - {x: -26, y: 163}
+        - {x: -266, y: 79}
+        - {x: -280, y: 28}
+        - {x: -280, y: -102}
+        - {x: -211, y: -201}
+        - {x: -175, y: -205}
+        - {x: 228, y: -205}
+        - {x: 280, y: -100}
+        - {x: 280, y: 56}
+        - {x: 225, y: 113}
+        - {x: 93, y: 146}
+        - {x: 69, y: 204}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e457036f599aa84199653eab781199d
       vertices: []
       indices: 
       edges: []
@@ -203,8 +265,8 @@ TextureImporter:
       name: "\uD0C0\uC6B4\uB9AC\uC18C\uC2A4_5"
       rect:
         serializedVersion: 2
-        x: 577
-        y: 211
+        x: 573
+        y: 209
         width: 137
         height: 59
       alignment: 0
@@ -214,7 +276,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fbab3f478cfeadf44afa659dd78e2725
+      spriteID: 41f0fa9b672d8d445bf182ae70b82892
       vertices: []
       indices: 
       edges: []
@@ -234,7 +296,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 12f24388efd41cf4d82838d42d85b036
+      spriteID: 1444a2733a9a1d84b894230ebca9de3b
       vertices: []
       indices: 
       edges: []
@@ -242,7 +304,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: be4720519905e9c43a59b1ae341c6c7f
+    spriteID: 1c287ec83df482e4887159178a3c81f4
     vertices: []
     indices: 
     edges: []
