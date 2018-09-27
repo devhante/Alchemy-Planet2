@@ -93,14 +93,12 @@ namespace AlchemyPlanet.TownScene
         {
             if (!turnOnBuildBar)
             {
-                //buildBar.transform.DOMoveX(535, 1).SetEase(Ease.OutQuint);
                 Debug.Log(Screen.width);
                 buildBar.transform.DOMoveX(Screen.width - 190 * (Screen.width / 720.0f), 1).SetEase(Ease.OutQuint);
                 turnOnBuildBar = true;
             }
             else
             {
-                //buildBar.transform.DOMoveX(900, 1).SetEase(Ease.OutQuint);
                 buildBar.transform.DOMoveX(Screen.width + 190 * (Screen.width / 720.0f), 1).SetEase(Ease.OutQuint);
                 turnOnBuildBar = false;
             }

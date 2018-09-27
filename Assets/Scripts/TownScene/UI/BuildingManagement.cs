@@ -110,9 +110,15 @@ namespace AlchemyPlanet.TownScene
                           ownBuildings[i + page * 9].material2Count <= DataManager.Instance.CurrentPlayerData.inventory[ownBuildings[i + page * 9].material2Name] &&
                           ownBuildings[i + page * 9].material3Count <= DataManager.Instance.CurrentPlayerData.inventory[ownBuildings[i + page * 9].material3Name] &&
                           ownBuildings[i + page * 9].money <= DataManager.Instance.CurrentPlayerData.unicoin)
+                        {
                             infoText[i].text = "Lv. " + ownBuildings[i + page * 9].buildingLevel.ToString() + "    강화가능";
+                            infoText[i].color = new Color(64, 116, 31);
+                        }
                         else
+                        {
                             infoText[i].text = "Lv. " + ownBuildings[i + page * 9].buildingLevel.ToString() + "    강화불가능";
+                            infoText[i].color = new Color(255, 82, 51);
+                        }
                     }
 
                     else
@@ -121,9 +127,15 @@ namespace AlchemyPlanet.TownScene
                       ownBuildings[i + page * 9].material2Count <= DataManager.Instance.CurrentPlayerData.inventory[ownBuildings[i + page * 9].material2Name] &&
                       ownBuildings[i + page * 9].material3Count <= DataManager.Instance.CurrentPlayerData.inventory[ownBuildings[i + page * 9].material3Name] &&
                       ownBuildings[i + page * 9].money <= DataManager.Instance.CurrentPlayerData.unicoin)
+                        {
                             infoText[i].text = "제작가능";
+                            infoText[i].color = new Color(64, 116, 31);
+                        }
                         else
+                        {
                             infoText[i].text = "제작불가능";
+                            infoText[i].color = new Color(255, 82, 51);
+                        }
                     }
                 }
                 else

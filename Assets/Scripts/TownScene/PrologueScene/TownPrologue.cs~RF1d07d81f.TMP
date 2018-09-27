@@ -1,0 +1,47 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
+
+public class TownPrologue : MonoBehaviour {
+
+    public Sprite Tutorial1;
+    public Sprite Tutorial2;
+    public Sprite Tutorial3;
+    public Sprite Tutorial4;
+    public Sprite Tutorial5;
+    public Image tutorialImage;
+    public Image hand;
+
+    private int stage = 1;
+
+	// Update is called once per frame
+	void Update () {
+		
+	}
+
+    void CheckTutorial()
+    {
+        switch (stage)
+        {
+            case 1:
+                tutorialImage.sprite = Tutorial1;
+                hand.transform.position = new Vector2(280,-500);
+                hand.gameObject.transform.DOMoveY(-530, 0.5);
+                break;
+            case 2:
+                tutorialImage.sprite = Tutorial2;
+                break;
+            case 3:
+                tutorialImage.sprite = Tutorial3;
+                break;
+            case 4:
+                tutorialImage.sprite = Tutorial4;
+                break;
+            case 5:
+                tutorialImage.sprite = Tutorial5;
+                break;
+        }
+    }
+}
