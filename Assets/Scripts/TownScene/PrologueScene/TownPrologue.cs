@@ -84,6 +84,14 @@ namespace AlchemyPlanet.TownScene
                         tutorialImage.sprite = tutorialSprite[2];
                         MoveHand(2);
                         break;
+                    case 3:
+                        tutorialImage.sprite = tutorialSprite[3];
+                        MoveHand(3);
+                        break;
+                    case 4:
+                        tutorialImage.sprite = tutorialSprite[4];
+                        MoveHand(4);
+                        break;
                 }
             }
         }
