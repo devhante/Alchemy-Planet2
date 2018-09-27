@@ -215,6 +215,10 @@ namespace AlchemyPlanet.TownScene
 
             SetBuilding();
             TownUI.Instance.player.SetActive(true);
+            foreach(GameObject obj in TownUI.Instance.npc)
+            {
+                obj.SetActive(true);
+            }
             UIManager.Instance.CloseMenu();
             UIManager.Instance.TownUIOn();
         }

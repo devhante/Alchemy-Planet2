@@ -15,7 +15,6 @@ namespace AlchemyPlanet.TownScene
         [SerializeField] private BuildingPlacement BuildingPlacementPrefab;
         [SerializeField] private BuildingManagement BuildingManagementPrefab;
         [SerializeField] private NameSetUI NameSetUIPrefab;
-        [SerializeField] private TownPrologue TownProloguePrefab;
 
         [SerializeField] private GameObject TopDownUI;
 
@@ -110,8 +109,6 @@ namespace AlchemyPlanet.TownScene
                 return BuildingManagementPrefab as T;
             else if (typeof(T) == typeof(NameSetUI))
                 return NameSetUIPrefab as T;
-            else if (typeof(T) == typeof(TownPrologue))
-                return TownProloguePrefab as T;
             else
                 throw new MissingReferenceException();
         }

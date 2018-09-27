@@ -88,10 +88,10 @@ namespace AlchemyPlanet.TownScene
         {
             float firstPosX = transform.position.x;
             animator.SetBool("Run", true);
-            transform.rotation = Quaternion.Euler(0, 0, 0);
+            transform.rotation = Quaternion.Euler(0, 180, 0);
             while (firstPosX + moveDistance > transform.position.x)
             {
-                transform.Translate(Vector2.right * speed * Time.deltaTime);
+                transform.Translate(Vector2.left * speed * Time.deltaTime);
                 RaycastHit2D wall = Physics2D.Raycast(transform.position, Vector2.right, 1.5f, LayerMask.GetMask("Wall"));
                 if(wall.collider != null)
                 {
@@ -113,10 +113,10 @@ namespace AlchemyPlanet.TownScene
         {
             float firstPosX = transform.position.x;
             animator.SetBool("Run", true);
-            transform.rotation = Quaternion.Euler(0, 180, 0);
+            transform.rotation = Quaternion.Euler(0, 0, 0);
             while (firstPosX - moveDistance < transform.position.x)
             {
-                transform.Translate(Vector2.right * speed * Time.deltaTime);
+                transform.Translate(Vector2.left * speed * Time.deltaTime);
                 yield return null;
                 RaycastHit2D wall = Physics2D.Raycast(transform.position, Vector2.left, 1.5f, LayerMask.GetMask("Wall"));
                 if (wall.collider != null)

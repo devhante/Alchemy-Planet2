@@ -13,6 +13,8 @@ namespace AlchemyPlanet.TownScene
         public GameObject player;
         public Camera mainCamera;
         public bool turnOnBuildBar;
+        public GameObject tutorial;
+        public List<GameObject> npc;
 
         [SerializeField] private Button buildingbutton;
         [SerializeField] private GameObject buildBar;
@@ -32,6 +34,11 @@ namespace AlchemyPlanet.TownScene
             Common.SoundManager.Instance.PlayBGM(1);
 
             GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
+
+            if(DataManager.Instance.CurrentPlayerData.buildings.Count <= 0)
+            {
+                Instantiate(tutorial);
+            }
 
             DataManager.Instance.CurrentPlayerData.setupBuildilngs = new List<GameObject>();
 
@@ -75,13 +82,17 @@ namespace AlchemyPlanet.TownScene
             });
             BuildingPlacementButton.onClick.AddListener(() =>
             {
+                foreach(GameObject obj in npc)
+                {
+                    obj.SetActive(false);
+                }
                 mainCamera.GetComponent<MainCamera>().StartCoroutine("ZoomOut");
                 UIManager.Instance.TownUIOff();
                 UIManager.Instance.OpenMenu<BuildingPlacement>();
             });
             BuildingManagementButton.onClick.AddListener(() =>
             {
-                UIManager.Instance.OpenMenu<BuildingManagement>();
+                //UIManager.Instance.OpenMenu<BuildingManagement>();
             });
             InventoryButton.onClick.AddListener(() =>
             {
