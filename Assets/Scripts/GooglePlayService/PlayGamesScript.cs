@@ -9,6 +9,7 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
+using System;
 
 namespace AlchemyPlanet.Data
 {
@@ -55,7 +56,7 @@ namespace AlchemyPlanet.Data
                     }
                 }
             }
-            catch (FileNotFoundException e)
+            catch (Exception e)
             {
                 Data.DataManager.Instance.CurrentPlayerData.player_id = GenerateRandomId();
 
@@ -133,7 +134,7 @@ namespace AlchemyPlanet.Data
 
             for (int i = 0; i < 14; ++i)
             {
-                user_id += Random.Range(0, 10).ToString();
+                user_id += UnityEngine.Random.Range(0, 10).ToString();
             }
 
 
