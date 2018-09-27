@@ -31,11 +31,11 @@ namespace AlchemyPlanet.TownScene
             tutorialButton[1].onClick.AddListener(() =>
             {
                 stage = 2;
+                Data.DataManager.Instance.CurrentPlayerData.buildings.Add(Data.DataManager.Instance.buildingInfo["House"]);
+                Data.DataManager.Instance.CurrentPlayerData.GiveId(Data.DataManager.Instance.CurrentPlayerData.buildings[0]);
                 mainCamera.GetComponent<MainCamera>().StartCoroutine("ZoomOut");
                 UIManager.Instance.TownUIOff();
                 UIManager.Instance.OpenMenu<BuildingPlacement>();
-                Data.DataManager.Instance.CurrentPlayerData.buildings.Add(Data.DataManager.Instance.buildingInfo["House"]);
-                Data.DataManager.Instance.CurrentPlayerData.GiveId(Data.DataManager.Instance.CurrentPlayerData.buildings[0]);
                 movingHand = false;
                 sequence.Kill();
             });
@@ -49,13 +49,13 @@ namespace AlchemyPlanet.TownScene
             tutorialButton[3].onClick.AddListener(() =>
             {
                 stage = 4;
-                BuildingManagement.Instance.SendMessage("Exit");
+                BuildingPlacement.Instance.SendMessage("Exit");
                 movingHand = false;
                 sequence.Kill();
             });
             tutorialButton[4].onClick.AddListener(() =>
             {
-                SceneChangeManager.Instance.SendMessage("PlanetSelect");
+                SceneChangeManager.Instance.ChangeSceneWithLoading("PlanetSelect");
             });
         }
 
