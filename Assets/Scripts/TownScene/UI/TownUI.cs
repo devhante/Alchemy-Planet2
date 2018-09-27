@@ -29,6 +29,8 @@ namespace AlchemyPlanet.TownScene
 
         private void Start()
         {
+            Common.SoundManager.Instance.PlayBGM(1);
+
             GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
 
             DataManager.Instance.CurrentPlayerData.setupBuildilngs = new List<GameObject>();
