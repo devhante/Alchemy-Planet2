@@ -222,6 +222,7 @@ namespace AlchemyPlanet.GameScene
                     sprintEffectObject = Instantiate(ItemManager.Instance.sprintEffect, GameObject.FindWithTag("Player").transform.position, Quaternion.identity);
                     GameUI.Instance.TopWind.SetActive(true);
                     GameUI.Instance.BottomWind.SetActive(true);
+                    Player.Instance.GetComponent<Animator>().SetBool("isSprinting", true);
                 }
                 else if (MoveSpeed < 3 && isSprintEffectPlaying == true)
                 {
@@ -229,6 +230,7 @@ namespace AlchemyPlanet.GameScene
                     Destroy(sprintEffectObject);
                     GameUI.Instance.TopWind.SetActive(false);
                     GameUI.Instance.BottomWind.SetActive(false);
+                    Player.Instance.GetComponent<Animator>().SetBool("isSprinting", false);
                 }
 
                 yield return null;

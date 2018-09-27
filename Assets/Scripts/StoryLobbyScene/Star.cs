@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 namespace AlchemyPlanet.StoryLobbyScene
 {
@@ -12,7 +13,8 @@ namespace AlchemyPlanet.StoryLobbyScene
         //[HideInInspector]
         public float rate = 0;
 
-        private float height = 68;
+        private bool isRateOne = false;
+
 
         private void Start()
         {
@@ -24,6 +26,14 @@ namespace AlchemyPlanet.StoryLobbyScene
             while (true)
             {
                 rate = Mathf.Clamp(rate, 0, 1);
+
+                if(isRateOne == false && rate == 1)
+                {
+                    isRateOne = true;
+                    Sequence sq = DOTween.Sequence();
+                    sq.Append(transform.DOScale(Vector3.one * 2, 0.3f)).SetEase(Ease.OutQuint);
+                    sq.Append(transform.DOScale(Vector3.one * 1, 0.5f)).SetEase(Ease.OutQuint);
+                }
 
                 float offsetMaxY = (1 - rate) * -68;
                 mask.offsetMax = new Vector2(mask.offsetMax.x, offsetMaxY);
