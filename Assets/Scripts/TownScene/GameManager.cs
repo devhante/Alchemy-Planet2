@@ -50,10 +50,14 @@ namespace AlchemyPlanet.Data
         void SetBoundary()
         {
             boundary = DataManager.Instance.CurrentPlayerData.boundary;
-            Building strc = DataManager.Instance.CurrentPlayerData.buildings.Find(a => a.buildingName == "House");
-            if (strc!=null && strc.setup)
+            Building strc;
+            if (DataManager.Instance.CurrentPlayerData.buildings.Find(a => a.buildingName == "House") != null)
             {
-                boundary += (strc as Building).buildingLevel * 5;
+                strc = DataManager.Instance.CurrentPlayerData.buildings.Find(a => a.buildingName == "House");
+                if (strc != null && strc.setup)
+                {
+                    boundary += (strc as Building).buildingLevel * 5;
+                }
             }
             pollutedForest1.transform.position = new Vector3(-boundary, pollutedForest1.transform.position.y);
             pollutedForest2.transform.position = new Vector3(boundary, pollutedForest1.transform.position.y);
