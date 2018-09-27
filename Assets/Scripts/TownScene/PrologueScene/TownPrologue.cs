@@ -6,7 +6,7 @@ using DG.Tweening;
 
 namespace AlchemyPlanet.TownScene
 {
-    public class TownPrologue
+    public class TownPrologue : MonoBehaviour
     {
         public List<Sprite> tutorialSprite;
         public List<Button> tutorialButton;
