@@ -14,6 +14,16 @@ namespace AlchemyPlanet.Data
 
         private int boundary;
 
+        private void OnDestroy()
+        {
+            Instance = null;
+        }
+
+        private void Awake()
+        {
+            Instance = this;
+        }
+
         // Use this for initialization
         void Start()
         {
