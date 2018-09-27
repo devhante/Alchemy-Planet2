@@ -12,6 +12,7 @@ namespace AlchemyPlanet.StoryLobbyScene
     {
         public static StoryManager Instance { get; private set; }
 
+        public GameObject storyTutorial;
         public GameObject stars;
         public Sprite starOn;
         public Sprite starOff;
@@ -55,6 +56,18 @@ namespace AlchemyPlanet.StoryLobbyScene
         {
             if(CurrentChaper == 1)
             {
+                if(CurrentStage == 1)
+                {
+                    Instantiate(storyTutorial);
+                    GameSettings.Instance.isAbilityActivated = false;
+                    GameSettings.Instance.monsterNumber = 0;
+
+                    for (int i = 0; i < GameSettings.Instance.itemChanges_Key.Length; i++)
+                        GameSettings.Instance.itemChanges_Value[i] = 0;
+
+                    yield return null;
+                }
+
                 if(CurrentStage == 2)
                 {
                     GameSettings.Instance.isAbilityActivated = false;
@@ -195,6 +208,43 @@ namespace AlchemyPlanet.StoryLobbyScene
 
             if (CurrentChaper == 1)
             {
+                if(CurrentStage == 1)
+                {
+                    while(true)
+                    {
+                        if(StoryTutorial.Instance.isTutorialFinished == true)
+                        {
+                            starsScript.stars[0].rate = 1;
+                            isStarOn[0] = true;
+                        }
+
+                        starsScript.stars[1].rate = MaterialManager.Instance.DestroyedMaterialNumber / 30.0f;
+                        if (MaterialManager.Instance.DestroyedMaterialNumber >= 30)
+                            isStarOn[1] = true;
+
+                        starsScript.stars[2].rate = MaterialManager.Instance.ChainedNumber / 5.0f;
+                        if (MaterialManager.Instance.ChainedNumber >= 5)
+                            isStarOn[2] = true;
+
+                        if (isStarOn[0] == true && isStarOn[1] == true && isStarOn[2] == true)
+                            break;
+
+                        yield return null;
+                    }
+
+                    WebSocketManager.Instance.SendUpdatePlayerStoryStar("0", DataManager.Instance.CurrentPlayerData.player_id, "1-1", 3);
+                    DataManager.Instance.CurrentPlayerData.stroystar["1-1"] = 3;
+
+                    if (DataManager.Instance.CurrentPlayerData.stroystar.ContainsKey("1-2") == false)
+                    {
+                        WebSocketManager.Instance.SendInsertStoryStar("0", DataManager.Instance.CurrentPlayerData.player_id, "1-2", 0);
+                        DataManager.Instance.CurrentPlayerData.stroystar.Add("1-2", 0);
+                    }
+
+                    yield return new WaitForSeconds(2);
+                    UIManager.Instance.OpenMenu<EndUI>();
+                }
+
                 if (CurrentStage == 2)
                 {
                     while(true)
@@ -253,9 +303,7 @@ namespace AlchemyPlanet.StoryLobbyScene
 
                         starsScript.stars[2].rate = MaterialManager.Instance.ChainedNumber / 10.0f;
                         if(MaterialManager.Instance.ChainedNumber >= 10)
-                        {
                             isStarOn[2] = true;
-                        }
 
                         if (isStarOn[0] == true && isStarOn[2] == true)
                             break;

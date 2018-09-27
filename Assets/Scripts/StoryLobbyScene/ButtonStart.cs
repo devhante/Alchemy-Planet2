@@ -19,9 +19,7 @@ namespace AlchemyPlanet.StoryLobbyScene
         {
             if(StoryManager.Instance.CurrentChaper == 1)
             {
-                if (StoryManager.Instance.CurrentStage == 1)
-                    Common.AlertManager.Instance.InstantiateAlert("준비중입니다.");
-                else if (StoryManager.Instance.CurrentStage == 7)
+                if (StoryManager.Instance.CurrentStage == 7)
                     Common.AlertManager.Instance.InstantiateAlert("준비중입니다.");
                 else
                     SceneChangeManager.Instance.ChangeSceneWithLoading("GameScene");
