@@ -246,6 +246,19 @@ namespace AlchemyPlanet.TownScene
                         script = script.Replace("{{FadeCam}}", "");
                     }
 
+                    if (script.Contains("{{PlayBGM}}"))
+                    {
+                        script = script.Replace("{{PlayBGM}}", "");
+                        int bgm_no = int.Parse(script[0].ToString());
+                        script.Remove(0);
+                        Common.SoundManager.Instance.PlayBGM(bgm_no);
+                    }
+
+                    if (script.Contains("{{StopBGM}}"))
+                    {
+                        Common.SoundManager.Instance.StopBGM();
+                    }
+
 
                     d_script.text = "";
 

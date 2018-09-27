@@ -122,6 +122,7 @@ namespace AlchemyPlanet.PrologueScene
                 yield return new WaitForEndOfFrame();
             }
 
+            mainCamera.FadeOut();
             yield return new WaitForSeconds(3);
 
             SceneChangeManager.Instance.ChangeSceneWithLoading("TownScene");
