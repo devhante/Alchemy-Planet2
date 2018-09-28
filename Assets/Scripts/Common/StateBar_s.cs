@@ -8,8 +8,6 @@ namespace AlchemyPlanet.Common
     {
         public static StateBar_s Instance;
 
-        [SerializeField] private Text playerName;
-        [SerializeField] private Text playerLevel;
         [SerializeField] private Image Expbar;
 
         [SerializeField] private Text Unicoin;
@@ -33,7 +31,7 @@ namespace AlchemyPlanet.Common
 
         public void UpdateState()
         {
-            Expbar.fillAmount = Data.DataManager.Instance.CurrentPlayerData.exp / System.Int32.Parse(playerLevel.text);
+            Expbar.fillAmount = Data.DataManager.Instance.CurrentPlayerData.exp / (float)Data.DataManager.Instance.CurrentPlayerData.level;
 
             Unicoin.text = Data.DataManager.Instance.CurrentPlayerData.unicoin.ToString();
             Cosmoston.text = Data.DataManager.Instance.CurrentPlayerData.cosmostone.ToString();
