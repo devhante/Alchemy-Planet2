@@ -92,20 +92,23 @@ namespace AlchemyPlanet.PrologueScene
 
             SmarteenApp.gameObject.SetActive(true);
             SmarteenApp.DOFade(1, 1.5f);
+            yield return new WaitForSeconds(1.5f);
             SmarteenApp.DOFade(0, 1.5f);
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(1.5f);
             SmarteenApp.gameObject.SetActive(false);
 
             TeamFoxin.gameObject.SetActive(true);
             TeamFoxin.DOFade(1, 1.5f);
+            yield return new WaitForSeconds(1.5f);
             SmarteenApp.DOFade(0, 1.5f);
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(1.5f);
             TeamFoxin.gameObject.SetActive(false);
 
             AlchemyPlanet.gameObject.SetActive(true);
             AlchemyPlanet.DOFade(1, 1.5f);
+            yield return new WaitForSeconds(1.5f);
             SmarteenApp.DOFade(0, 1.5f);
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(1.5f);
             AlchemyPlanet.gameObject.SetActive(false);
 
             yield return new WaitForSeconds(3);
