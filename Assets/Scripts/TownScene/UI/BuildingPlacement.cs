@@ -47,8 +47,8 @@ namespace AlchemyPlanet.TownScene
             buildingImages[3].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[3].name); });
             buildingImages[4].GetComponent<Button>().onClick.AddListener(() => { Build(buildingImages[4].name); });
 
-            buildingTap.onClick.AddListener(() => { SetBuildingImage(); });
-            interiorTap.onClick.AddListener(() => { SetInteriorImage(); });
+            buildingTap.onClick.AddListener(() => { SetBuildingImage(); page = 0; });
+            interiorTap.onClick.AddListener(() => { SetInteriorImage(); page = 0; });
 
 
             TownUI.Instance.player.SetActive(false);
