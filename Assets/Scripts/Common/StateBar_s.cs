@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 namespace AlchemyPlanet.Common
 {
-    public class StateBar : MonoBehaviour
+    public class StateBar_s : MonoBehaviour
     {
-        public static StateBar Instance;
+        public static StateBar_s Instance;
 
         [SerializeField] private Text playerName;
         [SerializeField] private Text playerLevel;
@@ -24,7 +24,7 @@ namespace AlchemyPlanet.Common
 
         private IEnumerator LateAwake()
         {
-            while(!Data.DataManager.Instance)
+            while (!Data.DataManager.Instance)
             {
                 yield return new WaitForEndOfFrame();
             }
@@ -33,11 +33,6 @@ namespace AlchemyPlanet.Common
 
         public void UpdateState()
         {
-            if(playerName)
-                playerName.text = Data.DataManager.Instance.CurrentPlayerData.player_name.ToString();
-            if(playerLevel)
-                playerLevel.text = Data.DataManager.Instance.CurrentPlayerData.level.ToString();
-
             Expbar.fillAmount = Data.DataManager.Instance.CurrentPlayerData.exp / System.Int32.Parse(playerLevel.text);
 
             Unicoin.text = Data.DataManager.Instance.CurrentPlayerData.unicoin.ToString();
