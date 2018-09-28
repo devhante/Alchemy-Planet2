@@ -17,6 +17,7 @@ namespace AlchemyPlanet.TownScene
         [SerializeField] private NameSetUI NameSetUIPrefab;
 
         [SerializeField] private GameObject TopDownUI;
+        [SerializeField] private GameObject TopDownUI_S;
 
         public Stack<Common.UI> menuStack = new Stack<Common.UI>();
 
@@ -39,9 +40,20 @@ namespace AlchemyPlanet.TownScene
             switch (level)
             {
                 case 0: case 1: case 7: case 8: case 10:
-                    TopDownUI.SetActive(false); break;
+                    {
+                        TopDownUI.SetActive(false);
+                        TopDownUI_S.SetActive(false); break;
+                    }
+                case 2:
+                    {
+                        TopDownUI.SetActive(false);
+                        TopDownUI_S.SetActive(true); break;
+                    }
                 default:
-                    TopDownUI.SetActive(true); break;
+                    {
+                        TopDownUI.SetActive(true);
+                        TopDownUI_S.SetActive(false); break;
+                    }
             }
         }
 
