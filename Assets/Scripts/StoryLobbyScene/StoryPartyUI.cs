@@ -40,12 +40,12 @@ namespace AlchemyPlanet.StoryLobbyScene
             buttonRight.gameObject.SetActive(false);
 
             Sequence sq1 = DOTween.Sequence();
-            sq1.Append(partyBoxObject.transform.DOMoveX(partyBoxObject.transform.position.x - 700, 0.5f)
+            sq1.Append(partyBoxObject.transform.DOMoveX(partyBoxObject.transform.position.x + 700, 0.5f)
                 .SetEase(Ease.OutQuint));
 
-            GameObject newObject = Instantiate(partyBoxPrefab, partyBoxPosition.transform.position + new Vector3(700, 0, 0), Quaternion.identity, transform);
+            GameObject newObject = Instantiate(partyBoxPrefab, partyBoxPosition.transform.position + new Vector3(-700, 0, 0), Quaternion.identity, transform);
             Sequence sq2 = DOTween.Sequence();
-            sq2.Append(newObject.transform.DOMoveX(newObject.transform.position.x - 700, 0.5f)
+            sq2.Append(newObject.transform.DOMoveX(newObject.transform.position.x + 700, 0.5f)
                 .SetEase(Ease.OutQuint)
                 .OnComplete(() => {
                     Destroy(partyBoxObject);
@@ -65,12 +65,12 @@ namespace AlchemyPlanet.StoryLobbyScene
             buttonRight.gameObject.SetActive(false);
 
             Sequence sq = DOTween.Sequence();
-            sq.Append(partyBoxObject.transform.DOMoveX(partyBoxObject.transform.position.x + 700, 0.5f)
+            sq.Append(partyBoxObject.transform.DOMoveX(partyBoxObject.transform.position.x - 700, 0.5f)
                 .SetEase(Ease.OutQuint));
 
-            GameObject newObject = Instantiate(partyBoxPrefab, partyBoxPosition.transform.position + new Vector3(-700, 0, 0), Quaternion.identity, transform);
+            GameObject newObject = Instantiate(partyBoxPrefab, partyBoxPosition.transform.position + new Vector3(700, 0, 0), Quaternion.identity, transform);
             Sequence sq2 = DOTween.Sequence();
-            sq2.Append(newObject.transform.DOMoveX(newObject.transform.position.x + 700, 0.5f)
+            sq2.Append(newObject.transform.DOMoveX(newObject.transform.position.x - 700, 0.5f)
                 .SetEase(Ease.OutQuint)
                 .OnComplete(() => {
                     Destroy(partyBoxObject);

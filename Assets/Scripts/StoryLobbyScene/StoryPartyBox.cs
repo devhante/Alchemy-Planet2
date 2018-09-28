@@ -39,9 +39,9 @@ namespace AlchemyPlanet.StoryLobbyScene
                 float distance = Input.mousePosition.x - clickedPositionX;
 
                 if (distance >= 100)
-                    StoryPartyUI.Instance.OnClickButtonRight();
-                else if (distance <= -100)
                     StoryPartyUI.Instance.OnClickButtonLeft();
+                else if (distance <= -100)
+                    StoryPartyUI.Instance.OnClickButtonRight();
                 else
                     transform.position = new Vector3(originPositionX, transform.position.y, transform.position.z);
             }

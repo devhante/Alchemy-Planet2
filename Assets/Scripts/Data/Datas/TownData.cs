@@ -74,8 +74,9 @@ namespace AlchemyPlanet.Data
 
         public void Build()
         {
-            buildingObject.GetComponent<SpriteRenderer>().sprite = image;
-            buildingObject.transform.position = new Vector2(position, image.bounds.size.y / 2 - 1);
+            buildingObject = DataManager.Instance.buildingInfo[buildingName].buildingObject;
+            buildingObject.GetComponent<SpriteRenderer>().sprite = DataManager.Instance.buildingInfo[buildingName].image;
+            buildingObject.transform.position = new Vector2(position, image.bounds.size.y / 2 - 0.9f);
             if (buildingObject.GetComponent<PolygonCollider2D>())
                 GameObject.DestroyImmediate(buildingObject.GetComponent<PolygonCollider2D>(), true);
             buildingObject.AddComponent<PolygonCollider2D>();
@@ -126,8 +127,9 @@ namespace AlchemyPlanet.Data
 
         public void Build()
         {
-            interiorObject.GetComponent<SpriteRenderer>().sprite = image;
-            interiorObject.transform.position = new Vector2(position, image.bounds.size.y / 2 - 1);
+            interiorObject = DataManager.Instance.interiorInfo[interiorName].interiorObject;
+            interiorObject.GetComponent<SpriteRenderer>().sprite = DataManager.Instance.interiorInfo[interiorName].image;
+            interiorObject.transform.position = new Vector2(position, image.bounds.size.y / 2 - 0.9f);
             if (interiorObject.GetComponent<PolygonCollider2D>())
                 GameObject.DestroyImmediate(interiorObject.GetComponent<PolygonCollider2D>(), true);
             interiorObject.AddComponent<PolygonCollider2D>();
