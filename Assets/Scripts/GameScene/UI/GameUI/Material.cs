@@ -85,7 +85,7 @@ namespace AlchemyPlanet.GameScene
                 RecipeManager.Instance.DestroyQueuePeek();
                 RecipeManager.Instance.HighlightedRecipeCount = 0;
 
-                if (Random.Range(1, 100) <= 20)
+                if (Random.Range(1, 100) <= GameSettings.Instance.itemPercent)
                     ItemManager.Instance.CreateItem(ItemManager.Instance.GetItemName());
             }
             else

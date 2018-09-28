@@ -61,9 +61,7 @@ namespace AlchemyPlanet.StoryLobbyScene
                     Instantiate(storyTutorial);
                     GameSettings.Instance.isAbilityActivated = false;
                     GameSettings.Instance.monsterNumber = 0;
-
-                    for (int i = 0; i < GameSettings.Instance.itemChanges_Key.Length; i++)
-                        GameSettings.Instance.itemChanges_Value[i] = 0;
+                    GameSettings.Instance.itemPercent = 0;
 
                     yield return null;
                 }
