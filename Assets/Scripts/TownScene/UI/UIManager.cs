@@ -47,7 +47,7 @@ namespace AlchemyPlanet.TownScene
                         TopDownUI.SetActive(false);
                         TopDownUI_S.SetActive(false); break;
                     }
-                case 2: case 11:
+                case 11:
                     {
                         TopDownUI.SetActive(false);
                         TopDownUI_S.SetActive(true); break;
