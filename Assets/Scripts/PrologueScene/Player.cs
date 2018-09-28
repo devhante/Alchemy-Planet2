@@ -73,6 +73,11 @@ namespace AlchemyPlanet.PrologueScene
                 transform.rotation = Quaternion.Euler(0, 180, 0);
                 animator.SetBool("Run", false);
             }
+            if (collision.CompareTag("Guide"))
+            {
+                TouchLock = true;
+                animator.SetBool("Run", false);
+            }
         }
     }
 }
