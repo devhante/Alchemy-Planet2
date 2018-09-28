@@ -214,6 +214,7 @@ namespace AlchemyPlanet.TownScene
                         {
                             d_illust[i].gameObject.SetActive(true);
                             d_illust[i].sprite = data.illusts[data.dialogs[num].illusts[i].name];
+                            d_illust[i].rectTransform.sizeDelta = new Vector2(d_illust[i].sprite.rect.width, d_illust[i].sprite.rect.height);
                             if (data.dialogs[num].illusts[i].mode == IllustMode.Back)
                             {
                                 d_illust[i].color = new Color32(120, 120, 120, 255);
