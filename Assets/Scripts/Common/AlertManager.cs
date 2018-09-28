@@ -30,5 +30,18 @@ namespace AlchemyPlanet.Common
             alertObject.transform.GetChild(1).GetComponent<Text>().text = text;
             alertObject.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() => Destroy(alertObject.transform.gameObject));
         }
+
+        public Button InstantiateAlertWithReturn(string text)
+        {
+            Button result;
+
+            GameObject canvasObject = Instantiate(canvas);
+            GameObject alertObject = Instantiate(alert, canvasObject.transform);
+            alertObject.transform.GetChild(1).GetComponent<Text>().text = text;
+            result = alertObject.transform.GetChild(2).GetComponent<Button>();
+            result.onClick.AddListener(() => Destroy(alertObject.transform.gameObject));
+
+            return result;
+        }
     }
 }

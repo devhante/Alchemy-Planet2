@@ -233,7 +233,8 @@ namespace AlchemyPlanet.Data
             CurrentPlayerData.level = data.level;
             CurrentPlayerData.exp = data.exp;
 
-            Common.StateBar.Instance.UpdateState();
+            if (Common.StateBar.Instance != null)
+                Common.StateBar.Instance.UpdateState();
         }
 
         public void CommitGoods(CollectionGoods data)
@@ -242,7 +243,8 @@ namespace AlchemyPlanet.Data
             CurrentPlayerData.cosmostone = data.cosmoStone;
             CurrentPlayerData.oxygentank = data.oxygenTank;
 
-            Common.StateBar.Instance.UpdateState();
+            if(Common.StateBar.Instance != null)
+                Common.StateBar.Instance.UpdateState();
         }
 
         public void CommitItem(CollectionItem[] data)

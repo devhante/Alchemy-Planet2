@@ -13,6 +13,8 @@ namespace AlchemyPlanet.GameScene
         public int monsterNumber;
         public float monsterCooltime;
 
+        public float itemPercent;
+
         public ItemName[] itemChanges_Key;
         public float[] itemChanges_Value;
 

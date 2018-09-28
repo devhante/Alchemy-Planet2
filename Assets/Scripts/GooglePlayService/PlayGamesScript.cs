@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
+using AlchemyPlanet.Common;
 
 namespace AlchemyPlanet.Data
 {
@@ -71,7 +72,14 @@ namespace AlchemyPlanet.Data
                 }
             }
 
-            WebSocketManager.Instance.SendFindName("1", DataManager.Instance.CurrentPlayerData.player_id);
+            try
+            {
+                WebSocketManager.Instance.SendFindName("1", DataManager.Instance.CurrentPlayerData.player_id);
+            }
+            catch (InvalidOperationException)
+            {
+                AlertManager.Instance.InstantiateAlertWithReturn("서버에 접속할 수 없습니다.").onClick.AddListener(() => Application.Quit());
+            }
 
             /*
             //처음으로 접속했을 경우 데이터를 디폴트로 세팅한다

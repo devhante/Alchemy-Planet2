@@ -74,9 +74,6 @@ namespace AlchemyPlanet.Data
 
         public void Build()
         {
-            buildingObject = DataManager.Instance.buildingInfo[buildingName].buildingObject;
-            Debug.Log(DataManager.Instance.buildingInfo[buildingName].image.name);
-            image = DataManager.Instance.buildingInfo[buildingName].image;
             buildingObject.GetComponent<SpriteRenderer>().sprite = image;
             buildingObject.transform.position = new Vector2(position, image.bounds.size.y / 2 - 1);
             if (buildingObject.GetComponent<PolygonCollider2D>())
