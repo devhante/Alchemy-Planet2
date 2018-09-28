@@ -12,7 +12,8 @@ namespace AlchemyPlanet.TownScene
         protected override void Awake()
         {
             base.Awake();
-            CommitButton.onClick.AddListener(() => {
+            CommitButton.onClick.AddListener(() =>
+            {
                 DataManager.Instance.CurrentPlayerData.player_name = PlayerNameInput.text;
                 WebSocketManager.Instance.SendInsertName("0", DataManager.Instance.CurrentPlayerData.player_id,
                     DataManager.Instance.CurrentPlayerData.player_name);
