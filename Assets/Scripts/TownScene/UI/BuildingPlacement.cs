@@ -192,7 +192,7 @@ namespace AlchemyPlanet.TownScene
                     StartCoroutine("MoveBuilding");
                 }
                 else if ((hit.collider == null || hit.collider != null && hit.collider.gameObject != clickedBuilding) && clickedBuilding != null &&
-                    tempTouch.phase == TouchPhase.Began && !EventSystem.current.IsPointerOverGameObject(tempTouch.fingerId))
+                    tempTouch.phase == TouchPhase.Began)
                 {
                     clickedBuilding.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
                     if (clickedBuilding.GetComponent<StructureCollision>().CheckCollision())
@@ -297,13 +297,13 @@ namespace AlchemyPlanet.TownScene
         {
             if (clickedBuilding.name.StartsWith("1"))
             {
-                ownBuildings.Add(DataManager.Instance.CurrentPlayerData.buildings.Find(a => a.buildingName == clickedBuilding.name.Substring(0, clickedBuilding.name.Length - 7)));
+                ownBuildings.Add(DataManager.Instance.CurrentPlayerData.buildings.Find(a => a.id.ToString() == clickedBuilding.name.Substring(0, clickedBuilding.name.Length - 7)));
                 setupBuildings.Remove(clickedBuilding);
                 Destroy(clickedBuilding);
             }
             if (clickedBuilding.name.StartsWith("2"))
             {
-                ownInteriors.Add(DataManager.Instance.CurrentPlayerData.interiors.Find(a => a.interiorName == clickedBuilding.name.Substring(0, clickedBuilding.name.Length - 7)));
+                ownInteriors.Add(DataManager.Instance.CurrentPlayerData.interiors.Find(a => a.id.ToString() == clickedBuilding.name.Substring(0, clickedBuilding.name.Length - 7)));
                 setupBuildings.Remove(clickedBuilding);
                 Destroy(clickedBuilding);
             }

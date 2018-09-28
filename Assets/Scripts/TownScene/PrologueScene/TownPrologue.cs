@@ -26,6 +26,8 @@ namespace AlchemyPlanet.TownScene
                 movingHand = false;
                 sequence.Kill();
                 TownScene.TownUI.Instance.StartCoroutine("MoveBar");
+                tutorialButton[1].gameObject.SetActive(true);
+                tutorialButton[0].gameObject.SetActive(false);
             });
             tutorialButton[1].onClick.AddListener(() =>
             {
@@ -65,6 +67,8 @@ namespace AlchemyPlanet.TownScene
                 TownUI.Instance.mainCamera.GetComponent<MainCamera>().StartCoroutine("ZoomOut");
                 UIManager.Instance.TownUIOff();
                 UIManager.Instance.OpenMenu<BuildingPlacement>();
+                tutorialButton[2].gameObject.SetActive(true);
+                tutorialButton[1].gameObject.SetActive(false);
             });
             tutorialButton[2].onClick.AddListener(() =>
             {
@@ -72,6 +76,8 @@ namespace AlchemyPlanet.TownScene
                 movingHand = false;
                 sequence.Kill();
                 BuildingPlacement.Instance.SendMessage("Build", "House");
+                tutorialButton[3].gameObject.SetActive(true);
+                tutorialButton[2].gameObject.SetActive(false);
             });
             tutorialButton[3].onClick.AddListener(() =>
             {
@@ -79,6 +85,8 @@ namespace AlchemyPlanet.TownScene
                 movingHand = false;
                 sequence.Kill();
                 BuildingPlacement.Instance.SendMessage("Exit");
+                tutorialButton[4].gameObject.SetActive(true);
+                tutorialButton[3].gameObject.SetActive(false);
             });
             tutorialButton[4].onClick.AddListener(() =>
             {
