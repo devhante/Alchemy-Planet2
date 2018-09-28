@@ -42,7 +42,7 @@ namespace AlchemyPlanet.TownScene
                 Common.StateBar_s.Instance.UpdateState();
             switch (level)
             {
-                case 0: case 1: case 7: case 8: case 10:
+                case 0: case 1: case 2: case 7: case 8: case 10:
                     {
                         TopDownUI.SetActive(false);
                         TopDownUI_S.SetActive(false); break;
