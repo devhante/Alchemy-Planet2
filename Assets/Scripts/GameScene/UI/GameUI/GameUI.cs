@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace AlchemyPlanet.GameScene
@@ -79,7 +80,15 @@ namespace AlchemyPlanet.GameScene
 
             gageValues[kind] = Mathf.Clamp(gageValues[kind] + percent, 0, 100);
 
-            if (gageValues[Gages.OXYGEN] == 0) UIManager.Instance.OpenMenu<EndUI>();
+            if (gageValues[Gages.OXYGEN] == 0)
+            {
+                UIManager.Instance.OpenMenu<EndUI>();
+                if (StoryLobbyScene.StoryManager.Instance != null)
+                {
+                    SceneManager.sceneLoaded -= StoryLobbyScene.StoryManager.Instance.OnSceneLoaded;
+                    Destroy(StoryLobbyScene.StoryManager.Instance.gameObject);
+                }
+            }
         }
 
         public float GetGage(Gages kind)
