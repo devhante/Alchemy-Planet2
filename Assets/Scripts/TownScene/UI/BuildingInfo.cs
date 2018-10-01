@@ -105,7 +105,7 @@ public class BuildingInfo : MonoBehaviour
             levelText.text = "인테리어";
 
             upgradeButton.onClick.RemoveAllListeners();
-            upgradeButton.onClick.AddListener(() => { MakeBuilding(); });
+            upgradeButton.onClick.AddListener(() => { MakeInterior(); });
             upgradeButton.GetComponent<Image>().sprite = makeButtonSprite;
 
             if (interior.material1Count>0)

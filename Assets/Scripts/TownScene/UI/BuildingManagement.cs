@@ -24,6 +24,7 @@ namespace AlchemyPlanet.TownScene
 
         private List<Building> ownBuildings;    // 소유중인 건물
         private List<Interior> ownInteriors;    // 소유중인 인테리어
+        private Dictionary<string, int> inventory;  // 인벤토리
         private Dictionary<string, int> ownInteriorsCount;    // 소유중인 각 인테리어의 갯수
         private int page;                       // 현재 건물이미지 페이지
         private string tapType;                 // 선택된 탭
@@ -46,6 +47,9 @@ namespace AlchemyPlanet.TownScene
             buildingImages[7].GetComponent<Button>().onClick.AddListener(() => OpenBuildingInfo(7));
             buildingImages[8].GetComponent<Button>().onClick.AddListener(() => OpenBuildingInfo(8));
 
+            buildingTap.onClick.AddListener(() => { SetBuildingImage(); page = 0; });
+            interiorTap.onClick.AddListener(() => { SetInteriorImage(); page = 0; });
+
             blackMask.gameObject.SetActive(true);
             GetOwnBuilding();
             SetBuildingImage();
@@ -64,6 +68,8 @@ namespace AlchemyPlanet.TownScene
 
         public void GetOwnBuilding()   // 소유중인 건물 받아오기
         {
+            inventory = DataManager.Instance.CurrentPlayerData.inventory;
+
             ownBuildings = new List<Building>();
 
             if (DataManager.Instance.interiorInfo.Count >= 1)
@@ -113,14 +119,7 @@ namespace AlchemyPlanet.TownScene
                         infoText[i].gameObject.SetActive(true);
                     if (ownBuildings[i + page * 9].id != 0)
                     {
-                        if (
-                            DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownBuildings[i + page * 9].material1Name)&&
-                            DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownBuildings[i + page * 9].material2Name) &&
-                            DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownBuildings[i + page * 9].material3Name) &&
-                            ownBuildings[i + page * 9].material1Count <= DataManager.Instance.CurrentPlayerData.inventory[ownBuildings[i + page * 9].material1Name] &&
-                          ownBuildings[i + page * 9].material2Count <= DataManager.Instance.CurrentPlayerData.inventory[ownBuildings[i + page * 9].material2Name] &&
-                          ownBuildings[i + page * 9].material3Count <= DataManager.Instance.CurrentPlayerData.inventory[ownBuildings[i + page * 9].material3Name] &&
-                          ownBuildings[i + page * 9].money <= DataManager.Instance.CurrentPlayerData.unicoin)
+                        if (CheckCanManageBuilding(i + page *9))
                         {
                             infoText[i].text = "Lv. " + ownBuildings[i + page * 9].buildingLevel.ToString() + "    강화가능";
                             infoText[i].color = new Color(64, 116, 31);
@@ -134,13 +133,7 @@ namespace AlchemyPlanet.TownScene
 
                     else
                     {
-                        if (DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownBuildings[i + page * 9].material1Name) &&
-                            DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownBuildings[i + page * 9].material2Name) &&
-                            DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownBuildings[i + page * 9].material3Name) &&
-                            ownBuildings[i + page * 9].material1Count <= DataManager.Instance.CurrentPlayerData.inventory[ownBuildings[i + page * 9].material1Name] &&
-                      ownBuildings[i + page * 9].material2Count <= DataManager.Instance.CurrentPlayerData.inventory[ownBuildings[i + page * 9].material2Name] &&
-                      ownBuildings[i + page * 9].material3Count <= DataManager.Instance.CurrentPlayerData.inventory[ownBuildings[i + page * 9].material3Name] &&
-                      ownBuildings[i + page * 9].money <= DataManager.Instance.CurrentPlayerData.unicoin)
+                        if (CheckCanManageBuilding(i + page * 9))
                         {
                             infoText[i].text = "제작가능";
                             infoText[i].color = new Color(64, 116, 31);
@@ -177,30 +170,29 @@ namespace AlchemyPlanet.TownScene
 
                     if (ownInteriorsCount[ownInteriors[i + page * 9].interiorName] > 0)
                     {
-                        if (DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownInteriors[i + page * 9].material1Name) &&
-                            DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownInteriors[i + page * 9].material2Name) &&
-                            DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownInteriors[i + page * 9].material3Name) &&
-                            ownInteriors[i + page * 9].material1Count <= DataManager.Instance.CurrentPlayerData.inventory[ownInteriors[i + page * 9].material1Name] &&
-                       ownInteriors[i + page * 9].material2Count <= DataManager.Instance.CurrentPlayerData.inventory[ownInteriors[i + page * 9].material2Name] &&
-                       ownInteriors[i + page * 9].material3Count <= DataManager.Instance.CurrentPlayerData.inventory[ownInteriors[i + page * 9].material3Name] &&
-                       ownInteriors[i + page * 9].money <= DataManager.Instance.CurrentPlayerData.unicoin)
+                        if (CheckCanManageInterior(i + page * 9))
+                        {
                             infoText[i].text = ownInteriorsCount[ownInteriors[i + page * 9].interiorName].ToString() + "개 소유중    제작가능";
+                            infoText[i].color = new Color(64, 116, 31);
+                        }
                         else
+                        {
                             infoText[i].text = ownInteriorsCount[ownInteriors[i + page * 9].interiorName].ToString() + "개 소유중    제작불가능";
+                            infoText[i].color = new Color(255, 82, 51);
+                        }
                     }
-
                     else
                     {
-                        if (DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownInteriors[i + page * 9].material1Name) &&
-                            DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownInteriors[i + page * 9].material2Name) &&
-                            DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(ownInteriors[i + page * 9].material3Name) &&
-                            ownInteriors[i + page * 9].material1Count <= DataManager.Instance.CurrentPlayerData.inventory[ownInteriors[i + page * 9].material1Name] &&
-                      ownInteriors[i + page * 9].material2Count <= DataManager.Instance.CurrentPlayerData.inventory[ownInteriors[i + page * 9].material2Name] &&
-                      ownInteriors[i + page * 9].material3Count <= DataManager.Instance.CurrentPlayerData.inventory[ownInteriors[i + page * 9].material3Name] &&
-                      ownInteriors[i + page * 9].money <= DataManager.Instance.CurrentPlayerData.unicoin)
+                        if (CheckCanManageInterior(i + page * 9))
+                        {
                             infoText[i].text = "제작가능";
+                            infoText[i].color = new Color(64, 116, 31);
+                        }
                         else
+                        {
                             infoText[i].text = "제작불가능";
+                            infoText[i].color = new Color(255, 82, 51);
+                        }
                     }
                 }
                 else
@@ -233,6 +225,40 @@ namespace AlchemyPlanet.TownScene
                     page -= page > 0 ? 1 : 0;
                 SetInteriorImage();
             }
+        }
+
+        bool CheckCanManageBuilding(int num)
+        {
+            if (ownBuildings[num].material1Name != null &&
+                inventory.ContainsKey(ownBuildings[num].material1Name) &&
+                ownBuildings[num].material1Count <= inventory[ownBuildings[num].material1Name] &&
+                ownBuildings[num].material2Name != null &&
+                inventory.ContainsKey(ownBuildings[num + page * 9].material1Name) &&
+                ownBuildings[num].material2Count <= inventory[ownBuildings[num].material2Name] &&
+                ownBuildings[num].material3Name != null &&
+                inventory.ContainsKey(ownBuildings[num + page * 9].material3Name) &&
+                ownBuildings[num].material3Count <= inventory[ownBuildings[num].material3Name] &&
+                ownBuildings[num].money <= DataManager.Instance.CurrentPlayerData.unicoin)
+                return true;
+            else
+                return false;
+        }
+
+        bool CheckCanManageInterior(int num)
+        {
+            if (ownInteriors[num].material1Name != null &&
+                inventory.ContainsKey(ownInteriors[num].material1Name) &&
+                ownInteriors[num].material1Count <= inventory[ownInteriors[num].material1Name] &&
+                ownInteriors[num].material2Name != null &&
+                inventory.ContainsKey(ownInteriors[num + page * 9].material1Name) &&
+                ownInteriors[num].material2Count <= inventory[ownInteriors[num].material2Name] &&
+                ownInteriors[num].material3Name != null &&
+                inventory.ContainsKey(ownInteriors[num + page * 9].material3Name) &&
+                ownInteriors[num].material3Count <= inventory[ownInteriors[num].material3Name] &&
+                ownInteriors[num].money <= DataManager.Instance.CurrentPlayerData.unicoin)
+                return true;
+            else
+                return false;
         }
     }
 }

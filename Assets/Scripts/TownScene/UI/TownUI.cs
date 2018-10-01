@@ -92,7 +92,7 @@ namespace AlchemyPlanet.TownScene
             });
             BuildingManagementButton.onClick.AddListener(() =>
             {
-                //UIManager.Instance.OpenMenu<BuildingManagement>();
+                UIManager.Instance.OpenMenu<BuildingManagement>();
             });
             InventoryButton.onClick.AddListener(() =>
             {
