@@ -31,6 +31,19 @@ namespace AlchemyPlanet.PrologueScene
         {
             if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
             {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    touchedPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero, 0, LayerMask.GetMask("SmallStructure"));
+
+                    if (hit && (hit.transform.CompareTag("NPC") || hit.transform.CompareTag("InteractiveObject")))
+                    {
+                        PrologueObject obj = hit.transform.GetComponent<PrologueObject>();
+                        obj.ActiveObject();
+                        StartCoroutine(DeactiveObject_WithDelay(obj));
+                    }
+                }
+
                 touchedPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 animator.SetBool("Run", true);
                 if (transform.position.x - touchedPos.x < 0)
@@ -53,17 +66,23 @@ namespace AlchemyPlanet.PrologueScene
                 animator.SetBool("Run", false);
             }
         }
-        /*
-        public IEnumerator WaitForMouseUp()
+
+        public IEnumerator DeactiveObject_WithDelay(PrologueObject obj)
         {
-            while (! Input.GetMouseButtonUp(0))
-            {
-                yield return new WaitForEndOfFrame();
-            }
-            TouchLock = false;
+            yield return new WaitForSeconds(4);
+            obj.DeactiveObject();
         }
-        */
+
         private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Guide"))
+            {
+                TouchLock = true;
+                animator.SetBool("Run", false);
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
         {
             if (collision.CompareTag("NPC"))
             {
@@ -71,11 +90,6 @@ namespace AlchemyPlanet.PrologueScene
                 //StopCoroutine("WaitForMouseUp");
                 //StartCoroutine("WaitForMouseUp");
                 transform.rotation = Quaternion.Euler(0, 180, 0);
-                animator.SetBool("Run", false);
-            }
-            if (collision.CompareTag("Guide"))
-            {
-                TouchLock = true;
                 animator.SetBool("Run", false);
             }
         }
