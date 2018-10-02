@@ -151,11 +151,6 @@ namespace AlchemyPlanet.Data
             };
 
             ws.Connect();
-
-
-            if(ws.IsConnected)
-            {
-            }
         }
         
 
