@@ -17,9 +17,8 @@ namespace AlchemyPlanet.TownScene
         public Button exitButton;               // 타운관리 나가기 버튼
         public Button buildingTap;              // 건물 탭
         public Button interiorTap;              // 인테리어 탭
-
-        [SerializeField] private Sprite clickTap;       // 선택된 탭
-        [SerializeField] private Sprite notClickTap;    // 선택되지 않은 탭
+        public Sprite clickTap;       // 선택된 탭
+        public Sprite notClickTap;    // 선택되지 않은 탭
 
         private List<Building> ownBuildings = new List<Building>();                 // 소유중인 건물
         private List<Interior> ownInteriors = new List<Interior>();                 // 소유중인 인테리어
@@ -85,13 +84,18 @@ namespace AlchemyPlanet.TownScene
 
         void SetBuilding()
         {
-            foreach (Building building in DataManager.Instance.CurrentPlayerData.buildings)
+            foreach (Building building in ownBuildings)
+            {
+                DataManager.Instance.CurrentPlayerData.buildings.Find(a => a.id == building.id).setup = false;
                 WebSocketManager.Instance.SendUpdateBuilding("", DataManager.Instance.CurrentPlayerData.player_id, building.id.ToString(), building.buildingName,
                     building.buildingLevel, building.position, building.setup, building.flip, building.upgrading, building.UpgradeEndTime);
-
-            foreach (Interior interior in DataManager.Instance.CurrentPlayerData.interiors)
+            }
+            foreach (Interior interior in ownInteriors)
+            {
+                DataManager.Instance.CurrentPlayerData.interiors.Find(a => a.id == interior.id).setup = false;
                 WebSocketManager.Instance.SendUpdateInterior("", DataManager.Instance.CurrentPlayerData.player_id, interior.id.ToString(),
                     interior.interiorName, interior.position, interior.setup, interior.flip);
+            }
 
             foreach (GameObject obj in setupBuildings)
             {
@@ -166,14 +170,16 @@ namespace AlchemyPlanet.TownScene
 
         void DetectTouch()    // 클릭감지
         {
-            if (Input.touchCount > 0)
+            if (Input.touchCount > 0 && !EventSystem.current.IsPointerOverGameObject(tempTouch.fingerId))
             {
                 tempTouch = Input.GetTouch(0);
                 touchedPos = Camera.main.ScreenToWorldPoint(tempTouch.position);
                 RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero);
+
                 if (hit.collider != null && hit.collider.tag == "Building" 
                     && !EventSystem.current.IsPointerOverGameObject(tempTouch.fingerId))
                     touchTime += tempTouch.deltaTime;
+
                 if (tempTouch.phase == TouchPhase.Ended || hit.collider == null
                     || (hit.collider != null && hit.collider.tag != "Building"))
                     touchTime = 0;

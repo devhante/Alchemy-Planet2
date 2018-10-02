@@ -27,48 +27,65 @@ namespace AlchemyPlanet.PrologueScene
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.CompareTag("Player"))
+            if (collision.CompareTag("Player") && kind != ObjectKind.NPC)
             {
-                Debug.Log("On");
-                switch (kind)
-                {
-                    case ObjectKind.NPC:
-                        {
-                            OpenDialog();
-                            break;
-                        }
-                    case ObjectKind.Object:
-                        {
-                            ShowBubble();
-                            break;
-                        }
-                    case ObjectKind.Door:
-                        {
-                            StartCoroutine(MoveNext());
-                            break;
-                        }
-                    case ObjectKind.Zoom:
-                        {
-                            mainCamera.ZoomIn(7);
-                            break;
-                        }
-                    case ObjectKind.Switch:
-                        {
-                            switch (switchKind)
-                            {
-                                case ObjectSwitch.NPCTutorial:
-                                    PrologueScript.Instance.isOnNPCPos = true; break;
-                                case ObjectSwitch.End:
-                                    PrologueScript.Instance.isEnd = true; break;
-                            }
-                            break;
-                        }
-                }
+                ActiveObject();
             }
         }
         private void OnTriggerExit2D(Collider2D collision)
         {
-            if (collision.CompareTag("Player") && kind == ObjectKind.Object)
+            if (collision.CompareTag("Player"))
+            {
+                DeactiveObject();
+            }
+            if(kind == ObjectKind.NPC)
+            {
+                ActiveObject();
+            }
+        }
+
+        public void ActiveObject()
+        {
+            Debug.Log("On");
+            switch (kind)
+            {
+                case ObjectKind.NPC:
+                    {
+                        OpenDialog();
+                        break;
+                    }
+                case ObjectKind.Object:
+                    {
+                        ShowBubble();
+                        break;
+                    }
+                case ObjectKind.Door:
+                    {
+                        StartCoroutine(MoveNext());
+                        break;
+                    }
+                case ObjectKind.Zoom:
+                    {
+                        mainCamera.ZoomIn(7);
+                        break;
+                    }
+                case ObjectKind.Switch:
+                    {
+                        switch (switchKind)
+                        {
+                            case ObjectSwitch.NPCTutorial:
+                                PrologueScript.Instance.isOnNPCPos = true; break;
+                            case ObjectSwitch.End:
+                                PrologueScript.Instance.isEnd = true; break;
+                        }
+                        break;
+                    }
+            }
+        }
+
+        public void DeactiveObject()
+        {
+            if(kind == ObjectKind.Object)
             {
                 Debug.Log("Off");
                 CloseBubble();
