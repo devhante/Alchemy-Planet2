@@ -18,6 +18,8 @@ namespace AlchemyPlanet
             {
                 GameObject.Destroy(this.gameObject);
             }
+
+            Application.targetFrameRate = 30;
         }
 
         private void Update()
