@@ -72,7 +72,7 @@ namespace AlchemyPlanet.TownScene
 
             ownBuildings = new List<Building>();
 
-            if (DataManager.Instance.interiorInfo.Count >= 1)
+            if (DataManager.Instance.buildingInfo.Count >= 1)
             {
                 foreach (Building building in DataManager.Instance.buildingInfo.Values)
                 {
@@ -168,6 +168,9 @@ namespace AlchemyPlanet.TownScene
                     buildingImages[i].GetComponent<Image>().sprite = ownInteriors[i + page * 9].image;
                     buildingImages[i].name = ownInteriors[i + page * 9].interiorName;
 
+                    if (!infoText[i].gameObject.activeSelf)
+                        infoText[i].gameObject.SetActive(true);
+
                     if (ownInteriorsCount[ownInteriors[i + page * 9].interiorName] > 0)
                     {
                         if (CheckCanManageInterior(i + page * 9))
@@ -229,36 +232,30 @@ namespace AlchemyPlanet.TownScene
 
         bool CheckCanManageBuilding(int num)
         {
-            if ((ownBuildings[num].material1Name == null || (ownBuildings[num].material1Name != null &&
-                inventory.ContainsKey(ownBuildings[num].material1Name) &&
-                ownBuildings[num].material1Count <= inventory[ownBuildings[num].material1Name])) &&
-                (ownBuildings[num].material2Name == null || (ownBuildings[num].material2Name != null &&
-                inventory.ContainsKey(ownBuildings[num + page * 9].material1Name) &&
-                ownBuildings[num].material2Count <= inventory[ownBuildings[num].material2Name])) &&
-                (ownBuildings[num].material3Name == null || (ownBuildings[num].material3Name != null &&
-                inventory.ContainsKey(ownBuildings[num + page * 9].material3Name) &&
-                ownBuildings[num].material3Count <= inventory[ownBuildings[num].material3Name])) &&
-                ownBuildings[num].money <= DataManager.Instance.CurrentPlayerData.unicoin)
-                return true;
-            else
-                return false;
+            bool b = true;
+            foreach (string str in ownBuildings[num].material.Keys)
+            {
+                if (!inventory.ContainsKey(str) || (inventory.ContainsKey(str) && ownBuildings[num].material[str] >= inventory[str]))
+                    b = false;
+            }
+            if (b && ownBuildings[num].money > DataManager.Instance.CurrentPlayerData.unicoin)
+                b = false;
+
+            return b;
         }
 
         bool CheckCanManageInterior(int num)
         {
-            if ((ownInteriors[num].material1Name == null || (ownInteriors[num].material1Name != null &&
-                inventory.ContainsKey(ownInteriors[num].material1Name) &&
-                ownInteriors[num].material1Count <= inventory[ownInteriors[num].material1Name])) &&
-                (ownInteriors[num].material2Name == null || (ownInteriors[num].material2Name != null &&
-                inventory.ContainsKey(ownInteriors[num + page * 9].material1Name) &&
-                ownInteriors[num].material2Count <= inventory[ownInteriors[num].material2Name])) &&
-                (ownInteriors[num].material3Name == null || (ownInteriors[num].material3Name != null &&
-                inventory.ContainsKey(ownInteriors[num + page * 9].material3Name) &&
-                ownInteriors[num].material3Count <= inventory[ownInteriors[num].material3Name])) &&
-                ownInteriors[num].money <= DataManager.Instance.CurrentPlayerData.unicoin)
-                return true;
-            else
-                return false;
+            bool b = true;
+            foreach (string str in ownInteriors[num].material.Keys)
+            {
+                if (!inventory.ContainsKey(str) || inventory.ContainsKey(str) && ownInteriors[num].material[str] >= inventory[str])
+                    b = false;
+            }
+            if (b && ownInteriors[num].money > DataManager.Instance.CurrentPlayerData.unicoin)
+                b = false;
+
+            return b;
         }
     }
 }

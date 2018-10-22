@@ -7,14 +7,12 @@
     "position": 0.0,
     "setup": false,
     "flip": false,
-    "material1Name": "河篮 采蕾",
-    "material2Name": "喉风海府",
-    "material3Name": "喉风海府",
-    "material1Count": 2,
-    "material2Count": 2,
-    "material3Count": 2,
+    "material": {
+      "Fetal": 2,
+      "Blueberry": 2
+    },
     "money": 1000
-  } ,
+  },
   //"Maple": {
   //  "id": 0,
   //  "interiorName": "Maple",
@@ -23,12 +21,10 @@
   //  "position": 0.0,
   //  "setup": false,
   //  "flip": false,
-  //  "material1Name": "河篮 采蕾",
-  //  "material2Name": "喉风海府",
-  //  "material3Name": "喉风海府",
-  //  "material1Count": 2,
-  //  "material2Count": 2,
-  //  "material3Count": 2,
+  //  "material" : {
+  //  "河篮 采蕾": 2,
+  //  "喉风海府": 2
+  //  },
   //  "money": 1000
   //} ,
   "CherryBlossom": {
@@ -39,14 +35,12 @@
     "position": 0.0,
     "setup": false,
     "flip": false,
-    "material1Name": "河篮 采蕾",
-    "material2Name": "喉风海府",
-    "material3Name": "喉风海府",
-    "material1Count": 2,
-    "material2Count": 2,
-    "material3Count": 2,
+    "material": {
+      "Fetal": 2,
+      "Blueberry": 2
+    },
     "money": 1000
-  }//,
+  } //,
   //"Mushroom": {
   //  "id": 0,
   //  "interiorName": "Mushroom",
@@ -55,12 +49,10 @@
   //  "position": 0.0,
   //  "setup": false,
   //  "flip": false,
-  //  "material1Name": "河篮 采蕾",
-  //  "material2Name": "喉风海府",
-  //  "material3Name": "喉风海府",
-  //  "material1Count": 2,
-  //  "material2Count": 2,
-  //  "material3Count": 2,
+  //  "material" : {
+  //  "河篮 采蕾": 2,
+  //  "喉风海府": 2
+  //  },
   //  "money": 1000
   //},
   //"WildFlower": {
@@ -71,12 +63,10 @@
   //  "position": 0.0,
   //  "setup": false,
   //  "flip": false,
-  //  "material1Name": "河篮 采蕾",
-  //  "material2Name": "喉风海府",
-  //  "material3Name": "喉风海府",
-  //  "material1Count": 2,
-  //  "material2Count": 2,
-  //  "material3Count": 2,
+  //  "material" : {
+  //  "河篮 采蕾": 2,
+  //  "喉风海府": 2
+  //  },
   //  "money": 1000
   //},
   //"Forsythia": {
@@ -87,12 +77,10 @@
   //  "position": 0.0,
   //  "setup": false,
   //  "flip": false,
-  //  "material1Name": "河篮 采蕾",
-  //  "material2Name": "喉风海府",
-  //  "material3Name": "喉风海府",
-  //  "material1Count": 2,
-  //  "material2Count": 2,
-  //  "material3Count": 2,
+  //  "material" : {
+  //  "河篮 采蕾": 2,
+  //  "喉风海府": 2
+  //  },
   //  "money": 1000
   //},
   //"Stump": {
@@ -103,12 +91,10 @@
   //  "position": 0.0,
   //  "setup": false,
   //  "flip": false,
-  //  "material1Name": "河篮 采蕾",
-  //  "material2Name": "喉风海府",
-  //  "material3Name": "喉风海府",
-  //  "material1Count": 2,
-  //  "material2Count": 2,
-  //  "material3Count": 2,
+  //  "material" : {
+  //  "河篮 采蕾": 2,
+  //  "喉风海府": 2
+  //  },
   //  "money": 1000
   //}
 }

@@ -163,14 +163,13 @@ namespace AlchemyPlanet.Data
                 JsonSerializer serializer = new JsonSerializer();
                 Dictionary<string, Building> Buildings = (Dictionary<string, Building>)serializer.Deserialize(file, typeof(Dictionary<string, Building>));
 
-
                 foreach (string str in Buildings.Keys)
                 {
                     this.buildingInfo.Add(str, Buildings[str].Clone());
                     buildingInfo[str].buildingObject = Resources.Load<GameObject>("Prefabs/TownScene/Structure");
                 }
 
-                Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Town/타운리소스");
+                Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/TownScene/타운리소스");
 
                 for (int i = 0; i < sprites.Length; i++)
                 {
@@ -187,11 +186,11 @@ namespace AlchemyPlanet.Data
 
                 foreach (string str in Interiors.Keys)
                 {
-                    this.interiorInfo.Add(str, new Interior(Interiors[str].interiorName));
+                    this.interiorInfo.Add(str, Interiors[str].Clone());
                     interiorInfo[str].interiorObject = Resources.Load<GameObject>("Prefabs/TownScene/Structure");
                 }
 
-                Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Town/타운리소스");
+                Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/TownScene/타운리소스");
 
                 for (int i = 0; i < sprites.Length; i++)
                 {
@@ -271,6 +270,8 @@ namespace AlchemyPlanet.Data
                 building.setup = item.isConstructed;
                 building.upgrading = item.isUpgrading;
                 building.UpgradeEndTime = item.endDate;
+                building.material = buildingInfo[building.buildingName].material;
+                building.money = buildingInfo[building.buildingName].money;
                 CurrentPlayerData.buildings.Add(building);
             }
         }
@@ -285,6 +286,8 @@ namespace AlchemyPlanet.Data
                 interior.position = item.position;
                 interior.flip = item.isFlipped;
                 interior.setup = item.isConstructed;
+                interior.material = interiorInfo[interior.interiorName].material;
+                interior.money = interiorInfo[interior.interiorName].money;
                 CurrentPlayerData.interiors.Add(interior);
             }
 

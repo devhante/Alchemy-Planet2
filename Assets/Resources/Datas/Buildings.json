@@ -3,12 +3,10 @@
     "buildingDiscription": "안락한 집, 타운의 공간을 넓혀준다.",
     "buildingLevel": 1,
     "upgrading": false,
-    "material1Name": "붉은 꽃잎",
-    "material2Name": "블루베리",
-    "material3Name": "블루베리",
-    "material1Count": 2,
-    "material2Count": 2,
-    "material3Count": 2,
+    "material": {
+      "Fetal": 2,
+      "Blueberry": 2
+    },
     "money": 1000,
     "UpgradeEndTime": 0,
     "id": 0,
@@ -18,17 +16,15 @@
     "position": 0.0,
     "setup": false,
     "flip": false
-  }//,
+  } //,
   //"ElectricalPowerPlant": {
   //  "buildingDiscription": "전기발전시설",
   //  "buildingLevel": 1,
   //  "upgrading": false,
-  //  "material1Name": "붉은 꽃잎",
-  //  "material2Name": "블루베리",
-  //  "material3Name": "블루베리",
-  //  "material1Count": 2,
-  //  "material2Count": 2,
-  //  "material3Count": 2,
+  //  "material" : {
+  //  "붉은 꽃잎": 2,
+  //  "블루베리": 2
+  //},
   //  "money": 1000,
   //  "UpgradeEndTime": 0,
   //  "id": 0,
@@ -43,12 +39,10 @@
   //  "buildingDiscription": "수질정화시설",
   //  "buildingLevel": 1,
   //  "upgrading": false,
-  //  "material1Name": "붉은 꽃잎",
-  //  "material2Name": "블루베리",
-  //  "material3Name": "블루베리",
-  //  "material1Count": 2,
-  //  "material2Count": 2,
-  //  "material3Count": 2,
+  //  "material" : {
+  //  "붉은 꽃잎": 2,
+  //  "블루베리": 2
+  //}, 
   //  "money": 1000,
   //  "UpgradeEndTime": 0,
   //  "id": 0,
