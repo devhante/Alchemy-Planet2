@@ -124,7 +124,7 @@ namespace AlchemyPlanet.Data
             }
             using (StreamWriter file = File.CreateText("Assets/Resources/Datas/Interiors.json"))
             {
-                Dictionary<string, Interior> Interiors = new Dictionary<string, Interior> { { "Tree", new Interior("Tree") } };
+                Dictionary<string, Interior> Interiors = new Dictionary<string, Interior> { { "Tree", new Interior("Tree","나무") } };
                 JsonSerializer serializer = new JsonSerializer();
                 serializer.Serialize(file, Interiors);
             }
@@ -186,6 +186,7 @@ namespace AlchemyPlanet.Data
 
                 foreach (string str in Interiors.Keys)
                 {
+                    Debug.Log(Interiors[str].interiorDiscription);
                     this.interiorInfo.Add(str, Interiors[str].Clone());
                     interiorInfo[str].interiorObject = Resources.Load<GameObject>("Prefabs/TownScene/Structure");
                 }
@@ -263,6 +264,7 @@ namespace AlchemyPlanet.Data
             {
                 Building building = new Building(item.buildingId, "", item.level);
                 building.buildingDiscription = buildingInfo[building.buildingName].buildingDiscription;
+                building.effect = buildingInfo[building.buildingName].effect;
                 building.id = int.Parse(item.playerBuildingId);
                 building.image = buildingInfo[building.buildingName].image;
                 building.position = item.position;
@@ -280,7 +282,8 @@ namespace AlchemyPlanet.Data
         {
             foreach (var item in data)
             {
-                Interior interior = new Interior(item.interiorId);
+                Interior interior = new Interior(item.interiorId, "");
+                interior.interiorDiscription = interiorInfo[interior.interiorName].interiorDiscription;
                 interior.id = int.Parse(item.playerInteriorId);
                 interior.image = interiorInfo[interior.interiorName].image;
                 interior.position = item.position;

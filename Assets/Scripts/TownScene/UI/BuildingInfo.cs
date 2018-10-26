@@ -16,6 +16,8 @@ public class BuildingInfo : MonoBehaviour
     public Text descText;
     public Text levelText;
     public Text moneyText;
+    public Text effectText;
+    public Text effectTitle;
     public Button upgradeButton;
     public Button closeButton;
 
@@ -43,6 +45,8 @@ public class BuildingInfo : MonoBehaviour
             nameText.text = "이름 : " + building.buildingName;
             descText.text = "설명 : " + building.buildingDiscription;
             levelText.text = "Lv." + building.buildingLevel;
+            effectText.text = building.effect;
+            effectTitle.gameObject.SetActive(true);
 
             if (DataManager.Instance.CurrentPlayerData.buildings.Contains(building))
             {
@@ -80,10 +84,13 @@ public class BuildingInfo : MonoBehaviour
         if (strc is Interior)
         {
             interior = strc as Interior;
+            Debug.Log(interior.interiorDiscription);
             buildingImage.sprite = interior.image;
             nameText.text = "이름 : " + interior.interiorName;
             descText.text = "설명 : " + interior.interiorDiscription;
             levelText.text = "인테리어";
+            effectTitle.gameObject.SetActive(false);
+
 
             upgradeButton.onClick.RemoveAllListeners();
             upgradeButton.onClick.AddListener(() => { MakeInterior(); });

@@ -1,6 +1,7 @@
 {
   "House": {
-    "buildingDiscription": "안락한 집, 타운의 공간을 넓혀준다.",
+    "buildingDiscription": "안락한 집이다. 진짜 디자인 누가했는지 모르겠지만 잘했다고 생각하게 된다.",
+    "effect": "마을의 오염된 공간을 정화시켜 좀더 영토를 넓혀준다.",
     "buildingLevel": 1,
     "upgrading": false,
     "material": {

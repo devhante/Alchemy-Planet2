@@ -1,7 +1,8 @@
-{
+ï»¿{
   "Tree": {
     "id": 0,
     "interiorName": "Tree",
+    "interiorDiscription": "ë¬´ëŸ­ë¬´ëŸ­ ìë€ í‰ë²”í•œ ë‚˜ë¬´ì´ë‹¤.",
     "image": null,
     "interiorObject": null,
     "position": 0.0,
@@ -22,14 +23,15 @@
   //  "setup": false,
   //  "flip": false,
   //  "material" : {
-  //  "ºÓÀº ²ÉÀÙ": 2,
-  //  "ºí·çº£¸®": 2
+  //  "ë¶‰ì€ ê½ƒì": 2,
+  //  "ë¸”ë£¨ë² ë¦¬": 2
   //  },
   //  "money": 1000
   //} ,
   "CherryBlossom": {
     "id": 0,
     "interiorName": "CherryBlossom",
+    "interiorDiscription": "ë²šê½ƒë‚˜ë¬´ì´ë‹¤. ë­”ê°€ ë–¨ì–´ì§„ë‹¤...",
     "image": null,
     "interiorObject": null,
     "position": 0.0,
@@ -50,8 +52,8 @@
   //  "setup": false,
   //  "flip": false,
   //  "material" : {
-  //  "ºÓÀº ²ÉÀÙ": 2,
-  //  "ºí·çº£¸®": 2
+  //  "ë¶‰ì€ ê½ƒì": 2,
+  //  "ë¸”ë£¨ë² ë¦¬": 2
   //  },
   //  "money": 1000
   //},
@@ -64,8 +66,8 @@
   //  "setup": false,
   //  "flip": false,
   //  "material" : {
-  //  "ºÓÀº ²ÉÀÙ": 2,
-  //  "ºí·çº£¸®": 2
+  //  "ë¶‰ì€ ê½ƒì": 2,
+  //  "ë¸”ë£¨ë² ë¦¬": 2
   //  },
   //  "money": 1000
   //},
@@ -78,8 +80,8 @@
   //  "setup": false,
   //  "flip": false,
   //  "material" : {
-  //  "ºÓÀº ²ÉÀÙ": 2,
-  //  "ºí·çº£¸®": 2
+  //  "ë¶‰ì€ ê½ƒì": 2,
+  //  "ë¸”ë£¨ë² ë¦¬": 2
   //  },
   //  "money": 1000
   //},
@@ -92,8 +94,8 @@
   //  "setup": false,
   //  "flip": false,
   //  "material" : {
-  //  "ºÓÀº ²ÉÀÙ": 2,
-  //  "ºí·çº£¸®": 2
+  //  "ë¶‰ì€ ê½ƒì": 2,
+  //  "ë¸”ë£¨ë² ë¦¬": 2
   //  },
   //  "money": 1000
   //}

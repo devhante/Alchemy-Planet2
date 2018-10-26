@@ -34,12 +34,12 @@ namespace AlchemyPlanet.Data
         {
             Building strc = new Building(buildingName, buildingDiscription, buildingLevel);
             strc.image = image;
+            strc.effect = effect;
             strc.buildingObject = buildingObject;
             strc.position = position;
             strc.setup = setup;
             strc.material = material;
             strc.money = money;
-            Debug.Log(money);
             return strc;
         }
         public void UpgradeStart()
@@ -97,15 +97,15 @@ namespace AlchemyPlanet.Data
         public int money;
 
         
-        public Interior(string interiorName)
+        public Interior(string interiorName, string interiorDiscription)
         {
             this.interiorName = interiorName;
+            this.interiorDiscription = interiorDiscription;
         }
 
         public Interior Clone()
         {
-            Interior strc = new Interior(interiorName);
-            strc.interiorDiscription = interiorDiscription;
+            Interior strc = new Interior(interiorName, interiorDiscription);
             strc.image = image;
             strc.interiorObject = interiorObject;
             strc.position = position;
