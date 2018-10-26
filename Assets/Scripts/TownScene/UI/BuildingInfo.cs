@@ -179,7 +179,8 @@ public class BuildingInfo : MonoBehaviour
         bool b = true;
         foreach (string str in building.material.Keys)
         {
-            if (building.material[str] >= DataManager.Instance.CurrentPlayerData.inventory[str])
+            if (!DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(str) || (DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(str)
+                && building.material[str] >= DataManager.Instance.CurrentPlayerData.inventory[str]))
                 b = false;
         }
         if (b && building.money > DataManager.Instance.CurrentPlayerData.unicoin)
@@ -193,7 +194,8 @@ public class BuildingInfo : MonoBehaviour
         bool b = true;
         foreach (string str in interior.material.Keys)
         {
-            if (interior.material[str] >= DataManager.Instance.CurrentPlayerData.inventory[str])
+            if (!DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(str) || (DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(str)
+                && interior.material[str] >= DataManager.Instance.CurrentPlayerData.inventory[str]))
                 b = false;
         }
         if (b && interior.money > DataManager.Instance.CurrentPlayerData.unicoin)
