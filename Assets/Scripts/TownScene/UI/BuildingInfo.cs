@@ -6,9 +6,9 @@ using AlchemyPlanet.Data;
 
 public class BuildingInfo : MonoBehaviour
 {
-    public Image material1Image;
-    public Image material2Image;
-    public Image material3Image;
+    public List<GameObject> materialCell;
+    public List<Image> materialImage;
+    public List<Text> materialText;
     public Image backGroundImage;
     public Image buildingImage;
     public Sprite tentImage;
@@ -16,9 +16,8 @@ public class BuildingInfo : MonoBehaviour
     public Text descText;
     public Text levelText;
     public Text moneyText;
-    public Text material1Text;
-    public Text material2Text;
-    public Text material3Text;
+    public Text effectText;
+    public Text effectTitle;
     public Button upgradeButton;
     public Button closeButton;
 
@@ -37,13 +36,17 @@ public class BuildingInfo : MonoBehaviour
 
     public void SetInfo<T>(T strc)
     {
-        if(strc is Building)
+        foreach (Image image in materialImage)
+            image.gameObject.SetActive(false);
+        if (strc is Building)
         {
             building = strc as Building;
             buildingImage.sprite = building.image;
             nameText.text = "이름 : " + building.buildingName;
             descText.text = "설명 : " + building.buildingDiscription;
             levelText.text = "Lv." + building.buildingLevel;
+            effectText.text = building.effect;
+            effectTitle.gameObject.SetActive(true);
 
             if (DataManager.Instance.CurrentPlayerData.buildings.Contains(building))
             {
@@ -57,92 +60,57 @@ public class BuildingInfo : MonoBehaviour
                 upgradeButton.onClick.AddListener(() => { MakeBuilding(); });
                 upgradeButton.GetComponent<Image>().sprite = makeButtonSprite;
             }
+            int i;
+            for (i = 0; i < 3; i++)
+            {
+                materialCell[i].SetActive(false);
+                materialImage[i].gameObject.SetActive(false);
+                materialText[i].gameObject.SetActive(false);
+            }
+            i = 0;
+            foreach (string str in building.material.Keys)
+            {
+                materialCell[i].SetActive(true);
+                materialImage[i].gameObject.SetActive(true);
+                materialText[i].gameObject.SetActive(true);
+                materialImage[i].sprite = DataManager.Instance.itemInfo[str].image;
+                materialText[i++].text = "x" + building.material[str].ToString();
+            }
 
-            if (building.material1Count > 0)
-            {
-                material1Image.gameObject.SetActive(true);
-                material1Text.gameObject.SetActive(true);
-                material1Image.sprite = DataManager.Instance.itemInfo[building.material1Name].image;
-                material1Text.text = "x" + building.material1Count.ToString();
-            }
-            else
-            {
-                material1Image.gameObject.SetActive(false);
-                material1Text.gameObject.SetActive(false);
-            }
-            if (building.material2Count > 0)
-            {
-                material2Image.gameObject.SetActive(true);
-                material2Text.gameObject.SetActive(true);
-                material2Image.sprite = DataManager.Instance.itemInfo[building.material2Name].image;
-                material2Text.text = "x" + building.material2Count.ToString();
-            }
-            else
-            {
-                material2Image.gameObject.SetActive(false);
-                material2Text.gameObject.SetActive(false);
-            }
-            if (building.material3Count > 0)
-            {
-                material3Image.gameObject.SetActive(true);
-                material3Text.gameObject.SetActive(true);
-                material3Image.sprite = DataManager.Instance.itemInfo[building.material3Name].image;
-                material3Text.text = "x" + building.material3Count.ToString();
-            }
-            else
-            {
-                material3Image.gameObject.SetActive(false);
-                material3Text.gameObject.SetActive(false);
-            }
+            Debug.Log(building.money);
+
             moneyText.text = building.money.ToString();
         }
         if (strc is Interior)
         {
             interior = strc as Interior;
+            Debug.Log(interior.interiorDiscription);
             buildingImage.sprite = interior.image;
             nameText.text = "이름 : " + interior.interiorName;
             descText.text = "설명 : " + interior.interiorDiscription;
             levelText.text = "인테리어";
+            effectTitle.gameObject.SetActive(false);
+
 
             upgradeButton.onClick.RemoveAllListeners();
             upgradeButton.onClick.AddListener(() => { MakeInterior(); });
             upgradeButton.GetComponent<Image>().sprite = makeButtonSprite;
 
-            if (interior.material1Count>0)
+            int i;
+            for (i = 0; i < 3; i++)
             {
-                material1Image.gameObject.SetActive(true);
-                material1Text.gameObject.SetActive(true);
-                material1Image.sprite = DataManager.Instance.itemInfo[interior.material1Name].image;
-                material1Text.text = "x" + interior.material1Count.ToString();
+                materialCell[i].SetActive(false);
+                materialImage[i].gameObject.SetActive(false);
+                materialText[i].gameObject.SetActive(false);
             }
-            else
+            i = 0;
+            foreach (string str in interior.material.Keys)
             {
-                material1Image.gameObject.SetActive(false);
-                material1Text.gameObject.SetActive(false);
-            }
-            if (interior.material2Count > 0)
-            {
-                material2Image.gameObject.SetActive(true);
-                material2Text.gameObject.SetActive(true);
-                material2Image.sprite = DataManager.Instance.itemInfo[interior.material2Name].image;
-                material2Text.text = "x" + interior.material2Count.ToString();
-            }
-            else
-            {
-                material2Image.gameObject.SetActive(false);
-                material2Text.gameObject.SetActive(false);
-            }
-            if (interior.material3Count > 0)
-            {
-                material3Image.gameObject.SetActive(true);
-                material3Text.gameObject.SetActive(true);
-                material3Image.sprite = DataManager.Instance.itemInfo[interior.material3Name].image;
-                material3Text.text = "x" + interior.material3Count.ToString();
-            }
-            else
-            {
-                material3Image.gameObject.SetActive(false);
-                material3Text.gameObject.SetActive(false);
+                materialCell[i].SetActive(true);
+                materialImage[i].gameObject.SetActive(true);
+                materialText[i].gameObject.SetActive(true);
+                materialImage[i].sprite = DataManager.Instance.itemInfo[str].image;
+                materialText[i++].text = "x" + interior.material[str].ToString();
             }
 
             moneyText.text = interior.money.ToString();
@@ -162,14 +130,11 @@ public class BuildingInfo : MonoBehaviour
 
     void UpgradeBuilding()
     {
-        if (!building.upgrading && DataManager.Instance.CurrentPlayerData.inventory[building.material2Name]>=building.material2Count
-            && DataManager.Instance.CurrentPlayerData.inventory[building.material1Name] >= building.material1Count
-            && DataManager.Instance.CurrentPlayerData.inventory[building.material3Name] >= building.material3Count
-            && DataManager.Instance.CurrentPlayerData.unicoin >= building.money)
+        if (!building.upgrading && CheckCanManageBuilding())
         {
-            DataManager.Instance.CurrentPlayerData.inventory[building.material1Name] -= building.material1Count;
-            DataManager.Instance.CurrentPlayerData.inventory[building.material2Name] -= building.material2Count;
-            DataManager.Instance.CurrentPlayerData.inventory[building.material3Name] -= building.material3Count;
+            foreach (string str in building.material.Keys)
+                DataManager.Instance.CurrentPlayerData.inventory[str] -= building.material[str];
+
             DataManager.Instance.CurrentPlayerData.unicoin -= building.money;
 
             building.UpgradeStart();
@@ -179,20 +144,17 @@ public class BuildingInfo : MonoBehaviour
 
     void MakeBuilding()
     {
-        if (DataManager.Instance.CurrentPlayerData.inventory[building.material2Name] >= building.material2Count
-            && DataManager.Instance.CurrentPlayerData.inventory[building.material1Name] >= building.material1Count
-            && DataManager.Instance.CurrentPlayerData.inventory[building.material3Name] >= building.material3Count
-            && DataManager.Instance.CurrentPlayerData.unicoin >= building.money)
+        if (CheckCanManageBuilding())
         {
-            DataManager.Instance.CurrentPlayerData.inventory[building.material1Name] -= building.material1Count;
-            DataManager.Instance.CurrentPlayerData.inventory[building.material2Name] -= building.material2Count;
-            DataManager.Instance.CurrentPlayerData.inventory[building.material3Name] -= building.material3Count;
+            foreach (string str in building.material.Keys)
+                DataManager.Instance.CurrentPlayerData.inventory[str] -= building.material[str];
+
             DataManager.Instance.CurrentPlayerData.unicoin -= building.money;
 
             DataManager.Instance.CurrentPlayerData.buildings.Add(building.Clone());
 
             AlchemyPlanet.TownScene.BuildingManagement.Instance.GetOwnBuilding();
-            AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetImage");
+            AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetBuildingImage");
             SetInfo(DataManager.Instance.CurrentPlayerData.buildings.Find(a => a.buildingName == building.buildingName));
             DataManager.Instance.CurrentPlayerData.GiveId(building);
             WebSocketManager.Instance.SendInsertBuilding("", DataManager.Instance.CurrentPlayerData.player_id, building.id.ToString(), building.buildingName, building.buildingLevel,
@@ -202,22 +164,50 @@ public class BuildingInfo : MonoBehaviour
 
     void MakeInterior()
     {
-        if (DataManager.Instance.CurrentPlayerData.inventory[interior.material2Name] >= interior.material2Count
-            && DataManager.Instance.CurrentPlayerData.inventory[interior.material1Name] >= interior.material1Count
-            && DataManager.Instance.CurrentPlayerData.inventory[interior.material3Name] >= interior.material3Count
-            && DataManager.Instance.CurrentPlayerData.unicoin >= interior.money)
+        if (CheckCanManageInterior())
         {
-            DataManager.Instance.CurrentPlayerData.inventory[interior.material1Name] -= interior.material1Count;
-            DataManager.Instance.CurrentPlayerData.inventory[interior.material2Name] -= interior.material2Count;
-            DataManager.Instance.CurrentPlayerData.inventory[interior.material3Name] -= interior.material3Count;
+            foreach (string str in interior.material.Keys)
+                DataManager.Instance.CurrentPlayerData.inventory[str] -= interior.material[str];
+
             DataManager.Instance.CurrentPlayerData.unicoin -= interior.money;
 
             DataManager.Instance.CurrentPlayerData.interiors.Add(interior.Clone());
+
             AlchemyPlanet.TownScene.BuildingManagement.Instance.GetOwnBuilding();
-            AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetImage");
+            AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetInteriorImage");
             SetInfo(DataManager.Instance.CurrentPlayerData.interiors.Find(a => a.interiorName == interior.interiorName));
             DataManager.Instance.CurrentPlayerData.GiveId(interior);
-            WebSocketManager.Instance.SendInsertInterior("", DataManager.Instance.CurrentPlayerData.player_id, interior.id.ToString(), interior.interiorName, building.position, building.setup, building.flip);
+            WebSocketManager.Instance.SendInsertInterior("", DataManager.Instance.CurrentPlayerData.player_id, interior.id.ToString(), interior.interiorName, interior.position, interior.setup, interior.flip);
         }
+    }
+
+    bool CheckCanManageBuilding()
+    {
+        bool b = true;
+        foreach (string str in building.material.Keys)
+        {
+            if (!DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(str) || (DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(str)
+                && building.material[str] >= DataManager.Instance.CurrentPlayerData.inventory[str]))
+                b = false;
+        }
+        if (b && building.money > DataManager.Instance.CurrentPlayerData.unicoin)
+            b = false;
+
+        return b;
+    }
+
+    bool CheckCanManageInterior()
+    {
+        bool b = true;
+        foreach (string str in interior.material.Keys)
+        {
+            if (!DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(str) || (DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(str)
+                && interior.material[str] >= DataManager.Instance.CurrentPlayerData.inventory[str]))
+                b = false;
+        }
+        if (b && interior.money > DataManager.Instance.CurrentPlayerData.unicoin)
+            b = false;
+
+        return b;
     }
 }

@@ -1,20 +1,19 @@
-{
+ï»¿{
   "Tree": {
     "id": 0,
     "interiorName": "Tree",
+    "interiorDiscription": "ë¬´ëŸ­ë¬´ëŸ­ ìë€ í‰ë²”í•œ ë‚˜ë¬´ì´ë‹¤.",
     "image": null,
     "interiorObject": null,
     "position": 0.0,
     "setup": false,
     "flip": false,
-    "material1Name": "ºÓÀº ²ÉÀÙ",
-    "material2Name": "ºí·çº£¸®",
-    "material3Name": "ºí·çº£¸®",
-    "material1Count": 2,
-    "material2Count": 2,
-    "material3Count": 2,
+    "material": {
+      "Fetal": 2,
+      "Blueberry": 2
+    },
     "money": 1000
-  } ,
+  },
   //"Maple": {
   //  "id": 0,
   //  "interiorName": "Maple",
@@ -23,30 +22,27 @@
   //  "position": 0.0,
   //  "setup": false,
   //  "flip": false,
-  //  "material1Name": "ºÓÀº ²ÉÀÙ",
-  //  "material2Name": "ºí·çº£¸®",
-  //  "material3Name": "ºí·çº£¸®",
-  //  "material1Count": 2,
-  //  "material2Count": 2,
-  //  "material3Count": 2,
+  //  "material" : {
+  //  "ë¶‰ì€ ê½ƒì": 2,
+  //  "ë¸”ë£¨ë² ë¦¬": 2
+  //  },
   //  "money": 1000
   //} ,
   "CherryBlossom": {
     "id": 0,
     "interiorName": "CherryBlossom",
+    "interiorDiscription": "ë²šê½ƒë‚˜ë¬´ì´ë‹¤. ë­”ê°€ ë–¨ì–´ì§„ë‹¤...",
     "image": null,
     "interiorObject": null,
     "position": 0.0,
     "setup": false,
     "flip": false,
-    "material1Name": "ºÓÀº ²ÉÀÙ",
-    "material2Name": "ºí·çº£¸®",
-    "material3Name": "ºí·çº£¸®",
-    "material1Count": 2,
-    "material2Count": 2,
-    "material3Count": 2,
+    "material": {
+      "Fetal": 2,
+      "Blueberry": 2
+    },
     "money": 1000
-  }//,
+  } //,
   //"Mushroom": {
   //  "id": 0,
   //  "interiorName": "Mushroom",
@@ -55,12 +51,10 @@
   //  "position": 0.0,
   //  "setup": false,
   //  "flip": false,
-  //  "material1Name": "ºÓÀº ²ÉÀÙ",
-  //  "material2Name": "ºí·çº£¸®",
-  //  "material3Name": "ºí·çº£¸®",
-  //  "material1Count": 2,
-  //  "material2Count": 2,
-  //  "material3Count": 2,
+  //  "material" : {
+  //  "ë¶‰ì€ ê½ƒì": 2,
+  //  "ë¸”ë£¨ë² ë¦¬": 2
+  //  },
   //  "money": 1000
   //},
   //"WildFlower": {
@@ -71,12 +65,10 @@
   //  "position": 0.0,
   //  "setup": false,
   //  "flip": false,
-  //  "material1Name": "ºÓÀº ²ÉÀÙ",
-  //  "material2Name": "ºí·çº£¸®",
-  //  "material3Name": "ºí·çº£¸®",
-  //  "material1Count": 2,
-  //  "material2Count": 2,
-  //  "material3Count": 2,
+  //  "material" : {
+  //  "ë¶‰ì€ ê½ƒì": 2,
+  //  "ë¸”ë£¨ë² ë¦¬": 2
+  //  },
   //  "money": 1000
   //},
   //"Forsythia": {
@@ -87,12 +79,10 @@
   //  "position": 0.0,
   //  "setup": false,
   //  "flip": false,
-  //  "material1Name": "ºÓÀº ²ÉÀÙ",
-  //  "material2Name": "ºí·çº£¸®",
-  //  "material3Name": "ºí·çº£¸®",
-  //  "material1Count": 2,
-  //  "material2Count": 2,
-  //  "material3Count": 2,
+  //  "material" : {
+  //  "ë¶‰ì€ ê½ƒì": 2,
+  //  "ë¸”ë£¨ë² ë¦¬": 2
+  //  },
   //  "money": 1000
   //},
   //"Stump": {
@@ -103,12 +93,10 @@
   //  "position": 0.0,
   //  "setup": false,
   //  "flip": false,
-  //  "material1Name": "ºÓÀº ²ÉÀÙ",
-  //  "material2Name": "ºí·çº£¸®",
-  //  "material3Name": "ºí·çº£¸®",
-  //  "material1Count": 2,
-  //  "material2Count": 2,
-  //  "material3Count": 2,
+  //  "material" : {
+  //  "ë¶‰ì€ ê½ƒì": 2,
+  //  "ë¸”ë£¨ë² ë¦¬": 2
+  //  },
   //  "money": 1000
   //}
 }

@@ -17,14 +17,10 @@ namespace AlchemyPlanet.Data
         public string buildingDiscription;
         public int buildingLevel;
         public bool upgrading = false;
-        public string material1Name;
-        public string material2Name;
-        public string material3Name;
-        public int material1Count;
-        public int material2Count;
-        public int material3Count;
+        public Dictionary<string, int> material;
         public long UpgradeEndTime;
         public int money;
+        public string effect;
         
 
         public Building(string buildingName, string buildingDiscription, int buildingLevel)
@@ -38,18 +34,18 @@ namespace AlchemyPlanet.Data
         {
             Building strc = new Building(buildingName, buildingDiscription, buildingLevel);
             strc.image = image;
+            strc.effect = effect;
             strc.buildingObject = buildingObject;
             strc.position = position;
             strc.setup = setup;
-            strc.material1Name = material1Name;
-            strc.material2Name = material2Name;
-            strc.material3Name = material3Name;
+            strc.material = material;
+            strc.money = money;
             return strc;
         }
         public void UpgradeStart()
         {
             upgrading = true;
-            image = Resources.Load<Sprite>("Sprites/Town/Tent");
+            image = Resources.Load<Sprite>("Sprites/TownScene/Tent");
             DataManager.Instance.CurrentPlayerData.SetBuilding(this);
             AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetImage");
             int UpgradeTime = buildingLevel * 10;
@@ -60,7 +56,7 @@ namespace AlchemyPlanet.Data
         public void UpgradeEnd()
         {
             buildingLevel++;
-            image = Resources.Load<Sprite>("Sprites/Town/" + buildingName + buildingLevel.ToString());
+            image = Resources.Load<Sprite>("Sprites/TownScene/" + buildingName + buildingLevel.ToString());
             upgrading = false;
             DataManager.Instance.CurrentPlayerData.SetBuilding(this);
 
@@ -97,31 +93,25 @@ namespace AlchemyPlanet.Data
         public bool setup = false;
         public bool flip = false;
         public string interiorDiscription;
-        public string material1Name;
-        public string material2Name;
-        public string material3Name;
-        public int material1Count;
-        public int material2Count;
-        public int material3Count;
+        public Dictionary<string, int> material;
         public int money;
 
         
-        public Interior(string interiorName)
+        public Interior(string interiorName, string interiorDiscription)
         {
             this.interiorName = interiorName;
+            this.interiorDiscription = interiorDiscription;
         }
 
         public Interior Clone()
         {
-            Interior strc = new Interior(interiorName);
-            strc.interiorDiscription = interiorDiscription;
+            Interior strc = new Interior(interiorName, interiorDiscription);
             strc.image = image;
             strc.interiorObject = interiorObject;
             strc.position = position;
             strc.setup = setup;
-            strc.material1Name = material1Name;
-            strc.material2Name = material2Name;
-            strc.material3Name = material3Name;
+            strc.material = material;
+            strc.money = money;
             return strc;
         }
 

@@ -124,7 +124,7 @@ namespace AlchemyPlanet.Data
             }
             using (StreamWriter file = File.CreateText("Assets/Resources/Datas/Interiors.json"))
             {
-                Dictionary<string, Interior> Interiors = new Dictionary<string, Interior> { { "Tree", new Interior("Tree") } };
+                Dictionary<string, Interior> Interiors = new Dictionary<string, Interior> { { "Tree", new Interior("Tree","나무") } };
                 JsonSerializer serializer = new JsonSerializer();
                 serializer.Serialize(file, Interiors);
             }
@@ -163,14 +163,13 @@ namespace AlchemyPlanet.Data
                 JsonSerializer serializer = new JsonSerializer();
                 Dictionary<string, Building> Buildings = (Dictionary<string, Building>)serializer.Deserialize(file, typeof(Dictionary<string, Building>));
 
-
                 foreach (string str in Buildings.Keys)
                 {
                     this.buildingInfo.Add(str, Buildings[str].Clone());
                     buildingInfo[str].buildingObject = Resources.Load<GameObject>("Prefabs/TownScene/Structure");
                 }
 
-                Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Town/타운리소스");
+                Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/TownScene/타운리소스");
 
                 for (int i = 0; i < sprites.Length; i++)
                 {
@@ -187,11 +186,12 @@ namespace AlchemyPlanet.Data
 
                 foreach (string str in Interiors.Keys)
                 {
-                    this.interiorInfo.Add(str, new Interior(Interiors[str].interiorName));
+                    Debug.Log(Interiors[str].interiorDiscription);
+                    this.interiorInfo.Add(str, Interiors[str].Clone());
                     interiorInfo[str].interiorObject = Resources.Load<GameObject>("Prefabs/TownScene/Structure");
                 }
 
-                Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Town/타운리소스");
+                Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/TownScene/타운리소스");
 
                 for (int i = 0; i < sprites.Length; i++)
                 {
@@ -264,6 +264,7 @@ namespace AlchemyPlanet.Data
             {
                 Building building = new Building(item.buildingId, "", item.level);
                 building.buildingDiscription = buildingInfo[building.buildingName].buildingDiscription;
+                building.effect = buildingInfo[building.buildingName].effect;
                 building.id = int.Parse(item.playerBuildingId);
                 building.image = buildingInfo[building.buildingName].image;
                 building.position = item.position;
@@ -271,6 +272,8 @@ namespace AlchemyPlanet.Data
                 building.setup = item.isConstructed;
                 building.upgrading = item.isUpgrading;
                 building.UpgradeEndTime = item.endDate;
+                building.material = buildingInfo[building.buildingName].material;
+                building.money = buildingInfo[building.buildingName].money;
                 CurrentPlayerData.buildings.Add(building);
             }
         }
@@ -279,12 +282,15 @@ namespace AlchemyPlanet.Data
         {
             foreach (var item in data)
             {
-                Interior interior = new Interior(item.interiorId);
+                Interior interior = new Interior(item.interiorId, "");
+                interior.interiorDiscription = interiorInfo[interior.interiorName].interiorDiscription;
                 interior.id = int.Parse(item.playerInteriorId);
                 interior.image = interiorInfo[interior.interiorName].image;
                 interior.position = item.position;
                 interior.flip = item.isFlipped;
                 interior.setup = item.isConstructed;
+                interior.material = interiorInfo[interior.interiorName].material;
+                interior.money = interiorInfo[interior.interiorName].money;
                 CurrentPlayerData.interiors.Add(interior);
             }
 
