@@ -4,9 +4,27 @@ using UnityEngine;
 using BackEnd;
 using LitJson;
 
-public class BackendManager : MonoBehaviour {
+public class BackendManager : MonoBehaviour
+{
 
-	void Start () {
+    public static BackendManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void Start()
+    {
+
         Backend.Initialize(BRO =>
         {
             if (BRO.IsSuccess())
@@ -37,46 +55,17 @@ public class BackendManager : MonoBehaviour {
         Backend.BMember.CreateNickname("alchemyplanet");
     }
 
-    private string[] GetPrivateTableList()
+    private Dictionary<string, int> GetDictFromJsonData(JsonData jsonData)
     {
-        string[] result;
+        Dictionary<string, int> result = new Dictionary<string, int>();
 
-        BackendReturnObject bro = Backend.GameInfo.GetTableList();
-        JsonData privateTables = bro.GetReturnValuetoJSON()["privateTables"];
-
-        result = new string[privateTables.Count];
-        for(int i = 0; i < result.Length; i++)
+        foreach(string key in jsonData.Keys)
         {
-            result[i] = privateTables[i].ToString();
+            int value = int.Parse(jsonData[key]["N"].ToString());
+            result.Add(key, value);
         }
 
         return result;
-    }
-
-    private string[] GetPublicTableList()
-    {
-        string[] result;
-
-        BackendReturnObject bro = Backend.GameInfo.GetTableList();
-        JsonData privateTables = bro.GetReturnValuetoJSON()["publicTables"];
-
-        result = new string[privateTables.Count];
-        for (int i = 0; i < result.Length; i++)
-        {
-            result[i] = privateTables[i].ToString();
-        }
-
-        return result;
-    }
-
-    private BackendReturnObject GetPrivateTableContents(string tableName)
-    {
-        return Backend.GameInfo.GetPrivateContents(tableName);
-    }
-
-    private string GetInDateByNickName(string nickname)
-    {
-        return Backend.Social.GetGamerIndateByNickname(nickname).GetReturnValuetoJSON()["rows"][0]["inDate"]["S"].ToString();
     }
 
     #endregion
@@ -95,8 +84,8 @@ public class BackendManager : MonoBehaviour {
         param.Add("oxygenTank", 0);
 
         BackendReturnObject bro = Backend.GameInfo.Insert("player", param);
-        if (bro.IsSuccess()) Debug.Log(playerId + "번 " + name + " 삽입 성공");
-        else Debug.Log(playerId + "번 " + name + " 삽입 실패");
+        if (bro.IsSuccess()) Debug.Log("Insert 성공");
+        else Debug.Log("Insert 실패");
     }
 
     public void TestInsertPlayer()
@@ -114,8 +103,8 @@ public class BackendManager : MonoBehaviour {
         param.Add("oxygenTank", 0);
 
         BackendReturnObject bro = Backend.GameInfo.Insert("player", param);
-        if (bro.IsSuccess()) Debug.Log(playerId + "번 " + name + " 삽입 성공");
-        else Debug.Log(playerId + "번 " + name + " 삽입 실패");
+        if (bro.IsSuccess()) Debug.Log("Insert 성공");
+        else Debug.Log("Insert 실패");
     }
 
     private void UpdatePlayerName(string inDate, string name)
@@ -164,6 +153,99 @@ public class BackendManager : MonoBehaviour {
     {
         Backend.GameInfo.Delete("player", inDate);
     }
+
+    #endregion
+
+    #region Table : item
+
+    private void InsertItem(string playerId, string itemName, int number)
+    {
+        Param param = new Param();
+        param.Add("playerId", playerId);
+        Dictionary<string, int> dict = new Dictionary<string, int>
+        {
+            { itemName, number }
+        };
+        param.Add("itemDict", dict);
+
+        BackendReturnObject bro = Backend.GameInfo.Insert("item", param);
+        if (bro.IsSuccess()) Debug.Log("Insert 성공");
+        else Debug.Log("Insert 실패");
+    }
+
+    public void TestInsertItem()
+    {
+        string playerId = "1";
+        string itemName = "chicken";
+        int number = 1;
+
+        Param param = new Param();
+        param.Add("playerId", playerId);
+        Dictionary<string, int> dict = new Dictionary<string, int>
+        {
+            { itemName, number }
+        };
+
+        Debug.Log(dict);
+        param.Add("itemDict", dict);
+
+        BackendReturnObject bro = Backend.GameInfo.Insert("item", param);
+        if (bro.IsSuccess()) Debug.Log("Insert 성공");
+        else Debug.Log("Insert 실패");
+    }
+
+    private void UpdateItem(string inDate, string itemName, int number)
+    {
+        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("item", inDate).GetReturnValuetoJSON()["row"][0]["itemDict"]["M"];
+        Dictionary<string, int> dict = GetDictFromJsonData(jsonData);
+        dict[itemName] = number;
+
+        Param param = new Param();
+        param.Add("itemDict", dict);
+
+        Backend.GameInfo.Update("item", inDate, param);
+    }
+
+    public void TestUpdateItem()
+    {
+        string inDate = Backend.GameInfo.GetPrivateContents("item").GetReturnValuetoJSON()["rows"][0]["inDate"]["S"].ToString();
+        string itemName = "chicken";
+        int number = 2;
+
+        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("item", inDate).GetReturnValuetoJSON()["row"][0]["itemDict"]["M"];
+        Dictionary<string, int> dict = GetDictFromJsonData(jsonData);
+        dict[itemName] = number;
+
+        Param param = new Param();
+        param.Add("itemDict", dict);
+
+        Backend.GameInfo.Update("item", inDate, param);
+    }
+
+    private void DeleteItem(string inDate, string itemName)
+    {
+        Backend.GameInfo.Delete("item", inDate);
+    }
+
+    #endregion
+
+    #region Table : town
+
+    #endregion
+
+    #region Table : character
+
+    #endregion
+
+    #region Table : party
+
+    #endregion
+
+    #region Table : request
+
+    #endregion
+
+    #region Table : stage
 
     #endregion
 }
