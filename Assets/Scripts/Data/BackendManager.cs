@@ -158,40 +158,19 @@ public class BackendManager : MonoBehaviour
 
     #region Table : item
 
-    private void InsertItem(string playerId, string itemName, int number)
+    private void CreateItem(string playerId)
     {
         Param param = new Param();
         param.Add("playerId", playerId);
-        Dictionary<string, int> dict = new Dictionary<string, int>
-        {
-            { itemName, number }
-        };
+        Dictionary<string, int> dict = new Dictionary<string, int>();
         param.Add("itemDict", dict);
 
         BackendReturnObject bro = Backend.GameInfo.Insert("item", param);
-        if (bro.IsSuccess()) Debug.Log("Insert 성공");
-        else Debug.Log("Insert 실패");
     }
 
-    public void TestInsertItem()
+    private void DestroyItem(string inDate, string itemName)
     {
-        string playerId = "1";
-        string itemName = "chicken";
-        int number = 1;
-
-        Param param = new Param();
-        param.Add("playerId", playerId);
-        Dictionary<string, int> dict = new Dictionary<string, int>
-        {
-            { itemName, number }
-        };
-
-        Debug.Log(dict);
-        param.Add("itemDict", dict);
-
-        BackendReturnObject bro = Backend.GameInfo.Insert("item", param);
-        if (bro.IsSuccess()) Debug.Log("Insert 성공");
-        else Debug.Log("Insert 실패");
+        Backend.GameInfo.Delete("item", inDate);
     }
 
     private void UpdateItem(string inDate, string itemName, int number)
@@ -206,25 +185,16 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("item", inDate, param);
     }
 
-    public void TestUpdateItem()
+    private void DeleteItem(string inDate, string itemName, int number)
     {
-        string inDate = Backend.GameInfo.GetPrivateContents("item").GetReturnValuetoJSON()["rows"][0]["inDate"]["S"].ToString();
-        string itemName = "chicken";
-        int number = 2;
-
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("item", inDate).GetReturnValuetoJSON()["row"][0]["itemDict"]["M"];
         Dictionary<string, int> dict = GetDictFromJsonData(jsonData);
-        dict[itemName] = number;
+        dict.Remove(itemName);
 
         Param param = new Param();
         param.Add("itemDict", dict);
 
         Backend.GameInfo.Update("item", inDate, param);
-    }
-
-    private void DeleteItem(string inDate, string itemName)
-    {
-        Backend.GameInfo.Delete("item", inDate);
     }
 
     #endregion
