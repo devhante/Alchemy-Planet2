@@ -625,6 +625,233 @@ public class BackendManager : MonoBehaviour
 
     #region Table : character
 
+    private void CreateCharacter(string playerId)
+    {
+        Param param = new Param();
+        param.Add("playerId", playerId);
+
+        Param[] characters = new Param[0];
+        param.Add("characters", characters);
+
+        Backend.GameInfo.Insert("character", param);
+    }
+
+    private void DestroyCharacter(string inDate)
+    {
+        Backend.GameInfo.Delete("character", inDate);
+    }
+
+    private void AddCharacter(string inDate, string characterName, int level, int health, int speed, int attackPower)
+    {
+        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("character", inDate).GetReturnValuetoJSON()["row"][0]["characters"]["L"];
+        Param[] characters = GetCharactersFromJsonData(jsonData);
+
+        Param[] result = new Param[characters.Length + 1];
+        Array.Copy(characters, 0, result, 0, characters.Length);
+
+        Param newCharacter = new Param();
+        newCharacter.Add("characterName", characterName);
+        newCharacter.Add("level", level);
+        newCharacter.Add("health", health);
+        newCharacter.Add("speed", speed);
+        newCharacter.Add("attackPower", attackPower);
+        result[characters.Length] = newCharacter;
+
+        Param param = new Param();
+        param.Add("characters", result);
+
+        Backend.GameInfo.Update("character", inDate, param);
+    }
+
+    private void UpdateCharacterLevel(string inDate, string characterName, int level)
+    {
+        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("character", inDate).GetReturnValuetoJSON()["row"][0]["characters"]["L"];
+        Param[] characters = GetCharactersFromJsonData(jsonData);
+
+        SortedList[] charactersList = new SortedList[characters.Length];
+        for (int i = 0; i < charactersList.Length; i++)
+        {
+            charactersList[i] = characters[i].GetValue();
+        }
+
+        for (int i = 0; i < characters.Length; i++)
+        {
+            if (charactersList[i]["characterName"].ToString() == characterName)
+            {
+                Param newCharacter = new Param();
+                newCharacter.Add("characterName", charactersList[i]["characterName"].ToString());
+                newCharacter.Add("level", level);
+                newCharacter.Add("health", int.Parse(charactersList[i]["health"].ToString()));
+                newCharacter.Add("speed", int.Parse(charactersList[i]["speed"].ToString()));
+                newCharacter.Add("attackPower", int.Parse(charactersList[i]["attackPower"].ToString()));
+
+                characters[i] = newCharacter;
+            }
+        }
+
+        Param param = new Param();
+        param.Add("characters", characters);
+
+        Backend.GameInfo.Update("character", inDate, param);
+    }
+
+    private void UpdateCharacterHealth(string inDate, string characterName, int health)
+    {
+        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("character", inDate).GetReturnValuetoJSON()["row"][0]["characters"]["L"];
+        Param[] characters = GetCharactersFromJsonData(jsonData);
+
+        SortedList[] charactersList = new SortedList[characters.Length];
+        for (int i = 0; i < charactersList.Length; i++)
+        {
+            charactersList[i] = characters[i].GetValue();
+        }
+
+        for (int i = 0; i < characters.Length; i++)
+        {
+            if (charactersList[i]["characterName"].ToString() == characterName)
+            {
+                Param newCharacter = new Param();
+                newCharacter.Add("characterName", charactersList[i]["characterName"].ToString());
+                newCharacter.Add("level", int.Parse(charactersList[i]["level"].ToString()));
+                newCharacter.Add("health", health);
+                newCharacter.Add("speed", int.Parse(charactersList[i]["speed"].ToString()));
+                newCharacter.Add("attackPower", int.Parse(charactersList[i]["attackPower"].ToString()));
+
+                characters[i] = newCharacter;
+            }
+        }
+
+        Param param = new Param();
+        param.Add("characters", characters);
+
+        Backend.GameInfo.Update("character", inDate, param);
+    }
+
+    private void UpdateCharacterSpeed(string inDate, string characterName, int speed)
+    {
+        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("character", inDate).GetReturnValuetoJSON()["row"][0]["characters"]["L"];
+        Param[] characters = GetCharactersFromJsonData(jsonData);
+
+        SortedList[] charactersList = new SortedList[characters.Length];
+        for (int i = 0; i < charactersList.Length; i++)
+        {
+            charactersList[i] = characters[i].GetValue();
+        }
+
+        for (int i = 0; i < characters.Length; i++)
+        {
+            if (charactersList[i]["characterName"].ToString() == characterName)
+            {
+                Param newCharacter = new Param();
+                newCharacter.Add("characterName", charactersList[i]["characterName"].ToString());
+                newCharacter.Add("level", int.Parse(charactersList[i]["level"].ToString()));
+                newCharacter.Add("health", int.Parse(charactersList[i]["health"].ToString()));
+                newCharacter.Add("speed", speed);
+                newCharacter.Add("attackPower", int.Parse(charactersList[i]["attackPower"].ToString()));
+
+                characters[i] = newCharacter;
+            }
+        }
+
+        Param param = new Param();
+        param.Add("characters", characters);
+
+        Backend.GameInfo.Update("character", inDate, param);
+    }
+
+    private void UpdateCharacterAttackPower(string inDate, string characterName, int attackPower)
+    {
+        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("character", inDate).GetReturnValuetoJSON()["row"][0]["characters"]["L"];
+        Param[] characters = GetCharactersFromJsonData(jsonData);
+
+        SortedList[] charactersList = new SortedList[characters.Length];
+        for (int i = 0; i < charactersList.Length; i++)
+        {
+            charactersList[i] = characters[i].GetValue();
+        }
+
+        for (int i = 0; i < characters.Length; i++)
+        {
+            if (charactersList[i]["characterName"].ToString() == characterName)
+            {
+                Param newCharacter = new Param();
+                newCharacter.Add("characterName", charactersList[i]["characterName"].ToString());
+                newCharacter.Add("level", int.Parse(charactersList[i]["level"].ToString()));
+                newCharacter.Add("health", int.Parse(charactersList[i]["health"].ToString()));
+                newCharacter.Add("speed", int.Parse(charactersList[i]["speed"].ToString()));
+                newCharacter.Add("attackPower", attackPower);
+
+                characters[i] = newCharacter;
+            }
+        }
+
+        Param param = new Param();
+        param.Add("characters", characters);
+
+        Backend.GameInfo.Update("character", inDate, param);
+    }
+
+    private void DeleteCharacter(string inDate, string characterName)
+    {
+        bool isDeleted = false;
+        int count = 0;
+
+        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("character", inDate).GetReturnValuetoJSON()["row"][0]["characters"]["L"];
+        Param[] characters = GetCharactersFromJsonData(jsonData);
+        Param[] result = new Param[Math.Max(characters.Length - 1, 0)];
+
+        SortedList[] charactersList = new SortedList[characters.Length];
+        for (int i = 0; i < charactersList.Length; i++)
+        {
+            charactersList[i] = characters[i].GetValue();
+        }
+
+        for (int i = 0; i < characters.Length; i++)
+        {
+            if (charactersList[i]["characterName"].ToString() != characterName)
+            {
+                Param newCharacter = new Param();
+                newCharacter.Add("characterName", charactersList[i]["characterName"].ToString());
+                newCharacter.Add("level", int.Parse(charactersList[i]["level"].ToString()));
+                newCharacter.Add("health", int.Parse(charactersList[i]["health"].ToString()));
+                newCharacter.Add("speed", int.Parse(charactersList[i]["speed"].ToString()));
+                newCharacter.Add("attackPower", int.Parse(charactersList[i]["attackPower"].ToString()));
+
+                result[count] = newCharacter;
+                count++;
+            }
+            else
+            {
+                isDeleted = true;
+            }
+        }
+
+        if (isDeleted == true)
+        {
+            Param param = new Param();
+            param.Add("characters", result);
+
+            Backend.GameInfo.Update("character", inDate, param);
+        }
+    }
+
+    private Param[] GetCharactersFromJsonData(JsonData jsonData)
+    {
+        Param[] characters = new Param[jsonData.Count];
+
+        for (int i = 0; i < jsonData.Count; i++)
+        {
+            characters[i] = new Param();
+            characters[i].Add("characterName", jsonData[i]["M"]["characterName"]["S"].ToString());
+            characters[i].Add("level", int.Parse(jsonData[i]["M"]["level"]["N"].ToString()));
+            characters[i].Add("health", int.Parse(jsonData[i]["M"]["health"]["N"].ToString()));
+            characters[i].Add("speed", int.Parse(jsonData[i]["M"]["speed"]["N"].ToString()));
+            characters[i].Add("attackPower", int.Parse(jsonData[i]["M"]["attackPower"]["N"].ToString()));
+        }
+
+        return characters;
+    }
+
     #endregion
 
     #region Table : party
