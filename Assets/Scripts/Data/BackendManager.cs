@@ -160,8 +160,8 @@ public class BackendManager : MonoBehaviour
         Param param = new Param();
         param.Add("playerId", playerId);
 
-        Dictionary<string, int> dict = new Dictionary<string, int>();
-        param.Add("items", dict);
+        Param[] items = new Param[0];
+        param.Add("items", items);
 
         Backend.GameInfo.Insert("item", param);
     }
@@ -171,28 +171,118 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Delete("item", inDate);
     }
 
-    private void UpdateItem(string inDate, string itemName, int number)
+    private void AddItem(string inDate, string itemName, int number)
     {
-        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("item", inDate).GetReturnValuetoJSON()["row"][0]["items"]["M"];
-        Dictionary<string, int> dict = GetDictFromJsonData(jsonData);
-        dict[itemName] = number;
+        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("item", inDate).GetReturnValuetoJSON()["row"][0]["items"]["L"];
+        Param[] items = GetItemsFromJsonData(jsonData);
+
+        Param[] result = new Param[items.Length + 1];
+        Array.Copy(items, 0, result, 0, items.Length);
+
+        Param newItem = new Param();
+        newItem.Add("itemName", itemName);
+        newItem.Add("number", number);
+        result[items.Length] = newItem;
 
         Param param = new Param();
-        param.Add("items", dict);
+        param.Add("items", result);
+
+        Backend.GameInfo.Update("item", inDate, param);
+    }
+
+    private void UpdateItemNumber(string inDate, string itemName, int number)
+    {
+        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("item", inDate).GetReturnValuetoJSON()["row"][0]["items"]["L"];
+        Param[] items = GetItemsFromJsonData(jsonData);
+
+        SortedList[] itemsList = new SortedList[items.Length];
+        for(int i = 0; i < itemsList.Length; i++)
+        {
+            itemsList[i] = items[i].GetValue();
+        }
+
+        for(int i = 0; i < items.Length; i++)
+        {
+            if(itemsList[i]["itemName"].ToString() == itemName)
+            {
+                Param newItem = new Param();
+                newItem.Add("itemName", itemsList[i]["itemName"].ToString());
+                newItem.Add("number", number);
+
+                items[i] = newItem;
+            }
+        }
+
+        Param param = new Param();
+        param.Add("items", items);
 
         Backend.GameInfo.Update("item", inDate, param);
     }
 
     private void DeleteItem(string inDate, string itemName)
     {
-        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("item", inDate).GetReturnValuetoJSON()["row"][0]["items"]["M"];
-        Dictionary<string, int> dict = GetDictFromJsonData(jsonData);
-        dict.Remove(itemName);
+        bool isDeleted = false;
+        int count = 0;
 
-        Param param = new Param();
-        param.Add("items", dict);
+        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("item", inDate).GetReturnValuetoJSON()["row"][0]["items"]["L"];
+        Param[] items = GetItemsFromJsonData(jsonData);
+        Param[] result = new Param[Math.Max(items.Length - 1, 0)];
 
-        Backend.GameInfo.Update("item", inDate, param);
+        SortedList[] itemsList = new SortedList[items.Length];
+        for (int i = 0; i < itemsList.Length; i++)
+        {
+            itemsList[i] = items[i].GetValue();
+        }
+
+        for(int i = 0; i < items.Length; i++)
+        {
+            if (itemsList[i]["itemName"].ToString() != itemName)
+            {
+                Param newItem = new Param();
+                newItem.Add("itemName", itemsList[i]["itemName"].ToString());
+                newItem.Add("number", int.Parse(itemsList[i]["number"].ToString()));
+
+                result[count] = newItem;
+                count++;
+            }
+            else
+            {
+                isDeleted = true;
+            }
+        }
+
+        if (isDeleted == true)
+        {
+            Param param = new Param();
+            param.Add("items", result);
+
+            Backend.GameInfo.Update("item", inDate, param);
+        }
+    }
+
+    private Param[] GetItemsFromJsonData(JsonData jsonData)
+    {
+        Param[] items = new Param[jsonData.Count];
+
+        for (int i = 0; i < jsonData.Count; i++)
+        {
+            items[i] = new Param();
+            items[i].Add("itemName", jsonData[i]["M"]["itemName"]["S"].ToString());
+            items[i].Add("number", int.Parse(jsonData[i]["M"]["number"]["N"].ToString()));
+        }
+
+        return items;
+    }
+
+    public void TestCreateItem()
+    {
+        CreateItem("1");
+    }
+
+    public void TestItem()
+    {
+        string inDate = Backend.GameInfo.GetPrivateContents("item").GetReturnValuetoJSON()["rows"][0]["inDate"]["S"].ToString();
+        DeleteItem(inDate, "melon");
     }
 
     #endregion
