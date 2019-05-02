@@ -73,7 +73,7 @@ public class BackendManager : MonoBehaviour
 
     #region Table : player
 
-    private void InsertPlayer(string playerId, string name)
+    private void CreatePlayer(string playerId, string name)
     {
         Param param = new Param();
         param.Add("playerid", playerId);
@@ -87,21 +87,14 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Insert("player", param);
     }
 
-    public void TestInsertPlayer()
+    public void TestCreatePlayer()
     {
-        string playerId = "1";
-        string name = "bliss";
+        CreatePlayer("1", "bliss");
+    }
 
-        Param param = new Param();
-        param.Add("playerid", playerId);
-        param.Add("name", name);
-        param.Add("level", 1);
-        param.Add("exp", 0);
-        param.Add("uniCoin", 0);
-        param.Add("cosmoStone", 0);
-        param.Add("oxygenTank", 0);
-
-        Backend.GameInfo.Insert("player", param);
+    private void DestroyPlayer(string inDate)
+    {
+        Backend.GameInfo.Delete("player", inDate);
     }
 
     private void UpdatePlayerName(string inDate, string name)
@@ -146,10 +139,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("player", inDate, param);
     }
 
-    private void DeletePlayer(string inDate)
-    {
-        Backend.GameInfo.Delete("player", inDate);
-    }
+    
 
     #endregion
 
@@ -272,17 +262,6 @@ public class BackendManager : MonoBehaviour
         }
 
         return items;
-    }
-
-    public void TestCreateItem()
-    {
-        CreateItem("1");
-    }
-
-    public void TestItem()
-    {
-        string inDate = Backend.GameInfo.GetPrivateContents("item").GetReturnValuetoJSON()["rows"][0]["inDate"]["S"].ToString();
-        DeleteItem(inDate, "melon");
     }
 
     #endregion
