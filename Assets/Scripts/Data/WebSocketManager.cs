@@ -150,7 +150,7 @@ namespace AlchemyPlanet.Data
                 }
             };
 
-            ws.Connect();
+            // ws.Connect();
         }
         
 
