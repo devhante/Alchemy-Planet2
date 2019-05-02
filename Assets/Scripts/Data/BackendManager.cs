@@ -856,6 +856,195 @@ public class BackendManager : MonoBehaviour
 
     #region Table : party
 
+    private void CreateParty(string playerId)
+    {
+        Param param = new Param();
+        param.Add("playerId", playerId);
+
+        Param[] parties = new Param[0];
+        param.Add("parties", parties);
+
+        Backend.GameInfo.Insert("party", param);
+    }
+
+    private void DestroyParty(string inDate)
+    {
+        Backend.GameInfo.Delete("party", inDate);
+    }
+
+    private void AddParty(string inDate, int number, string firstCharacterName, string secondCharacterName, string thirdCharacterName)
+    {
+        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("party", inDate).GetReturnValuetoJSON()["row"][0]["parties"]["L"];
+        Param[] parties = GetPartiesFromJsonData(jsonData);
+
+        Param[] result = new Param[parties.Length + 1];
+        Array.Copy(parties, 0, result, 0, parties.Length);
+
+        Param newParty = new Param();
+        newParty.Add("number", number);
+        newParty.Add("firstCharacterName", firstCharacterName);
+        newParty.Add("secondCharacterName", secondCharacterName);
+        newParty.Add("thirdCharacterName", thirdCharacterName);
+        result[parties.Length] = newParty;
+
+        Param param = new Param();
+        param.Add("parties", result);
+
+        Backend.GameInfo.Update("party", inDate, param);
+    }
+
+    private void UpdatePartyFirstCharacterName(string inDate, int number, string firstCharacterName)
+    {
+        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("party", inDate).GetReturnValuetoJSON()["row"][0]["parties"]["L"];
+        Param[] parties = GetPartiesFromJsonData(jsonData);
+
+        SortedList[] partiesList = new SortedList[parties.Length];
+        for (int i = 0; i < partiesList.Length; i++)
+        {
+            partiesList[i] = parties[i].GetValue();
+        }
+
+        for (int i = 0; i < parties.Length; i++)
+        {
+            if (int.Parse(partiesList[i]["number"].ToString()) == number)
+            {
+                Param newParty = new Param();
+                newParty.Add("number", int.Parse(partiesList[i]["number"].ToString()));
+                newParty.Add("firstCharacterName", firstCharacterName);
+                newParty.Add("secondCharacterName", partiesList[i]["secondCharacterName"].ToString());
+                newParty.Add("thirdCharacterName", partiesList[i]["thirdCharacterName"].ToString());
+
+                parties[i] = newParty;
+            }
+        }
+
+        Param param = new Param();
+        param.Add("parties", parties);
+
+        Backend.GameInfo.Update("party", inDate, param);
+    }
+
+    private void UpdatePartySecondCharacterName(string inDate, int number, string secondCharacterName)
+    {
+        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("party", inDate).GetReturnValuetoJSON()["row"][0]["parties"]["L"];
+        Param[] parties = GetPartiesFromJsonData(jsonData);
+
+        SortedList[] partiesList = new SortedList[parties.Length];
+        for (int i = 0; i < partiesList.Length; i++)
+        {
+            partiesList[i] = parties[i].GetValue();
+        }
+
+        for (int i = 0; i < parties.Length; i++)
+        {
+            if (int.Parse(partiesList[i]["number"].ToString()) == number)
+            {
+                Param newParty = new Param();
+                newParty.Add("number", int.Parse(partiesList[i]["number"].ToString()));
+                newParty.Add("firstCharacterName", partiesList[i]["firstCharacterName"].ToString());
+                newParty.Add("secondCharacterName", secondCharacterName);
+                newParty.Add("thirdCharacterName", partiesList[i]["thirdCharacterName"].ToString());
+
+                parties[i] = newParty;
+            }
+        }
+
+        Param param = new Param();
+        param.Add("parties", parties);
+
+        Backend.GameInfo.Update("party", inDate, param);
+    }
+
+    private void UpdatePartyThirdCharacterName(string inDate, int number, string thirdCharacterName)
+    {
+        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("party", inDate).GetReturnValuetoJSON()["row"][0]["parties"]["L"];
+        Param[] parties = GetPartiesFromJsonData(jsonData);
+
+        SortedList[] partiesList = new SortedList[parties.Length];
+        for (int i = 0; i < partiesList.Length; i++)
+        {
+            partiesList[i] = parties[i].GetValue();
+        }
+
+        for (int i = 0; i < parties.Length; i++)
+        {
+            if (int.Parse(partiesList[i]["number"].ToString()) == number)
+            {
+                Param newParty = new Param();
+                newParty.Add("number", int.Parse(partiesList[i]["number"].ToString()));
+                newParty.Add("firstCharacterName", partiesList[i]["firstCharacterName"].ToString());
+                newParty.Add("secondCharacterName", partiesList[i]["secondCharacterName"].ToString());
+                newParty.Add("thirdCharacterName", thirdCharacterName);
+
+                parties[i] = newParty;
+            }
+        }
+
+        Param param = new Param();
+        param.Add("parties", parties);
+
+        Backend.GameInfo.Update("party", inDate, param);
+    }
+
+    private void DeleteParty(string inDate, int number)
+    {
+        bool isDeleted = false;
+        int count = 0;
+
+        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("party", inDate).GetReturnValuetoJSON()["row"][0]["parties"]["L"];
+        Param[] parties = GetPartiesFromJsonData(jsonData);
+        Param[] result = new Param[Math.Max(parties.Length - 1, 0)];
+
+        SortedList[] partiesList = new SortedList[parties.Length];
+        for (int i = 0; i < partiesList.Length; i++)
+        {
+            partiesList[i] = parties[i].GetValue();
+        }
+
+        for (int i = 0; i < parties.Length; i++)
+        {
+            if (int.Parse(partiesList[i]["number"].ToString()) != number)
+            {
+                Param newParty = new Param();
+                newParty.Add("number", int.Parse(partiesList[i]["number"].ToString()));
+                newParty.Add("firstCharacterName", partiesList[i]["firstCharacterName"].ToString());
+                newParty.Add("secondCharacterName", partiesList[i]["secondCharacterName"].ToString());
+                newParty.Add("thirdCharacterName", partiesList[i]["thirdCharacterName"].ToString());
+
+                result[count] = newParty;
+                count++;
+            }
+            else
+            {
+                isDeleted = true;
+            }
+        }
+
+        if (isDeleted == true)
+        {
+            Param param = new Param();
+            param.Add("parties", result);
+
+            Backend.GameInfo.Update("party", inDate, param);
+        }
+    }
+
+    private Param[] GetPartiesFromJsonData(JsonData jsonData)
+    {
+        Param[] parties = new Param[jsonData.Count];
+
+        for (int i = 0; i < jsonData.Count; i++)
+        {
+            parties[i] = new Param();
+            parties[i].Add("number", int.Parse(jsonData[i]["M"]["number"]["N"].ToString()));
+            parties[i].Add("firstCharacterName", jsonData[i]["M"]["firstCharacterName"]["S"].ToString());
+            parties[i].Add("secondCharacterName", jsonData[i]["M"]["secondCharacterName"]["S"].ToString());
+            parties[i].Add("thirdCharacterName", jsonData[i]["M"]["thirdCharacterName"]["S"].ToString());
+        }
+
+        return parties;
+    }
+
     #endregion
 
     #region Table : request
