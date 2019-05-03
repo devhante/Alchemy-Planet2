@@ -121,8 +121,6 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("player", inDate, param);
     }
 
-    
-
     #endregion
 
     #region Table : item
@@ -1274,4 +1272,8 @@ public class BackendManager : MonoBehaviour
     }
 
     #endregion
+
+    // inDate 받아오는 법
+    // string inDate = Backend.GameInfo.GetPrivateContents("테이블 이름").GetReturnValuetoJSON()["rows"][0]["inDate"]["S"].ToString();
+    // 위 코드에서 받아올 테이블 이름만 넣어주면 됨
 }
