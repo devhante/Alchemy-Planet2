@@ -212,15 +212,13 @@ namespace AlchemyPlanet.Data
                 player_id = CurrentPlayerData.player_id
             };
 
-            WebSocketManager.Instance.SendFindName("0", CurrentPlayerData.player_id);
-            WebSocketManager.Instance.SendFindLevel("0", CurrentPlayerData.player_id);
-            WebSocketManager.Instance.SendFindGoods("0", CurrentPlayerData.player_id);
-            WebSocketManager.Instance.SendFindItems("0", CurrentPlayerData.player_id);
-            WebSocketManager.Instance.SendFindCharacters("0", CurrentPlayerData.player_id);
-            WebSocketManager.Instance.SendFindParties("0", CurrentPlayerData.player_id);
-            WebSocketManager.Instance.SendFindBuildings("0", CurrentPlayerData.player_id);
-            WebSocketManager.Instance.SendFindInteriors("0", CurrentPlayerData.player_id);
-            WebSocketManager.Instance.SendFindStoryStars("0", CurrentPlayerData.player_id);
+            BackendManager.Instance.CreatePlayer(CurrentPlayerData.player_id, "Test");
+            BackendManager.Instance.CreateItem(CurrentPlayerData.player_id);
+            BackendManager.Instance.CreateTown(CurrentPlayerData.player_id);
+            BackendManager.Instance.CreateCharacter(CurrentPlayerData.player_id);
+            BackendManager.Instance.CreateParty(CurrentPlayerData.player_id);
+            BackendManager.Instance.CreateRequest(CurrentPlayerData.player_id);
+            BackendManager.Instance.CreateStage(CurrentPlayerData.player_id);
         }
         
         public void CommitName(CollectionName data)
