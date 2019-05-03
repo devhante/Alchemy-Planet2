@@ -60,7 +60,7 @@ public class BackendManager : MonoBehaviour
 
     #region Table : player
 
-    private void CreatePlayer(string playerId, string name)
+    public void CreatePlayer(string playerId, string name)
     {
         Param param = new Param();
         param.Add("playerid", playerId);
@@ -74,47 +74,47 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Insert("player", param);
     }
 
-    private void DestroyPlayer(string inDate)
+    public void DestroyPlayer(string inDate)
     {
         Backend.GameInfo.Delete("player", inDate);
     }
 
-    private void UpdatePlayerName(string inDate, string name)
+    public void UpdatePlayerName(string inDate, string name)
     {
         Param param = new Param();
         param.Add("name", name);
         Backend.GameInfo.Update("player", inDate, param);
     }
 
-    private void UpdatePlayerLevel(string inDate, int level)
+    public void UpdatePlayerLevel(string inDate, int level)
     {
         Param param = new Param();
         param.Add("level", level);
         Backend.GameInfo.Update("player", inDate, param);
     }
 
-    private void UpdatePlayerExp(string inDate, int exp)
+    public void UpdatePlayerExp(string inDate, int exp)
     {
         Param param = new Param();
         param.Add("exp", exp);
         Backend.GameInfo.Update("player", inDate, param);
     }
 
-    private void UpdatePlayerUniCoin(string inDate, int uniCoin)
+    public void UpdatePlayerUniCoin(string inDate, int uniCoin)
     {
         Param param = new Param();
         param.Add("uniCoin", uniCoin);
         Backend.GameInfo.Update("player", inDate, param);
     }
 
-    private void UpdatePlayerCosmoStone(string inDate, int cosmoStone)
+    public void UpdatePlayerCosmoStone(string inDate, int cosmoStone)
     {
         Param param = new Param();
         param.Add("cosmoStone", cosmoStone);
         Backend.GameInfo.Update("player", inDate, param);
     }
 
-    private void UpdatePlayerOxygenTank(string inDate, int oxygenTank)
+    public void UpdatePlayerOxygenTank(string inDate, int oxygenTank)
     {
         Param param = new Param();
         param.Add("oxygenTank", oxygenTank);
@@ -125,7 +125,7 @@ public class BackendManager : MonoBehaviour
 
     #region Table : item
 
-    private void CreateItem(string playerId)
+    public void CreateItem(string playerId)
     {
         Param param = new Param();
         param.Add("playerId", playerId);
@@ -136,12 +136,12 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Insert("item", param);
     }
 
-    private void DestroyItem(string inDate)
+    public void DestroyItem(string inDate)
     {
         Backend.GameInfo.Delete("item", inDate);
     }
 
-    private void AddItem(string inDate, string itemName, int number)
+    public void AddItem(string inDate, string itemName, int number)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("item", inDate).GetReturnValuetoJSON()["row"][0]["items"]["L"];
         Param[] items = GetItemsFromJsonData(jsonData);
@@ -160,7 +160,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("item", inDate, param);
     }
 
-    private void UpdateItemNumber(string inDate, string itemName, int number)
+    public void UpdateItemNumber(string inDate, string itemName, int number)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("item", inDate).GetReturnValuetoJSON()["row"][0]["items"]["L"];
         Param[] items = GetItemsFromJsonData(jsonData);
@@ -189,7 +189,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("item", inDate, param);
     }
 
-    private void DeleteItem(string inDate, string itemName)
+    public void DeleteItem(string inDate, string itemName)
     {
         bool isDeleted = false;
         int count = 0;
@@ -248,7 +248,7 @@ public class BackendManager : MonoBehaviour
 
     #region Table : town
 
-    private void CreateTown(string playerId)
+    public void CreateTown(string playerId)
     {
         Param param = new Param();
         param.Add("playerId", playerId);
@@ -259,12 +259,12 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Insert("town", param);
     }
 
-    private void DestroyTown(string inDate)
+    public void DestroyTown(string inDate)
     {
         Backend.GameInfo.Delete("town", inDate);
     }
 
-    private void AddTown(string inDate, string structureId, string buildingName, int level, int position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
+    public void AddTown(string inDate, string structureId, string buildingName, int level, int position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("town", inDate).GetReturnValuetoJSON()["row"][0]["structures"]["L"];
         Param[] structures = GetStructuresFromJsonData(jsonData);
@@ -289,7 +289,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("town", inDate, param);
     }
 
-    private void UpdateTownBuildingName(string inDate, string structureId, string buildingName)
+    public void UpdateTownBuildingName(string inDate, string structureId, string buildingName)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("town", inDate).GetReturnValuetoJSON()["row"][0]["structures"]["L"];
         Param[] structures = GetStructuresFromJsonData(jsonData);
@@ -324,7 +324,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("town", inDate, param);
     }
 
-    private void UpdateTownLevel(string inDate, string structureId, int level)
+    public void UpdateTownLevel(string inDate, string structureId, int level)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("town", inDate).GetReturnValuetoJSON()["row"][0]["structures"]["L"];
         Param[] structures = GetStructuresFromJsonData(jsonData);
@@ -359,7 +359,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("town", inDate, param);
     }
 
-    private void UpdateTownPosition(string inDate, string structureId, int position)
+    public void UpdateTownPosition(string inDate, string structureId, int position)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("town", inDate).GetReturnValuetoJSON()["row"][0]["structures"]["L"];
         Param[] structures = GetStructuresFromJsonData(jsonData);
@@ -394,7 +394,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("town", inDate, param);
     }
 
-    private void UpdateTownConstructed(string inDate, string structureId, bool isConstructed)
+    public void UpdateTownConstructed(string inDate, string structureId, bool isConstructed)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("town", inDate).GetReturnValuetoJSON()["row"][0]["structures"]["L"];
         Param[] structures = GetStructuresFromJsonData(jsonData);
@@ -429,7 +429,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("town", inDate, param);
     }
 
-    private void UpdateTownFlipped(string inDate, string structureId, bool isFlipped)
+    public void UpdateTownFlipped(string inDate, string structureId, bool isFlipped)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("town", inDate).GetReturnValuetoJSON()["row"][0]["structures"]["L"];
         Param[] structures = GetStructuresFromJsonData(jsonData);
@@ -464,7 +464,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("town", inDate, param);
     }
 
-    private void UpdateTownUpgrading(string inDate, string structureId, bool isUpgrading)
+    public void UpdateTownUpgrading(string inDate, string structureId, bool isUpgrading)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("town", inDate).GetReturnValuetoJSON()["row"][0]["structures"]["L"];
         Param[] structures = GetStructuresFromJsonData(jsonData);
@@ -499,7 +499,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("town", inDate, param);
     }
 
-    private void UpdateTownEndDate(string inDate, string structureId, DateTime endDate)
+    public void UpdateTownEndDate(string inDate, string structureId, DateTime endDate)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("town", inDate).GetReturnValuetoJSON()["row"][0]["structures"]["L"];
         Param[] structures = GetStructuresFromJsonData(jsonData);
@@ -534,7 +534,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("town", inDate, param);
     }
 
-    private void DeleteTown(string inDate, string structureId)
+    public void DeleteTown(string inDate, string structureId)
     {
         bool isDeleted = false;
         int count = 0;
@@ -605,7 +605,7 @@ public class BackendManager : MonoBehaviour
 
     #region Table : character
 
-    private void CreateCharacter(string playerId)
+    public void CreateCharacter(string playerId)
     {
         Param param = new Param();
         param.Add("playerId", playerId);
@@ -616,12 +616,12 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Insert("character", param);
     }
 
-    private void DestroyCharacter(string inDate)
+    public void DestroyCharacter(string inDate)
     {
         Backend.GameInfo.Delete("character", inDate);
     }
 
-    private void AddCharacter(string inDate, string characterName, int level, int health, int speed, int attackPower)
+    public void AddCharacter(string inDate, string characterName, int level, int health, int speed, int attackPower)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("character", inDate).GetReturnValuetoJSON()["row"][0]["characters"]["L"];
         Param[] characters = GetCharactersFromJsonData(jsonData);
@@ -643,7 +643,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("character", inDate, param);
     }
 
-    private void UpdateCharacterLevel(string inDate, string characterName, int level)
+    public void UpdateCharacterLevel(string inDate, string characterName, int level)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("character", inDate).GetReturnValuetoJSON()["row"][0]["characters"]["L"];
         Param[] characters = GetCharactersFromJsonData(jsonData);
@@ -675,7 +675,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("character", inDate, param);
     }
 
-    private void UpdateCharacterHealth(string inDate, string characterName, int health)
+    public void UpdateCharacterHealth(string inDate, string characterName, int health)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("character", inDate).GetReturnValuetoJSON()["row"][0]["characters"]["L"];
         Param[] characters = GetCharactersFromJsonData(jsonData);
@@ -707,7 +707,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("character", inDate, param);
     }
 
-    private void UpdateCharacterSpeed(string inDate, string characterName, int speed)
+    public void UpdateCharacterSpeed(string inDate, string characterName, int speed)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("character", inDate).GetReturnValuetoJSON()["row"][0]["characters"]["L"];
         Param[] characters = GetCharactersFromJsonData(jsonData);
@@ -739,7 +739,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("character", inDate, param);
     }
 
-    private void UpdateCharacterAttackPower(string inDate, string characterName, int attackPower)
+    public void UpdateCharacterAttackPower(string inDate, string characterName, int attackPower)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("character", inDate).GetReturnValuetoJSON()["row"][0]["characters"]["L"];
         Param[] characters = GetCharactersFromJsonData(jsonData);
@@ -771,7 +771,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("character", inDate, param);
     }
 
-    private void DeleteCharacter(string inDate, string characterName)
+    public void DeleteCharacter(string inDate, string characterName)
     {
         bool isDeleted = false;
         int count = 0;
@@ -836,7 +836,7 @@ public class BackendManager : MonoBehaviour
 
     #region Table : party
 
-    private void CreateParty(string playerId)
+    public void CreateParty(string playerId)
     {
         Param param = new Param();
         param.Add("playerId", playerId);
@@ -847,12 +847,12 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Insert("party", param);
     }
 
-    private void DestroyParty(string inDate)
+    public void DestroyParty(string inDate)
     {
         Backend.GameInfo.Delete("party", inDate);
     }
 
-    private void AddParty(string inDate, int number, string firstCharacterName, string secondCharacterName, string thirdCharacterName)
+    public void AddParty(string inDate, int number, string firstCharacterName, string secondCharacterName, string thirdCharacterName)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("party", inDate).GetReturnValuetoJSON()["row"][0]["parties"]["L"];
         Param[] parties = GetPartiesFromJsonData(jsonData);
@@ -873,7 +873,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("party", inDate, param);
     }
 
-    private void UpdatePartyFirstCharacterName(string inDate, int number, string firstCharacterName)
+    public void UpdatePartyFirstCharacterName(string inDate, int number, string firstCharacterName)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("party", inDate).GetReturnValuetoJSON()["row"][0]["parties"]["L"];
         Param[] parties = GetPartiesFromJsonData(jsonData);
@@ -904,7 +904,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("party", inDate, param);
     }
 
-    private void UpdatePartySecondCharacterName(string inDate, int number, string secondCharacterName)
+    public void UpdatePartySecondCharacterName(string inDate, int number, string secondCharacterName)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("party", inDate).GetReturnValuetoJSON()["row"][0]["parties"]["L"];
         Param[] parties = GetPartiesFromJsonData(jsonData);
@@ -935,7 +935,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("party", inDate, param);
     }
 
-    private void UpdatePartyThirdCharacterName(string inDate, int number, string thirdCharacterName)
+    public void UpdatePartyThirdCharacterName(string inDate, int number, string thirdCharacterName)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("party", inDate).GetReturnValuetoJSON()["row"][0]["parties"]["L"];
         Param[] parties = GetPartiesFromJsonData(jsonData);
@@ -966,7 +966,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("party", inDate, param);
     }
 
-    private void DeleteParty(string inDate, int number)
+    public void DeleteParty(string inDate, int number)
     {
         bool isDeleted = false;
         int count = 0;
@@ -1029,7 +1029,7 @@ public class BackendManager : MonoBehaviour
 
     #region Table : request
 
-    private void CreateRequest(string playerId)
+    public void CreateRequest(string playerId)
     {
         Param param = new Param();
         param.Add("playerId", playerId);
@@ -1040,12 +1040,12 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Insert("request", param);
     }
 
-    private void DestroyRequest(string inDate)
+    public void DestroyRequest(string inDate)
     {
         Backend.GameInfo.Delete("request", inDate);
     }
 
-    private void AddRequest(string inDate, string requestId, int progress)
+    public void AddRequest(string inDate, string requestId, int progress)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("request", inDate).GetReturnValuetoJSON()["row"][0]["requests"]["L"];
         Param[] requests = GetRequestsFromJsonData(jsonData);
@@ -1064,7 +1064,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("request", inDate, param);
     }
 
-    private void UpdateRequestProgress(string inDate, string requestId, int progress)
+    public void UpdateRequestProgress(string inDate, string requestId, int progress)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("request", inDate).GetReturnValuetoJSON()["row"][0]["requests"]["L"];
         Param[] requests = GetRequestsFromJsonData(jsonData);
@@ -1093,7 +1093,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("request", inDate, param);
     }
 
-    private void DeleteRequest(string inDate, string requestId)
+    public void DeleteRequest(string inDate, string requestId)
     {
         bool isDeleted = false;
         int count = 0;
@@ -1152,7 +1152,7 @@ public class BackendManager : MonoBehaviour
 
     #region Table : stage
 
-    private void CreateStage(string playerId)
+    public void CreateStage(string playerId)
     {
         Param param = new Param();
         param.Add("playerId", playerId);
@@ -1163,12 +1163,12 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Insert("stage", param);
     }
 
-    private void DestroyStage(string inDate)
+    public void DestroyStage(string inDate)
     {
         Backend.GameInfo.Delete("stage", inDate);
     }
 
-    private void AddStage(string inDate, string stageNumber, int number)
+    public void AddStage(string inDate, string stageNumber, int number)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("stage", inDate).GetReturnValuetoJSON()["row"][0]["stages"]["L"];
         Param[] stages = GetStagesFromJsonData(jsonData);
@@ -1187,7 +1187,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("stage", inDate, param);
     }
 
-    private void UpdateStageNumber(string inDate, string stageNumber, int number)
+    public void UpdateStageNumber(string inDate, string stageNumber, int number)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("stage", inDate).GetReturnValuetoJSON()["row"][0]["stages"]["L"];
         Param[] stages = GetStagesFromJsonData(jsonData);
@@ -1216,7 +1216,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("stage", inDate, param);
     }
 
-    private void DeleteStage(string inDate, string stageNumber)
+    public void DeleteStage(string inDate, string stageNumber)
     {
         bool isDeleted = false;
         int count = 0;
