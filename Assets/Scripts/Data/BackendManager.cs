@@ -264,7 +264,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Delete("town", inDate);
     }
 
-    public void AddTown(string inDate, string structureId, string buildingName, int level, int position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
+    public void AddTown(string inDate, int structureId, string buildingName, int level, int position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("town", inDate).GetReturnValuetoJSON()["row"][0]["structures"]["L"];
         Param[] structures = GetStructuresFromJsonData(jsonData);
@@ -289,7 +289,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("town", inDate, param);
     }
 
-    public void UpdateTownBuildingName(string inDate, string structureId, string buildingName)
+    public void UpdateTownBuildingName(string inDate, int structureId, string buildingName)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("town", inDate).GetReturnValuetoJSON()["row"][0]["structures"]["L"];
         Param[] structures = GetStructuresFromJsonData(jsonData);
@@ -302,10 +302,10 @@ public class BackendManager : MonoBehaviour
 
         for(int i = 0; i < structures.Length; i++)
         {
-            if (structuresList[i]["structureId"].ToString() == structureId)
+            if (int.Parse(structuresList[i]["structureId"].ToString()) == structureId)
             {
                 Param newStructure = new Param();
-                newStructure.Add("structureId", structuresList[i]["structureId"].ToString());
+                newStructure.Add("structureId", int.Parse(structuresList[i]["structureId"].ToString()));
                 newStructure.Add("buildingName", buildingName);
                 newStructure.Add("level", int.Parse(structuresList[i]["level"].ToString()));
                 newStructure.Add("position", int.Parse(structuresList[i]["position"].ToString()));
@@ -324,7 +324,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("town", inDate, param);
     }
 
-    public void UpdateTownLevel(string inDate, string structureId, int level)
+    public void UpdateTownLevel(string inDate, int structureId, int level)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("town", inDate).GetReturnValuetoJSON()["row"][0]["structures"]["L"];
         Param[] structures = GetStructuresFromJsonData(jsonData);
@@ -337,10 +337,10 @@ public class BackendManager : MonoBehaviour
 
         for (int i = 0; i < structures.Length; i++)
         {
-            if (structuresList[i]["structureId"].ToString() == structureId)
+            if (int.Parse(structuresList[i]["structureId"].ToString()) == structureId)
             {
                 Param newStructure = new Param();
-                newStructure.Add("structureId", structuresList[i]["structureId"].ToString());
+                newStructure.Add("structureId", int.Parse(structuresList[i]["structureId"].ToString()));
                 newStructure.Add("buildingName", structuresList[i]["buildingName"].ToString());
                 newStructure.Add("level", level);
                 newStructure.Add("position", int.Parse(structuresList[i]["position"].ToString()));
@@ -359,7 +359,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("town", inDate, param);
     }
 
-    public void UpdateTownPosition(string inDate, string structureId, int position)
+    public void UpdateTownPosition(string inDate, int structureId, int position)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("town", inDate).GetReturnValuetoJSON()["row"][0]["structures"]["L"];
         Param[] structures = GetStructuresFromJsonData(jsonData);
@@ -372,10 +372,10 @@ public class BackendManager : MonoBehaviour
 
         for (int i = 0; i < structures.Length; i++)
         {
-            if (structuresList[i]["structureId"].ToString() == structureId)
+            if (int.Parse(structuresList[i]["structureId"].ToString()) == structureId)
             {
                 Param newStructure = new Param();
-                newStructure.Add("structureId", structuresList[i]["structureId"].ToString());
+                newStructure.Add("structureId", int.Parse(structuresList[i]["structureId"].ToString()));
                 newStructure.Add("buildingName", structuresList[i]["buildingName"].ToString());
                 newStructure.Add("level", int.Parse(structuresList[i]["level"].ToString()));
                 newStructure.Add("position", position);
@@ -394,7 +394,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("town", inDate, param);
     }
 
-    public void UpdateTownConstructed(string inDate, string structureId, bool isConstructed)
+    public void UpdateTownConstructed(string inDate, int structureId, bool isConstructed)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("town", inDate).GetReturnValuetoJSON()["row"][0]["structures"]["L"];
         Param[] structures = GetStructuresFromJsonData(jsonData);
@@ -407,10 +407,10 @@ public class BackendManager : MonoBehaviour
 
         for (int i = 0; i < structures.Length; i++)
         {
-            if (structuresList[i]["structureId"].ToString() == structureId)
+            if (int.Parse(structuresList[i]["structureId"].ToString()) == structureId)
             {
                 Param newStructure = new Param();
-                newStructure.Add("structureId", structuresList[i]["structureId"].ToString());
+                newStructure.Add("structureId", int.Parse(structuresList[i]["structureId"].ToString()));
                 newStructure.Add("buildingName", structuresList[i]["buildingName"].ToString());
                 newStructure.Add("level", int.Parse(structuresList[i]["level"].ToString()));
                 newStructure.Add("position", int.Parse(structuresList[i]["position"].ToString()));
@@ -429,7 +429,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("town", inDate, param);
     }
 
-    public void UpdateTownFlipped(string inDate, string structureId, bool isFlipped)
+    public void UpdateTownFlipped(string inDate, int structureId, bool isFlipped)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("town", inDate).GetReturnValuetoJSON()["row"][0]["structures"]["L"];
         Param[] structures = GetStructuresFromJsonData(jsonData);
@@ -442,10 +442,10 @@ public class BackendManager : MonoBehaviour
 
         for (int i = 0; i < structures.Length; i++)
         {
-            if (structuresList[i]["structureId"].ToString() == structureId)
+            if (int.Parse(structuresList[i]["structureId"].ToString()) == structureId)
             {
                 Param newStructure = new Param();
-                newStructure.Add("structureId", structuresList[i]["structureId"].ToString());
+                newStructure.Add("structureId", int.Parse(structuresList[i]["structureId"].ToString()));
                 newStructure.Add("buildingName", structuresList[i]["buildingName"].ToString());
                 newStructure.Add("level", int.Parse(structuresList[i]["level"].ToString()));
                 newStructure.Add("position", int.Parse(structuresList[i]["position"].ToString()));
@@ -464,7 +464,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("town", inDate, param);
     }
 
-    public void UpdateTownUpgrading(string inDate, string structureId, bool isUpgrading)
+    public void UpdateTownUpgrading(string inDate, int structureId, bool isUpgrading)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("town", inDate).GetReturnValuetoJSON()["row"][0]["structures"]["L"];
         Param[] structures = GetStructuresFromJsonData(jsonData);
@@ -477,10 +477,10 @@ public class BackendManager : MonoBehaviour
 
         for (int i = 0; i < structures.Length; i++)
         {
-            if (structuresList[i]["structureId"].ToString() == structureId)
+            if (int.Parse(structuresList[i]["structureId"].ToString()) == structureId)
             {
                 Param newStructure = new Param();
-                newStructure.Add("structureId", structuresList[i]["structureId"].ToString());
+                newStructure.Add("structureId", int.Parse(structuresList[i]["structureId"].ToString()));
                 newStructure.Add("buildingName", structuresList[i]["buildingName"].ToString());
                 newStructure.Add("level", int.Parse(structuresList[i]["level"].ToString()));
                 newStructure.Add("position", int.Parse(structuresList[i]["position"].ToString()));
@@ -499,7 +499,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("town", inDate, param);
     }
 
-    public void UpdateTownEndDate(string inDate, string structureId, DateTime endDate)
+    public void UpdateTownEndDate(string inDate, int structureId, DateTime endDate)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("town", inDate).GetReturnValuetoJSON()["row"][0]["structures"]["L"];
         Param[] structures = GetStructuresFromJsonData(jsonData);
@@ -512,10 +512,10 @@ public class BackendManager : MonoBehaviour
 
         for (int i = 0; i < structures.Length; i++)
         {
-            if (structuresList[i]["structureId"].ToString() == structureId)
+            if (int.Parse(structuresList[i]["structureId"].ToString()) == structureId)
             {
                 Param newStructure = new Param();
-                newStructure.Add("structureId", structuresList[i]["structureId"].ToString());
+                newStructure.Add("structureId", int.Parse(structuresList[i]["structureId"].ToString()));
                 newStructure.Add("buildingName", structuresList[i]["buildingName"].ToString());
                 newStructure.Add("level", int.Parse(structuresList[i]["level"].ToString()));
                 newStructure.Add("position", int.Parse(structuresList[i]["position"].ToString()));
@@ -534,7 +534,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("town", inDate, param);
     }
 
-    public void DeleteTown(string inDate, string structureId)
+    public void DeleteTown(string inDate, int structureId)
     {
         bool isDeleted = false;
         int count = 0;
@@ -551,10 +551,10 @@ public class BackendManager : MonoBehaviour
 
         for(int i = 0; i < structures.Length; i++)
         {
-            if(structuresList[i]["structureId"].ToString() != structureId)
+            if (int.Parse(structuresList[i]["structureId"].ToString()) == structureId)
             {
                 Param newStructure = new Param();
-                newStructure.Add("structureId", structuresList[i]["structureId"].ToString());
+                newStructure.Add("structureId", int.Parse(structuresList[i]["structureId"].ToString()));
                 newStructure.Add("buildingName", structuresList[i]["buildingName"].ToString());
                 newStructure.Add("level", int.Parse(structuresList[i]["level"].ToString()));
                 newStructure.Add("position", int.Parse(structuresList[i]["position"].ToString()));
@@ -588,7 +588,7 @@ public class BackendManager : MonoBehaviour
         for (int i = 0; i < jsonData.Count; i++)
         {
             structures[i] = new Param();
-            structures[i].Add("structureId", jsonData[i]["M"]["structureId"]["S"].ToString());
+            structures[i].Add("structureId", int.Parse(jsonData[i]["M"]["structureId"]["N"].ToString()));
             structures[i].Add("buildingName", jsonData[i]["M"]["buildingName"]["S"].ToString());
             structures[i].Add("level", int.Parse(jsonData[i]["M"]["level"]["N"].ToString()));
             structures[i].Add("position", int.Parse(jsonData[i]["M"]["position"]["N"].ToString()));
