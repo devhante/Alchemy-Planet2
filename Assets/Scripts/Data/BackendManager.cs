@@ -269,7 +269,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Delete("town", inDate);
     }
 
-    public void AddTown(string inDate, int structureId, string buildingName, int level, int position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
+    public void AddTown(string inDate, int structureId, string buildingName, int level, float position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("town", inDate).GetReturnValuetoJSON()["row"][0]["structures"]["L"];
         Param[] structures = GetStructuresFromJsonData(jsonData);
@@ -313,7 +313,7 @@ public class BackendManager : MonoBehaviour
                 newStructure.Add("structureId", int.Parse(structuresList[i]["structureId"].ToString()));
                 newStructure.Add("buildingName", buildingName);
                 newStructure.Add("level", int.Parse(structuresList[i]["level"].ToString()));
-                newStructure.Add("position", int.Parse(structuresList[i]["position"].ToString()));
+                newStructure.Add("position", float.Parse(structuresList[i]["position"].ToString()));
                 newStructure.Add("isConstructed", bool.Parse(structuresList[i]["isConstructed"].ToString()));
                 newStructure.Add("isFlipped", bool.Parse(structuresList[i]["isFlipped"].ToString()));
                 newStructure.Add("isUpgrading", bool.Parse(structuresList[i]["isUpgrading"].ToString()));
@@ -348,7 +348,7 @@ public class BackendManager : MonoBehaviour
                 newStructure.Add("structureId", int.Parse(structuresList[i]["structureId"].ToString()));
                 newStructure.Add("buildingName", structuresList[i]["buildingName"].ToString());
                 newStructure.Add("level", level);
-                newStructure.Add("position", int.Parse(structuresList[i]["position"].ToString()));
+                newStructure.Add("position", float.Parse(structuresList[i]["position"].ToString()));
                 newStructure.Add("isConstructed", bool.Parse(structuresList[i]["isConstructed"].ToString()));
                 newStructure.Add("isFlipped", bool.Parse(structuresList[i]["isFlipped"].ToString()));
                 newStructure.Add("isUpgrading", bool.Parse(structuresList[i]["isUpgrading"].ToString()));
@@ -364,7 +364,7 @@ public class BackendManager : MonoBehaviour
         Backend.GameInfo.Update("town", inDate, param);
     }
 
-    public void UpdateTownPosition(string inDate, int structureId, int position)
+    public void UpdateTownPosition(string inDate, int structureId, float position)
     {
         JsonData jsonData = Backend.GameInfo.GetContentsByIndate("town", inDate).GetReturnValuetoJSON()["row"][0]["structures"]["L"];
         Param[] structures = GetStructuresFromJsonData(jsonData);
@@ -418,7 +418,7 @@ public class BackendManager : MonoBehaviour
                 newStructure.Add("structureId", int.Parse(structuresList[i]["structureId"].ToString()));
                 newStructure.Add("buildingName", structuresList[i]["buildingName"].ToString());
                 newStructure.Add("level", int.Parse(structuresList[i]["level"].ToString()));
-                newStructure.Add("position", int.Parse(structuresList[i]["position"].ToString()));
+                newStructure.Add("position", float.Parse(structuresList[i]["position"].ToString()));
                 newStructure.Add("isConstructed", isConstructed);
                 newStructure.Add("isFlipped", bool.Parse(structuresList[i]["isFlipped"].ToString()));
                 newStructure.Add("isUpgrading", bool.Parse(structuresList[i]["isUpgrading"].ToString()));
@@ -453,7 +453,7 @@ public class BackendManager : MonoBehaviour
                 newStructure.Add("structureId", int.Parse(structuresList[i]["structureId"].ToString()));
                 newStructure.Add("buildingName", structuresList[i]["buildingName"].ToString());
                 newStructure.Add("level", int.Parse(structuresList[i]["level"].ToString()));
-                newStructure.Add("position", int.Parse(structuresList[i]["position"].ToString()));
+                newStructure.Add("position", float.Parse(structuresList[i]["position"].ToString()));
                 newStructure.Add("isConstructed", bool.Parse(structuresList[i]["isConstructed"].ToString()));
                 newStructure.Add("isFlipped", isFlipped);
                 newStructure.Add("isUpgrading", bool.Parse(structuresList[i]["isUpgrading"].ToString()));
@@ -488,7 +488,7 @@ public class BackendManager : MonoBehaviour
                 newStructure.Add("structureId", int.Parse(structuresList[i]["structureId"].ToString()));
                 newStructure.Add("buildingName", structuresList[i]["buildingName"].ToString());
                 newStructure.Add("level", int.Parse(structuresList[i]["level"].ToString()));
-                newStructure.Add("position", int.Parse(structuresList[i]["position"].ToString()));
+                newStructure.Add("position", float.Parse(structuresList[i]["position"].ToString()));
                 newStructure.Add("isConstructed", bool.Parse(structuresList[i]["isConstructed"].ToString()));
                 newStructure.Add("isFlipped", bool.Parse(structuresList[i]["isFlipped"].ToString()));
                 newStructure.Add("isUpgrading", isUpgrading);
@@ -523,7 +523,7 @@ public class BackendManager : MonoBehaviour
                 newStructure.Add("structureId", int.Parse(structuresList[i]["structureId"].ToString()));
                 newStructure.Add("buildingName", structuresList[i]["buildingName"].ToString());
                 newStructure.Add("level", int.Parse(structuresList[i]["level"].ToString()));
-                newStructure.Add("position", int.Parse(structuresList[i]["position"].ToString()));
+                newStructure.Add("position", float.Parse(structuresList[i]["position"].ToString()));
                 newStructure.Add("isConstructed", bool.Parse(structuresList[i]["isConstructed"].ToString()));
                 newStructure.Add("isFlipped", bool.Parse(structuresList[i]["isFlipped"].ToString()));
                 newStructure.Add("isUpgrading", bool.Parse(structuresList[i]["isUpgrading"].ToString()));
@@ -562,7 +562,7 @@ public class BackendManager : MonoBehaviour
                 newStructure.Add("structureId", int.Parse(structuresList[i]["structureId"].ToString()));
                 newStructure.Add("buildingName", structuresList[i]["buildingName"].ToString());
                 newStructure.Add("level", int.Parse(structuresList[i]["level"].ToString()));
-                newStructure.Add("position", int.Parse(structuresList[i]["position"].ToString()));
+                newStructure.Add("position", float.Parse(structuresList[i]["position"].ToString()));
                 newStructure.Add("isConstructed", bool.Parse(structuresList[i]["isConstructed"].ToString()));
                 newStructure.Add("isFlipped", bool.Parse(structuresList[i]["isFlipped"].ToString()));
                 newStructure.Add("isUpgrading", bool.Parse(structuresList[i]["isUpgrading"].ToString()));
