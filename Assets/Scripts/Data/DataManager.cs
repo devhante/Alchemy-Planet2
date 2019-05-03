@@ -212,7 +212,7 @@ namespace AlchemyPlanet.Data
                 player_id = CurrentPlayerData.player_id
             };
 
-            BackendManager.Instance.CreatePlayer(CurrentPlayerData.player_id, "Test");
+            BackendManager.Instance.CreatePlayer(CurrentPlayerData.player_id, "TempName");
             BackendManager.Instance.CreateItem(CurrentPlayerData.player_id);
             BackendManager.Instance.CreateTown(CurrentPlayerData.player_id);
             BackendManager.Instance.CreateCharacter(CurrentPlayerData.player_id);

@@ -87,14 +87,12 @@ namespace AlchemyPlanet.TownScene
             foreach (Building building in ownBuildings)
             {
                 DataManager.Instance.CurrentPlayerData.buildings.Find(a => a.id == building.id).setup = false;
-                WebSocketManager.Instance.SendUpdateBuilding("", DataManager.Instance.CurrentPlayerData.player_id, building.id.ToString(), building.buildingName,
-                    building.buildingLevel, building.position, building.setup, building.flip, building.upgrading, building.UpgradeEndTime);
+                BackendManager.Instance.UpdateTownConstructed(BackendManager.Instance.GetInDate("town"), building.id, building.setup);
             }
             foreach (Interior interior in ownInteriors)
             {
                 DataManager.Instance.CurrentPlayerData.interiors.Find(a => a.id == interior.id).setup = false;
-                WebSocketManager.Instance.SendUpdateInterior("", DataManager.Instance.CurrentPlayerData.player_id, interior.id.ToString(),
-                    interior.interiorName, interior.position, interior.setup, interior.flip);
+                BackendManager.Instance.UpdateTownConstructed(BackendManager.Instance.GetInDate("town"), interior.id, interior.setup);
             }
 
             foreach (GameObject obj in setupBuildings)
@@ -106,8 +104,9 @@ namespace AlchemyPlanet.TownScene
                     building.position = obj.transform.position.x;
                     building.setup = true;
 
-                    WebSocketManager.Instance.SendUpdateBuilding("", DataManager.Instance.CurrentPlayerData.player_id, building.id.ToString(), building.buildingName,
-                        building.buildingLevel, building.position, building.setup, building.flip, building.upgrading, building.UpgradeEndTime);
+                    BackendManager.Instance.UpdateTownFlipped(BackendManager.Instance.GetInDate("town"), building.id, building.flip);
+                    BackendManager.Instance.UpdateTownPosition(BackendManager.Instance.GetInDate("town"), building.id, building.position);
+                    BackendManager.Instance.UpdateTownConstructed(BackendManager.Instance.GetInDate("town"), building.id, building.setup);
                 }
                 else if (obj.name.StartsWith("2"))
                 {
@@ -116,8 +115,9 @@ namespace AlchemyPlanet.TownScene
                     interior.position = obj.transform.position.x;
                     interior.setup = true;
 
-                    WebSocketManager.Instance.SendUpdateInterior("", DataManager.Instance.CurrentPlayerData.player_id, interior.id.ToString(),
-                        interior.interiorName, interior.position, interior.setup, interior.flip);
+                    BackendManager.Instance.UpdateTownFlipped(BackendManager.Instance.GetInDate("town"), interior.id, interior.flip);
+                    BackendManager.Instance.UpdateTownPosition(BackendManager.Instance.GetInDate("town"), interior.id, interior.position);
+                    BackendManager.Instance.UpdateTownConstructed(BackendManager.Instance.GetInDate("town"), interior.id, interior.setup);
                 }
             }
 
