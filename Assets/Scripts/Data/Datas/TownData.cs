@@ -18,7 +18,7 @@ namespace AlchemyPlanet.Data
         public int buildingLevel;
         public bool upgrading = false;
         public Dictionary<string, int> material;
-        public long UpgradeEndTime;
+        public DateTime UpgradeEndTime;
         public int money;
         public string effect;
         
@@ -49,8 +49,10 @@ namespace AlchemyPlanet.Data
             DataManager.Instance.CurrentPlayerData.SetBuilding(this);
             AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetImage");
             int UpgradeTime = buildingLevel * 10;
-            UpgradeEndTime = DateTime.Now.AddSeconds(UpgradeTime).ToBinary();
-            WebSocketManager.Instance.SendUpdateBuilding("", DataManager.Instance.CurrentPlayerData.player_id, id.ToString(), buildingName, buildingLevel, position, setup, flip, upgrading, UpgradeEndTime);
+            UpgradeEndTime = DateTime.Now.AddSeconds(UpgradeTime);
+
+            BackendManager.Instance.UpdateTownUpgrading(BackendManager.Instance.GetInDate("town"), id, upgrading);
+            BackendManager.Instance.UpdateTownEndDate(BackendManager.Instance.GetInDate("town"), id, UpgradeEndTime);
         }
 
         public void UpgradeEnd()
@@ -60,12 +62,10 @@ namespace AlchemyPlanet.Data
             upgrading = false;
             DataManager.Instance.CurrentPlayerData.SetBuilding(this);
 
-            Debug.Log(AlchemyPlanet.TownScene.BuildingManagement.Instance);
-
             if(AlchemyPlanet.TownScene.BuildingManagement.Instance != null)
                 AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetImage");
 
-            WebSocketManager.Instance.SendUpdateBuilding("", DataManager.Instance.CurrentPlayerData.player_id, id.ToString(), buildingName, buildingLevel, position, setup, flip, upgrading, UpgradeEndTime);
+            BackendManager.Instance.UpdateTownUpgrading(BackendManager.Instance.GetInDate("town"), id, upgrading);
         }
 
         public void Build()

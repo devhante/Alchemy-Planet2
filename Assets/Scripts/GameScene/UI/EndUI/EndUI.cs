@@ -43,19 +43,20 @@ namespace AlchemyPlanet.GameScene
             var currentPlayerData = DataManager.Instance.CurrentPlayerData;
 
             currentPlayerData.unicoin += GameManager.Instance.Coin;
-            WebSocketManager.Instance.SendUpdateGoods("0", currentPlayerData.player_id, currentPlayerData.unicoin, currentPlayerData.cosmostone, currentPlayerData.oxygentank);
+
+            BackendManager.Instance.UpdatePlayerUniCoin(BackendManager.Instance.GetInDate("player"), currentPlayerData.unicoin);
 
             foreach (var item in GameManager.Instance.dropMaterialList)
             {
                 if (currentPlayerData.inventory.ContainsKey(item.Key))
                 {
                     currentPlayerData.inventory[item.Key] += item.Value;
-                    WebSocketManager.Instance.SendUpdateItem("0", currentPlayerData.player_id, item.Key, item.Value);
+                    BackendManager.Instance.UpdateItemNumber(BackendManager.Instance.GetInDate("item"), item.Key, item.Value);
                 }
                 else
                 {
                     currentPlayerData.inventory.Add(item.Key, item.Value);
-                    WebSocketManager.Instance.SendInsertItem("0", currentPlayerData.player_id, item.Key, item.Value);
+                    BackendManager.Instance.AddItem(BackendManager.Instance.GetInDate("item"), item.Key, item.Value);
                 }
             }
         }
