@@ -36,9 +36,8 @@ namespace AlchemyPlanet.TownScene
                 sequence.Kill();
             Data.DataManager.Instance.CurrentPlayerData.buildings.Add(Data.DataManager.Instance.buildingInfo["House"].Clone());
                 Data.DataManager.Instance.CurrentPlayerData.GiveId(Data.DataManager.Instance.CurrentPlayerData.buildings[0]);
-                Data.WebSocketManager.Instance.SendInsertBuilding("0",
-                    Data.DataManager.Instance.CurrentPlayerData.player_id,
-                    Data.DataManager.Instance.CurrentPlayerData.buildings[0].id.ToString(),
+                BackendManager.Instance.AddTown(BackendManager.Instance.GetInDate("town"),
+                    Data.DataManager.Instance.CurrentPlayerData.buildings[0].id,
                     Data.DataManager.Instance.CurrentPlayerData.buildings[0].buildingName,
                     Data.DataManager.Instance.CurrentPlayerData.buildings[0].buildingLevel,
                     Data.DataManager.Instance.CurrentPlayerData.buildings[0].position,
@@ -48,22 +47,24 @@ namespace AlchemyPlanet.TownScene
                     Data.DataManager.Instance.CurrentPlayerData.buildings[0].UpgradeEndTime);
                 Data.DataManager.Instance.CurrentPlayerData.interiors.Add(Data.DataManager.Instance.interiorInfo["Tree"].Clone());
                 Data.DataManager.Instance.CurrentPlayerData.GiveId(Data.DataManager.Instance.CurrentPlayerData.interiors[0]);
-                Data.WebSocketManager.Instance.SendInsertInterior("0",
-                    Data.DataManager.Instance.CurrentPlayerData.player_id,
-                    Data.DataManager.Instance.CurrentPlayerData.interiors[0].id.ToString(),
+                BackendManager.Instance.AddTown(BackendManager.Instance.GetInDate("town"),
+                    Data.DataManager.Instance.CurrentPlayerData.interiors[0].id,
                     Data.DataManager.Instance.CurrentPlayerData.interiors[0].interiorName,
+                    0,
                     Data.DataManager.Instance.CurrentPlayerData.interiors[0].position,
                     Data.DataManager.Instance.CurrentPlayerData.interiors[0].setup,
-                    Data.DataManager.Instance.CurrentPlayerData.interiors[0].flip);
+                    Data.DataManager.Instance.CurrentPlayerData.interiors[0].flip,
+                    false, System.DateTime.Now);
                 Data.DataManager.Instance.CurrentPlayerData.interiors.Add(Data.DataManager.Instance.interiorInfo["CherryBlossom"].Clone());
                 Data.DataManager.Instance.CurrentPlayerData.GiveId(Data.DataManager.Instance.CurrentPlayerData.interiors[1]);
-                Data.WebSocketManager.Instance.SendInsertInterior("0",
-                    Data.DataManager.Instance.CurrentPlayerData.player_id,
-                    Data.DataManager.Instance.CurrentPlayerData.interiors[1].id.ToString(),
+                BackendManager.Instance.AddTown(BackendManager.Instance.GetInDate("town"),
+                    Data.DataManager.Instance.CurrentPlayerData.interiors[1].id,
                     Data.DataManager.Instance.CurrentPlayerData.interiors[1].interiorName,
+                    0,
                     Data.DataManager.Instance.CurrentPlayerData.interiors[1].position,
                     Data.DataManager.Instance.CurrentPlayerData.interiors[1].setup,
-                    Data.DataManager.Instance.CurrentPlayerData.interiors[1].flip);
+                    Data.DataManager.Instance.CurrentPlayerData.interiors[1].flip,
+                    false, System.DateTime.Now);
                 TownUI.Instance.mainCamera.GetComponent<MainCamera>().StartCoroutine("ZoomOut");
                 UIManager.Instance.TownUIOff();
                 UIManager.Instance.OpenMenu<BuildingPlacement>();
