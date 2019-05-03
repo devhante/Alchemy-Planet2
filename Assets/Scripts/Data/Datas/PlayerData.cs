@@ -72,9 +72,9 @@ namespace AlchemyPlanet.Data
         public bool isConstructed;
         public bool isFlipped;
         public bool isUpgrading;
-        public long endDate;
+        public DateTime endDate;
 
-        public CollectionBuilding(string playerId, string playerBuildingId, string buildingId, int level, float position, bool isConstructed, bool isFlipped, bool isUpgrading, long endDate)
+        public CollectionBuilding(string playerId, string playerBuildingId, string buildingId, int level, float position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
         {
             this.playerId = playerId;
             this.playerBuildingId = playerBuildingId;

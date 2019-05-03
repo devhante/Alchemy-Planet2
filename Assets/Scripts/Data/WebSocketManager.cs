@@ -320,12 +320,12 @@ namespace AlchemyPlanet.Data
         
         public void SendFindBuildings(string status, string playerId)
         {
-            var data = new CollectionBuilding(playerId, "", "", 0, 0, false, false, false, 0);
+            var data = new CollectionBuilding(playerId, "", "", 0, 0, false, false, false, new DateTime());
             var message = new Message("0510" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        public void SendInsertBuilding(string status, string playerId, string playerStructureId, string structureId, int level, float position, bool isConstructed, bool isFlipped, bool isUpgrading, long endDate)
+        public void SendInsertBuilding(string status, string playerId, string playerStructureId, string structureId, int level, float position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
         {
             var data = new CollectionBuilding(playerId, playerStructureId, structureId, level, position, isConstructed, isFlipped, isUpgrading, endDate);
             var message = new Message("0520" + status, data);
@@ -334,19 +334,19 @@ namespace AlchemyPlanet.Data
         }
         public void SendDeleteBuilding(string status, string playerId, string playerStructureId)
         {
-            var data = new CollectionBuilding(playerId, playerStructureId, "", 0, 0, false, false, false, 0);
+            var data = new CollectionBuilding(playerId, playerStructureId, "", 0, 0, false, false, false, new DateTime());
             var message = new Message("0530" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
         public void SendDeleteBuildings(string status, string playerId)
         {
-            var data = new CollectionBuilding(playerId, "", "", 0, 0, false, false, false, 0);
+            var data = new CollectionBuilding(playerId, "", "", 0, 0, false, false, false, new DateTime());
             var message = new Message("0531" + status, data);
             var str = JsonConvert.SerializeObject(message);
             ws.Send(str);
         }
-        public void SendUpdateBuilding(string status, string playerId, string playerStructureId, string structureId, int level, float position, bool isConstructed, bool isFlipped, bool isUpgrading, long endDate)
+        public void SendUpdateBuilding(string status, string playerId, string playerStructureId, string structureId, int level, float position, bool isConstructed, bool isFlipped, bool isUpgrading, DateTime endDate)
         {
             var data = new CollectionBuilding(playerId, playerStructureId, structureId, level, position, isConstructed, isFlipped, isUpgrading, endDate);
             var message = new Message("0540" + status, data);

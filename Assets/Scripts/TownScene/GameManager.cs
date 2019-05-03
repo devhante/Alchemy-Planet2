@@ -71,7 +71,7 @@ namespace AlchemyPlanet.Data
                 {
                     if (strc.upgrading)
                     {
-                        if (strc.UpgradeEndTime - System.DateTime.Now.ToBinary() < 0)
+                        if (strc.UpgradeEndTime.ToBinary() - System.DateTime.Now.ToBinary() < 0)
                         {
                             strc.UpgradeEnd();
                         }
