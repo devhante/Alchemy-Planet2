@@ -56,19 +56,6 @@ public class BackendManager : MonoBehaviour
         Backend.BMember.CreateNickname("alchemyplanet");
     }
 
-    private Dictionary<string, int> GetDictFromJsonData(JsonData jsonData)
-    {
-        Dictionary<string, int> result = new Dictionary<string, int>();
-
-        foreach(string key in jsonData.Keys)
-        {
-            int value = int.Parse(jsonData[key]["N"].ToString());
-            result.Add(key, value);
-        }
-
-        return result;
-    }
-
     #endregion
 
     #region Table : player
@@ -85,11 +72,6 @@ public class BackendManager : MonoBehaviour
         param.Add("oxygenTank", 0);
 
         Backend.GameInfo.Insert("player", param);
-    }
-
-    public void TestCreatePlayer()
-    {
-        CreatePlayer("1", "bliss");
     }
 
     private void DestroyPlayer(string inDate)
@@ -1049,9 +1031,247 @@ public class BackendManager : MonoBehaviour
 
     #region Table : request
 
+    private void CreateRequest(string playerId)
+    {
+        Param param = new Param();
+        param.Add("playerId", playerId);
+
+        Param[] requests = new Param[0];
+        param.Add("requests", requests);
+
+        Backend.GameInfo.Insert("request", param);
+    }
+
+    private void DestroyRequest(string inDate)
+    {
+        Backend.GameInfo.Delete("request", inDate);
+    }
+
+    private void AddRequest(string inDate, string requestId, int progress)
+    {
+        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("request", inDate).GetReturnValuetoJSON()["row"][0]["requests"]["L"];
+        Param[] requests = GetRequestsFromJsonData(jsonData);
+
+        Param[] result = new Param[requests.Length + 1];
+        Array.Copy(requests, 0, result, 0, requests.Length);
+
+        Param newRequest = new Param();
+        newRequest.Add("requestId", requestId);
+        newRequest.Add("progress", progress);
+        result[requests.Length] = newRequest;
+
+        Param param = new Param();
+        param.Add("requests", result);
+
+        Backend.GameInfo.Update("request", inDate, param);
+    }
+
+    private void UpdateRequestProgress(string inDate, string requestId, int progress)
+    {
+        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("request", inDate).GetReturnValuetoJSON()["row"][0]["requests"]["L"];
+        Param[] requests = GetRequestsFromJsonData(jsonData);
+
+        SortedList[] requestsList = new SortedList[requests.Length];
+        for (int i = 0; i < requestsList.Length; i++)
+        {
+            requestsList[i] = requests[i].GetValue();
+        }
+
+        for (int i = 0; i < requests.Length; i++)
+        {
+            if (requestsList[i]["requestId"].ToString() == requestId)
+            {
+                Param newRequest = new Param();
+                newRequest.Add("requestId", requestsList[i]["requestId"].ToString());
+                newRequest.Add("progress", progress);
+
+                requests[i] = newRequest;
+            }
+        }
+
+        Param param = new Param();
+        param.Add("requests", requests);
+
+        Backend.GameInfo.Update("request", inDate, param);
+    }
+
+    private void DeleteRequest(string inDate, string requestId)
+    {
+        bool isDeleted = false;
+        int count = 0;
+
+        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("request", inDate).GetReturnValuetoJSON()["row"][0]["requests"]["L"];
+        Param[] requests = GetRequestsFromJsonData(jsonData);
+        Param[] result = new Param[Math.Max(requests.Length - 1, 0)];
+
+        SortedList[] requestsList = new SortedList[requests.Length];
+        for (int i = 0; i < requestsList.Length; i++)
+        {
+            requestsList[i] = requests[i].GetValue();
+        }
+
+        for (int i = 0; i < requests.Length; i++)
+        {
+            if (requestsList[i]["requestId"].ToString() != requestId)
+            {
+                Param newRequest = new Param();
+                newRequest.Add("requestId", requestsList[i]["requestId"].ToString());
+                newRequest.Add("progress", int.Parse(requestsList[i]["progress"].ToString()));
+
+                result[count] = newRequest;
+                count++;
+            }
+            else
+            {
+                isDeleted = true;
+            }
+        }
+
+        if (isDeleted == true)
+        {
+            Param param = new Param();
+            param.Add("requests", result);
+
+            Backend.GameInfo.Update("request", inDate, param);
+        }
+    }
+
+    private Param[] GetRequestsFromJsonData(JsonData jsonData)
+    {
+        Param[] requests = new Param[jsonData.Count];
+
+        for (int i = 0; i < jsonData.Count; i++)
+        {
+            requests[i] = new Param();
+            requests[i].Add("requestId", jsonData[i]["M"]["requestId"]["S"].ToString());
+            requests[i].Add("progress", int.Parse(jsonData[i]["M"]["progress"]["N"].ToString()));
+        }
+
+        return requests;
+    }
+
     #endregion
 
     #region Table : stage
+
+    private void CreateStage(string playerId)
+    {
+        Param param = new Param();
+        param.Add("playerId", playerId);
+
+        Param[] stages = new Param[0];
+        param.Add("stages", stages);
+
+        Backend.GameInfo.Insert("stage", param);
+    }
+
+    private void DestroyStage(string inDate)
+    {
+        Backend.GameInfo.Delete("stage", inDate);
+    }
+
+    private void AddStage(string inDate, string stageNumber, int number)
+    {
+        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("stage", inDate).GetReturnValuetoJSON()["row"][0]["stages"]["L"];
+        Param[] stages = GetStagesFromJsonData(jsonData);
+
+        Param[] result = new Param[stages.Length + 1];
+        Array.Copy(stages, 0, result, 0, stages.Length);
+
+        Param newStage = new Param();
+        newStage.Add("stageNumber", stageNumber);
+        newStage.Add("number", number);
+        result[stages.Length] = newStage;
+
+        Param param = new Param();
+        param.Add("stages", result);
+
+        Backend.GameInfo.Update("stage", inDate, param);
+    }
+
+    private void UpdateStageNumber(string inDate, string stageNumber, int number)
+    {
+        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("stage", inDate).GetReturnValuetoJSON()["row"][0]["stages"]["L"];
+        Param[] stages = GetStagesFromJsonData(jsonData);
+
+        SortedList[] stagesList = new SortedList[stages.Length];
+        for (int i = 0; i < stagesList.Length; i++)
+        {
+            stagesList[i] = stages[i].GetValue();
+        }
+
+        for (int i = 0; i < stages.Length; i++)
+        {
+            if (stagesList[i]["stageNumber"].ToString() == stageNumber)
+            {
+                Param newStage = new Param();
+                newStage.Add("stageNumber", stagesList[i]["stageNumber"].ToString());
+                newStage.Add("number", number);
+
+                stages[i] = newStage;
+            }
+        }
+
+        Param param = new Param();
+        param.Add("stages", stages);
+
+        Backend.GameInfo.Update("stage", inDate, param);
+    }
+
+    private void DeleteStage(string inDate, string stageNumber)
+    {
+        bool isDeleted = false;
+        int count = 0;
+
+        JsonData jsonData = Backend.GameInfo.GetContentsByIndate("stage", inDate).GetReturnValuetoJSON()["row"][0]["stages"]["L"];
+        Param[] stages = GetStagesFromJsonData(jsonData);
+        Param[] result = new Param[Math.Max(stages.Length - 1, 0)];
+
+        SortedList[] stagesList = new SortedList[stages.Length];
+        for (int i = 0; i < stagesList.Length; i++)
+        {
+            stagesList[i] = stages[i].GetValue();
+        }
+
+        for (int i = 0; i < stages.Length; i++)
+        {
+            if (stagesList[i]["stageNumber"].ToString() != stageNumber)
+            {
+                Param newStage = new Param();
+                newStage.Add("stageNumber", stagesList[i]["stageNumber"].ToString());
+                newStage.Add("number", int.Parse(stagesList[i]["number"].ToString()));
+
+                result[count] = newStage;
+                count++;
+            }
+            else
+            {
+                isDeleted = true;
+            }
+        }
+
+        if (isDeleted == true)
+        {
+            Param param = new Param();
+            param.Add("stages", result);
+
+            Backend.GameInfo.Update("stage", inDate, param);
+        }
+    }
+
+    private Param[] GetStagesFromJsonData(JsonData jsonData)
+    {
+        Param[] stages = new Param[jsonData.Count];
+
+        for (int i = 0; i < jsonData.Count; i++)
+        {
+            stages[i] = new Param();
+            stages[i].Add("stageNumber", jsonData[i]["M"]["stageNumber"]["S"].ToString());
+            stages[i].Add("number", int.Parse(jsonData[i]["M"]["number"]["N"].ToString()));
+        }
+
+        return stages;
+    }
 
     #endregion
 }
