@@ -269,7 +269,7 @@ namespace AlchemyPlanet.Data
                 building.flip = item.isFlipped;
                 building.setup = item.isConstructed;
                 building.upgrading = item.isUpgrading;
-                building.UpgradeEndTime = item.endDate;
+                building.endDate = item.endDate;
                 building.material = buildingInfo[building.buildingName].material;
                 building.money = buildingInfo[building.buildingName].money;
                 CurrentPlayerData.buildings.Add(building);

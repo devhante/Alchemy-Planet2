@@ -34,7 +34,7 @@ namespace AlchemyPlanet.TownScene
                 stage = 2;
                 movingHand = false;
                 sequence.Kill();
-            Data.DataManager.Instance.CurrentPlayerData.buildings.Add(Data.DataManager.Instance.buildingInfo["House"].Clone());
+                Data.DataManager.Instance.CurrentPlayerData.buildings.Add(Data.DataManager.Instance.buildingInfo["House"].Clone());
                 Data.DataManager.Instance.CurrentPlayerData.GiveId(Data.DataManager.Instance.CurrentPlayerData.buildings[0]);
                 BackendManager.Instance.AddTown(BackendManager.Instance.GetInDate("town"),
                     Data.DataManager.Instance.CurrentPlayerData.buildings[0].id,
@@ -44,7 +44,7 @@ namespace AlchemyPlanet.TownScene
                     Data.DataManager.Instance.CurrentPlayerData.buildings[0].setup,
                     Data.DataManager.Instance.CurrentPlayerData.buildings[0].flip,
                     Data.DataManager.Instance.CurrentPlayerData.buildings[0].upgrading,
-                    Data.DataManager.Instance.CurrentPlayerData.buildings[0].UpgradeEndTime);
+                    Data.DataManager.Instance.CurrentPlayerData.buildings[0].endDate);
                 Data.DataManager.Instance.CurrentPlayerData.interiors.Add(Data.DataManager.Instance.interiorInfo["Tree"].Clone());
                 Data.DataManager.Instance.CurrentPlayerData.GiveId(Data.DataManager.Instance.CurrentPlayerData.interiors[0]);
                 BackendManager.Instance.AddTown(BackendManager.Instance.GetInDate("town"),

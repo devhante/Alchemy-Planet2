@@ -18,7 +18,7 @@ namespace AlchemyPlanet.Data
         public int buildingLevel;
         public bool upgrading = false;
         public Dictionary<string, int> material;
-        public DateTime UpgradeEndTime;
+        public DateTime endDate;
         public int money;
         public string effect;
         
@@ -49,10 +49,10 @@ namespace AlchemyPlanet.Data
             DataManager.Instance.CurrentPlayerData.SetBuilding(this);
             AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetImage");
             int UpgradeTime = buildingLevel * 10;
-            UpgradeEndTime = DateTime.Now.AddSeconds(UpgradeTime);
+            endDate = DateTime.Now.AddSeconds(UpgradeTime);
 
             BackendManager.Instance.UpdateTownUpgrading(BackendManager.Instance.GetInDate("town"), id, upgrading);
-            BackendManager.Instance.UpdateTownEndDate(BackendManager.Instance.GetInDate("town"), id, UpgradeEndTime);
+            BackendManager.Instance.UpdateTownEndDate(BackendManager.Instance.GetInDate("town"), id, endDate);
         }
 
         public void UpgradeEnd()

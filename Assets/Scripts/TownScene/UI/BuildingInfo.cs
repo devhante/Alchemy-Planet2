@@ -159,7 +159,7 @@ public class BuildingInfo : MonoBehaviour
             SetInfo(DataManager.Instance.CurrentPlayerData.buildings.Find(a => a.buildingName == building.buildingName));
             DataManager.Instance.CurrentPlayerData.GiveId(building);
             BackendManager.Instance.AddTown(BackendManager.Instance.GetInDate("town"), building.id, building.buildingName, building.buildingLevel,
-                building.position, building.setup, building.flip, building.upgrading, building.UpgradeEndTime);
+                building.position, building.setup, building.flip, building.upgrading, building.endDate);
         }
     }
 
