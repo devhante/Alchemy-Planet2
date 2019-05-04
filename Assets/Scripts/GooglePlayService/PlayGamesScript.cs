@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
 using AlchemyPlanet.Common;
+using BackEnd;
 
 namespace AlchemyPlanet.Data
 {
@@ -43,7 +44,16 @@ namespace AlchemyPlanet.Data
             }
 
             DataManager.Instance.CurrentPlayerData = new PlayerData();
-            NotFirstTimeFunc();
+            if (Backend.BMember.IsAccessTokenAlive().GetStatusCode().ToString() == "204")
+            {
+                Debug.Log(Backend.BMember.IsAccessTokenAlive().GetStatusCode());
+                NotFirstTimeFunc();
+            }
+            else
+            {
+                Debug.Log(Backend.BMember.IsAccessTokenAlive().GetStatusCode());
+                FirstTimeFunc();
+            }
         }
 
         public void FirstTimeFunc()
