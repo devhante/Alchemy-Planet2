@@ -51,6 +51,11 @@ public class BackendManager : MonoBehaviour
         Backend.BMember.CustomLogin("alchemyplanet", "3712");
     }
 
+    public void Logout()
+    {
+        Backend.BMember.Logout();
+    }
+
     public void CreateNickname()
     {
         Backend.BMember.CreateNickname("alchemyplanet");
