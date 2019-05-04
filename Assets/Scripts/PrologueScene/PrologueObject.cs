@@ -38,10 +38,10 @@ namespace AlchemyPlanet.PrologueScene
             {
                 DeactiveObject();
             }
-            if(kind == ObjectKind.NPC)
-            {
-                ActiveObject();
-            }
+            //if(kind == ObjectKind.NPC)
+            //{
+            //    ActiveObject();
+            //}
         }
 
         public void ActiveObject()
@@ -94,6 +94,8 @@ namespace AlchemyPlanet.PrologueScene
 
         public void OpenDialog()
         {
+            Debug.Log("OpenDialog");
+            transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
             Data.DataManager.Instance.selected_dialog = new Data.NPCDAta(objcect_name);
             TownScene.UIManager.Instance.OpenMenu<TownScene.DialogUI>();
             TownScene.DialogUI.Instance.SetDialog();

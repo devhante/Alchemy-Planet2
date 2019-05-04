@@ -79,19 +79,20 @@ namespace AlchemyPlanet.PrologueScene
             {
                 TouchLock = true;
                 animator.SetBool("Run", false);
+                Destroy(collision.gameObject);
             }
         }
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            if (collision.CompareTag("NPC"))
-            {
-                TouchLock = true;
-                //StopCoroutine("WaitForMouseUp");
-                //StartCoroutine("WaitForMouseUp");
-                transform.rotation = Quaternion.Euler(0, 180, 0);
-                animator.SetBool("Run", false);
-            }
+            //if (collision.CompareTag("NPC"))
+            //{
+            //    TouchLock = true;
+            //    //StopCoroutine("WaitForMouseUp");
+            //    //StartCoroutine("WaitForMouseUp");
+            //    transform.rotation = Quaternion.Euler(0, 180, 0);
+            //    animator.SetBool("Run", false);
+            //}
         }
     }
 }
