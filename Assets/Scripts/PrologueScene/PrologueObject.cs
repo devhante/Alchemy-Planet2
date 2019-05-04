@@ -29,7 +29,7 @@ namespace AlchemyPlanet.PrologueScene
         {
             if (collision.CompareTag("Player") && kind != ObjectKind.NPC)
             {
-                ActiveObject();
+                ActiveObject(collision.gameObject);
             }
         }
         private void OnTriggerExit2D(Collider2D collision)
@@ -44,13 +44,23 @@ namespace AlchemyPlanet.PrologueScene
             //}
         }
 
-        public void ActiveObject()
+        public void ActiveObject(GameObject target)
         {
             Debug.Log("On");
             switch (kind)
             {
                 case ObjectKind.NPC:
                     {
+                        if (transform.position.x >= target.transform.position.x)
+                        {
+                            target.transform.rotation = Quaternion.Euler(0, 0, 0);
+                            transform.rotation = Quaternion.Euler(0, 180, 0);
+                        }
+                        else
+                        {
+                            target.transform.rotation = Quaternion.Euler(0, 180, 0);
+                            transform.rotation = Quaternion.Euler(0, 0, 0);
+                        }
                         OpenDialog();
                         break;
                     }
@@ -94,8 +104,6 @@ namespace AlchemyPlanet.PrologueScene
 
         public void OpenDialog()
         {
-            Debug.Log("OpenDialog");
-            transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
             Data.DataManager.Instance.selected_dialog = new Data.NPCDAta(objcect_name);
             TownScene.UIManager.Instance.OpenMenu<TownScene.DialogUI>();
             TownScene.DialogUI.Instance.SetDialog();

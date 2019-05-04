@@ -39,31 +39,42 @@ namespace AlchemyPlanet.PrologueScene
                     if (hit && (hit.transform.CompareTag("NPC") || hit.transform.CompareTag("InteractiveObject")))
                     {
                         PrologueObject obj = hit.transform.GetComponent<PrologueObject>();
-                        obj.ActiveObject();
+                        obj.ActiveObject(gameObject);
                         StartCoroutine(DeactiveObject_WithDelay(obj));
                     }
+                    else
+                    {
+                        Run();
+                    }
                 }
-
-                touchedPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                animator.SetBool("Run", true);
-                if (transform.position.x - touchedPos.x < 0)
+                else
                 {
-                    transform.rotation = Quaternion.Euler(0, 0, 0);
-                    RaycastHit2D wall = Physics2D.Raycast(transform.position, Vector2.right, 1.5f, LayerMask.GetMask("Wall"));
-                    if (wall.collider == null)
-                        transform.Translate(Vector2.right * speed * Time.deltaTime);
-                }
-                else if (transform.position.x - touchedPos.x > 0)
-                {
-                    transform.rotation = Quaternion.Euler(0, 180, 0);
-                    RaycastHit2D wall = Physics2D.Raycast(transform.position, Vector2.left, 1.5f, LayerMask.GetMask("Wall"));
-                    if (wall.collider == null)
-                        transform.Translate(Vector2.right * speed * Time.deltaTime);
+                    Run();   
                 }
             }
             if (Input.GetMouseButtonUp(0) || EventSystem.current.IsPointerOverGameObject())
             {
                 animator.SetBool("Run", false);
+            }
+        }
+
+        private void Run()
+        {
+            touchedPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            animator.SetBool("Run", true);
+            if (transform.position.x - touchedPos.x < 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+                RaycastHit2D wall = Physics2D.Raycast(transform.position, Vector2.right, 1.5f, LayerMask.GetMask("Wall"));
+                if (wall.collider == null)
+                    transform.Translate(Vector2.right * speed * Time.deltaTime);
+            }
+            else if (transform.position.x - touchedPos.x > 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+                RaycastHit2D wall = Physics2D.Raycast(transform.position, Vector2.left, 1.5f, LayerMask.GetMask("Wall"));
+                if (wall.collider == null)
+                    transform.Translate(Vector2.right * speed * Time.deltaTime);
             }
         }
 
