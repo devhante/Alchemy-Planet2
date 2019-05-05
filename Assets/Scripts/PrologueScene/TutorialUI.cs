@@ -16,9 +16,7 @@ namespace AlchemyPlanet.PrologueScene
 
         private void Awake()
         {
-            button.onClick.AddListener(() => {
-                GameObject.Destroy(this.gameObject);
-            });
+            
         }
 
         void Start()
@@ -27,7 +25,12 @@ namespace AlchemyPlanet.PrologueScene
             message.DOFade(1, 1).SetEase(Ease.InBack);
             finger.DOFade(1, 1).SetEase(Ease.InSine).OnComplete(() => {
                 finger.transform.DORotate(new Vector3(0, 0, 30), 1);
-                finger.transform.DOLocalMove(new Vector3(finger_pos, -330, 0), 1);
+                finger.transform.DOLocalMove(new Vector3(finger_pos, -330, 0), 1).OnComplete(() =>
+                {
+                    button.onClick.AddListener(() => {
+                        GameObject.Destroy(this.gameObject);
+                    });
+                });
             });
         }
     }

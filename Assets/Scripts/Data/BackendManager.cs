@@ -855,6 +855,7 @@ public class BackendManager : MonoBehaviour
         param.Add("parties", parties);
 
         Backend.GameInfo.Insert("party", param);
+        Debug.Log(Backend.GameInfo.GetContentsByIndate("party", GetInDate("party")).GetReturnValuetoJSON()["row"][0]["parties"]["L"].ToString());
     }
 
     public void DestroyParty(string inDate)

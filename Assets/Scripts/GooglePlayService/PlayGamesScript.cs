@@ -72,6 +72,10 @@ namespace AlchemyPlanet.Data
         private void LoadPrologueScene()
         {
             Debug.Log("LoadPrologueScene");
+
+            // 임시 코드
+            BackendManager.Instance.CustomLogin();
+
             SceneChangeManager.Instance.ChangeSceneWithLoading("PrologueScene");
         }
 

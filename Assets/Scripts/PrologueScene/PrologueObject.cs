@@ -46,7 +46,6 @@ namespace AlchemyPlanet.PrologueScene
 
         public void ActiveObject(GameObject target)
         {
-            Debug.Log("On");
             switch (kind)
             {
                 case ObjectKind.NPC:
@@ -97,7 +96,6 @@ namespace AlchemyPlanet.PrologueScene
         {
             if(kind == ObjectKind.Object)
             {
-                Debug.Log("Off");
                 CloseBubble();
             }
         }

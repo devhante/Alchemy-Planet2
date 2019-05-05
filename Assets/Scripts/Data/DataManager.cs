@@ -205,6 +205,18 @@ namespace AlchemyPlanet.Data
 
         #region PlayerData
 
+        public string CreatePlayerId()
+        {
+            char[] array = new char[8];
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i] = Convert.ToChar(UnityEngine.Random.Range(0, 10) + '0');
+            }
+
+            return array.ToString();
+        }
+
         public void LoadPlayerData()
         {
             CurrentPlayerData = new PlayerData
