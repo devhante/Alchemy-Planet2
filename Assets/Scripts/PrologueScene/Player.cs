@@ -21,62 +21,50 @@ namespace AlchemyPlanet.PrologueScene
         }
         private void Update()
         {
-            if (Input.GetMouseButtonUp(0))
+            if(TouchManager.Instance != null)
             {
-                TouchLock = false;
-            }
-            if(!TouchLock)
-                DetectTouch();
-        }
-        void DetectTouch()
-        {
-            if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
-            {
-                if (Input.GetMouseButtonDown(0))
+                if(TouchManager.Instance.IsMoving == true)
                 {
-                    touchedPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero, 0, LayerMask.GetMask("SmallStructure"));
-
-                    if (hit && (hit.transform.CompareTag("NPC") || hit.transform.CompareTag("InteractiveObject")))
-                    {
-                        PrologueObject obj = hit.transform.GetComponent<PrologueObject>();
-                        obj.ActiveObject(gameObject);
-                        StartCoroutine(DeactiveObject_WithDelay(obj));
-                    }
-                    else
+                    if (TouchLock == false)
                     {
                         Run();
                     }
                 }
                 else
                 {
-                    Run();   
+                    animator.SetBool("Run", false);
+                    TouchLock = false;
                 }
-            }
-            if (Input.GetMouseButtonUp(0) || EventSystem.current.IsPointerOverGameObject())
-            {
-                animator.SetBool("Run", false);
             }
         }
 
         private void Run()
         {
-            touchedPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            animator.SetBool("Run", true);
-            if (transform.position.x - touchedPos.x < 0)
+            if(TouchManager.Instance != null && TouchManager.Instance.Joystick != null)
             {
-                transform.rotation = Quaternion.Euler(0, 0, 0);
-                RaycastHit2D wall = Physics2D.Raycast(transform.position, Vector2.right, 1.5f, LayerMask.GetMask("Wall"));
-                if (wall.collider == null)
-                    transform.Translate(Vector2.right * speed * Time.deltaTime);
+                animator.SetBool("Run", true);
+                if (TouchManager.Instance.Joystick.Normal.x > 0)
+                {
+                    transform.rotation = Quaternion.Euler(0, 0, 0);
+                    RaycastHit2D wall = Physics2D.Raycast(transform.position, Vector2.right, 1.5f, LayerMask.GetMask("Wall"));
+                    if (wall.collider == null)
+                        transform.Translate(Vector2.right * speed * Time.deltaTime);
+                }
+                else if (TouchManager.Instance.Joystick.Normal.x < 0)
+                {
+                    transform.rotation = Quaternion.Euler(0, 180, 0);
+                    RaycastHit2D wall = Physics2D.Raycast(transform.position, Vector2.left, 1.5f, LayerMask.GetMask("Wall"));
+                    if (wall.collider == null)
+                        transform.Translate(Vector2.right * speed * Time.deltaTime);
+                }
             }
-            else if (transform.position.x - touchedPos.x > 0)
-            {
-                transform.rotation = Quaternion.Euler(0, 180, 0);
-                RaycastHit2D wall = Physics2D.Raycast(transform.position, Vector2.left, 1.5f, LayerMask.GetMask("Wall"));
-                if (wall.collider == null)
-                    transform.Translate(Vector2.right * speed * Time.deltaTime);
-            }
+        }
+
+        private void Interact(RaycastHit2D hit)
+        {
+            PrologueObject obj = hit.transform.GetComponent<PrologueObject>();
+            obj.ActiveObject(gameObject);
+            StartCoroutine(DeactiveObject_WithDelay(obj));
         }
 
         public IEnumerator DeactiveObject_WithDelay(PrologueObject obj)
@@ -91,20 +79,9 @@ namespace AlchemyPlanet.PrologueScene
             {
                 TouchLock = true;
                 animator.SetBool("Run", false);
+                Destroy(TouchManager.Instance.Joystick.transform.parent.gameObject);
                 Destroy(collision.gameObject);
             }
-        }
-
-        private void OnTriggerExit2D(Collider2D collision)
-        {
-            //if (collision.CompareTag("NPC"))
-            //{
-            //    TouchLock = true;
-            //    //StopCoroutine("WaitForMouseUp");
-            //    //StartCoroutine("WaitForMouseUp");
-            //    transform.rotation = Quaternion.Euler(0, 180, 0);
-            //    animator.SetBool("Run", false);
-            //}
         }
     }
 }

@@ -24,20 +24,12 @@ namespace AlchemyPlanet.Common
             StartCoroutine("PointerDown");
         }
 
-        int xAxis = 0;
-        int yAxis = 0;
-
-        private void Update()
-        {
-
-        }
-
         IEnumerator PointerDown()
         {
             while (true)
             {
-                Vector3 centerPos = TouchManager.Instance.GetStartTouchPos();
-                Vector3 touchPos = TouchManager.Instance.GetCurrentTouchPos();
+                Vector3 centerPos = TouchManager.Instance.StartTouchPos;
+                Vector3 touchPos = TouchManager.Instance.CurrentTouchPos;
 
                 float distance = Vector3.Distance(centerPos, touchPos);
                 if (distance > radius) touchPos = centerPos + Vector3.ClampMagnitude((touchPos - centerPos), radius);
@@ -55,15 +47,12 @@ namespace AlchemyPlanet.Common
             {
                 Vector3 centerPos = transform.position;
                 Vector3 controllerPos = controller.position;
-                Vector3 destination = centerPos + new Vector3(xAxis, yAxis).normalized * radius;
+                Vector3 destination = centerPos;
                 Vector3 destinationFrame = controllerPos + (destination - controllerPos).normalized * radius * 4 * Time.deltaTime;
                 float distance = Vector3.Distance(centerPos, destinationFrame);
 
-                //Debug.Log((destination - destinationFrame).magnitude);
-
                 if (distance != 0)
                 {
-
                     if (distance > radius) destinationFrame = centerPos + Vector3.ClampMagnitude((destinationFrame - centerPos), radius);
                     if ((destination - destinationFrame).magnitude <= 10.0f) destinationFrame = destination;
                     controller.position = destinationFrame;

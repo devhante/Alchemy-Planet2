@@ -1,12 +1,22 @@
-﻿using System.Collections;
+﻿using AlchemyPlanet.PrologueScene;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace AlchemyPlanet.Common
 {
     public class TouchManager : MonoBehaviour
     {
         public static TouchManager Instance { get; private set; }
+
+        private int touchId = 0;
+        public Vector3 StartTouchPos { get; private set; }
+        public Vector3 CurrentTouchPos { get; private set; }
+        public bool IsMoving { get; private set; }
+
+        public GameObject joystickPrefab;
+        public Joystick Joystick { get; private set; }
 
         private void Awake()
         {
@@ -19,21 +29,18 @@ namespace AlchemyPlanet.Common
             {
                 Destroy(gameObject);
             }
+
+            StartTouchPos = Vector3.zero;
+            CurrentTouchPos = Vector3.zero;
+            IsMoving = false;
+            Joystick = null;
         }
-
-        private int touchId;
-        private Vector3 startTouchPos;
-        private Vector3 currentTouchPos;
-        private bool touched = false;
-
-        public GameObject joystickPrefab;
-        private Joystick joystick;
 
         private void Update()
         {
             if (Input.touchCount > 0)
             {
-                if (touched == false)
+                if (IsMoving == false)
                 {
                     for (int i = 0; i < Input.touchCount; i++)
                     {
@@ -41,47 +48,56 @@ namespace AlchemyPlanet.Common
                         {
                             Touch touch = Input.GetTouch(i);
                             touchId = touch.fingerId;
-                            startTouchPos = touch.position;
-                            joystick = Instantiate(joystickPrefab).transform.GetChild(0).GetComponent<Joystick>();
-                            joystick.gameObject.transform.position = startTouchPos;
-                            touched = true;
+                            StartTouchPos = touch.position;
                             break;
+                        }
+                    }
+
+                    if (EventSystem.current.IsPointerOverGameObject(touchId) == false)
+                    {
+                        Vector3 worldPos = Camera.main.ScreenToWorldPoint(StartTouchPos);
+                        RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero, 0, LayerMask.GetMask("SmallStructure"));
+
+                        if (hit && (hit.transform.CompareTag("NPC") || hit.transform.CompareTag("InteractiveObject")))
+                        {
+                            GameObject.FindGameObjectWithTag("Player").SendMessage("Interact", hit);
+                        }
+                        else
+                        {
+                            Joystick = Instantiate(joystickPrefab).transform.GetChild(0).GetComponent<Joystick>();
+                            Joystick.gameObject.transform.position = StartTouchPos;
+                            IsMoving = true;
                         }
                     }
                 }
                 else
                 {
-                    Touch touch = new Touch();
-                    for(int i = 0; i < Input.touchCount; i++)
+                    if (EventSystem.current.IsPointerOverGameObject(touchId) == false)
                     {
-                        if(Input.GetTouch(i).fingerId == touchId)
+                        Touch touch = new Touch();
+                        for (int i = 0; i < Input.touchCount; i++)
                         {
-                            touch = Input.GetTouch(i);
-                            break;
+                            if (Input.GetTouch(i).fingerId == touchId)
+                            {
+                                touch = Input.GetTouch(i);
+                                break;
+                            }
                         }
-                    }
-
-                    if (touch.phase == TouchPhase.Ended)
-                    {
-                        Destroy(joystick.transform.parent.gameObject);
-                        touched = false;
+                        CurrentTouchPos = touch.position;
                     }
                     else
                     {
-                        currentTouchPos = touch.position;
+                        Destroy(Joystick.transform.parent.gameObject);
+                        Joystick = null;
                     }
                 }
             }
-        }
-
-        public Vector3 GetStartTouchPos()
-        {
-            return startTouchPos;
-        }
-
-        public Vector3 GetCurrentTouchPos()
-        {
-            return currentTouchPos;
+            else if(Joystick != null)
+            {
+                Destroy(Joystick.transform.parent.gameObject);
+                Joystick = null;
+                IsMoving = false;
+            }
         }
     }
 }
