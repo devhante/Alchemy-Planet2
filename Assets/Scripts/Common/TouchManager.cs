@@ -42,6 +42,8 @@ namespace AlchemyPlanet.Common
             {
                 if (IsMoving == false)
                 {
+                    bool isBegan = false;
+
                     for (int i = 0; i < Input.touchCount; i++)
                     {
                         if (Input.GetTouch(i).phase == TouchPhase.Began)
@@ -49,6 +51,7 @@ namespace AlchemyPlanet.Common
                             Touch touch = Input.GetTouch(i);
                             touchId = touch.fingerId;
                             StartTouchPos = touch.position;
+                            isBegan = true;
                             break;
                         }
                     }
@@ -62,7 +65,7 @@ namespace AlchemyPlanet.Common
                         {
                             GameObject.FindGameObjectWithTag("Player").SendMessage("Interact", hit);
                         }
-                        else
+                        else if(isBegan == true)
                         {
                             Joystick = Instantiate(joystickPrefab).transform.GetChild(0).GetComponent<Joystick>();
                             Joystick.gameObject.transform.position = StartTouchPos;
@@ -85,10 +88,11 @@ namespace AlchemyPlanet.Common
                         }
                         CurrentTouchPos = touch.position;
                     }
-                    else
+                    else if(Joystick != null)
                     {
                         Destroy(Joystick.transform.parent.gameObject);
                         Joystick = null;
+                        IsMoving = false;
                     }
                 }
             }
