@@ -24,96 +24,41 @@ namespace AlchemyPlanet.TownScene
         // Update is called once per frame
         void Update()
         {
-            DetectTouch();
+
         }
 
-        void DetectTouch()    // 클릭감지
+        void Interact(RaycastHit2D hit)
         {
-            if (Input.touchCount == 1 && !talking)
+            if (hit.collider.tag == "NPC")
             {
-                tempTouch = Input.GetTouch(0);
-                if (tempTouch.phase != TouchPhase.Ended && !EventSystem.current.IsPointerOverGameObject(tempTouch.fingerId))
+                if (TownUI.Instance.turnOnBuildBar)
                 {
-                    touchedPos = Camera.main.ScreenToWorldPoint(tempTouch.position);
-                    RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero, 0, LayerMask.GetMask("NPC"));
-
-                    if (tempTouch.phase == TouchPhase.Began && hit.collider != null && hit.collider.tag == "NPC")
-                    {
-                        if (TownUI.Instance.turnOnBuildBar)
-                        {
-                            TownUI.Instance.StartCoroutine("MoveBar");
-                        }
-                        animator.SetBool("Run", false);
-                        talking = true;
-                        hit.collider.gameObject.SendMessage("Stop");
-                        hit.collider.gameObject.SendMessage("TalkStart", gameObject);
-                    }
-                    else
-                    {
-                        if (transform.position.x - touchedPos.x < 0)
-                        {
-                            RaycastHit2D wall = Physics2D.Raycast(transform.position, Vector2.right, 1, LayerMask.GetMask("Wall"));
-                            transform.rotation = Quaternion.Euler(0, 0, 0);
-                            if (wall.collider == null)
-                                transform.Translate(Vector2.right * speed * Time.deltaTime);
-                        }
-                        else if (transform.position.x - touchedPos.x > 0)
-                        {
-                            RaycastHit2D wall = Physics2D.Raycast(transform.position, Vector2.left, 1, LayerMask.GetMask("Wall"));
-                            transform.rotation = Quaternion.Euler(0, 180, 0);
-                            if (wall.collider == null)
-                                transform.Translate(Vector2.right * speed * Time.deltaTime);
-                        }
-                        animator.SetBool("Run", true);
-                    }
+                    TownUI.Instance.StartCoroutine("MoveBar");
                 }
-                else
-                {
-                    animator.SetBool("Run", false);
-                }
+                animator.SetBool("Run", false);
+                talking = true;
+                hit.collider.gameObject.SendMessage("Stop");
+                hit.collider.gameObject.SendMessage("TalkStart", gameObject);
             }
-            //else if (Input.GetMouseButton(0) && !talking)
-            //{
-            //    if (!Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject())
-            //    {
-            //        touchedPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            //        RaycastHit2D hit = Physics2D.Raycast(touchedPos, Vector2.zero, 0, LayerMask.GetMask("NPC"));
+        }
 
-            //        if (Input.GetMouseButtonDown(0) && hit.collider != null && hit.collider.tag == "NPC")
-            //        {
-            //            if (TownUI.Instance.turnOnBuildBar)
-            //            {
-            //                TownUI.Instance.StartCoroutine("MoveBar");
-            //            }
-            //            animator.SetBool("Run", false);
-            //            talking = true;
-            //            hit.collider.gameObject.SendMessage("Stop");
-            //            hit.collider.gameObject.SendMessage("TalkStart", gameObject);
-            //        }
-            //        else
-            //        {
-            //            if (transform.position.x - touchedPos.x < 0)
-            //            {
-            //                RaycastHit2D wall = Physics2D.Raycast(transform.position, Vector2.right, 1, LayerMask.GetMask("Wall"));
-            //                transform.rotation = Quaternion.Euler(0, 0, 0);
-            //                if (wall.collider == null)
-            //                    transform.Translate(Vector2.right * speed * Time.deltaTime);
-            //            }
-            //            else if (transform.position.x - touchedPos.x > 0)
-            //            {
-            //                RaycastHit2D wall = Physics2D.Raycast(transform.position, Vector2.left, 1, LayerMask.GetMask("Wall"));
-            //                transform.rotation = Quaternion.Euler(0, 180, 0);
-            //                if (wall.collider == null)
-            //                    transform.Translate(Vector2.right * speed * Time.deltaTime);
-            //            }
-            //            animator.SetBool("Run", true);
-            //        }
-            //    }
-            //}
-            //else if (Input.GetMouseButtonUp(0))
-            //{
-            //    animator.SetBool("Run", false);
-            //}
+        void Move(Vector2 direction)
+        {
+            Debug.Log(direction);
+            if (direction.x < 0) {
+                direction.x *= -1;
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
+            else
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+
+            transform.Translate(direction * speed * Time.deltaTime);
+            animator.SetBool("Run", true);
+        }
+
+        void Stop()
+        {
+            animator.SetBool("Run", false);
         }
 
         IEnumerator TalkEnd()
