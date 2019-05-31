@@ -65,7 +65,7 @@ namespace AlchemyPlanet.Common
                         {
                             GameObject.FindGameObjectWithTag("Player").SendMessage("Interact", hit);
                         }
-                        else if(isBegan == true)
+                        else if (isBegan == true)
                         {
                             Joystick = Instantiate(joystickPrefab).transform.GetChild(0).GetComponent<Joystick>();
                             Joystick.gameObject.transform.position = StartTouchPos;
@@ -87,20 +87,32 @@ namespace AlchemyPlanet.Common
                             }
                         }
                         CurrentTouchPos = touch.position;
+
+                        Vector2 direction = CurrentTouchPos - StartTouchPos;
+                        float directionX = direction.x >= 0 ? direction.x : -direction.x;
+                        float directionY = direction.y >= 0 ? direction.y : -direction.y;
+                        if (directionX >= directionY)
+                            direction /= directionX;
+                        else
+                            direction /= directionY;
+
+                        GameObject.FindGameObjectWithTag("Player").SendMessage("Move", direction);
                     }
-                    else if(Joystick != null)
+                    else if (Joystick != null)
                     {
                         Destroy(Joystick.transform.parent.gameObject);
                         Joystick = null;
                         IsMoving = false;
+                        GameObject.FindGameObjectWithTag("Player").SendMessage("Stop");
                     }
                 }
             }
-            else if(Joystick != null)
+            else if (Joystick != null)
             {
                 Destroy(Joystick.transform.parent.gameObject);
                 Joystick = null;
                 IsMoving = false;
+                GameObject.FindGameObjectWithTag("Player").SendMessage("Stop");
             }
         }
     }

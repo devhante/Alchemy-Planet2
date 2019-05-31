@@ -31,7 +31,6 @@ namespace AlchemyPlanet.TownScene
 
         private void Start()
         {
-            Common.SoundManager.Instance.PlayBGM(1);
 
             GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
 
@@ -58,6 +57,7 @@ namespace AlchemyPlanet.TownScene
                     DataManager.Instance.CurrentPlayerData.setupBuildilngs.Add(Instantiate(strc.interiorObject));
                 }
             }
+            Common.SoundManager.Instance.PlayBGM(1);
         }
 
         IEnumerator LateAwake()
