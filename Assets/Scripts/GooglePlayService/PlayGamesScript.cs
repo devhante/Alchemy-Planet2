@@ -44,6 +44,7 @@ namespace AlchemyPlanet.Data
             }
 
             DataManager.Instance.CurrentPlayerData = new PlayerData();
+
             if (Backend.BMember.IsAccessTokenAlive().GetStatusCode().ToString() == "204")
             {
                 Debug.Log(Backend.BMember.IsAccessTokenAlive().GetStatusCode());
@@ -58,15 +59,17 @@ namespace AlchemyPlanet.Data
 
         public void FirstTimeFunc()
         {
-            Debug.Log("FirstTimeFunc");
-            prologueButton.gameObject.SetActive(true);
+            //prologueButton.gameObject.SetActive(true);
+            BackendManager.Instance.CustomLogin();
+            CreatePlayer();
+            townButton.gameObject.SetActive(true);
+            Debug.Log("first");
         }
 
         public void NotFirstTimeFunc()
         {
-            Debug.Log("NotFirstTimeFunc");
             townButton.gameObject.SetActive(true);
-            // DataManager.Instance.LoadPlayerData();
+            Debug.Log("notfirst");
         }
 
         private void LoadPrologueScene()
@@ -83,6 +86,30 @@ namespace AlchemyPlanet.Data
         {
             Debug.Log("LoadPrologueScene");
             SceneChangeManager.Instance.ChangeSceneWithLoading("TownScene");
+        }
+
+        private void CreatePlayer()
+        {
+            DataManager.Instance.CurrentPlayerData.player_id = DataManager.Instance.CreatePlayerId();
+            DataManager.Instance.CurrentPlayerData.player_name = "player";
+            DataManager.Instance.CurrentPlayerData.unicoin = 0;
+            DataManager.Instance.CurrentPlayerData.cosmostone = 0;
+            DataManager.Instance.CurrentPlayerData.oxygentank = 0;
+            BackendManager.Instance.CreatePlayer(DataManager.Instance.CurrentPlayerData.player_id, DataManager.Instance.CurrentPlayerData.player_name);
+
+            BackendManager.Instance.CreateItem(DataManager.Instance.CurrentPlayerData.player_id);
+            BackendManager.Instance.CreateTown(DataManager.Instance.CurrentPlayerData.player_id);
+            BackendManager.Instance.CreateCharacter(DataManager.Instance.CurrentPlayerData.player_id);
+
+            BackendManager.Instance.CreateParty(DataManager.Instance.CurrentPlayerData.player_id);
+            DataManager.Instance.CurrentPlayerData.party[0, 0] = CharacterEnum.Popin;
+            BackendManager.Instance.AddParty(BackendManager.Instance.GetInDate("party"), 1, "0", "", "");
+
+            BackendManager.Instance.CreateStage(DataManager.Instance.CurrentPlayerData.player_id);
+            DataManager.Instance.CurrentPlayerData.stroystar["1-1"] = 0;
+            BackendManager.Instance.AddStage(BackendManager.Instance.GetInDate("stage"), "1-1", 0);
+
+            BackendManager.Instance.CreateRequest(DataManager.Instance.CurrentPlayerData.player_id);
         }
     }
 }
