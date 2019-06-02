@@ -16,7 +16,6 @@ namespace AlchemyPlanet.GameScene
         public Dictionary<MaterialName, int> MaterialNumbers { get; private set; }
         public List<GameObject> Objects { get; private set; }
         public List<Material> MaterialChain { get; private set; }
-        public List<Line> Lines { get; private set; }
 
         public int MaxChainNumber { get; private set; }
         public int Count { get; private set; }
@@ -44,7 +43,6 @@ namespace AlchemyPlanet.GameScene
             Objects = new List<GameObject>();
             MaterialNumbers = new Dictionary<MaterialName, int>();
             MaterialChain = new List<Material>();
-            Lines = new List<Line>();
 
             MaxChainNumber = 5;
             Count = 17;

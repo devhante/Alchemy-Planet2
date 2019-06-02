@@ -60,6 +60,15 @@ namespace AlchemyPlanet.GameScene
             sq.Append(transform.DOScale(0.97f, 0.2f).SetEase(Ease.OutQuint));
         }
 
+        protected IEnumerator MoveCoroutine()
+        {
+            while(true)
+            {
+                transform.position = Input.mousePosition;
+                yield return new WaitForEndOfFrame();
+            }
+        }
+
         public void ExpandAndDestroy()
         {
             animator.SetTrigger("Pop");
@@ -85,6 +94,7 @@ namespace AlchemyPlanet.GameScene
             StopCoroutine("Float");
             Shrink();
             ChangeBubbleToSelectedBubble();
+            StartCoroutine("MoveCoroutine");
         }
 
         public void ChangeBubbleToSelectedBubble()
