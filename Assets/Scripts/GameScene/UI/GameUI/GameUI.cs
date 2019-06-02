@@ -41,7 +41,7 @@ namespace AlchemyPlanet.GameScene
 
             gageValues = new Dictionary<Gages, float>();
             gageValues.Add(Gages.OXYGEN, 100);
-            gageValues.Add(Gages.PURIFY, 50);
+            gageValues.Add(Gages.PURIFY, 0);
         }
 
         public void Start()
@@ -50,13 +50,10 @@ namespace AlchemyPlanet.GameScene
             IsNotReducingOxygen = false;
             OxygenReduceSpeed = 1;
 
-            UpdateGage(Gages.PURIFY, 0);
             GameManager.Instance.StartCoroutine("GainScoreByTimeCoroutine");
 
             StartCoroutine("UpdateOxygenGage");
             StartCoroutine("UpdatePurifyGage");
-            StartCoroutine("OxygenMinus");
-            StartCoroutine("PurifyMinus");
         }
 
         public Image GetMask(Gages kind)
@@ -125,30 +122,6 @@ namespace AlchemyPlanet.GameScene
                 }
 
                 yield return null;
-            }
-        }
-
-        IEnumerator OxygenMinus() 
-        {
-            float frame = 2;
-
-            while (true)
-            {
-                float purifyGageSquare = (gageValues[Gages.PURIFY] * 0.01f) * (gageValues[Gages.PURIFY] * 0.01f);
-                yield return new WaitForSeconds(frame * (1 + purifyGageSquare) * OxygenReduceSpeed);
-                UpdateGage(Gages.OXYGEN, -oxygenReduceRate * frame);
-            }
-        }
-
-        IEnumerator PurifyMinus()
-        {
-            float frame = 0.1f;
-            WaitForSeconds wait = new WaitForSeconds(frame);
-
-            while (true)
-            {
-                yield return wait;
-                UpdateGage(Gages.PURIFY, -purifyReduceRate * frame);
             }
         }
     }

@@ -42,12 +42,10 @@ namespace AlchemyPlanet.GameScene
             CreatedItemNumber.Add(ItemName.NoReducedOxygen, 0);
             CreatedItemNumber.Add(ItemName.RainbowColorBall, 0);
             CreatedItemNumber.Add(ItemName.SlowReducedOxygen, 0);
-            CreatedItemNumber.Add(ItemName.Sprint, 0);
             UsedItemNumber.Add(ItemName.IncreasePurify, 0);
             UsedItemNumber.Add(ItemName.NoReducedOxygen, 0);
             UsedItemNumber.Add(ItemName.RainbowColorBall, 0);
             UsedItemNumber.Add(ItemName.SlowReducedOxygen, 0);
-            UsedItemNumber.Add(ItemName.Sprint, 0);
         }
 
         public void CreateItem(ItemName itemName)
@@ -67,8 +65,6 @@ namespace AlchemyPlanet.GameScene
                         prefab = PrefabManager.Instance.itemPrefabs[2]; break;
                     case ItemName.SlowReducedOxygen:
                         prefab = PrefabManager.Instance.itemPrefabs[3]; break;
-                    case ItemName.Sprint:
-                        prefab = PrefabManager.Instance.itemPrefabs[4]; break;
                 }
 
                 GameObject instance = Instantiate(prefab, position, Quaternion.identity, transform);
@@ -190,31 +186,6 @@ namespace AlchemyPlanet.GameScene
             }
 
             GameUI.Instance.OxygenReduceSpeed /= 0.5f;
-        }
-
-        public void Sprint()
-        {
-            sprintCount++;
-
-            if (sprintCount == 1)
-                StartCoroutine("SprintCoroutine");
-        }
-
-        IEnumerator SprintCoroutine()
-        {
-            float duration = 2.5f;
-
-            IsSprinting = true;
-            GameManager.Instance.UpdateSpeed();
-
-            while (sprintCount > 0)
-            {
-                yield return new WaitForSeconds(duration);
-                sprintCount--; 
-            }
-
-            IsSprinting = false;
-            GameManager.Instance.UpdateSpeed();
         }
     }
 }

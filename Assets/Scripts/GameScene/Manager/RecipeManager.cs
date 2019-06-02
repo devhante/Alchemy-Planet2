@@ -64,7 +64,6 @@ namespace AlchemyPlanet.GameScene
 
         public void DestroyQueuePeek()
         {
-            GameUI.Instance.UpdateGage(Gages.PURIFY, 3); 
             Destroy(recipeQueue.Dequeue().gameObject);
 
             int index = 0;

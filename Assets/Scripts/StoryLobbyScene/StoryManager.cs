@@ -60,17 +60,13 @@ namespace AlchemyPlanet.StoryLobbyScene
                 {
                     Instantiate(storyTutorial);
                     GameSettings.Instance.isAbilityActivated = false;
-                    GameSettings.Instance.monsterNumber = 0;
                     GameSettings.Instance.itemPercent = 0;
-
                     yield return null;
                 }
 
                 if(CurrentStage == 2)
                 {
                     GameSettings.Instance.isAbilityActivated = false;
-                    GameSettings.Instance.monsterNumber = 0;
-                    
                     for(int i = 0; i < GameSettings.Instance.itemChanges_Key.Length; i++)
                     {
                         if (GameSettings.Instance.itemChanges_Key[i] == ItemName.RainbowColorBall)
@@ -107,28 +103,22 @@ namespace AlchemyPlanet.StoryLobbyScene
                 else if(CurrentStage == 3)
                 {
                     GameSettings.Instance.isAbilityActivated = false;
-                    GameSettings.Instance.monsterNumber = 10000;
                     GameSettings.Instance.monsterCooltime = 10;
                 }
 
                 else if(CurrentStage == 4)
                 {
                     GameSettings.Instance.isAbilityActivated = false;
-                    GameSettings.Instance.monsterNumber = 10000;
                     GameSettings.Instance.monsterCooltime = 10;
 
                     for (int i = 0; i < GameSettings.Instance.itemChanges_Key.Length; i++)
                     {
-                        if (GameSettings.Instance.itemChanges_Key[i] == ItemName.Sprint)
-                            GameSettings.Instance.itemChanges_Value[i] = 1;
-                        else
-                            GameSettings.Instance.itemChanges_Value[i] = 0;
+                        GameSettings.Instance.itemChanges_Value[i] = 0;
                     }
                 }
 
                 else if(CurrentStage == 5)
                 {
-                    GameSettings.Instance.monsterNumber = 10000;
                     GameSettings.Instance.monsterCooltime = 10;
 
                     for(int i = 0; i < GameSettings_Popin.Instance.popinPotionChances_Key.Length; i++)
@@ -164,7 +154,6 @@ namespace AlchemyPlanet.StoryLobbyScene
 
                 else if(CurrentStage == 6)
                 {
-                    GameSettings.Instance.monsterNumber = 10000;
                     GameSettings.Instance.monsterCooltime = 10;
 
                     for (int i = 0; i < GameSettings_Popin.Instance.popinPotionChances_Key.Length; i++)
@@ -343,9 +332,7 @@ namespace AlchemyPlanet.StoryLobbyScene
                             isStarOn[1] = false;
                         }
 
-                        starsScript.stars[2].rate = ItemManager.Instance.UsedItemNumber[ItemName.Sprint] / 3.0f;
-                        if (ItemManager.Instance.UsedItemNumber[ItemName.Sprint] >= 3)
-                            isStarOn[2] = true;
+                        isStarOn[2] = true;
 
                         if (isStarOn[0] == true && isStarOn[2] == true)
                             break;

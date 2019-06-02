@@ -173,9 +173,6 @@ namespace AlchemyPlanet.GameScene
             yield return new WaitForSeconds(2);
             GameObject effect = Instantiate(PrefabManager.Instance.potionEffectRed, transform.position + new Vector3(0.05f, -0.7f, 0), Quaternion.identity, transform);
 
-            ItemManager.Instance.Sprint();
-            ItemManager.Instance.Sprint();
-
             yield return new WaitForSeconds(4);
             Destroy(effect);
         }
@@ -251,9 +248,6 @@ namespace AlchemyPlanet.GameScene
             yield return new WaitForSeconds(2);
             GameObject effect = Instantiate(PrefabManager.Instance.potionEffectRainbow, transform.position + new Vector3(0.05f, -0.7f, 0), Quaternion.identity, transform);
 
-            ItemManager.Instance.Sprint();
-            ItemManager.Instance.Sprint();
-
             PotionGreen = true;
             float purify = GameUI.Instance.GetGage(Gages.PURIFY);
             GameUI.Instance.UpdateGage(Gages.PURIFY, 100 - purify);
@@ -264,7 +258,6 @@ namespace AlchemyPlanet.GameScene
                 yield return new WaitForSeconds(1);
             }
 
-            GameManager.Instance.UpdateSpeed();
             PotionGreen = false;
             GameUI.Instance.UpdateGage(Gages.PURIFY, purify - 100);
 

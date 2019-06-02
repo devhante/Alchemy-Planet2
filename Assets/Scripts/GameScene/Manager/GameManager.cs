@@ -25,7 +25,6 @@ namespace AlchemyPlanet.GameScene
                 combo = value;
                 UpdateCombo();
                 UpdateComboStatus();
-                UpdateSpeed();
             }
         }
         public int Score
@@ -83,6 +82,7 @@ namespace AlchemyPlanet.GameScene
         {
             StartCoroutine("SecondCoroutine");
             StartCoroutine("SprintEffectCoroutine");
+            StartCoroutine("GameCoroutine");
         }
 
         IEnumerator SecondCoroutine()
@@ -193,22 +193,6 @@ namespace AlchemyPlanet.GameScene
             else ComboStatus = ComboStatus.Combo100;
         }
 
-        public void UpdateSpeed()
-        {
-            float increase = 0;
-
-            switch (ComboStatus)
-            {
-                case ComboStatus.Combo30: increase += 0.05f; break;
-                case ComboStatus.Combo50: increase += 0.1f; break;
-                case ComboStatus.Combo100: increase += 0.15f; break;
-            }
-
-            if (ItemManager.Instance.IsSprinting) increase += 2;
-
-            MoveSpeed = 1 + increase;
-        }
-
         IEnumerator SprintEffectCoroutine()
         {
             bool isSprintEffectPlaying = false;
@@ -234,6 +218,26 @@ namespace AlchemyPlanet.GameScene
                 }
 
                 yield return null;
+            }
+        }
+
+        IEnumerator GameCoroutine()
+        {
+            while(true)
+            {
+                yield return new WaitForSeconds(2);
+
+                MoveSpeed = 0;
+                GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().Idle();
+                MonsterManager.Instance.SpawnMonster();
+
+                while(MonsterManager.Instance.Monsters.Count > 0)
+                {
+                    yield return new WaitForEndOfFrame();
+                }
+
+                MoveSpeed = 1;
+                GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().Run();
             }
         }
     }

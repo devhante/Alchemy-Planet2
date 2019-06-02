@@ -28,13 +28,9 @@ namespace AlchemyPlanet.GameScene
             Key = 0;
         }
 
-        private void Start()
-        {
-            StartCoroutine("SpawnMonsterCoroutine");
-        }
-
         public void SpawnMonster()
         {
+            Debug.Log("Spawned");
             HarpRadisheal harpRadisheal = Instantiate(PrefabManager.Instance.monster, SpawnPoint, Quaternion.identity).GetComponent<HarpRadisheal>();
             Monsters.Add(Key, harpRadisheal);
             harpRadisheal.index = Monsters.Count - 1;
@@ -49,20 +45,6 @@ namespace AlchemyPlanet.GameScene
             harpRadisheal.index = Monsters.Count - 1;
             harpRadisheal.ChangeSortingLayer(harpRadisheal.index * -2, harpRadisheal.index * -2 + 1);
             Key++;
-        }
-
-        IEnumerator SpawnMonsterCoroutine()
-        {
-            int count = 0;
-
-            while (count < GameSettings.Instance.monsterNumber)
-            {
-                SpawnMonster();
-                yield return new WaitForSeconds(GameSettings.Instance.monsterCooltime);
-                count++;
-            }
-
-            //StartCoroutine("SpawnBossMonsterCoroutine");
         }
 
         IEnumerator SpawnBossMonsterCoroutine()

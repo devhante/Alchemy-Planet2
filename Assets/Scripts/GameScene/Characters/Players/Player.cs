@@ -37,7 +37,6 @@ namespace AlchemyPlanet.GameScene
 
         public virtual void Hit(float damage)
         {
-            GameUI.Instance.UpdateGage(Gages.PURIFY, -damage);
             PlayHitAnimation();
 
             PlayerHitNumber++;
@@ -59,6 +58,16 @@ namespace AlchemyPlanet.GameScene
                 animator.SetTrigger("StopHit");
 
             animator.SetTrigger("StartHit");
+        }
+
+        public void Run()
+        {
+            animator.SetBool("isRunning", true);
+        }
+
+        public void Idle()
+        {
+            animator.SetBool("isRunning", false);
         }
     }
 }

@@ -10,7 +10,6 @@ namespace AlchemyPlanet.GameScene
 
         public bool isAbilityActivated;
 
-        public int monsterNumber;
         public float monsterCooltime;
 
         public float itemPercent;

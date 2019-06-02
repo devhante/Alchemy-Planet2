@@ -87,7 +87,6 @@ namespace AlchemyPlanet.GameScene
             }
             else
             {
-                GameUI.Instance.UpdateGage(Gages.PURIFY, -5);
                 GameManager.Instance.Combo = 0;
             }
 
@@ -108,6 +107,11 @@ namespace AlchemyPlanet.GameScene
             {
                 MaterialManager.Instance.ChainedNumber++;
                 Player.Instance.Attack(MaterialManager.Instance.MaterialChain.Count);
+                GameUI.Instance.UpdateGage(Gages.PURIFY, -100);
+            }
+            else
+            {
+                GameUI.Instance.UpdateGage(Gages.PURIFY, 3);
             }
 
             MaterialManager.Instance.MaterialChain.Clear();
