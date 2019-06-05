@@ -62,12 +62,12 @@ namespace AlchemyPlanet.GameScene
 
         public void Run()
         {
-            animator.SetBool("isRunning", true);
+            animator.SetTrigger("StartRun");
         }
 
         public void Idle()
         {
-            animator.SetBool("isRunning", false);
+            animator.SetTrigger("StopRun");
         }
     }
 }
