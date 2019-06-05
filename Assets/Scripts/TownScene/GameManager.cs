@@ -11,6 +11,8 @@ namespace AlchemyPlanet.Data
         public GameObject pollutedForest1;  // 타운의 경계 오염된숲1
         public GameObject pollutedForest2;  // 타운의 경계 오염된숲2
         public GameObject floor;            // 타운 바닥
+        public float floorY;               // 타운 바닥 Y좌표
+
 
         private int boundary;
 
