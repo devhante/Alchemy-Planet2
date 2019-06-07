@@ -34,10 +34,10 @@ namespace AlchemyPlanet.TownScene
 
             GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
 
-            if(DataManager.Instance.CurrentPlayerData.buildings.Count <= 0)
-            {
-                Instantiate(tutorial);
-            }
+            //if(DataManager.Instance.CurrentPlayerData.buildings.Count <= 0)
+            //{
+            //    Instantiate(tutorial);
+            //}
 
             DataManager.Instance.CurrentPlayerData.setupBuildilngs = new List<GameObject>();
 
