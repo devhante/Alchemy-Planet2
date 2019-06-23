@@ -48,13 +48,16 @@ namespace AlchemyPlanet.TownScene
                 direction.x *= -1;
                 transform.rotation = Quaternion.Euler(0, 180, 0);
             }
+
             else
                 transform.rotation = Quaternion.Euler(0, 0, 0);
+
             if (((Vector2)transform.position + direction * speed * Time.deltaTime).y > Data.GameManager.Instance.floorY ||
                 ((Vector2)transform.position + direction * speed * Time.deltaTime).y < -Data.GameManager.Instance.floorY)
             {
                 direction.y = 0;
             }
+
             transform.Translate(direction * speed * Time.deltaTime);
             animator.SetBool("Run", true);
         }
