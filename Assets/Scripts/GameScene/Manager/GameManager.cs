@@ -70,6 +70,7 @@ namespace AlchemyPlanet.GameScene
         private void Awake()
         {
             Instance = this;
+            Second = 0;
             Combo = 0;
             Score = 0;
             Coin = 0;
@@ -81,7 +82,6 @@ namespace AlchemyPlanet.GameScene
         private void Start()
         {
             StartCoroutine("SecondCoroutine");
-            StartCoroutine("SprintEffectCoroutine");
             StartCoroutine("GameCoroutine");
         }
 
@@ -191,34 +191,6 @@ namespace AlchemyPlanet.GameScene
             else if (Combo < 50) ComboStatus = ComboStatus.Combo30;
             else if (Combo < 100) ComboStatus = ComboStatus.Combo50;
             else ComboStatus = ComboStatus.Combo100;
-        }
-
-        IEnumerator SprintEffectCoroutine()
-        {
-            bool isSprintEffectPlaying = false;
-            GameObject sprintEffectObject = null;
-
-            while (true)
-            {
-                if (MoveSpeed >= 3 && isSprintEffectPlaying == false)
-                {
-                    isSprintEffectPlaying = true;
-                    sprintEffectObject = Instantiate(ItemManager.Instance.sprintEffect, GameObject.FindWithTag("Player").transform.position, Quaternion.identity);
-                    GameUI.Instance.TopWind.SetActive(true);
-                    GameUI.Instance.BottomWind.SetActive(true);
-                    Player.Instance.GetComponent<Animator>().SetBool("isSprinting", true);
-                }
-                else if (MoveSpeed < 3 && isSprintEffectPlaying == true)
-                {
-                    isSprintEffectPlaying = false;
-                    Destroy(sprintEffectObject);
-                    GameUI.Instance.TopWind.SetActive(false);
-                    GameUI.Instance.BottomWind.SetActive(false);
-                    Player.Instance.GetComponent<Animator>().SetBool("isSprinting", false);
-                }
-
-                yield return null;
-            }
         }
 
         IEnumerator GameCoroutine()

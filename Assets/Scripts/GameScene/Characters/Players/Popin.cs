@@ -19,19 +19,30 @@ namespace AlchemyPlanet.GameScene
             get { return skillGage; }
             set
             {
-                skillGage = Mathf.Clamp(value, 0, 100);
+                if (isSkillOn == false)
+                {
+                    skillGage = Mathf.Clamp(value, 0, 100);
+
+                    if (SkillGage == 100)
+                    {
+                        color = GetPopinPotionColor();
+                        isSkillOn = true;
+                        SkillGage = 0;
+                    }
+                }
             }
         }
 
-        public bool PotionGreen { get; set; }
-
         public GameObject itemPopinPotionBlack;
-        public GameObject skillBarCanvas;
-        public Image skillBar;
         
+        [HideInInspector]
+        public bool isSkillOn = false;
+
+        [HideInInspector]
+        public PopinPotionColor color;
 
         private GameObject bulletSpawnPoint;
-        private PopinPotionColor[] popinPotionColorList = { PopinPotionColor.Red, PopinPotionColor.Green, PopinPotionColor.Blue, PopinPotionColor.Black, PopinPotionColor.Rainbow };
+        private PopinPotionColor[] popinPotionColorList = { PopinPotionColor.Blue, PopinPotionColor.Black };
         
         private void OnDestroy()
         {
@@ -45,24 +56,8 @@ namespace AlchemyPlanet.GameScene
             bulletSpawnPoint = transform.GetChild(5).gameObject;
 
             UsedSkillNumber = new Dictionary<PopinPotionColor, int>();
-            UsedSkillNumber.Add(PopinPotionColor.Red, 0);
-            UsedSkillNumber.Add(PopinPotionColor.Green, 0);
             UsedSkillNumber.Add(PopinPotionColor.Blue, 0);
-            UsedSkillNumber.Add(PopinPotionColor.Rainbow, 0);
             UsedSkillNumber.Add(PopinPotionColor.Black, 0);
-        }
-
-        private void Start()
-        {
-            if (GameSettings.Instance.isAbilityActivated == false)
-                skillBarCanvas.SetActive(false);
-            if (GameSettings.Instance.isAbilityActivated == true)
-                StartCoroutine("UpdateSkillGageCoroutine");
-        }
-
-        private void UpdateSkillBar()
-        {
-            skillBar.fillAmount = SkillGage / 100.0f;
         }
 
         public override void Attack(int chainNumber)
@@ -85,32 +80,6 @@ namespace AlchemyPlanet.GameScene
             yield return new WaitForSeconds(0.1f);
             GameObject instance = Instantiate(PrefabManager.Instance.popinBullet, bulletSpawnPoint.transform.position, Quaternion.identity);
             instance.GetComponent<PopinBullet>().damage = damage;
-        }
-
-        IEnumerator UpdateSkillGageCoroutine()
-        {
-            while (true)
-            {
-                float skillGageValue = skillBar.fillAmount * 100;
-
-                while (Mathf.Abs(SkillGage - skillGageValue) > 1)
-                {
-                    skillGageValue = Mathf.Lerp(skillGageValue, SkillGage, 0.1f);
-                    skillBar.fillAmount = skillGageValue / 100.0f;
-                    yield return new WaitForSeconds(0.01f);
-                }
-                skillBar.fillAmount = SkillGage / 100.0f;
-
-                if (SkillGage == 100)
-                {
-                    PopinPotionColor color = GetPopinPotionColor();
-                    Skill(color);
-                    SkillGage = 0;
-                    UsedSkillNumber[color]++;
-                }
-
-                yield return new WaitForEndOfFrame();
-            }
         }
 
         private PopinPotionColor GetPopinPotionColor()
@@ -137,18 +106,17 @@ namespace AlchemyPlanet.GameScene
             return GameSettings_Popin.Instance.popinPotionChances_Key[result];
         }
 
-        public void Skill(PopinPotionColor color)
+        public void Skill()
+        {
+            Skill(color);
+            isSkillOn = false;
+            UsedSkillNumber[color]++;
+        }
+
+        private void Skill(PopinPotionColor color)
         {
             switch (color)
             {
-                case PopinPotionColor.Red:
-                    StartCoroutine("PotionRedCoroutine");
-                    break;
-
-                case PopinPotionColor.Green:
-                    StartCoroutine("PotionGreenCoroutine");
-                    break;
-
                 case PopinPotionColor.Blue:
                     StartCoroutine("PotionBlueCoroutine");
                     break;
@@ -156,47 +124,7 @@ namespace AlchemyPlanet.GameScene
                 case PopinPotionColor.Black:
                     StartCoroutine("PotionBlackCoroutine");
                     break;
-
-                case PopinPotionColor.Rainbow:
-                    StartCoroutine("PotionRainbowCoroutine");
-                    break;
             }
-        }
-
-        IEnumerator PotionRedCoroutine()
-        {
-            animator.SetTrigger("PotionRed");
-
-            while (animator.GetNextAnimatorStateInfo(0).IsName("PopinPotionRed") == false)
-                yield return new WaitForEndOfFrame();
-
-            yield return new WaitForSeconds(2);
-            GameObject effect = Instantiate(PrefabManager.Instance.potionEffectRed, transform.position + new Vector3(0.05f, -0.7f, 0), Quaternion.identity, transform);
-
-            yield return new WaitForSeconds(4);
-            Destroy(effect);
-        }
-
-        IEnumerator PotionGreenCoroutine()
-        {
-            animator.SetTrigger("PotionGreen");
-
-            while (animator.GetNextAnimatorStateInfo(0).IsName("PopinPotionGreen") == false)
-                yield return new WaitForEndOfFrame();
-
-            yield return new WaitForSeconds(1.5f);
-            GameObject effect = Instantiate(PrefabManager.Instance.potionEffectGreen, transform.position + new Vector3(0.05f, -0.7f, 0), Quaternion.identity, transform);
-
-            PotionGreen = true;
-            float purify = GameUI.Instance.GetGage(Gages.PURIFY);
-            GameUI.Instance.UpdateGage(Gages.PURIFY, 100 - purify);
-
-            yield return new WaitForSeconds(5);
-
-            PotionGreen = false;
-            GameUI.Instance.UpdateGage(Gages.PURIFY, purify - 100);
-
-            Destroy(effect);
         }
 
         IEnumerator PotionBlueCoroutine()
@@ -236,32 +164,6 @@ namespace AlchemyPlanet.GameScene
             Vector3 position = MaterialManager.Instance.GetNewMaterialPosition();
             GameObject instance = Instantiate(itemPopinPotionBlack, position, Quaternion.identity, ItemManager.Instance.transform);
             ItemManager.Instance.Objects.Add(instance);
-        }
-
-        IEnumerator PotionRainbowCoroutine()
-        {
-            animator.SetTrigger("PotionRainbow");
-
-            while (animator.GetNextAnimatorStateInfo(0).IsName("PopinPotionRainbow") == false)
-                yield return new WaitForEndOfFrame();
-
-            yield return new WaitForSeconds(2);
-            GameObject effect = Instantiate(PrefabManager.Instance.potionEffectRainbow, transform.position + new Vector3(0.05f, -0.7f, 0), Quaternion.identity, transform);
-
-            PotionGreen = true;
-            float purify = GameUI.Instance.GetGage(Gages.PURIFY);
-            GameUI.Instance.UpdateGage(Gages.PURIFY, 100 - purify);
-
-            for (int i = 0; i < 5; i++)
-            {
-                GameUI.Instance.UpdateGage(Gages.OXYGEN, 4);
-                yield return new WaitForSeconds(1);
-            }
-
-            PotionGreen = false;
-            GameUI.Instance.UpdateGage(Gages.PURIFY, purify - 100);
-
-            Destroy(effect);
         }
     }
 }

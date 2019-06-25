@@ -10,7 +10,6 @@ namespace AlchemyPlanet.GameScene
 
     public class GameUI : Common.UI<GameUI>
     {
-        public Image OxygenGageMask;
         public Image PurifyGageMask;
         public Button PauseButton;
         public Text Score;
@@ -18,14 +17,11 @@ namespace AlchemyPlanet.GameScene
         public Text ComboText;
         public GameObject BombDestination;
         public Image DangerMask;
-        public GameObject TopWind;
-        public GameObject BottomWind;
+        public Button SkillButton;
+        public Image BluePotionImage;
+        public Image BlackPotionImage;
 
         public bool IsIncreasingPurify { get; set; }
-        public bool IsNotReducingOxygen { get; set; }
-        public float OxygenReduceSpeed { get; set; }
-
-        float oxygenReduceRate = 1;
         float purifyReduceRate = 4;
 
         Dictionary<Gages, float> gageValues;
@@ -39,6 +35,13 @@ namespace AlchemyPlanet.GameScene
                 UIManager.Instance.OpenMenu<PauseUI>();
             });
 
+            SkillButton.onClick.AddListener(() =>
+            {
+                Popin.Instance.Skill();
+            });
+
+            SkillButton.enabled = false;
+
             gageValues = new Dictionary<Gages, float>();
             gageValues.Add(Gages.OXYGEN, 100);
             gageValues.Add(Gages.PURIFY, 0);
@@ -47,13 +50,10 @@ namespace AlchemyPlanet.GameScene
         public void Start()
         {
             IsIncreasingPurify = false;
-            IsNotReducingOxygen = false;
-            OxygenReduceSpeed = 1;
 
             GameManager.Instance.StartCoroutine("GainScoreByTimeCoroutine");
-
-            StartCoroutine("UpdateOxygenGage");
             StartCoroutine("UpdatePurifyGage");
+            StartCoroutine("UpdateSkillIcon");
         }
 
         public Image GetMask(Gages kind)
@@ -62,7 +62,6 @@ namespace AlchemyPlanet.GameScene
 
             switch (kind)
             {
-                case Gages.OXYGEN: mask = OxygenGageMask; break;
                 case Gages.PURIFY: mask = PurifyGageMask; break;
             }
 
@@ -72,8 +71,7 @@ namespace AlchemyPlanet.GameScene
         public void UpdateGage(Gages kind, float percent)
         {
             if (IsIncreasingPurify && kind == Gages.PURIFY && percent <= 0) percent = 0;
-            if (Popin.Instance.PotionGreen && kind == Gages.PURIFY && percent <= 0) percent = 0;
-            if (IsNotReducingOxygen && kind == Gages.OXYGEN) percent = 0;
+            if (kind == Gages.PURIFY && percent <= 0) percent = 0;
 
             gageValues[kind] = Mathf.Clamp(gageValues[kind] + percent, 0, 100);
 
@@ -93,22 +91,6 @@ namespace AlchemyPlanet.GameScene
             return gageValues[kind];
         }
 
-        IEnumerator UpdateOxygenGage()
-        {
-            while (true)
-            {
-                float oxygenGageValue = OxygenGageMask.rectTransform.offsetMin.x / 329 * 100;
-                while (oxygenGageValue != gageValues[Gages.OXYGEN])
-                {
-                    oxygenGageValue = Mathf.Lerp(oxygenGageValue, gageValues[Gages.OXYGEN], 0.1f);
-                    OxygenGageMask.rectTransform.offsetMin = new Vector2(oxygenGageValue / 100 * 329, OxygenGageMask.rectTransform.offsetMin.y);
-                    yield return new WaitForSeconds(0.01f);
-                }
-
-                yield return null;
-            }
-        }
-
         IEnumerator UpdatePurifyGage()
         {
             while (true)
@@ -121,6 +103,43 @@ namespace AlchemyPlanet.GameScene
                     yield return new WaitForSeconds(0.01f);
                 }
 
+                yield return null;
+            }
+        }
+
+        IEnumerator UpdateSkillIcon()
+        {
+            bool isSkillOn = false;
+
+            while(true)
+            {
+                if (isSkillOn != Popin.Instance.isSkillOn)
+                {
+                    isSkillOn = Popin.Instance.isSkillOn;
+
+                    if (Popin.Instance.isSkillOn == true)
+                    {
+                        SkillButton.enabled = true;
+
+                        if (Popin.Instance.color == PopinPotionColor.Blue)
+                        {
+                            BlackPotionImage.gameObject.SetActive(false);
+                            BluePotionImage.gameObject.SetActive(true);
+                        }
+                        else if (Popin.Instance.color == PopinPotionColor.Black)
+                        {
+                            BluePotionImage.gameObject.SetActive(false);
+                            BlackPotionImage.gameObject.SetActive(true);
+                        }
+                    }
+                    else
+                    {
+                        SkillButton.enabled = false;
+
+                        BlackPotionImage.gameObject.SetActive(false);
+                        BluePotionImage.gameObject.SetActive(false);
+                    }
+                }
                 yield return null;
             }
         }

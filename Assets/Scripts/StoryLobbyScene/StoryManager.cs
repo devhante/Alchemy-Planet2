@@ -64,41 +64,41 @@ namespace AlchemyPlanet.StoryLobbyScene
                     yield return null;
                 }
 
-                if(CurrentStage == 2)
-                {
-                    GameSettings.Instance.isAbilityActivated = false;
-                    for(int i = 0; i < GameSettings.Instance.itemChanges_Key.Length; i++)
-                    {
-                        if (GameSettings.Instance.itemChanges_Key[i] == ItemName.RainbowColorBall)
-                            GameSettings.Instance.itemChanges_Value[i] = 1;
-                        else
-                            GameSettings.Instance.itemChanges_Value[i] = 0;
-                    }
+                //if(CurrentStage == 2)
+                //{
+                //    GameSettings.Instance.isAbilityActivated = false;
+                //    for(int i = 0; i < GameSettings.Instance.itemChanges_Key.Length; i++)
+                //    {
+                //        if (GameSettings.Instance.itemChanges_Key[i] == ItemName.RainbowColorBall)
+                //            GameSettings.Instance.itemChanges_Value[i] = 1;
+                //        else
+                //            GameSettings.Instance.itemChanges_Value[i] = 0;
+                //    }
 
-                    while (ItemManager.Instance.CreatedItemNumber[ItemName.RainbowColorBall] <= 0)
-                        yield return null;
+                //    while (ItemManager.Instance.CreatedItemNumber[ItemName.RainbowColorBall] <= 0)
+                //        yield return null;
 
-                    for (int i = 0; i < GameSettings.Instance.itemChanges_Key.Length; i++)
-                    {
-                        if (GameSettings.Instance.itemChanges_Key[i] == ItemName.SlowReducedOxygen)
-                            GameSettings.Instance.itemChanges_Value[i] = 1;
-                        else
-                            GameSettings.Instance.itemChanges_Value[i] = 0;
-                    }
+                //    for (int i = 0; i < GameSettings.Instance.itemChanges_Key.Length; i++)
+                //    {
+                //        if (GameSettings.Instance.itemChanges_Key[i] == ItemName.SlowReducedOxygen)
+                //            GameSettings.Instance.itemChanges_Value[i] = 1;
+                //        else
+                //            GameSettings.Instance.itemChanges_Value[i] = 0;
+                //    }
 
-                    while (ItemManager.Instance.CreatedItemNumber[ItemName.SlowReducedOxygen] <= 0)
-                        yield return null;
+                //    while (ItemManager.Instance.CreatedItemNumber[ItemName.SlowReducedOxygen] <= 0)
+                //        yield return null;
 
-                    for (int i = 0; i < GameSettings.Instance.itemChanges_Key.Length; i++)
-                    {
-                        if (GameSettings.Instance.itemChanges_Key[i] == ItemName.IncreasePurify)
-                            GameSettings.Instance.itemChanges_Value[i] = 1;
-                        else
-                            GameSettings.Instance.itemChanges_Value[i] = 0;
-                    }
+                //    for (int i = 0; i < GameSettings.Instance.itemChanges_Key.Length; i++)
+                //    {
+                //        if (GameSettings.Instance.itemChanges_Key[i] == ItemName.IncreasePurify)
+                //            GameSettings.Instance.itemChanges_Value[i] = 1;
+                //        else
+                //            GameSettings.Instance.itemChanges_Value[i] = 0;
+                //    }
 
-                    yield return null;
-                }
+                //    yield return null;
+                //}
 
                 else if(CurrentStage == 3)
                 {
@@ -234,29 +234,29 @@ namespace AlchemyPlanet.StoryLobbyScene
 
                 if (CurrentStage == 2)
                 {
-                    while(true)
-                    {
-                        if (ItemManager.Instance.UsedItemNumber[ItemName.RainbowColorBall] > 0)
-                        {
-                            starsScript.stars[0].rate = 1;
-                            isStarOn[0] = true;
-                        }
-                        if(ItemManager.Instance.UsedItemNumber[ItemName.SlowReducedOxygen] > 0)
-                        {
-                            starsScript.stars[1].rate = 1;
-                            isStarOn[1] = true;
-                        }
-                        if(ItemManager.Instance.UsedItemNumber[ItemName.IncreasePurify] > 0)
-                        {
-                            starsScript.stars[2].rate = 1;
-                            isStarOn[2] = true;
-                        }
+                    //while(true)
+                    //{
+                    //    if (ItemManager.Instance.UsedItemNumber[ItemName.RainbowColorBall] > 0)
+                    //    {
+                    //        starsScript.stars[0].rate = 1;
+                    //        isStarOn[0] = true;
+                    //    }
+                    //    if(ItemManager.Instance.UsedItemNumber[ItemName.SlowReducedOxygen] > 0)
+                    //    {
+                    //        starsScript.stars[1].rate = 1;
+                    //        isStarOn[1] = true;
+                    //    }
+                    //    if(ItemManager.Instance.UsedItemNumber[ItemName.IncreasePurify] > 0)
+                    //    {
+                    //        starsScript.stars[2].rate = 1;
+                    //        isStarOn[2] = true;
+                    //    }
 
-                        if (isStarOn[0] == true && isStarOn[1] == true && isStarOn[2] == true)
-                            break;
+                    //    if (isStarOn[0] == true && isStarOn[1] == true && isStarOn[2] == true)
+                    //        break;
 
-                        yield return null;
-                    }
+                    //    yield return null;
+                    //}
 
                     BackendManager.Instance.UpdateStageNumber(BackendManager.Instance.GetInDate("stage"), "1-2", 3);
                     DataManager.Instance.CurrentPlayerData.stroystar["1-2"] = 3;

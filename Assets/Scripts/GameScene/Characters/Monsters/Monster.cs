@@ -170,34 +170,6 @@ namespace AlchemyPlanet.GameScene
             instance.GetComponent<Text>().text = string.Format("+ {0}", score);
         }
 
-        IEnumerator DraggedForwardCoroutine()
-        {
-            isDraggedForwardCoroutinePlaying = true;
-            int speed = (int)GameManager.Instance.MoveSpeed;
-
-            while(ItemManager.Instance.IsSprinting == true)
-            {
-                speed = (int)GameManager.Instance.MoveSpeed;
-
-                if (rigidbody2d.velocity.y == 0)
-                {
-                    transform.position += new Vector3(-moveSpeed * 3 * Time.deltaTime, 0, 0);
-
-                    if (GetDistanceBetweenPlayer() < 1.4f)
-                    {
-                        Health -= 100;
-                        rigidbody2d.AddForce(new Vector2(130, 170));
-                        PlayHitAnimation();
-                    }
-                }
-
-                yield return new WaitForSeconds(0.02f);
-            }
-
-            StartCoroutine("MoveBackwardCoroutine");
-            isDraggedForwardCoroutinePlaying = false;
-        }
-
         IEnumerator MoveBackwardCoroutine()
         {
             while (GetDistanceBetweenPlayer() < attackRange + (index * 0.5f))

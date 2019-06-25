@@ -13,15 +13,6 @@ namespace AlchemyPlanet.GameScene
 
         public List<GameObject> Objects { get; private set; }
         public int MaxItemNumber { get; private set; }
-        public bool IsSprinting { get; private set; }
-
-        public GameObject sprintEffect;
-
-        private int increasePurifyCount = 0;
-        private int noReducedOxygenCount = 0;
-        private int slowReducedOxygenCount = 0;
-        private int sprintCount = 0;
-       
 
         private void OnDestroy()
         {
@@ -33,19 +24,12 @@ namespace AlchemyPlanet.GameScene
             Instance = this;
             Objects = new List<GameObject>();
             MaxItemNumber = 3;
-            IsSprinting = false;
 
             CreatedItemNumber = new Dictionary<ItemName, int>();
             UsedItemNumber = new Dictionary<ItemName, int>();
 
-            CreatedItemNumber.Add(ItemName.IncreasePurify, 0);
-            CreatedItemNumber.Add(ItemName.NoReducedOxygen, 0);
-            CreatedItemNumber.Add(ItemName.RainbowColorBall, 0);
-            CreatedItemNumber.Add(ItemName.SlowReducedOxygen, 0);
-            UsedItemNumber.Add(ItemName.IncreasePurify, 0);
-            UsedItemNumber.Add(ItemName.NoReducedOxygen, 0);
-            UsedItemNumber.Add(ItemName.RainbowColorBall, 0);
-            UsedItemNumber.Add(ItemName.SlowReducedOxygen, 0);
+            CreatedItemNumber.Add(ItemName.PopinPotionBlack, 0);
+            UsedItemNumber.Add(ItemName.PopinPotionBlack, 0);
         }
 
         public void CreateItem(ItemName itemName)
@@ -54,18 +38,6 @@ namespace AlchemyPlanet.GameScene
             {
                 Vector3 position = MaterialManager.Instance.GetNewMaterialPosition();
                 GameObject prefab = new GameObject();
-
-                switch(itemName)
-                {
-                    case ItemName.IncreasePurify:
-                        prefab = PrefabManager.Instance.itemPrefabs[0]; break;
-                    case ItemName.NoReducedOxygen:
-                        prefab = PrefabManager.Instance.itemPrefabs[1]; break;
-                    case ItemName.RainbowColorBall:
-                        prefab = PrefabManager.Instance.itemPrefabs[2]; break;
-                    case ItemName.SlowReducedOxygen:
-                        prefab = PrefabManager.Instance.itemPrefabs[3]; break;
-                }
 
                 GameObject instance = Instantiate(prefab, position, Quaternion.identity, transform);
                 Objects.Add(instance);
@@ -81,9 +53,7 @@ namespace AlchemyPlanet.GameScene
 
             for (int i = 0; i < length; i++)
             {
-                Debug.Log(random);
                 random -= GameSettings.Instance.itemChanges_Value[i];
-                Debug.Log(random);
                 if (random <= 0)
                 {
                     result = i;
@@ -94,98 +64,8 @@ namespace AlchemyPlanet.GameScene
                     result = length - 1;
             }
 
+            Debug.Log(GameSettings.Instance.itemChanges_Key[result] + " " + "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
             return GameSettings.Instance.itemChanges_Key[result];
-        }
-
-        public void IncreasePurify()
-        {
-            increasePurifyCount++;
-
-            if(increasePurifyCount == 1)
-                StartCoroutine("IncreasePurifyCoroutine");
-        }
-
-        IEnumerator IncreasePurifyCoroutine()
-        {
-            float duration = 5;
-            float increaseRatio = 7;
-
-            GameUI.Instance.IsIncreasingPurify = true;
-
-            while (increasePurifyCount > 0)
-            {
-                for (int i = 0; i < duration; i++)
-                {
-                    GameUI.Instance.UpdateGage(Gages.PURIFY, increaseRatio);
-                    yield return new WaitForSeconds(1);
-                }
-
-                increasePurifyCount--;
-            }
-
-            GameUI.Instance.IsIncreasingPurify = false;
-        }
-
-        public void NoReducedOxygen()
-        {
-            noReducedOxygenCount++;
-
-            if(noReducedOxygenCount == 1)
-                StartCoroutine("NoReducedOxygenCoroutine");
-        }
-
-        IEnumerator NoReducedOxygenCoroutine()
-        {
-            GameUI.Instance.IsNotReducingOxygen = true;
-
-            while (noReducedOxygenCount > 0)
-            {
-                yield return new WaitForSeconds(7);
-                noReducedOxygenCount--;
-            }
-
-            GameUI.Instance.IsNotReducingOxygen = false;
-        }
-
-        public void RainbowColorBall()
-        {
-            int index = Random.Range(0, StageManager.Instance.stageInfos[Data.DataManager.Instance.selected_stage].materials.Length);
-            MaterialName materialName = StageManager.Instance.stageInfos[Data.DataManager.Instance.selected_stage].materials[index].GetComponent<Material>().materialName;
-            List<Material> materials = new List<Material>();
-
-            foreach (var item in MaterialManager.Instance.Objects)
-            {
-                Material material = item.GetComponent<Material>();
-                if (material.materialName == materialName) materials.Add(material);
-            }
-
-            foreach (var item in materials)
-            {
-                MaterialManager.Instance.RespawnMaterial(item);
-                GameManager.Instance.GainScore(ScoreType.TouchRightRecipe);
-                GameUI.Instance.UpdateGage(Gages.PURIFY, 2.5f);
-            }
-        }
-
-        public void SlowReducedOxygen()
-        {
-            slowReducedOxygenCount++;
-
-            if(slowReducedOxygenCount == 1)
-                StartCoroutine("SlowReducedOxygenCoroutine");
-        }
-
-        IEnumerator SlowReducedOxygenCoroutine()
-        {
-            GameUI.Instance.OxygenReduceSpeed *= 0.5f;
-
-            while (slowReducedOxygenCount > 0)
-            {
-                yield return new WaitForSeconds(10);
-                slowReducedOxygenCount--;
-            }
-
-            GameUI.Instance.OxygenReduceSpeed /= 0.5f;
         }
     }
 }
