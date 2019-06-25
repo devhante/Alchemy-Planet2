@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
@@ -46,6 +46,11 @@ namespace AlchemyPlanet.Data
 
             LoadMaterials();
             LoadStuructures();
+        }
+
+        private void Start()
+        {
+
         }
 
         #region CreateSampleData
@@ -186,7 +191,6 @@ namespace AlchemyPlanet.Data
 
                 foreach (string str in Interiors.Keys)
                 {
-                    Debug.Log(Interiors[str].interiorDiscription);
                     this.interiorInfo.Add(str, Interiors[str].Clone());
                     interiorInfo[str].interiorObject = Resources.Load<GameObject>("Prefabs/TownScene/Structure");
                 }
@@ -219,18 +223,20 @@ namespace AlchemyPlanet.Data
 
         public void LoadPlayerData()
         {
-            CurrentPlayerData = new PlayerData
-            {
-                player_id = CurrentPlayerData.player_id
-            };
-
-            BackendManager.Instance.CreatePlayer(CurrentPlayerData.player_id, "TempName");
-            BackendManager.Instance.CreateItem(CurrentPlayerData.player_id);
-            BackendManager.Instance.CreateTown(CurrentPlayerData.player_id);
-            BackendManager.Instance.CreateCharacter(CurrentPlayerData.player_id);
-            BackendManager.Instance.CreateParty(CurrentPlayerData.player_id);
-            BackendManager.Instance.CreateRequest(CurrentPlayerData.player_id);
-            BackendManager.Instance.CreateStage(CurrentPlayerData.player_id);
+            CurrentPlayerData = new PlayerData();
+            string indate = BackendManager.Instance.GetInDate("item");
+            
+            Debug.Log(BackEnd.Backend.GameInfo.GetContentsByIndate("item", indate).ToString());
+            CurrentPlayerData.unicoin = int.Parse(BackendManager.Instance.GetContent("player","uniCoin","N"));
+            CurrentPlayerData.cosmostone = int.Parse(BackendManager.Instance.GetContent("player","cosmoStone","N"));
+            CurrentPlayerData.exp = int.Parse(BackendManager.Instance.GetContent("player","exp","N"));
+            CurrentPlayerData.level = int.Parse(BackendManager.Instance.GetContent("player","level","N"));
+            CurrentPlayerData.oxygentank = int.Parse(BackendManager.Instance.GetContent("player","oxygenTank","N"));
+            CurrentPlayerData.player_name = BackendManager.Instance.GetContent("player","player_name","S");
+            CurrentPlayerData.player_id = BackendManager.Instance.GetContent("player","player_id","S");
+            
+            
+            //CurrentPlayerData.inventory.Add()
         }
         
         public void CommitName(CollectionName data)

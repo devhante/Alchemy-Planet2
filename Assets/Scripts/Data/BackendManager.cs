@@ -32,7 +32,7 @@ namespace AlchemyPlanet.Data
             {
                 if (BRO.IsSuccess())
                 {
-
+                    DataManager.Instance.LoadPlayerData();
                 }
                 else
                 {
@@ -66,6 +66,13 @@ namespace AlchemyPlanet.Data
         public string GetInDate(string tableName)
         {
             return Backend.GameInfo.GetPrivateContents(tableName).GetReturnValuetoJSON()["rows"][0]["inDate"]["S"].ToString();
+        }
+
+        public string GetContent(string tableName, string contentName, string type)
+        {
+            string inDate = GetInDate(tableName);
+            JsonData jsonData = Backend.GameInfo.GetContentsByIndate(tableName, inDate).GetReturnValuetoJSON()["row"][0][contentName][type];
+            return jsonData.ToString();
         }
 
         #endregion
