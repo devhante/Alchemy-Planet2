@@ -117,7 +117,7 @@ namespace AlchemyPlanet.GameScene
             int count = 0;
             foreach(var item in MonsterManager.Instance.Monsters)
             {
-                item.Value.Hit(Player.Instance.GetDamage(5));
+                item.Value.Hit(Player.Instance.GetDamage(5, 0));
                 count++;
                 if (count >= 3) break;
             }

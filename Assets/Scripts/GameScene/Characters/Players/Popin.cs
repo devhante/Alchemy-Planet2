@@ -61,10 +61,10 @@ namespace AlchemyPlanet.GameScene
             UsedSkillNumber.Add(PopinPotionColor.Black, 0);
         }
 
-        public override void Attack(int chainNumber)
+        public override void Attack(int chainNumber, float purifyGage)
         {
-            base.Attack(chainNumber);
-            float damage = GetDamage(chainNumber);
+            base.Attack(chainNumber, purifyGage);
+            float damage = GetDamage(chainNumber, purifyGage);
             SpawnBullet(damage);
         }
 

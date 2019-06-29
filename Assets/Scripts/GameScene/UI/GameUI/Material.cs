@@ -106,7 +106,7 @@ namespace AlchemyPlanet.GameScene
             if (MaterialManager.Instance.MaterialChain.Count > 0)
             {
                 MaterialManager.Instance.ChainedNumber++;
-                Player.Instance.Attack(MaterialManager.Instance.MaterialChain.Count);
+                Player.Instance.Attack(MaterialManager.Instance.MaterialChain.Count, GameUI.Instance.GetGage(Gages.PURIFY));
                 GameUI.Instance.UpdateGage(Gages.PURIFY, -100);
             }
             else
