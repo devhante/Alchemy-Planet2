@@ -42,6 +42,7 @@ namespace AlchemyPlanet.GameScene
                 GameObject instance = Instantiate(prefab, position, Quaternion.identity, transform);
                 Objects.Add(instance);
                 CreatedItemNumber[itemName]++;
+                Debug.Log(Instance.gameObject);
             }
         }
 

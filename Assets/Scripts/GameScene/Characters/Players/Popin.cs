@@ -23,13 +23,14 @@ namespace AlchemyPlanet.GameScene
                 {
                     skillGage = Mathf.Clamp(value, 0, 100);
 
-                    if (SkillGage == 100)
+                    if (skillGage == 100)
                     {
                         color = GetPopinPotionColor();
                         isSkillOn = true;
-                        SkillGage = 0;
+                        skillGage = 0;
                     }
                 }
+                Debug.Log("Skill Gage : " + skillGage);
             }
         }
 
@@ -129,6 +130,7 @@ namespace AlchemyPlanet.GameScene
 
         IEnumerator PotionBlueCoroutine()
         {
+            Debug.Log("PotionBlueCoroutine");
             animator.SetTrigger("PotionBlue");
 
             while (animator.GetNextAnimatorStateInfo(0).IsName("PopinPotionBlue") == false)
@@ -148,6 +150,7 @@ namespace AlchemyPlanet.GameScene
 
         IEnumerator PotionBlackCoroutine()
         {
+            Debug.Log("PotionBlackCoroutine");
             animator.SetTrigger("PotionBlack");
 
             while (animator.GetNextAnimatorStateInfo(0).IsName("PopinPotionBlack") == false)

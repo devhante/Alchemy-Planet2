@@ -119,11 +119,9 @@ namespace AlchemyPlanet.GameScene
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            Debug.Log("Enter");
             if (MaterialManager.Instance.IsClickedRightMaterial && !isChainSelected && MaterialManager.Instance.MaterialChain.Count < MaterialManager.Instance.MaxChainNumber - 1)
                 if(RecipeManager.Instance.RecipeNameList[MaterialManager.Instance.MaterialChain.Count + 1] == materialName)
                 {
-                    Debug.Log("Accepted");
                     StopCoroutine("Float");
                     StartCoroutine("Shrink");
                     ChangeBubbleToSelectedBubble();

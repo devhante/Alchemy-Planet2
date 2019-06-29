@@ -78,7 +78,6 @@ namespace AlchemyPlanet.GameScene
 
         public IEnumerator CreateMaterialCoroutine()
         {
-            Debug.Log(RecipeManager.Instance.recipeQueue);
             while (RecipeManager.Instance.recipeQueue.Count <= MaxChainNumber)
                 yield return new WaitForEndOfFrame();
 
