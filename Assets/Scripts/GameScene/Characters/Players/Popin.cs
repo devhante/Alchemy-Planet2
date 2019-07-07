@@ -30,7 +30,6 @@ namespace AlchemyPlanet.GameScene
                         skillGage = 0;
                     }
                 }
-                Debug.Log("Skill Gage : " + skillGage);
             }
         }
 

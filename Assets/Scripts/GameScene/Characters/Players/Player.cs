@@ -21,8 +21,6 @@ namespace AlchemyPlanet.GameScene
             {
                 health = Mathf.Clamp(value, 0, maxHealth);
                 UpdateHealthBar();
-                Debug.Log("Popin Health : " + health);
-
                 if(health == 0)
                 {
                     UIManager.Instance.OpenMenu<EndUI>();

@@ -30,7 +30,6 @@ namespace AlchemyPlanet.GameScene
 
         public void SpawnMonster()
         {
-            Debug.Log("Spawned");
             HarpRadisheal harpRadisheal = Instantiate(PrefabManager.Instance.monster, SpawnPoint, Quaternion.identity).GetComponent<HarpRadisheal>();
             Monsters.Add(Key, harpRadisheal);
             harpRadisheal.index = Monsters.Count - 1;

@@ -61,6 +61,7 @@ namespace AlchemyPlanet.GameScene
                 MaterialManager.Instance.IsClickedRightMaterial = true;
                 RecipeManager.Instance.HighlightRecipe();
                 isChainSelected = true;
+                transform.SetSiblingIndex(0);
             }
         }
 
@@ -120,17 +121,19 @@ namespace AlchemyPlanet.GameScene
         public void OnPointerEnter(PointerEventData eventData)
         {
             if (MaterialManager.Instance.IsClickedRightMaterial && !isChainSelected && MaterialManager.Instance.MaterialChain.Count < MaterialManager.Instance.MaxChainNumber - 1)
-                if(RecipeManager.Instance.RecipeNameList[MaterialManager.Instance.MaterialChain.Count + 1] == materialName)
+            {
+                if (RecipeManager.Instance.RecipeNameList[MaterialManager.Instance.MaterialChain.Count + 1] == materialName)
                 {
                     StopCoroutine("Float");
                     StartCoroutine("Shrink");
                     ChangeBubbleToSelectedBubble();
                     MaterialManager.Instance.MaterialChain.Add(this);
                     isChainSelected = true;
+                    transform.SetSiblingIndex(0);
                     StartCoroutine("MoveCoroutine");
-
                     RecipeManager.Instance.HighlightRecipe();
                 }
+            }
         }
     }
 }
