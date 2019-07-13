@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
+using LitJson;
 using System.Collections;
 using System;
 
@@ -40,10 +41,8 @@ namespace AlchemyPlanet.Data
             //CreateSampleMaterials();
             //CreateSampleFomulas();
             //CreateSampleRequest();
-
-            //CreateSampleStructure(); // 타운관리모드 테스트할때 이거 주석 풀기
-
-
+            //CreateSampleStructure();
+            
             LoadMaterials();
             LoadStuructures();
         }
@@ -77,7 +76,7 @@ namespace AlchemyPlanet.Data
             {"작은 오렌지", new ItemData("작은 오렌지",ItemKind.Material, "새콤한 맛이 나는 작은 오렌지.\n과즙이 팡팡.")},
             {"블루베리", new ItemData("블루베리",ItemKind.Material, "새콤달콤한 블루베리.\n톡톡터지는 식감이 좋다. ")},
             {"라벤더", new ItemData("라벤더",ItemKind.Material, "향기로운 라벤더.\n방향제는 물론 장식용으로도 쓰인다.")},
-            {"정화약", new ItemData("정화약",ItemKind.PurifyPosion, "뭐라고 적지...")}
+            {"정화약", new ItemData("정화약",ItemKind.PurifyPotion, "뭐라고 적지...")}
         };
 
             using (StreamWriter file = File.CreateText("Assets/Resources/Datas/Materials.json"))
@@ -224,19 +223,24 @@ namespace AlchemyPlanet.Data
         public void LoadPlayerData()
         {
             CurrentPlayerData = new PlayerData();
-            string indate = BackendManager.Instance.GetInDate("item");
-            
-            Debug.Log(BackEnd.Backend.GameInfo.GetContentsByIndate("item", indate).ToString());
+
+            BackendManager.Instance.UpdatePlayerUniCoin(BackendManager.Instance.GetInDate("player"), 10000);
+
             CurrentPlayerData.unicoin = int.Parse(BackendManager.Instance.GetContent("player","uniCoin","N"));
             CurrentPlayerData.cosmostone = int.Parse(BackendManager.Instance.GetContent("player","cosmoStone","N"));
             CurrentPlayerData.exp = int.Parse(BackendManager.Instance.GetContent("player","exp","N"));
             CurrentPlayerData.level = int.Parse(BackendManager.Instance.GetContent("player","level","N"));
             CurrentPlayerData.oxygentank = int.Parse(BackendManager.Instance.GetContent("player","oxygenTank","N"));
-            CurrentPlayerData.player_name = BackendManager.Instance.GetContent("player","player_name","S");
-            CurrentPlayerData.player_id = BackendManager.Instance.GetContent("player","player_id","S");
+            //CurrentPlayerData.player_name = BackendManager.Instance.GetContent("player","player_name","S");
+            //CurrentPlayerData.player_id = BackendManager.Instance.GetContent("player","player_id","S");
             
-            
-            //CurrentPlayerData.inventory.Add()
+            JsonData itemList = BackEnd.Backend.GameInfo.GetContentsByIndate("item", BackendManager.Instance.GetInDate("item")).GetReturnValuetoJSON()["row"][0]["items"]["L"];
+            for (int i = 0; i < itemList.Count; i++)
+            {
+                string name =itemList[i]["M"]["itemName"]["S"].ToString();
+                int num = int.Parse(itemList[i]["M"]["number"]["N"].ToString());
+                CurrentPlayerData.inventory.Add(name, num);
+            }
         }
         
         public void CommitName(CollectionName data)

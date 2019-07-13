@@ -26,6 +26,7 @@ public class BuildingInfo : MonoBehaviour
     [SerializeField] private Sprite upgradeButtonSprite;
     [SerializeField] private RawImage blackMask;
 
+    private GameObject stateBar;
     private Building building;
     private Interior interior;
     private float waitingTime;
@@ -33,6 +34,7 @@ public class BuildingInfo : MonoBehaviour
     private void OnEnable()
     {
         closeButton.onClick.AddListener(() => { CloseInfo(); });
+        stateBar = GameObject.Find("StateBar");
     }
 
     public void SetInfo<T>(T strc)
@@ -127,6 +129,7 @@ public class BuildingInfo : MonoBehaviour
     {
         backGroundImage.gameObject.SetActive(false);
         blackMask.gameObject.SetActive(false);
+        stateBar.SendMessage("UpdateState");
     }
 
     void UpgradeBuilding()
@@ -155,9 +158,9 @@ public class BuildingInfo : MonoBehaviour
             DataManager.Instance.CurrentPlayerData.buildings.Add(building.Clone());
 
             AlchemyPlanet.TownScene.BuildingManagement.Instance.GetOwnBuilding();
-            AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetBuildingImage");
             SetInfo(DataManager.Instance.CurrentPlayerData.buildings.Find(a => a.buildingName == building.buildingName));
             DataManager.Instance.CurrentPlayerData.GiveId(building);
+            AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetBuildingImage");
             BackendManager.Instance.AddTown(BackendManager.Instance.GetInDate("town"), building.id, building.buildingName, building.buildingLevel,
                 building.position, building.setup, building.flip, building.upgrading, building.endDate);
         }
@@ -175,9 +178,9 @@ public class BuildingInfo : MonoBehaviour
             DataManager.Instance.CurrentPlayerData.interiors.Add(interior.Clone());
 
             AlchemyPlanet.TownScene.BuildingManagement.Instance.GetOwnBuilding();
-            AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetInteriorImage");
             SetInfo(DataManager.Instance.CurrentPlayerData.interiors.Find(a => a.interiorName == interior.interiorName));
             DataManager.Instance.CurrentPlayerData.GiveId(interior);
+            AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetInteriorImage");
             BackendManager.Instance.AddTown(BackendManager.Instance.GetInDate("town"), interior.id, interior.interiorName, 0,
                 interior.position, interior.setup, interior.flip, false, new DateTime());
         }

@@ -47,7 +47,7 @@ namespace AlchemyPlanet.Data
             upgrading = true;
             image = Resources.Load<Sprite>("Sprites/TownScene/Tent");
             DataManager.Instance.CurrentPlayerData.SetBuilding(this);
-            AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetImage");
+            AlchemyPlanet.TownScene.BuildingManagement.Instance.SendMessage("SetBuildingImage");
             int UpgradeTime = buildingLevel * 10;
             endDate = DateTime.Now.AddSeconds(UpgradeTime);
 

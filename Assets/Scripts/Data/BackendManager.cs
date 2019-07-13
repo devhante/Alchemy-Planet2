@@ -45,12 +45,12 @@ namespace AlchemyPlanet.Data
 
         public void CustomSignUp()
         {
-            Backend.BMember.CustomSignUp("alchemyplanet", "3712");
+            Backend.BMember.CustomSignUp("minje", "2802");
         }
 
         public void CustomLogin()
         {
-            Backend.BMember.CustomLogin("alchemyplanet", "3712");
+            Backend.BMember.CustomLogin("minje", "2802");
         }
 
         public void Logout()
@@ -304,8 +304,10 @@ namespace AlchemyPlanet.Data
 
             Param param = new Param();
             param.Add("structures", result);
+            
+            Debug.Log(param.GetJson().ToString());
 
-            Backend.GameInfo.Update("town", inDate, param);
+            Debug.Log(Backend.GameInfo.Update("town", inDate, param));
         }
 
         public void UpdateTownBuildingName(string inDate, int structureId, string buildingName)

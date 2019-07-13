@@ -45,6 +45,30 @@ namespace AlchemyPlanet.Data
 
             DataManager.Instance.CurrentPlayerData = new PlayerData();
 
+            //int statusCode = int.Parse(BackEnd.Backend.BMember.LoginWithTheBackendToken().GetStatusCode());
+
+            //switch (statusCode)
+            //{
+            //    case 410:
+            //        Debug.Log("1년 뒤 refresh토큰이 만료됨");
+            //        break;
+
+            //    case 401:
+            //        Debug.Log("다른 기기로 로그인하여 refresh토큰이 만료됨");
+            //        break;
+
+            //    case 403:
+            //        Debug.Log("차단된 유저");
+            //        break;
+
+            //    default:
+            //        Debug.Log("로그인 성공");
+            //        NotFirstTimeFunc();
+            //        break;
+            //}
+
+
+
             if (Backend.BMember.IsAccessTokenAlive().GetStatusCode().ToString() == "204")
             {
                 Debug.Log(Backend.BMember.IsAccessTokenAlive().GetStatusCode());
@@ -84,7 +108,7 @@ namespace AlchemyPlanet.Data
 
         private void LoadTownScene()
         {
-            Debug.Log("LoadPrologueScene");
+            Debug.Log("LoadTownScene");
             SceneChangeManager.Instance.ChangeSceneWithLoading("TownScene");
         }
 

@@ -61,8 +61,6 @@ namespace AlchemyPlanet.Data
                     boundary += (strc as Building).buildingLevel * 5;
                 }
             }
-            pollutedForest1.transform.position = new Vector3(-boundary, pollutedForest1.transform.position.y);
-            pollutedForest2.transform.position = new Vector3(boundary, pollutedForest1.transform.position.y);
         }
 
         void CheckUpgradeTime()

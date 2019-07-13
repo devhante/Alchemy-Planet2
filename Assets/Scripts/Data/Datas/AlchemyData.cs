@@ -6,7 +6,7 @@ namespace AlchemyPlanet.Data
 {
     public enum ItemKind
     {
-        Diffuser, Quest, PurifyPosion, Material, Event
+        Abrasive, ActivePotion, PurifyPotion, Material, Event   // 연마제, 활성약, 정화약, 물질, 이벤트
     }
 
     public class ItemData

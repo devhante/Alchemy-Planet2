@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace AlchemyPlanet.AlchemyScene
 {
-    public class UIManager : MonoBehaviour {
+    public class UIManager : MonoBehaviour
+    {
         public static UIManager Instance { get; private set; }
 
-        [SerializeField] private AlchemyUI AlchemyUIPrefab;
-        [SerializeField] private MakeUI MakeUIPrefab;
-        [SerializeField] private RequestUI RequestUIPrefab;
+        [SerializeField] private LobbyUI LobbyUIPrefab;
+        [SerializeField] private SynthesizeUI SynthesizeUIPrefab;
 
         public Stack<Common.UI> menuStack = new Stack<Common.UI>();
 
@@ -28,10 +28,10 @@ namespace AlchemyPlanet.AlchemyScene
         {
             var prefab = GetPrefab<T>();
             var instance = Instantiate<Common.UI>(prefab, transform);
-            
+
             menuStack.Push(instance);
         }
-        
+
         public void CloseMenu()
         {
             var instance = menuStack.Pop();
@@ -44,15 +44,12 @@ namespace AlchemyPlanet.AlchemyScene
 
         public T GetPrefab<T>() where T : Common.UI
         {
-            if (typeof(T) == typeof(AlchemyUI))
-                return AlchemyUIPrefab as T;
-            else if (typeof(T) == typeof(MakeUI))
-                return MakeUIPrefab as T;
-            else if (typeof(T) == typeof(RequestUI))
-                return RequestUIPrefab as T;
+            if (typeof(T) == typeof(LobbyUI))
+                return LobbyUIPrefab as T;
+            else if (typeof(T) == typeof(SynthesizeUI))
+                return LobbyUIPrefab as T;
             else
                 throw new MissingReferenceException();
         }
     }
 }
-
