@@ -14,7 +14,7 @@ namespace AlchemyPlanet.AlchemyScene
         [SerializeField]
         private Text LevelText;
         [SerializeField]
-        private Text StarpowderText;
+        private Text StarPowderText;
 
         private int EXP;
         private int Level;

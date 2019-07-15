@@ -119,11 +119,13 @@ namespace AlchemyPlanet.Data
             DataManager.Instance.CurrentPlayerData.unicoin = 0;
             DataManager.Instance.CurrentPlayerData.cosmostone = 0;
             DataManager.Instance.CurrentPlayerData.oxygentank = 0;
+
             BackendManager.Instance.CreatePlayer(DataManager.Instance.CurrentPlayerData.player_id, DataManager.Instance.CurrentPlayerData.player_name);
 
             BackendManager.Instance.CreateItem(DataManager.Instance.CurrentPlayerData.player_id);
             BackendManager.Instance.CreateTown(DataManager.Instance.CurrentPlayerData.player_id);
             BackendManager.Instance.CreateCharacter(DataManager.Instance.CurrentPlayerData.player_id);
+            BackendManager.Instance.CreateAlchemy(DataManager.Instance.CurrentPlayerData.player_id);
 
             BackendManager.Instance.CreateParty(DataManager.Instance.CurrentPlayerData.player_id);
             DataManager.Instance.CurrentPlayerData.party[0, 0] = CharacterEnum.Popin;

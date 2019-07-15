@@ -192,7 +192,12 @@ namespace AlchemyPlanet.Data
         public List<Building> buildings;
         public List<Interior> interiors;
         public List<GameObject> setupBuildilngs;
-        public int boundary; // 경계
+        public int boundary;
+
+        // 연금술
+        public int alchemyLevel;
+        public int alchemyEXP;
+        public int starPowder;
 
         //캐릭터
         public List<Character> characters;
@@ -223,6 +228,11 @@ namespace AlchemyPlanet.Data
             this.buildings = new List<Building>();
             this.interiors = new List<Interior>();
             this.characters = new List<Character>();
+
+            this.alchemyEXP = 0;
+            this.alchemyLevel = 0;
+            this.starPowder = 0;
+
 
             party = new CharacterEnum[9, 3];
 

@@ -1293,5 +1293,46 @@ namespace AlchemyPlanet.Data
         }
 
         #endregion
+
+        #region Table : alchemy
+
+        public void CreateAlchemy(string playerId)
+        {
+            Param param = new Param();
+            param.Add("playerid", playerId);
+            param.Add("starpowder", 0);
+            param.Add("alchemyLevel", 1);
+            param.Add("alchemyEXP", 0);
+
+            Backend.GameInfo.Insert("alchemy", param);
+        }
+
+        public void DestroyAlchmey(string inDate)
+        {
+            Backend.GameInfo.Delete("alchemy", inDate);
+        }
+        
+        public void UpdateStarPowder(string inDate, int starPowder)
+        {
+            Param param = new Param();
+            param.Add("starPowder", starPowder);
+            Backend.GameInfo.Update("alchemy", inDate, param);
+        }
+
+        public void UpdateLevel(string inDate, int level)
+        {
+            Param param = new Param();
+            param.Add("level", level);
+            Backend.GameInfo.Update("alchemy", inDate, param);
+        }
+
+        public void UpdateEXP(string inDate, int EXP)
+        {
+            Param param = new Param();
+            param.Add("EXP", EXP);
+            Backend.GameInfo.Update("alchemy", inDate, param);
+        }
+
+        #endregion
     }
 }
