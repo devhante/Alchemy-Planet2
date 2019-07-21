@@ -234,8 +234,6 @@ namespace AlchemyPlanet.Data
             CurrentPlayerData.player_name = BackendManager.Instance.GetContent("player","nickname","S");
             CurrentPlayerData.player_id = BackendManager.Instance.GetContent("player","playerid","S");
 
-            BackendManager.Instance.CreateAlchemy(Instance.CurrentPlayerData.player_id);
-
             JsonData itemList = BackEnd.Backend.GameInfo.GetContentsByIndate("item", BackendManager.Instance.GetInDate("item")).GetReturnValuetoJSON()["row"][0]["items"]["L"];
             for (int i = 0; i < itemList.Count; i++)
             {

@@ -304,10 +304,8 @@ namespace AlchemyPlanet.Data
 
             Param param = new Param();
             param.Add("structures", result);
-            
-            Debug.Log(param.GetJson().ToString());
 
-            Debug.Log(Backend.GameInfo.Update("town", inDate, param));
+            Backend.GameInfo.Update("town", inDate, param);
         }
 
         public void UpdateTownBuildingName(string inDate, int structureId, string buildingName)
