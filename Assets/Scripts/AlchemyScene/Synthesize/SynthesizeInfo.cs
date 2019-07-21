@@ -66,7 +66,7 @@ namespace AlchemyPlanet.AlchemyScene
             int materialCount = 0;
 
             count = 1;
-            resultItemImage.sprite = DataManager.Instance.itemInfo[GetEnglishName(formula.result)].image;
+            resultItemImage.sprite = DataManager.Instance.itemInfo[AlchemyManager.Instance.GetEnglishName(formula.result)].image;
 
             foreach (var material in materials)
             {
@@ -75,7 +75,7 @@ namespace AlchemyPlanet.AlchemyScene
                 requiredItemCountList[materialCount].gameObject.SetActive(true);
 
                 requiredItemCountList[materialCount].text = material.Value.ToString();
-                requiredItemImageList[materialCount].sprite = DataManager.Instance.itemInfo[GetEnglishName(material.Key)].image;
+                requiredItemImageList[materialCount].sprite = DataManager.Instance.itemInfo[AlchemyManager.Instance.GetEnglishName(material.Key)].image;
                 materialCount++;
             }
 
@@ -94,13 +94,13 @@ namespace AlchemyPlanet.AlchemyScene
 
             foreach (var material in formula.formula)
             {
-                DataManager.Instance.CurrentPlayerData.inventory[GetEnglishName(material.Key)] -= material.Value * count;
+                DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(material.Key)] -= material.Value * count;
 
-                if (DataManager.Instance.CurrentPlayerData.inventory[GetEnglishName(material.Key)] > 0)
-                    BackendManager.Instance.UpdateItemNumber(BackendManager.Instance.GetInDate("item"), GetEnglishName(material.Key), 
-                        DataManager.Instance.CurrentPlayerData.inventory[GetEnglishName(material.Key)]);
+                if (DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(material.Key)] > 0)
+                    BackendManager.Instance.UpdateItemNumber(BackendManager.Instance.GetInDate("item"), AlchemyManager.Instance.GetEnglishName(material.Key), 
+                        DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(material.Key)]);
                 else
-                    BackendManager.Instance.DeleteItem(BackendManager.Instance.GetInDate("item"), GetEnglishName(material.Key));
+                    BackendManager.Instance.DeleteItem(BackendManager.Instance.GetInDate("item"), AlchemyManager.Instance.GetEnglishName(material.Key));
             }
 
             SynthesizeUI.Instance.OpenSynthesizeMiniGame(count);
@@ -110,9 +110,9 @@ namespace AlchemyPlanet.AlchemyScene
         {
             foreach (var material in formula.formula)
             {
-                if (!DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(GetEnglishName(material.Key)) || 
-                    DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(GetEnglishName(material.Key)) && 
-                    DataManager.Instance.CurrentPlayerData.inventory[GetEnglishName(material.Key)] < material.Value * count)
+                if (!DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(AlchemyManager.Instance.GetEnglishName(material.Key)) || 
+                    DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(AlchemyManager.Instance.GetEnglishName(material.Key)) && 
+                    DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(material.Key)] < material.Value * count)
                 {
                     return false;
                 }
@@ -159,17 +159,6 @@ namespace AlchemyPlanet.AlchemyScene
         void Cancel()
         {
             SynthesizeUI.Instance.OpenSynthesizeSelectUI();
-        }
-
-        string GetEnglishName(string KoreanName)
-        {
-            foreach(var item in DataManager.Instance.itemInfo)
-            {
-                if(KoreanName == item.Value.item_name)
-                    return item.Key;
-            }
-
-            return "찾을 수 없습니다.";
         }
     }
 }

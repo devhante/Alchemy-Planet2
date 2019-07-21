@@ -22,15 +22,10 @@ namespace AlchemyPlanet.AlchemyScene
         private int arrowIndex;
         private bool canSuccess;
         private int completionTime;
+        private float circleAngle;
 
         // Use this for initialization
         void Start()
-        {
-            
-        }
-
-        // Update is called once per frame
-        void Update()
         {
 
         }
@@ -39,11 +34,14 @@ namespace AlchemyPlanet.AlchemyScene
         {
             arrowIndex = 0;
             completionTime = 0;
+            mixImage.gameObject.SetActive(false);
             arrowType = new List<int>();
             SetArrow();
             StartCoroutine("GetTouchGesture");
             StartCoroutine("MeasureTime");
         }
+
+        #region MiniGame2
 
         void SetArrow()
         {
@@ -85,7 +83,7 @@ namespace AlchemyPlanet.AlchemyScene
                 yield return null;
             }
 
-            SendResult();
+            StartCoroutine("GetTouchCircleGesture");
             yield return null;
         }
 
@@ -101,15 +99,54 @@ namespace AlchemyPlanet.AlchemyScene
             yield return null;
         }
 
-        void CheckTouchCircle(Vector2 touchPosition)
+        IEnumerator GetTouchCircleGesture()
         {
-            // need coding
+            float previous = 0;
+            float current = 0;
+
+            mixImage.gameObject.SetActive(true);
+
+            while (circleAngle < 300)
+            {
+                if (Input.touchCount > 0)
+                {
+                    touch = Input.GetTouch(0);
+                    if (touch.phase == TouchPhase.Began)
+                    {
+                        previous = 0;
+                        current = GetAngle(Vector3.zero, Camera.main.ScreenToWorldPoint(touch.position));
+                        circleAngle = 0;
+                    }
+                    else if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Ended)
+                    {
+                        previous = current;
+                        current = GetAngle(Vector3.zero, Camera.main.ScreenToWorldPoint(touch.position));
+
+                        if (previous - current < 200 && previous - current > 0)
+                            circleAngle += previous - current;
+
+                        Debug.Log(circleAngle);
+                    }
+                }
+                yield return null;
+            }
+
+            SendResult();
+            yield return null;
         }
-          
+
+        float GetAngle(Vector3 vStart, Vector3 vEnd)
+        {
+            Vector3 v = vEnd - vStart;
+            float angle = Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg;
+            if (angle < 0) angle += 360;
+            return angle;
+        }
+
         void SendResult()
         {
             StopAllCoroutines();
-            foreach(var image in arrowImageList)
+            foreach (var image in arrowImageList)
             {
                 image.gameObject.SetActive(true);
             }
@@ -167,4 +204,6 @@ namespace AlchemyPlanet.AlchemyScene
                 return false;
         }
     }
+
+    #endregion
 }

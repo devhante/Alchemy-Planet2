@@ -76,19 +76,19 @@ namespace AlchemyPlanet.AlchemyScene
             if (success)
             {
                 resultItemName.text = SynthesizeUI.Instance.itemName + " " + itemCount + " 개";
-                resultItemImage.sprite = DataManager.Instance.itemInfo[GetEnglishName(SynthesizeUI.Instance.itemName)].image;
+                resultItemImage.sprite = DataManager.Instance.itemInfo[AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName)].image;
 
-                if (DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(GetEnglishName(SynthesizeUI.Instance.itemName)))
+                if (DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName)))
                 {
-                    DataManager.Instance.CurrentPlayerData.inventory[GetEnglishName(SynthesizeUI.Instance.itemName)] += itemCount;
-                    BackendManager.Instance.UpdateItemNumber(BackendManager.Instance.GetInDate("item"), GetEnglishName(SynthesizeUI.Instance.itemName),
-                        DataManager.Instance.CurrentPlayerData.inventory[GetEnglishName(SynthesizeUI.Instance.itemName)]);
+                    DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName)] += itemCount;
+                    BackendManager.Instance.UpdateItemNumber(BackendManager.Instance.GetInDate("item"), AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName),
+                        DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName)]);
                 }
                 else
                 {
-                    DataManager.Instance.CurrentPlayerData.inventory.Add(GetEnglishName(SynthesizeUI.Instance.itemName), itemCount);
-                    BackendManager.Instance.AddItem(BackendManager.Instance.GetInDate("item"), GetEnglishName(SynthesizeUI.Instance.itemName),
-                        DataManager.Instance.CurrentPlayerData.inventory[GetEnglishName(SynthesizeUI.Instance.itemName)]);
+                    DataManager.Instance.CurrentPlayerData.inventory.Add(AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName), itemCount);
+                    BackendManager.Instance.AddItem(BackendManager.Instance.GetInDate("item"), AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName),
+                        DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName)]);
                 }
             }
             else
@@ -112,17 +112,6 @@ namespace AlchemyPlanet.AlchemyScene
                     itemCount += SynthesizeUI.Instance.itemCount / 5;
                 }
             }
-        }
-
-        string GetEnglishName(string KoreanName)
-        {
-            foreach (var item in DataManager.Instance.itemInfo)
-            {
-                if (KoreanName == item.Value.item_name)
-                    return item.Key;
-            }
-
-            return "찾을 수 없습니다.";
         }
     }
 }
