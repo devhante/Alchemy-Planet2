@@ -1298,7 +1298,7 @@ namespace AlchemyPlanet.Data
         {
             Param param = new Param();
             param.Add("playerid", playerId);
-            param.Add("starpowder", 0);
+            param.Add("starPowder", 0);
             param.Add("alchemyLevel", 1);
             param.Add("alchemyEXP", 0);
 

@@ -10,7 +10,7 @@ namespace AlchemyPlanet.AlchemyScene
         public List<Data.FormulaData> formulas;
         public List<Data.Request> requests;
         public Dictionary<string, string> itemEnglishName;
-
+         
 
         private void Awake()
         {

@@ -230,7 +230,7 @@ namespace AlchemyPlanet.Data
             this.characters = new List<Character>();
 
             this.alchemyEXP = 0;
-            this.alchemyLevel = 0;
+            this.alchemyLevel = 1;
             this.starPowder = 0;
 
 

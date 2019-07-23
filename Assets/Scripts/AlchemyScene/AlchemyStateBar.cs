@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using AlchemyPlanet.Data;
 
 namespace AlchemyPlanet.AlchemyScene
 {
@@ -16,33 +17,24 @@ namespace AlchemyPlanet.AlchemyScene
         [SerializeField]
         private Text StarPowderText;
 
-        private int EXP;
-        private int Level;
 
-        // Use this for initialization
         void Start()
         {
-            EXP = 0;
-            Level = 0;
             SetText();
             ChangeEXPBar();
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-            
-        }
-
         void SetText()
         {
-            LevelText.text = Level.ToString();
-            EXPText.text = EXP.ToString();
+            LevelText.text = DataManager.Instance.CurrentPlayerData.alchemyLevel.ToString();
+            EXPText.text = DataManager.Instance.CurrentPlayerData.alchemyEXP.ToString() + '%';
+            StarPowderText.text = DataManager.Instance.CurrentPlayerData.starPowder.ToString();
         }
 
         void ChangeEXPBar()
         {
-            EXPBarImage.rectTransform.sizeDelta = new Vector2( EXP, EXPBarImage.rectTransform.sizeDelta.y );
+            float width = DataManager.Instance.CurrentPlayerData.alchemyEXP * 3.5f;
+            EXPBarImage.rectTransform.sizeDelta = new Vector2(width, EXPBarImage.rectTransform.sizeDelta.y);
         }
     }
 }

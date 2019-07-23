@@ -234,10 +234,23 @@ namespace AlchemyPlanet.Data
             CurrentPlayerData.player_name = BackendManager.Instance.GetContent("player","nickname","S");
             CurrentPlayerData.player_id = BackendManager.Instance.GetContent("player","playerid","S");
 
+            LoadAlchemyData();
+            LoadItemData();
+        }
+
+        public void LoadAlchemyData()
+        {
+            CurrentPlayerData.alchemyEXP = int.Parse(BackendManager.Instance.GetContent("alchemy", "alchemyEXP", "N"));
+            CurrentPlayerData.alchemyLevel = int.Parse(BackendManager.Instance.GetContent("alchemy", "alchemyLevel", "N"));
+            CurrentPlayerData.starPowder = int.Parse(BackendManager.Instance.GetContent("alchemy", "starPowder", "N"));
+        }
+
+        public void LoadItemData()
+        {
             JsonData itemList = BackEnd.Backend.GameInfo.GetContentsByIndate("item", BackendManager.Instance.GetInDate("item")).GetReturnValuetoJSON()["row"][0]["items"]["L"];
             for (int i = 0; i < itemList.Count; i++)
             {
-                string name =itemList[i]["M"]["itemName"]["S"].ToString();
+                string name = itemList[i]["M"]["itemName"]["S"].ToString();
                 int num = int.Parse(itemList[i]["M"]["number"]["N"].ToString());
                 CurrentPlayerData.inventory.Add(name, num);
             }
