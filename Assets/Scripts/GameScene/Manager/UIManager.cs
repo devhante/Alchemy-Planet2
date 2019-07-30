@@ -7,9 +7,9 @@ namespace AlchemyPlanet.GameScene
     {
         public static UIManager Instance { get; private set; }
 
-        public GameUI gameUIPrefeb;
-        public PauseUI pauseUIPrefeb;
-        public EndUI endUIPreFeb;
+        public GameUI gameUIPrefab;
+        public PauseUI pauseUIPrefab;
+        public EndUI endUIPrefab;
         public ResumeUI ResumeUIPrefab;
 
         public Stack<Common.UI> menuStack = new Stack<Common.UI>();
@@ -42,13 +42,13 @@ namespace AlchemyPlanet.GameScene
         public T GetPrefab<T>() where T : Common.UI
         {
             if (typeof(T) == typeof(GameUI))
-                return gameUIPrefeb as T;
+                return gameUIPrefab as T;
 
             if (typeof(T) == typeof(PauseUI))
-                return pauseUIPrefeb as T;
+                return pauseUIPrefab as T;
 
             if (typeof(T) == typeof(EndUI))
-                return endUIPreFeb as T;
+                return endUIPrefab as T;
 
             if (typeof(T) == typeof(ResumeUI))
                 return ResumeUIPrefab as T;

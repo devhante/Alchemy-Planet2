@@ -67,6 +67,8 @@ namespace AlchemyPlanet.GameScene
             Instance = null;
         }
 
+        public GameObject popinPrefab;
+
         private void Awake()
         {
             Instance = this;
@@ -77,6 +79,8 @@ namespace AlchemyPlanet.GameScene
             MoveSpeed = 1;
             Position = 0;
             dropMaterialList = new Dictionary<string, int>();
+            Instantiate(popinPrefab, GameObject.Find("Character").transform);
+            
         }
 
         private void Start()
