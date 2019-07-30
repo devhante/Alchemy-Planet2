@@ -6,7 +6,7 @@ using AlchemyPlanet.Data;
 
 namespace AlchemyPlanet.AlchemyScene
 {
-    public class AlchemyStateBar : MonoBehaviour
+    public class EXPBar : MonoBehaviour
     {
         [SerializeField]
         private Image EXPBarImage;
@@ -14,9 +14,6 @@ namespace AlchemyPlanet.AlchemyScene
         private Text EXPText;
         [SerializeField]
         private Text LevelText;
-        [SerializeField]
-        private Text StarPowderText;
-
 
         void Start()
         {
@@ -28,7 +25,6 @@ namespace AlchemyPlanet.AlchemyScene
         {
             LevelText.text = DataManager.Instance.CurrentPlayerData.alchemyLevel.ToString();
             EXPText.text = DataManager.Instance.CurrentPlayerData.alchemyEXP.ToString() + '%';
-            StarPowderText.text = DataManager.Instance.CurrentPlayerData.starPowder.ToString();
         }
 
         void ChangeEXPBar()
