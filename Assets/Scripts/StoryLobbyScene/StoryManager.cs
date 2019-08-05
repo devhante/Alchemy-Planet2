@@ -441,5 +441,11 @@ namespace AlchemyPlanet.StoryLobbyScene
                 }
             }
         }
+
+        public void Destroy()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            Destroy(gameObject);
+        }
     }
 }

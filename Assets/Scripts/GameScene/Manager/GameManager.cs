@@ -216,5 +216,12 @@ namespace AlchemyPlanet.GameScene
                 GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().Run();
             }
         }
+
+        public void GameOver()
+        {
+            UIManager.Instance.OpenMenu<EndUI>();
+            if (StoryLobbyScene.StoryManager.Instance != null)
+                StoryLobbyScene.StoryManager.Instance.SendMessage("Destroy");
+        }
     }
 }

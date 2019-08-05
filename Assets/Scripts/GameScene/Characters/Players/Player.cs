@@ -20,15 +20,10 @@ namespace AlchemyPlanet.GameScene
             set
             {
                 health = Mathf.Clamp(value, 0, maxHealth);
-                UpdateHealthBar();
+                healthBar.SendMessage("UpdateHealthBar", Health / maxHealth);
                 if(health == 0)
                 {
-                    UIManager.Instance.OpenMenu<EndUI>();
-                    if (StoryLobbyScene.StoryManager.Instance != null)
-                    {
-                        SceneManager.sceneLoaded -= StoryLobbyScene.StoryManager.Instance.OnSceneLoaded;
-                        Destroy(StoryLobbyScene.StoryManager.Instance.gameObject);
-                    }
+                    GameManager.Instance.SendMessage("GameOver");
                 }
             }
         }
@@ -37,8 +32,7 @@ namespace AlchemyPlanet.GameScene
         protected int maxHealth;
 
         [SerializeField]
-        protected Image healthBar;
-
+        protected HealthBar healthBar;
         
         protected float attackPower;
         protected Animator animator;
@@ -77,10 +71,7 @@ namespace AlchemyPlanet.GameScene
             return attackPower * chainNumber * (1 + chainNumber * 0.1f) * (1 + purifyGage * 0.04f);
         }
 
-        private void UpdateHealthBar()
-        {
-            healthBar.fillAmount = Health / maxHealth;
-        }
+        
 
         public virtual void GetMaterialMessage(MaterialName materialName)
         {
