@@ -1,14 +1,24 @@
 fileFormatVersion: 2
 guid: fb7680ca01ae96d45930329e74f849e7
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: Planets_Evnet
-    21300002: Planets_1
-    21300004: Planets_2
-    21300006: Planets_Adventure
-    21300008: Planets_Story
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: Planets_Evnet
+  - first:
+      213: 21300002
+    second: Planets_1
+  - first:
+      213: 21300004
+    second: Planets_2
+  - first:
+      213: 21300006
+    second: Planets_Adventure
+  - first:
+      213: 21300008
+    second: Planets_Story
   externalObjects: {}
-  serializedVersion: 5
+  serializedVersion: 10
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -26,6 +36,8 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -36,7 +48,7 @@ TextureImporter:
     serializedVersion: 2
     filterMode: -1
     aniso: -1
-    mipBias: -1
+    mipBias: -100
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -61,7 +73,7 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -72,7 +84,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -83,7 +96,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -94,6 +108,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -113,6 +128,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 5cfd7c5b4490a654594a0dacdff93998
+      internalID: 21300000
       vertices: []
       indices: 
       edges: []
@@ -133,6 +149,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0bbeea533cbe0ea4db91cd8868a144a6
+      internalID: 21300002
       vertices: []
       indices: 
       edges: []
@@ -153,6 +170,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: cd4f507f46b25884282d150cf1a6e6ff
+      internalID: 21300004
       vertices: []
       indices: 
       edges: []
@@ -173,6 +191,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: ff00778d8f05219468d867f27eb05fb9
+      internalID: 21300006
       vertices: []
       indices: 
       edges: []
@@ -193,6 +212,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 337a7dd90f49153479d0d70e9881dc6c
+      internalID: 21300008
       vertices: []
       indices: 
       edges: []
@@ -201,11 +221,15 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 7982345bf23767d40acfd51d0a24e0aa
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
+    secondaryTextures: []
   spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
