@@ -37,17 +37,18 @@ namespace AlchemyPlanet.TownScene
 
         private void Start()
         {
-            SceneManager.sceneLoaded += SceneLoaded;
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
 
-        private void SceneLoaded(Scene arg0, LoadSceneMode arg1)
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             if (Common.StateBar.Instance)
                 Common.StateBar.Instance.UpdateState();
             if (Common.StateBar_s.Instance)
                 Common.StateBar_s.Instance.UpdateState();
-            switch (arg0.buildIndex)
+
+            switch (scene.buildIndex)
             {
                 case 0:
                 case 1:

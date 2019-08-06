@@ -12,20 +12,14 @@ EditorBuildSettings:
     path: Assets/Scenes/LoadingScene.unity
     guid: 9007a3c305cc3da449feac94bb828b97
   - enabled: 1
+    path: Assets/Scenes/CharacterScene.unity
+    guid: 4a4251383bbf99849821643959292295
+  - enabled: 1
     path: Assets/Scenes/TownScene.unity
     guid: 72a2060181ace1647845fcce29589e81
   - enabled: 1
     path: Assets/Scenes/PlanetSelect.unity
     guid: 9d0f7ba5a0371354f9f7697ed5b61360
-  - enabled: 1
-    path: Assets/Scenes/StoryLobbyScene.unity
-    guid: e1ad28d5bf3cc3843abb91072f269538
-  - enabled: 1
-    path: Assets/Scenes/GameScene.unity
-    guid: 2710059b2ff03704693210d3c678183d
-  - enabled: 1
-    path: Assets/Scenes/CharacterScene.unity
-    guid: 4a4251383bbf99849821643959292295
   - enabled: 1
     path: Assets/Scenes/AlchemyScene.unity
     guid: 0630575ffa7110a448df23e0e9e8136e
@@ -35,4 +29,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DialogScene.unity
     guid: 12a2fe0378beb724fb007405d4543108
+  - enabled: 1
+    path: Assets/Scenes/GameScene.unity
+    guid: 2710059b2ff03704693210d3c678183d
+  - enabled: 1
+    path: Assets/Scenes/GooglePlayTest.unity
+    guid: 1d4b51aac53af2a4b9ef368b37ddea22
+  - enabled: 1
+    path: Assets/Scenes/PrologueScene.unity
+    guid: 3d372f26e290d494280fbe1aa534ba22
+  - enabled: 1
+    path: Assets/Scenes/StoryLobbyScene.unity
+    guid: e1ad28d5bf3cc3843abb91072f269538
   m_configObjects: {}

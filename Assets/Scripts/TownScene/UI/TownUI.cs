@@ -94,6 +94,7 @@ namespace AlchemyPlanet.TownScene
             {
                 UIManager.Instance.OpenMenu<BuildingManagement>();
             });
+
             InventoryButton.onClick.AddListener(() =>
             {
                 UIManager.Instance.OpenMenu<InventoryCell>();
