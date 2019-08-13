@@ -21,11 +21,13 @@ namespace AlchemyPlanet.TownScene
         [SerializeField] private Button UIOffButton;
         [SerializeField] private Button BuildingPlacementButton;
         [SerializeField] private Button BuildingManagementButton;
-        [SerializeField] private Button InventoryButton;
+
+        private Button InventoryButton;
 
         protected override void Awake()
         {
             base.Awake();
+            InventoryButton = GameObject.Find("Inventory").GetComponent<Button>();
             StartCoroutine(LateAwake());
         }
 
