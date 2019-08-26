@@ -114,8 +114,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05a0c4c0e190efb44a77ecf0a6413fad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ButtonRestart: {fileID: 114423521572852790}
-  ButtonWorldMap: {fileID: 114734026713985618}
+  ButtonRestart: {fileID: 1703133730054195083}
+  ButtonWorldMap: {fileID: 1435515105922572955}
   Score: {fileID: 114200742424014676}
   Unicoin: {fileID: 114572500129191598}
 --- !u!1 &1132681012180904
@@ -243,7 +243,7 @@ GameObject:
   - component: {fileID: 224649182059598130}
   - component: {fileID: 222844090454646580}
   - component: {fileID: 114484650951795384}
-  - component: {fileID: 114734026713985618}
+  - component: {fileID: 1435515105922572955}
   m_Layer: 5
   m_Name: ButtonWorldMap
   m_TagString: Untagged
@@ -306,7 +306,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &114734026713985618
+--- !u!114 &1435515105922572955
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -342,7 +342,7 @@ MonoBehaviour:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
-    m_SelectedTrigger: Highlighted
+    m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 114484650951795384}
@@ -994,7 +994,7 @@ GameObject:
   - component: {fileID: 224398261706882762}
   - component: {fileID: 222849598363767092}
   - component: {fileID: 114060862348496696}
-  - component: {fileID: 114423521572852790}
+  - component: {fileID: 1703133730054195083}
   m_Layer: 5
   m_Name: ButtonRestart
   m_TagString: Untagged
@@ -1057,7 +1057,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &114423521572852790
+--- !u!114 &1703133730054195083
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1093,7 +1093,7 @@ MonoBehaviour:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
-    m_SelectedTrigger: Highlighted
+    m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 114060862348496696}
