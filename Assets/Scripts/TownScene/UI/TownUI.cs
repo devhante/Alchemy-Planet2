@@ -27,12 +27,12 @@ namespace AlchemyPlanet.TownScene
         protected override void Awake()
         {
             base.Awake();
-            InventoryButton = GameObject.Find("Inventory").GetComponent<Button>();
-            StartCoroutine(LateAwake());
         }
 
         private void Start()
         {
+            InventoryButton = GameObject.Find("Inventory").GetComponent<Button>();
+            StartCoroutine(LateAwake());
 
             GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
 
