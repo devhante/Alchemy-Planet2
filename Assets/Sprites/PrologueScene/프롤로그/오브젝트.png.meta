@@ -1,15 +1,27 @@
 fileFormatVersion: 2
 guid: ef62e9d6176f49e43ab96a854f8104e5
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: "\uBAA8\uB2C8\uD130_\uCF1C\uC9D0"
-    21300002: "\uBAA8\uB2C8\uD130_\uAEBC\uC9D0"
-    21300004: "\uC624\uBE0C\uC81D\uD2B8_2"
-    21300006: "\uC624\uBE0C\uC81D\uD2B8_6"
-    21300008: "\uC624\uBE0C\uC81D\uD2B8_12"
-    21300010: "\uD3EC\uC2A4\uD130"
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: "\uBAA8\uB2C8\uD130_\uCF1C\uC9D0"
+  - first:
+      213: 21300002
+    second: "\uBAA8\uB2C8\uD130_\uAEBC\uC9D0"
+  - first:
+      213: 21300004
+    second: "\uC624\uBE0C\uC81D\uD2B8_2"
+  - first:
+      213: 21300006
+    second: "\uC624\uBE0C\uC81D\uD2B8_6"
+  - first:
+      213: 21300008
+    second: "\uC624\uBE0C\uC81D\uD2B8_12"
+  - first:
+      213: 21300010
+    second: "\uD3EC\uC2A4\uD130"
   externalObjects: {}
-  serializedVersion: 5
+  serializedVersion: 10
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -27,6 +39,8 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -37,7 +51,7 @@ TextureImporter:
     serializedVersion: 2
     filterMode: -1
     aniso: -1
-    mipBias: -1
+    mipBias: -100
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -62,7 +76,7 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -73,7 +87,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -84,7 +99,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -95,6 +111,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -114,6 +131,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c07a97b8846ba184abb4a3ef85095148
+      internalID: 21300000
       vertices: []
       indices: 
       edges: []
@@ -134,6 +152,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6938516788b37f24ca697f52145f39a1
+      internalID: 21300002
       vertices: []
       indices: 
       edges: []
@@ -154,6 +173,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: db1c6dfbd2783b94f9363c123e298e98
+      internalID: 21300004
       vertices: []
       indices: 
       edges: []
@@ -174,6 +194,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 242a6c5be723e1047a721a2407cd7255
+      internalID: 21300006
       vertices: []
       indices: 
       edges: []
@@ -194,6 +215,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: cacc8c54d0e543543a32af2d24739bdc
+      internalID: 21300008
       vertices: []
       indices: 
       edges: []
@@ -214,6 +236,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c522070d24f64c148ae9ba350938d4ae
+      internalID: 21300010
       vertices: []
       indices: 
       edges: []
@@ -222,11 +245,15 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 6b3c807496841644291476f10f0fcab4
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
+    secondaryTextures: []
   spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

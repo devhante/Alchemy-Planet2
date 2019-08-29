@@ -21,16 +21,18 @@ namespace AlchemyPlanet.TownScene
         [SerializeField] private Button UIOffButton;
         [SerializeField] private Button BuildingPlacementButton;
         [SerializeField] private Button BuildingManagementButton;
-        [SerializeField] private Button InventoryButton;
+
+        private Button InventoryButton;
 
         protected override void Awake()
         {
             base.Awake();
-            StartCoroutine(LateAwake());
         }
 
         private void Start()
         {
+            InventoryButton = GameObject.Find("Inventory").GetComponent<Button>();
+            StartCoroutine(LateAwake());
 
             GetComponent<CanvasScaler>().uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
 
@@ -94,6 +96,7 @@ namespace AlchemyPlanet.TownScene
             {
                 UIManager.Instance.OpenMenu<BuildingManagement>();
             });
+
             InventoryButton.onClick.AddListener(() =>
             {
                 UIManager.Instance.OpenMenu<InventoryCell>();

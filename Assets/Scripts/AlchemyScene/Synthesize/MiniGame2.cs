@@ -7,6 +7,8 @@ namespace AlchemyPlanet.AlchemyScene
 {
     public class MiniGame2 : MonoBehaviour
     {
+        enum ArrowType { Right, Up, Left, Down }
+
         [SerializeField]
         private Image mixImage;
         [SerializeField]
@@ -14,7 +16,7 @@ namespace AlchemyPlanet.AlchemyScene
         [SerializeField]
         private List<Sprite> arrowSpriteList;
 
-        private List<int> arrowType;
+        private List<int> arrowTypeList;
         private Touch touch;
         private Vector2 firstTouchPosition;
         private int arrowIndex;
@@ -26,7 +28,7 @@ namespace AlchemyPlanet.AlchemyScene
         {
             arrowIndex = 0;
             completionTime = 0;
-            arrowType = new List<int>();
+            arrowTypeList = new List<int>();
             mixImage.gameObject.SetActive(false);
             SetArrow();
             StartCoroutine("GetTouchGesture");
@@ -37,8 +39,8 @@ namespace AlchemyPlanet.AlchemyScene
         {
             for (int i = 0; i < arrowImageList.Count; i++)
             {
-                arrowType.Add(Random.Range(0, 4));
-                arrowImageList[i].sprite = arrowSpriteList[arrowType[i]];
+                arrowTypeList.Add(Random.Range(0, 4));
+                arrowImageList[i].sprite = arrowSpriteList[arrowTypeList[i]];
             }
         }
 
@@ -56,7 +58,7 @@ namespace AlchemyPlanet.AlchemyScene
                     }
                     else if (touch.phase == TouchPhase.Moved)
                     {
-                        if (!CheckTouchDirection(arrowType[arrowIndex], touch.position) && canSuccess)
+                        if (!CheckGestureDirection(arrowTypeList[arrowIndex], touch.position) && canSuccess)
                         {
                             canSuccess = false;
                         }
@@ -141,13 +143,12 @@ namespace AlchemyPlanet.AlchemyScene
             SynthesizeUI.Instance.OpenSynthesizeResultUI(completionTime);
         }
 
-        bool CheckTouchDirection(int type, Vector2 touchPosition)
+        bool CheckGestureDirection(int type, Vector2 touchPosition)
         {
             float distanceX = firstTouchPosition.x - touchPosition.x;
             float distanceY = firstTouchPosition.y - touchPosition.y;
 
-            //오른쪽
-            if (type == 0 && distanceX <= 0)
+            if (type == (int)ArrowType.Right && distanceX <= 0)
             {
                 if (distanceY < 0)
                     distanceY *= -1;
@@ -157,8 +158,7 @@ namespace AlchemyPlanet.AlchemyScene
                 else
                     return false;
             }
-            //아래쪽
-            else if (type == 1 && distanceY >= 0)
+            else if (type == (int)ArrowType.Down && distanceY >= 0)
             {
                 if (distanceX < 0)
                     distanceX *= -1;
@@ -167,8 +167,7 @@ namespace AlchemyPlanet.AlchemyScene
                 else
                     return false;
             }
-            //왼쪽
-            else if (type == 2 && distanceX >= 0)
+            else if (type == (int)ArrowType.Left && distanceX >= 0)
             {
                 if (distanceY < 0)
                     distanceY *= -1;
@@ -177,8 +176,7 @@ namespace AlchemyPlanet.AlchemyScene
                 else
                     return false;
             }
-            //위쪽
-            else if (type == 3 && distanceY <= 0)
+            else if (type == (int)ArrowType.Up && distanceY <= 0)
             {
                 if (distanceX < 0)
                     distanceX *= -1;

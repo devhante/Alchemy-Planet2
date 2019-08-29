@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace AlchemyPlanet.TownScene
 {
@@ -34,21 +35,33 @@ namespace AlchemyPlanet.TownScene
             }
         }
 
-        private void OnLevelWasLoaded(int level)
+        private void Start()
         {
-            if(Common.StateBar.Instance)
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (Common.StateBar.Instance)
                 Common.StateBar.Instance.UpdateState();
             if (Common.StateBar_s.Instance)
                 Common.StateBar_s.Instance.UpdateState();
-            switch (level)
+
+            switch (scene.buildIndex)
             {
-                case 0: case 1: case 7: case 8: case 10:
+                case 0:
+                case 1:
+                case 7:
+                case 8:
+                case 10:
                     {
                         TopDownUI.SetActive(false);
                         TopDownUI_S.SetActive(false); break;
                     }
+                // case 5: AlchemyScene?
                 case 11:
-                    {
+                    {   
                         TopDownUI.SetActive(false);
                         TopDownUI_S.SetActive(true); break;
                     }

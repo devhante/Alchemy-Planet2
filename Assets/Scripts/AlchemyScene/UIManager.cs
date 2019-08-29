@@ -7,8 +7,16 @@ namespace AlchemyPlanet.AlchemyScene
     {
         public static UIManager Instance { get; private set; }
 
-        [SerializeField] private LobbyUI LobbyUIPrefab;
-        [SerializeField] private SynthesizeUI SynthesizeUIPrefab;
+        [SerializeField]
+        private GameObject LobbyUIPrefab;
+        [SerializeField]
+        private GameObject SynthesizeUIPrefab;
+        [SerializeField]
+        private GameObject DecomposeUIObject;
+        [SerializeField]
+        private GameObject TransformUIObject;
+        [SerializeField]
+        private GameObject MaterialDictionaryUIObject;
 
         public Stack<Common.UI> menuStack = new Stack<Common.UI>();
 
@@ -47,7 +55,7 @@ namespace AlchemyPlanet.AlchemyScene
             if (typeof(T) == typeof(LobbyUI))
                 return LobbyUIPrefab as T;
             else if (typeof(T) == typeof(SynthesizeUI))
-                return LobbyUIPrefab as T;
+                return SynthesizeUIPrefab as T;
             else
                 throw new MissingReferenceException();
         }

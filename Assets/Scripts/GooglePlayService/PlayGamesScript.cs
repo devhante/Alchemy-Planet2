@@ -24,6 +24,7 @@ namespace AlchemyPlanet.Data
         const string SAVE_NAME = "PlayData";
         bool isSaving;
         bool isCloudDataLoaded = false;
+        public bool isDeveloperMode = false;
 
         private void Awake()
         {

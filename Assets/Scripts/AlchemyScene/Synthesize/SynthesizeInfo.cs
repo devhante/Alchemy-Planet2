@@ -38,20 +38,6 @@ namespace AlchemyPlanet.AlchemyScene
             AddOnClick();
         }
 
-        void GetFomula(string itemName)
-        {
-            foreach (var f in AlchemyManager.Instance.formulas)
-            {
-                if (f.result == itemName)
-                {
-                    formula = f;
-                    break;
-                }
-            }
-
-            SetFomula();
-        }
-
         void AddOnClick()
         {
             countUpButton.onClick.AddListener(() => AddCount());
@@ -62,6 +48,15 @@ namespace AlchemyPlanet.AlchemyScene
 
         void SetFomula()
         {
+            foreach (var f in AlchemyManager.Instance.formulas)
+            {
+                if (f.result == SynthesizeUI.Instance.itemName)
+                {
+                    formula = f;
+                    break;
+                }
+            }
+
             var materials = formula.formula;
             int materialCount = 0;
 
