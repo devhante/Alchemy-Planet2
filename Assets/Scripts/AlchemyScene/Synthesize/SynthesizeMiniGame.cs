@@ -18,6 +18,7 @@ namespace AlchemyPlanet.AlchemyScene
         [SerializeField]
         private Sprite miniGameTypeSprite2;
 
+        private int greatProbability;
 
         void SetMiniGame1()
         {
@@ -33,6 +34,16 @@ namespace AlchemyPlanet.AlchemyScene
             miniGamePrefab2.SetActive(true);
             miniGameType.sprite = miniGameTypeSprite2;
             miniGamePrefab1.SendMessage("SetMniGame2");
+        }
+        
+        void SendResult()
+        {
+            
+        }
+
+        public void AddGreatProbability(int probability)
+        {
+            greatProbability += probability;
         }
     }
 }

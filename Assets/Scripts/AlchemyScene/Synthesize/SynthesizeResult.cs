@@ -21,8 +21,6 @@ namespace AlchemyPlanet.AlchemyScene
         [SerializeField]
         private Text levelText;
         [SerializeField]
-        private Sprite failSprite;
-        [SerializeField]
         private Button OpenSynthesizeSelectUIButton;
 
         private int greatProbability;
@@ -35,66 +33,25 @@ namespace AlchemyPlanet.AlchemyScene
             OpenSynthesizeSelectUIButton.onClick.AddListener(() => SynthesizeUI.Instance.OpenSynthesizeSelectUI());
         }
 
-        // Update is called once per frame
-        void Update()
+        void SetResult(int greatProbability)
         {
-
-        }
-
-        void GetResult(int completionTime)
-        {
-            if (completionTime > 12)
-            {
-                greatProbability = 0;
-                SetResult(false);
-            }
-            else if (completionTime > 9)
-            {
-                SetResult(true);
-            }
-            else if (completionTime > 7)
-            {
-                greatProbability += 3;
-                SetResult(true);
-            }
-            else if (completionTime > 5)
-            {
-                greatProbability += 5;
-                SetResult(true);
-            }
-            else
-            {
-                greatProbability += 10;
-                SetResult(true);
-            }
-        }
-
-        void SetResult(bool success)
-        {
+            this.greatProbability = greatProbability;
             itemCount = SynthesizeUI.Instance.itemCount;
             MeasureGreatProbability();
-            if (success)
-            {
-                resultItemName.text = SynthesizeUI.Instance.itemName + " " + itemCount + " 개";
-                resultItemImage.sprite = DataManager.Instance.itemInfo[AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName)].image;
+            resultItemName.text = SynthesizeUI.Instance.itemName + " " + itemCount + " 개";
+            resultItemImage.sprite = DataManager.Instance.itemInfo[AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName)].image;
 
-                if (DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName)))
-                {
-                    DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName)] += itemCount;
-                    BackendManager.Instance.UpdateItemNumber(BackendManager.Instance.GetInDate("item"), AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName),
-                        DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName)]);
-                }
-                else
-                {
-                    DataManager.Instance.CurrentPlayerData.inventory.Add(AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName), itemCount);
-                    BackendManager.Instance.AddItem(BackendManager.Instance.GetInDate("item"), AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName),
-                        DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName)]);
-                }
+            if (DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName)))
+            {
+                DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName)] += itemCount;
+                BackendManager.Instance.UpdateItemNumber(BackendManager.Instance.GetInDate("item"), AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName),
+                    DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName)]);
             }
             else
             {
-                resultItemName.text = "합성 실패";
-                resultItemImage.sprite = failSprite;
+                DataManager.Instance.CurrentPlayerData.inventory.Add(AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName), itemCount);
+                BackendManager.Instance.AddItem(BackendManager.Instance.GetInDate("item"), AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName),
+                    DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName)]);
             }
         }
 

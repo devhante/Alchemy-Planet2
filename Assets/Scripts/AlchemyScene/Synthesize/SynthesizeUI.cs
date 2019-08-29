@@ -56,7 +56,7 @@ namespace AlchemyPlanet.AlchemyScene
             TopDownUI.SetActive(false);
             SynthesizeInfoUI.SetActive(true);
 
-            SynthesizeInfoUI.SendMessage("GetFomula",itemName);
+            SynthesizeInfoUI.SendMessage("SetFomula");
         }
 
         public void OpenSynthesizeMiniGame(int itemCount)
@@ -65,7 +65,7 @@ namespace AlchemyPlanet.AlchemyScene
             
             SynthesizeInfoUI.SetActive(false);
             SynthesizeMiniGame.SetActive(true);
-            SynthesizeMiniGame.SendMessage("SetMiniGame2");
+            SynthesizeMiniGame.SendMessage("SetMiniGame");
         }
 
         public void OpenSynthesizeResultUI(int completionTime)
@@ -73,7 +73,7 @@ namespace AlchemyPlanet.AlchemyScene
             SynthesizeMiniGame.SetActive(false);
             SynthesizeResultUI.SetActive(true);
 
-            SynthesizeResultUI.SendMessage("GetResult", completionTime);
+            SynthesizeResultUI.SendMessage("SetResult", completionTime);
         }
     }
 }
