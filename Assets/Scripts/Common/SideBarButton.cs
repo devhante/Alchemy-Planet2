@@ -6,18 +6,16 @@ using DG.Tweening;
 
 public class SideBarButton : MonoBehaviour
 {
-    private Image sideBarIcon;
-    private Button[] sidaBarIconList;
-    private Button button;
+    public Button[] sideBarButtonList;
+
     private bool openingMenu = true;
+    private float axisY;
 
     // Start is called before the first frame update
     void Start()
     {
-        sideBarIcon = GetComponent<Image>();
-        sidaBarIconList = GetComponentsInChildren<Button>();
-        button = gameObject.AddComponent<Button>();
-        button.onClick.AddListener(() =>
+        axisY = transform.position.y;
+        gameObject.AddComponent<Button>().onClick.AddListener(() =>
         {
             if (openingMenu)
                 CloseSideBar();
@@ -28,23 +26,23 @@ public class SideBarButton : MonoBehaviour
 
     void OpenSideBar()
     {
-        float iconY = 0;
         openingMenu = true;
-        foreach (var icon in sidaBarIconList)
+        transform.DORotate(new Vector3(0, 0, 0), 1).SetEase(Ease.OutQuint);
+        for(int i = 0; i < sideBarButtonList.Length; i++)
         {
-            iconY = icon.transform.position.y;
-            icon.transform.DOMoveY(iconY - 200, 1);
+            Button button = sideBarButtonList[i];
+            button.transform.DOMoveY(axisY - (i + 1) * 90, 1).SetEase(Ease.OutQuint);
         }
     }
 
     void CloseSideBar()
     {
         openingMenu = false;
-        float iconY = 0;
-        foreach (var icon in sidaBarIconList)
+        transform.DORotate(new Vector3(0, 0, 180), 1).SetEase(Ease.OutQuint);
+        foreach (var button in sideBarButtonList)
         {
-            iconY = icon.transform.position.y;
-            icon.transform.DOMoveY(iconY + 200, 1);
+            float buttonY = button.transform.position.y;
+            button.transform.DOMoveY(axisY, 1).SetEase(Ease.OutQuint);
         }
     }
 }
