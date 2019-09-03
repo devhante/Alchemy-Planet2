@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using AlchemyPlanet.Common;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -68,7 +69,8 @@ namespace AlchemyPlanet.TownScene
                 default:
                     {
                         TopDownUI.SetActive(true);
-                        TopDownUI_S.SetActive(false); break;
+                        TopDownUI_S.SetActive(false);
+                        TopDownUI.GetComponent<TopDownUI>().Appear(); break;
                     }
             }
         }
