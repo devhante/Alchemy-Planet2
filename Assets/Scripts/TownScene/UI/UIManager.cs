@@ -18,8 +18,11 @@ namespace AlchemyPlanet.TownScene
         [SerializeField] private BuildingManagement BuildingManagementPrefab;
         [SerializeField] private NameSetUI NameSetUIPrefab;
 
-        [SerializeField] private GameObject TopDownUI;
-        [SerializeField] private GameObject TopDownUI_S;
+        [SerializeField] private GameObject TopDownUIPrefab;
+        [SerializeField] private GameObject TopDownUI_SPrefab;
+
+        private GameObject topDownUI;
+        private GameObject topDownUI_S;
 
         public Stack<Common.UI> menuStack = new Stack<Common.UI>();
 
@@ -38,6 +41,8 @@ namespace AlchemyPlanet.TownScene
 
         private void Start()
         {
+            topDownUI = Instantiate(TopDownUIPrefab, transform);
+            topDownUI_S = Instantiate(TopDownUI_SPrefab, transform);
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
@@ -57,20 +62,20 @@ namespace AlchemyPlanet.TownScene
                 case 8:
                 case 10:
                     {
-                        TopDownUI.SetActive(false);
-                        TopDownUI_S.SetActive(false); break;
+                        topDownUI.SetActive(false);
+                        topDownUI_S.SetActive(false); break;
                     }
                 // case 5: AlchemyScene?
                 case 11:
                     {   
-                        TopDownUI.SetActive(false);
-                        TopDownUI_S.SetActive(true); break;
+                        topDownUI.SetActive(false);
+                        topDownUI_S.SetActive(true); break;
                     }
                 default:
                     {
-                        TopDownUI.SetActive(true);
-                        TopDownUI_S.SetActive(false);
-                        TopDownUI.GetComponent<TopDownUI>().Appear(); break;
+                        topDownUI.SetActive(true);
+                        topDownUI_S.SetActive(false);
+                        topDownUI.GetComponent<TopDownUI>().Appear(); break;
                     }
             }
         }
@@ -85,13 +90,13 @@ namespace AlchemyPlanet.TownScene
 
         public void TownUIOff()
         {
-            TopDownUI.SetActive(false);
+            topDownUI.SetActive(false);
             menuStack.Peek().gameObject.SetActive(false);
         }
 
         public void TownUIOn()
         {
-            TopDownUI.SetActive(true);
+            topDownUI.SetActive(true);
             menuStack.Peek().gameObject.SetActive(true);
         }
 
