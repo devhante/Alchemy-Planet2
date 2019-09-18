@@ -23,17 +23,8 @@ namespace AlchemyPlanet.AlchemyScene
             popMaterialNumber = 0;
             materialNameList = new List<string>();
 
-            foreach (var f in AlchemyManager.Instance.formulas)
-            {
-                if (f.result == SynthesizeUI.Instance.itemName)
-                {
-                    foreach (var m in f.formula.Keys)
-                    {
-                        materialNameList.Add(m);
-                    }
-                    break;
-                }
-            }
+            foreach (var m in AlchemyManager.Instance.formulaDictionary[SynthesizeManager.Instance.itemName].formula.Keys)
+                materialNameList.Add(m);
 
             List<int> randomNumberList = new List<int>();
 
@@ -51,12 +42,8 @@ namespace AlchemyPlanet.AlchemyScene
                 materialList[randomNumberList[i]].SetMaterial(materialNameList[i], true);
 
             for (int i = 0; i < materialList.Count; i++)
-            {
                 if (!randomNumberList.Contains(i))
-                {
                     materialList[randomNumberList[i]].SetMaterial(materialNameList[i], false);
-                }
-            }
         }
 
         public void SetSelectedMaterial(Material material)
@@ -76,6 +63,7 @@ namespace AlchemyPlanet.AlchemyScene
                 {
 
                 }
+                synthesizeMiniGame.StartMiniGame2();
             }
 
             else

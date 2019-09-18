@@ -16,6 +16,7 @@ namespace AlchemyPlanet.AlchemyScene
         [SerializeField]
         private List<Sprite> arrowSpriteList;
 
+        private SynthesizeMiniGame synthesizeMiniGame;
         private List<int> arrowTypeList;
         private Touch touch;
         private Vector2 firstTouchPosition;
@@ -24,12 +25,13 @@ namespace AlchemyPlanet.AlchemyScene
         private int completionTime;
         private float circleAngle;
 
-        void SetMiniGame2()
+        private void Start()
         {
             arrowIndex = 0;
             completionTime = 0;
             arrowTypeList = new List<int>();
             mixImage.gameObject.SetActive(false);
+            synthesizeMiniGame = GetComponentInParent<SynthesizeMiniGame>();
             SetArrow();
             StartCoroutine("GetTouchGesture");
             StartCoroutine("MeasureTime");
@@ -140,7 +142,7 @@ namespace AlchemyPlanet.AlchemyScene
             {
                 image.gameObject.SetActive(true);
             }
-            SynthesizeUI.Instance.OpenSynthesizeResultUI(completionTime);
+            synthesizeMiniGame.AddGreatProbability(completionTime);
         }
 
         bool CheckGestureDirection(int type, Vector2 touchPosition)

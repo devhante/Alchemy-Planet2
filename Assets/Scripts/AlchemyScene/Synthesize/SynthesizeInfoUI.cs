@@ -6,14 +6,10 @@ using AlchemyPlanet.Data;
 
 namespace AlchemyPlanet.AlchemyScene
 {
-    public class SynthesizeInfo : MonoBehaviour
+    public class SynthesizeInfoUI : MonoBehaviour
     {
         [SerializeField]
-        private List<Image> requiredItemImageList;
-        [SerializeField]
-        private List<Image> requiredItemBackgroundImageList;
-        [SerializeField]
-        private List<Text> requiredItemCountList;
+        private List<ItemCell> requiredItemCellList;
         [SerializeField]
         private Image resultItemImage;
         [SerializeField]
@@ -32,30 +28,21 @@ namespace AlchemyPlanet.AlchemyScene
         private FormulaData formula;
         private int count;
 
-        // Use this for initialization
-        void Start()
-        {
-            AddOnClick();
-        }
-
-        void AddOnClick()
+        private void Start()
         {
             countUpButton.onClick.AddListener(() => AddCount());
             countDownButton.onClick.AddListener(() => SubtractCount());
             cancelButton.onClick.AddListener(() => Cancel());
             OKButton.onClick.AddListener(() => Synthesize());
+
+            SetFomula();
+            if (!CanSynthesize())
+                OKButton.interactable = false;
         }
 
         void SetFomula()
         {
-            foreach (var f in AlchemyManager.Instance.formulas)
-            {
-                if (f.result == SynthesizeUI.Instance.itemName)
-                {
-                    formula = f;
-                    break;
-                }
-            }
+            formula = AlchemyManager.Instance.formulaDictionary[SynthesizeManager.Instance.itemName];
 
             var materials = formula.formula;
             int materialCount = 0;
@@ -65,48 +52,49 @@ namespace AlchemyPlanet.AlchemyScene
 
             foreach (var material in materials)
             {
-                requiredItemBackgroundImageList[materialCount].gameObject.SetActive(true);
-                requiredItemImageList[materialCount].gameObject.SetActive(true);
-                requiredItemCountList[materialCount].gameObject.SetActive(true);
-
-                requiredItemCountList[materialCount].text = material.Value.ToString();
-                requiredItemImageList[materialCount].sprite = DataManager.Instance.itemInfo[AlchemyManager.Instance.GetEnglishName(material.Key)].image;
-                materialCount++;
+                requiredItemCellList[materialCount].gameObject.SetActive(true);
+                requiredItemCellList[materialCount++].SetItemCell(material.Key, DataManager.Instance.itemInfo[AlchemyManager.Instance.GetEnglishName(material.Key)].image, material.Value);
             }
 
-            for (int i = materialCount; i < 5; i++)
+            if (materialCount > 2)
             {
-                requiredItemBackgroundImageList[i].gameObject.SetActive(false);
-                requiredItemImageList[i].gameObject.SetActive(false);
-                requiredItemCountList[i].gameObject.SetActive(false);
+                for (int i = 1; i < materialCount; i++)
+                {
+                    requiredItemCellList[i].gameObject.transform.RotateAround(resultItemImage.gameObject.transform.position, Vector3.back, 360 * i / materialCount);
+                    requiredItemCellList[i].gameObject.transform.rotation = Quaternion.Euler(Vector3.zero);
+                }
+            }
+            else
+            {
+                requiredItemCellList[0].gameObject.transform.RotateAround(resultItemImage.gameObject.transform.position, Vector3.back, 90);
+                requiredItemCellList[0].gameObject.transform.rotation = Quaternion.Euler(Vector3.zero);
+                requiredItemCellList[1].gameObject.transform.RotateAround(resultItemImage.gameObject.transform.position, Vector3.forward, 90);
+                requiredItemCellList[1].gameObject.transform.rotation = Quaternion.Euler(Vector3.zero);
             }
         }
 
         void Synthesize()
         {
-            if (!CanSynthesize())
-                return;
-
             foreach (var material in formula.formula)
             {
                 DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(material.Key)] -= material.Value * count;
 
                 if (DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(material.Key)] > 0)
-                    BackendManager.Instance.UpdateItemNumber(BackendManager.Instance.GetInDate("item"), AlchemyManager.Instance.GetEnglishName(material.Key), 
+                    BackendManager.Instance.UpdateItemNumber(BackendManager.Instance.GetInDate("item"), AlchemyManager.Instance.GetEnglishName(material.Key),
                         DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(material.Key)]);
                 else
                     BackendManager.Instance.DeleteItem(BackendManager.Instance.GetInDate("item"), AlchemyManager.Instance.GetEnglishName(material.Key));
             }
 
-            SynthesizeUI.Instance.OpenSynthesizeMiniGame(count);
+            SynthesizeManager.Instance.OpenSynthesizeMiniGame(count);
         }
 
         bool CanSynthesize()
         {
             foreach (var material in formula.formula)
             {
-                if (!DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(AlchemyManager.Instance.GetEnglishName(material.Key)) || 
-                    DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(AlchemyManager.Instance.GetEnglishName(material.Key)) && 
+                if (!DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(AlchemyManager.Instance.GetEnglishName(material.Key)) ||
+                    DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(AlchemyManager.Instance.GetEnglishName(material.Key)) &&
                     DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(material.Key)] < material.Value * count)
                 {
                     return false;
@@ -125,7 +113,7 @@ namespace AlchemyPlanet.AlchemyScene
 
             foreach (var material in materials)
             {
-                requiredItemCountList[materialCount].text = (material.Value * count).ToString();
+                requiredItemCellList[materialCount].SetItemCell(material.Key, DataManager.Instance.itemInfo[AlchemyManager.Instance.GetEnglishName(material.Key)].image, material.Value * count);
                 materialCount++;
             }
 
@@ -143,7 +131,7 @@ namespace AlchemyPlanet.AlchemyScene
 
                 foreach (var material in materials)
                 {
-                    requiredItemCountList[materialCount].text = (material.Value * count).ToString();
+                    requiredItemCellList[materialCount].SetItemCell(material.Key, DataManager.Instance.itemInfo[AlchemyManager.Instance.GetEnglishName(material.Key)].image, material.Value * count);
                     materialCount++;
                 }
             }
@@ -153,7 +141,8 @@ namespace AlchemyPlanet.AlchemyScene
 
         void Cancel()
         {
-            SynthesizeUI.Instance.OpenSynthesizeSelectUI();
+            SynthesizeManager.Instance.OpenSynthesizeSelectUI();
+            Destroy(gameObject);
         }
     }
 }

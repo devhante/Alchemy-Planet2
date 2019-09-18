@@ -10,9 +10,9 @@ namespace AlchemyPlanet.AlchemyScene
         [SerializeField]
         private Image miniGameType;
         [SerializeField]
-        private GameObject miniGamePrefab1;
+        private GameObject miniGame1Prefab;
         [SerializeField]
-        private GameObject miniGamePrefab2;
+        private GameObject miniGame2Prefab;
         [SerializeField]
         private Sprite miniGameTypeSprite1;
         [SerializeField]
@@ -20,25 +20,27 @@ namespace AlchemyPlanet.AlchemyScene
 
         private int greatProbability;
 
-        void SetMiniGame1()
+        private void Start()
         {
-            miniGamePrefab1.SetActive(true);
-            miniGamePrefab2.SetActive(false);
-            miniGameType.sprite = miniGameTypeSprite1;
-            miniGamePrefab1.SendMessage("SetMniGame1");
+            StartMiniGame1();
         }
 
-        void SetMiniGame2()
+        public void StartMiniGame1()
         {
-            miniGamePrefab1.SetActive(false);
-            miniGamePrefab2.SetActive(true);
+            Instantiate(miniGame1Prefab, gameObject.transform);
+            miniGameType.sprite = miniGameTypeSprite1;
+        }
+
+        public void StartMiniGame2()
+        {
+            Instantiate(miniGame2Prefab, gameObject.transform);
             miniGameType.sprite = miniGameTypeSprite2;
-            miniGamePrefab1.SendMessage("SetMniGame2");
         }
         
         void SendResult()
         {
             
+            SynthesizeManager.Instance.OpenSynthesizeResultUI(greatProbability);
         }
 
         public void AddGreatProbability(int probability)

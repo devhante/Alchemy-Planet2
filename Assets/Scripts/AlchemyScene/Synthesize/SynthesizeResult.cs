@@ -26,32 +26,32 @@ namespace AlchemyPlanet.AlchemyScene
         private int greatProbability;
         private int itemCount;
 
-        // Use this for initialization
         void Start()
         {
             greatProbability = 5;
-            OpenSynthesizeSelectUIButton.onClick.AddListener(() => SynthesizeUI.Instance.OpenSynthesizeSelectUI());
+            OpenSynthesizeSelectUIButton.onClick.AddListener(() => SynthesizeManager.Instance.OpenSynthesizeSelectUI());
+            SetResult();
         }
 
-        void SetResult(int greatProbability)
+        void SetResult()
         {
-            this.greatProbability = greatProbability;
-            itemCount = SynthesizeUI.Instance.itemCount;
+            greatProbability = SynthesizeManager.Instance.completionTime;
+            itemCount = SynthesizeManager.Instance.itemCount;
             MeasureGreatProbability();
-            resultItemName.text = SynthesizeUI.Instance.itemName + " " + itemCount + " 개";
-            resultItemImage.sprite = DataManager.Instance.itemInfo[AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName)].image;
+            resultItemName.text = SynthesizeManager.Instance.itemName + " " + itemCount + " 개";
+            resultItemImage.sprite = DataManager.Instance.itemInfo[AlchemyManager.Instance.GetEnglishName(SynthesizeManager.Instance.itemName)].image;
 
-            if (DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName)))
+            if (DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(AlchemyManager.Instance.GetEnglishName(SynthesizeManager.Instance.itemName)))
             {
-                DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName)] += itemCount;
-                BackendManager.Instance.UpdateItemNumber(BackendManager.Instance.GetInDate("item"), AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName),
-                    DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName)]);
+                DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(SynthesizeManager.Instance.itemName)] += itemCount;
+                BackendManager.Instance.UpdateItemNumber(BackendManager.Instance.GetInDate("item"), AlchemyManager.Instance.GetEnglishName(SynthesizeManager.Instance.itemName),
+                    DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(SynthesizeManager.Instance.itemName)]);
             }
             else
             {
-                DataManager.Instance.CurrentPlayerData.inventory.Add(AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName), itemCount);
-                BackendManager.Instance.AddItem(BackendManager.Instance.GetInDate("item"), AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName),
-                    DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(SynthesizeUI.Instance.itemName)]);
+                DataManager.Instance.CurrentPlayerData.inventory.Add(AlchemyManager.Instance.GetEnglishName(SynthesizeManager.Instance.itemName), itemCount);
+                BackendManager.Instance.AddItem(BackendManager.Instance.GetInDate("item"), AlchemyManager.Instance.GetEnglishName(SynthesizeManager.Instance.itemName),
+                    DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(SynthesizeManager.Instance.itemName)]);
             }
         }
 
@@ -60,13 +60,13 @@ namespace AlchemyPlanet.AlchemyScene
             int random = Random.Range(0, 100);
             if (random < greatProbability)
             {
-                if (SynthesizeUI.Instance.itemCount < 5)
+                if (SynthesizeManager.Instance.itemCount < 5)
                 {
                     itemCount++;
                 }
                 else
                 {
-                    itemCount += SynthesizeUI.Instance.itemCount / 5;
+                    itemCount += SynthesizeManager.Instance.itemCount / 5;
                 }
             }
         }

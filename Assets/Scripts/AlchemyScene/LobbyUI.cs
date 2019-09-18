@@ -8,33 +8,27 @@ namespace AlchemyPlanet.AlchemyScene
     public class LobbyUI : MonoBehaviour
     {
         [SerializeField]
-        private Button SynthesizeButton;
+        private Button synthesizeButton;
         [SerializeField]
-        private Button DecopmoseButton;
+        private Button decopmoseButton;
         [SerializeField]
-        private Button TransformButton;
+        private Button transformButton;
         [SerializeField]
-        private Button MaterialDictionaryButton;
+        private Button materialDictionaryButton;
         [SerializeField]
-        private Button RequestButton;
+        private Button requestButton;
+        [SerializeField]
+        private GameObject synthesizeManager;
 
-
-        // Use this for initialization
         void Start()
         {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            ButtonMapping();
         }
 
         void ButtonMapping()
         {
-            SynthesizeButton.onClick.AddListener(() => UIManager.Instance.OpenMenu<SynthesizeUI>());
-            DecopmoseButton.onClick.AddListener(() => UIManager.Instance.OpenMenu<DecomposeUI>());
+            synthesizeButton.onClick.AddListener(()=>Instantiate(synthesizeManager));
+            
         }
     }
 }

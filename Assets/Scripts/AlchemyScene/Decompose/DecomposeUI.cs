@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace AlchemyPlanet.AlchemyScene
 {
-    public class DecomposeUI : Common.UI<SynthesizeUI>
+    public class DecomposeUI : Common.UI<DecomposeUI>
     {
 
 

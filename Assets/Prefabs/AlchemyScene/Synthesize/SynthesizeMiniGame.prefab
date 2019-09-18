@@ -2723,8 +2723,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   miniGameType: {fileID: 114257996313537128}
-  miniGamePrefab1: {fileID: 1021158373941476}
-  miniGamePrefab2: {fileID: 1620749972456486}
+  miniGame1Prefab: {fileID: 1021158373941476}
+  miniGame2Prefab: {fileID: 1620749972456486}
   miniGameTypeSprite1: {fileID: 21300080, guid: 0618cdc210d8a984e91498d2368d27b0,
     type: 3}
   miniGameTypeSprite2: {fileID: 21300082, guid: 0618cdc210d8a984e91498d2368d27b0,

@@ -1,21 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AlchemyPlanet.Data;
 
 namespace AlchemyPlanet.AlchemyScene
 {
     public class AlchemyManager : MonoBehaviour
     {
         public static AlchemyManager Instance;
-        public List<Data.FormulaData> formulas;
-        public List<Data.Request> requests;
+        public Dictionary<string, FormulaData> formulaDictionary { get; private set; }
+        public List<Request> requests;
         public Dictionary<string, string> itemEnglishName;
          
 
         private void Awake()
         {
-            formulas = Data.DataManager.Instance.LoadFormulas();
-            requests = Data.DataManager.Instance.LoadRequests();
+            formulaDictionary = new Dictionary<string, FormulaData>();
+            DataManager.Instance.LoadFormulas().ForEach((formula) => { formulaDictionary.Add(formula.result, formula); });
+            requests = DataManager.Instance.LoadRequests();
 
             Instance = this;
         }
@@ -24,7 +26,7 @@ namespace AlchemyPlanet.AlchemyScene
         {
             itemEnglishName = new Dictionary<string, string>();
 
-            foreach (var item in Data.DataManager.Instance.itemInfo)
+            foreach (var item in DataManager.Instance.itemInfo)
             {
                 itemEnglishName.Add(item.Value.item_name, item.Key);
             }
