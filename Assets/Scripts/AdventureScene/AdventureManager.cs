@@ -30,15 +30,21 @@ namespace AlchemyPlanet.AdvectureScene
             {
                 if(Input.GetKeyDown(KeyCode.LeftArrow))
                 {
-                    isMoving = true;
-                    planetNumber--;
-                    UIManager.Instance.SendMessage("MoveLeft");
+                    if (planetNumber > 0)
+                    {
+                        isMoving = true;
+                        planetNumber--;
+                        UIManager.Instance.SendMessage("MoveLeft");
+                    }
                 }
                 else if(Input.GetKeyDown(KeyCode.RightArrow))
                 {
-                    isMoving = true;
-                    planetNumber++;
-                    UIManager.Instance.SendMessage("MoveRight");
+                    if (planetNumber < planetCount - 1)
+                    {
+                        isMoving = true;
+                        planetNumber++;
+                        UIManager.Instance.SendMessage("MoveRight");
+                    }
                 }
             }
         }
