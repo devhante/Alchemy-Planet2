@@ -195,7 +195,7 @@ namespace AlchemyPlanet.Data
         public int boundary;
 
         // 연금술
-        public int alchemyLevel;
+        public int alchemyRating;
         public int alchemyEXP;
         public int starPowder;
 
@@ -230,7 +230,7 @@ namespace AlchemyPlanet.Data
             this.characters = new List<Character>();
 
             this.alchemyEXP = 0;
-            this.alchemyLevel = 1;
+            this.alchemyRating = 1;
             this.starPowder = 0;
 
 

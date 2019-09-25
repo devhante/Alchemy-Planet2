@@ -9,12 +9,13 @@ namespace AlchemyPlanet.AlchemyScene
     public class Material : Bubble, IPointerEnterHandler, IPointerUpHandler
     {
         public string materialName;
-        
+
         private Image image;
         private bool isMaterialOfItem;
         private bool isMaterialPointerDown;
         private bool isMaterialPointerUp;
         private MiniGame1 miniGame1;
+        private Vector3 startPosition;
 
         protected override void Awake()
         {
@@ -26,8 +27,8 @@ namespace AlchemyPlanet.AlchemyScene
         protected override void Start()
         {
             base.Start();
-            image = GetComponent<Image>();
             miniGame1 = GetComponentInParent<MiniGame1>();
+            startPosition = gameObject.transform.position;
         }
 
         public void SetMaterial(string materialName, bool isMaterialOfItem)
@@ -35,57 +36,41 @@ namespace AlchemyPlanet.AlchemyScene
             this.materialName = materialName;
             this.isMaterialOfItem = isMaterialOfItem;
 
+            image = GetComponent<Image>();
             image.sprite = Data.DataManager.Instance.itemInfo[AlchemyManager.Instance.GetEnglishName(materialName)].image;
         }
 
-        public override void OnPointerDown(PointerEventData eventData)
+        public void RemoveMaterial()
         {
-            if (isMaterialPointerDown) return;
-            else isMaterialPointerDown = true;
-
-            base.OnPointerDown(eventData);
-            if (!isMaterialOfItem)
-                ExpandAndDestroy();
-
-            else
-            {
-                miniGame1.SetSelectedMaterial(this);
-                StopCoroutine("Float");
-                StartCoroutine("Shrink");
-                ChangeBubbleToSelectedBubble();
-                transform.SetSiblingIndex(0);
-                StartCoroutine("MoveCoroutine");
-            }
+            isMaterialPointerDown = false;
+            isBubblePointerDown = false;
+            StopCoroutine("MoveCoroutine");
+            StartCoroutine("Float");
+            ChangeBubbleToUnselectedBubble();
+            gameObject.transform.position = startPosition;
         }
-
-        public void OnPointerUp(PointerEventData eventData)
-        {
-            if (isMaterialPointerUp) return;
-            else isMaterialPointerUp = true;
-
-            if (Time.timeScale == 0) return;
-
-            ExpandAndDestroy();
-            miniGame1.CheckFail();
+        
+        public void OnPointerUp(PointerEventData eventData){
+            miniGame1.FailMiniGame1();
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
             if (!isMaterialOfItem)
             {
-                miniGame1.FailMiniGame1();
-                ExpandAndDestroy();
+                if (miniGame1.IsFirstBubble())
+                    ExpandAndDestroy();
+                else
+                    miniGame1.FailMiniGame1();
+                return;
             }
+            else if (isMaterialPointerDown) return;
+            else isMaterialPointerDown = true;
 
-            else
-            {
-                miniGame1.SetSelectedMaterial(this);
-                StopCoroutine("Float");
-                StartCoroutine("Shrink");
-                ChangeBubbleToSelectedBubble();
-                transform.SetSiblingIndex(0);
-                StartCoroutine("MoveCoroutine");
-            }
+            base.OnPointerDown(eventData);
+            miniGame1.SetSelectedMaterial(this);
+            transform.SetSiblingIndex(0);
+            miniGame1.CheckSuccess();
         }
     }
 }

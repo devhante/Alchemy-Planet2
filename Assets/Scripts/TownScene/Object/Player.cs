@@ -58,7 +58,7 @@ namespace AlchemyPlanet.TownScene
                 direction.y = 0;
             }
 
-            transform.Translate(direction * speed * Time.deltaTime);
+            gameObject.transform.Translate(direction * speed * Time.deltaTime);
             animator.SetBool("Run", true);
         }
 

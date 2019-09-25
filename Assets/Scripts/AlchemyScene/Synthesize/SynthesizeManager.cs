@@ -7,6 +7,11 @@ namespace AlchemyPlanet.AlchemyScene
 {
     public class SynthesizeManager : Common.UI<SynthesizeManager>
     {
+        public enum Result
+        {
+            fail, success, great
+        }
+
         [SerializeField]
         private GameObject synthesizeSelectUI;
         [SerializeField]
@@ -17,14 +22,14 @@ namespace AlchemyPlanet.AlchemyScene
         private GameObject loadingPage;
         [SerializeField]
         private GameObject synthesizeResultUI;
-        
+
         private GameObject alchemyStateBar;
         private GameObject stateBarUI;
         private GameObject topDownUI;
 
-        public string itemName{get; private set;}
-        public int itemCount{get; private set;}
-        public int completionTime{get; private set;}
+        public string itemName { get; private set; }
+        public int itemCount { get; private set; }
+        public Result result{get; private set;}
 
         private void Start()
         {
@@ -53,16 +58,11 @@ namespace AlchemyPlanet.AlchemyScene
             Instantiate(synthesizeMiniGame, gameObject.transform);
         }
 
-        public void OpenLoadingPage()
+        public void OpenSynthesizeResultUI(Result result)
         {
-            Instantiate(loadingPage, gameObject.transform);
-        }
-
-        public void OpenSynthesizeResultUI(int completionTime)
-        {
-            this.completionTime = completionTime;
-            
+            this.result = result;
             Instantiate(synthesizeResultUI, gameObject.transform);
+            Instantiate(loadingPage, gameObject.transform);
         }
     }
 }

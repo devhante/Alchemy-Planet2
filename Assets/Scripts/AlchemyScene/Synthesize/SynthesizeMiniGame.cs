@@ -7,6 +7,9 @@ namespace AlchemyPlanet.AlchemyScene
 {
     public class SynthesizeMiniGame : MonoBehaviour
     {
+        public float completionTime;
+        public int greatProbability;
+
         [SerializeField]
         private Image miniGameType;
         [SerializeField]
@@ -17,12 +20,31 @@ namespace AlchemyPlanet.AlchemyScene
         private Sprite miniGameTypeSprite1;
         [SerializeField]
         private Sprite miniGameTypeSprite2;
-
-        private int greatProbability;
+        [SerializeField]
+        private Image timer;
 
         private void Start()
         {
             StartMiniGame1();
+            StartCoroutine("MeasureTime");
+            switch (Data.DataManager.Instance.itemInfo[SynthesizeManager.Instance.itemName].alchemyRating - Data.DataManager.Instance.CurrentPlayerData.alchemyRating)
+            {
+                case 0:
+                    greatProbability = 4;
+                    break;
+                case 1:
+                    greatProbability = 14;
+                    break;
+                case 2:
+                    greatProbability = 29;
+                    break;
+                case 3:
+                    greatProbability = 49;
+                    break;
+                default:
+                    greatProbability = 74;
+                    break;
+            }
         }
 
         public void StartMiniGame1()
@@ -36,16 +58,32 @@ namespace AlchemyPlanet.AlchemyScene
             Instantiate(miniGame2Prefab, gameObject.transform);
             miniGameType.sprite = miniGameTypeSprite2;
         }
-        
-        void SendResult()
+
+        public void SendResult()
         {
-            
-            SynthesizeManager.Instance.OpenSynthesizeResultUI(greatProbability);
+            StopAllCoroutines();
+
+            if (greatProbability < Random.Range(0, 100))
+                SynthesizeManager.Instance.OpenSynthesizeResultUI(SynthesizeManager.Result.great);
+            else
+                SynthesizeManager.Instance.OpenSynthesizeResultUI(SynthesizeManager.Result.success);
+
         }
 
-        public void AddGreatProbability(int probability)
+        private IEnumerator MeasureTime()
         {
-            greatProbability += probability;
+            completionTime = 0;
+            WaitForSeconds second = new WaitForSeconds(0.1f);
+            while (completionTime < 30)
+            {
+                completionTime += 0.1f;
+                timer.fillAmount = (30 - completionTime) / 30;
+                yield return second;
+            }
+
+            SynthesizeManager.Instance.OpenSynthesizeResultUI(SynthesizeManager.Result.fail);
+            Destroy(gameObject);
+            yield break;
         }
     }
 }

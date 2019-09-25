@@ -1,91 +1,102 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
 
 namespace AlchemyPlanet.AlchemyScene
 {
     public class MiniGame1 : MonoBehaviour
     {
-
+        [SerializeField]
+        private Image potImage;
         [SerializeField]
         private List<Material> materialList;
 
-        private Material selectedMaterial;
         private List<string> materialNameList;
-        private int popMaterialNumber;
+        private List<Material> popMaterialList;
         private SynthesizeMiniGame synthesizeMiniGame;
-        private int completionTime;
 
-        void SetMiniGame1()
+        private void Start()
         {
-            StartCoroutine("MeasureTime");
             synthesizeMiniGame = GetComponentInParent<SynthesizeMiniGame>();
-            popMaterialNumber = 0;
             materialNameList = new List<string>();
+            popMaterialList = new List<Material>();
 
             foreach (var m in AlchemyManager.Instance.formulaDictionary[SynthesizeManager.Instance.itemName].formula.Keys)
                 materialNameList.Add(m);
 
             List<int> randomNumberList = new List<int>();
+            int num = Random.Range(0, 2);
 
-            for (int i = 0; i < materialNameList.Count;)
+            for (int i = 0; i < materialNameList.Count; i++)
             {
-                int num = Random.Range(0, 10);
-                if (randomNumberList.Contains(num))
-                {
-                    i++;
-                    randomNumberList.Add(num);
-                }
+                randomNumberList.Add(num);
+                num += Random.Range(1, 3);
             }
 
             for (int i = 0; i < randomNumberList.Count; i++)
                 materialList[randomNumberList[i]].SetMaterial(materialNameList[i], true);
 
+            List<string> notMaterialNameList = new List<string>();
+
+            foreach (var item in Data.DataManager.Instance.itemInfo.Values)
+                if (!materialNameList.Contains(item.item_name))
+                    notMaterialNameList.Add(item.item_name);
+
             for (int i = 0; i < materialList.Count; i++)
                 if (!randomNumberList.Contains(i))
-                    materialList[randomNumberList[i]].SetMaterial(materialNameList[i], false);
+                    materialList[i].SetMaterial(notMaterialNameList[Random.Range(0, notMaterialNameList.Count)], false);
         }
 
         public void SetSelectedMaterial(Material material)
         {
-            if (selectedMaterial != null)
-                selectedMaterial.ExpandAndDestroy();
-            selectedMaterial = material;
-            popMaterialNumber++;
+            popMaterialList.Add(material);
         }
 
-        public void CheckFail()
+        public bool IsFirstBubble()
         {
-            if (popMaterialNumber == materialNameList.Count)
+            return popMaterialList.Count < 1;
+        }
+
+        public void CheckSuccess()
+        {
+            if (popMaterialList.Count == materialNameList.Count)
             {
                 StopAllCoroutines();
-                if(completionTime <= 10)
-                {
-
-                }
-                synthesizeMiniGame.StartMiniGame2();
+                StartCoroutine("SuccessMiniGame1");
             }
+        }
 
-            else
-                FailMiniGame1();
+        public IEnumerator SuccessMiniGame1()
+        {
+            potImage.gameObject.SetActive(true);
+            popMaterialList.ForEach((m) =>
+            {
+                m.StopAllCoroutines();
+                m.gameObject.transform.position = potImage.gameObject.transform.position + new Vector3(0, 300, 0);
+                m.gameObject.transform.DOLocalMoveY(-300, 1);
+            });
+            yield return new WaitForSeconds(2f);
+
+            synthesizeMiniGame.StartMiniGame2();
+            Destroy(gameObject);
+
+            yield break;
         }
 
         public void FailMiniGame1()
         {
-            StopAllCoroutines();
-            synthesizeMiniGame.AddGreatProbability(0);
-        }
-
-        IEnumerator MeasureTime()
-        {
-            while (completionTime < 10)
+            if (popMaterialList.Count == materialNameList.Count)
+                return;
+            popMaterialList.ForEach((m) =>
             {
-                completionTime++;
-                yield return new WaitForSecondsRealtime(1);
-            }
-
-            FailMiniGame1();
-            yield return null;
+                m.RemoveMaterial();
+            });
+            popMaterialList.Clear();
+            // 경고 띄우기
+            synthesizeMiniGame.greatProbability = 100;
+            synthesizeMiniGame.completionTime++;
         }
     }
 }
