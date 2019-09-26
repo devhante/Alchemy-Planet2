@@ -70,7 +70,7 @@
 //        {
 //            while (! loaded)
 //            {
-//                yield return new WaitForEndOfFrame();
+//                yield return null;
 //            }
 //            yield return new WaitForSeconds(1);
 //            TownScene.UIManager.Instance.OpenMenu<TownScene.DialogUI>();

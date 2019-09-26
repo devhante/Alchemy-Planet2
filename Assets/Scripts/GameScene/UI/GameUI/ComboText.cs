@@ -46,7 +46,7 @@ namespace AlchemyPlanet.GameScene
             while (text.color.a > 0)
             {
                 SetOpacity(text.color.a - (Time.deltaTime / fadeOutSecond));
-                yield return new WaitForEndOfFrame();
+                yield return null;
             }
 
             GameManager.Instance.Combo = 0;

@@ -133,7 +133,7 @@ namespace AlchemyPlanet.GameScene
             animator.SetTrigger("PotionBlue");
 
             while (animator.GetNextAnimatorStateInfo(0).IsName("PopinPotionBlue") == false)
-                yield return new WaitForEndOfFrame();
+                yield return null;
 
             yield return new WaitForSeconds(2);
             GameObject effect = Instantiate(PrefabManager.Instance.potionEffectBlue, transform.position + new Vector3(0.05f, -0.7f, 0), Quaternion.identity, transform);
@@ -153,7 +153,7 @@ namespace AlchemyPlanet.GameScene
             animator.SetTrigger("PotionBlack");
 
             while (animator.GetNextAnimatorStateInfo(0).IsName("PopinPotionBlack") == false)
-                yield return new WaitForEndOfFrame();
+                yield return null;
 
             yield return new WaitForSeconds(2);
             SpawnPopinPotionBlack();

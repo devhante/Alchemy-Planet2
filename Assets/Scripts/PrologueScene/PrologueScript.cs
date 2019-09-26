@@ -39,7 +39,7 @@ namespace AlchemyPlanet.PrologueScene
 
             while (TownScene.DialogUI.Instance != null)
             {
-                yield return new WaitForEndOfFrame();
+                yield return null;
             }
 
 
@@ -58,7 +58,7 @@ namespace AlchemyPlanet.PrologueScene
 
             while (TownScene.DialogUI.Instance != null)
             {
-                yield return new WaitForEndOfFrame();
+                yield return null;
             }
 
             //이동 튜토리얼을 연다.
@@ -66,7 +66,7 @@ namespace AlchemyPlanet.PrologueScene
 
             while (moveTutorial != null)
             {
-                yield return new WaitForEndOfFrame();
+                yield return null;
             }
 
             mainCamera.gameObject.transform.DOMoveY(2.4f, 3).OnComplete(() => {
@@ -76,7 +76,7 @@ namespace AlchemyPlanet.PrologueScene
             //다음 스테이지의 NPC 옆에 도착한다.
             while (! isOnNPCPos)
             {
-                yield return new WaitForEndOfFrame();
+                yield return null;
             }
             //NPC 튜토리얼을 연다
             NPCTutorial.SetActive(true);
@@ -84,7 +84,7 @@ namespace AlchemyPlanet.PrologueScene
             //이동을 끝낸다
             while (! isEnd)
             {
-                yield return new WaitForEndOfFrame();
+                yield return null;
             }
             
             mainCamera.FadeOut();
@@ -122,7 +122,7 @@ namespace AlchemyPlanet.PrologueScene
 
             while (TownScene.DialogUI.Instance != null)
             {
-                yield return new WaitForEndOfFrame();
+                yield return null;
             }
 
             mainCamera.FadeOut();

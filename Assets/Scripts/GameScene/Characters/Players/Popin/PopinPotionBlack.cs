@@ -85,7 +85,7 @@ namespace AlchemyPlanet.GameScene
             GameUI.Instance.UpdateGage(Gages.PURIFY, -30);
 
             while (animator.GetCurrentAnimatorStateInfo(0).IsName("PopinPotionBlackEnd") == false)
-                yield return new WaitForEndOfFrame();
+                yield return null;
 
             ItemManager.Instance.Objects.Remove(gameObject);
             Destroy(gameObject);
@@ -123,7 +123,7 @@ namespace AlchemyPlanet.GameScene
             }
 
             while (animator.GetCurrentAnimatorStateInfo(0).IsName("PopinPotionBlackEnd") == false)
-                yield return new WaitForEndOfFrame();
+                yield return null;
 
             ItemManager.Instance.Objects.Remove(gameObject);
             Destroy(gameObject);

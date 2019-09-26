@@ -24,7 +24,7 @@ namespace AlchemyPlanet.Common
         {
             while (!Data.DataManager.Instance)
             {
-                yield return new WaitForEndOfFrame();
+                yield return null;
             }
             UpdateState();
         }

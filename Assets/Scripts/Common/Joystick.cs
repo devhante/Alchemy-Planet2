@@ -58,7 +58,7 @@ namespace AlchemyPlanet.Common
                     controller.position = destinationFrame;
                 }
 
-                yield return new WaitForEndOfFrame();
+                yield return null;
             }
         }
     }

@@ -13,8 +13,6 @@ namespace AlchemyPlanet.PrologueScene
 
         private Vector3 offset;
 
-        private WaitForEndOfFrame frame = new WaitForEndOfFrame();
-
         private void Awake()
         {
             offset = this.transform.position - player.transform.position;
@@ -51,7 +49,7 @@ namespace AlchemyPlanet.PrologueScene
             while (true)
             {
                 this.gameObject.transform.position = Vector3.Lerp(this.gameObject.transform.position, player.transform.position + offset, 0.2f);
-                yield return frame;
+                yield return null;
             }
         }
 
@@ -60,7 +58,7 @@ namespace AlchemyPlanet.PrologueScene
             while (Camera.main.orthographicSize > zoom)
             {
                 Camera.main.orthographicSize -= 0.1f;
-                yield return frame;
+                yield return null;
             }
         }
     }

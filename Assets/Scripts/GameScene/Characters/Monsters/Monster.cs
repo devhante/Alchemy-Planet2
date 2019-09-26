@@ -149,9 +149,9 @@ namespace AlchemyPlanet.GameScene
             DropManager.Instance.GenerateDropMaterial(transform.position);
 
             while (!animator.GetCurrentAnimatorStateInfo(0).IsName(GetNameOfDieAnimation()))
-                yield return new WaitForEndOfFrame();
+                yield return null;
             while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
-                yield return new WaitForEndOfFrame();
+                yield return null;
 
             MonsterManager.Instance.KillMonster(MonsterManager.Instance.GetKeyByValue(this));
         }

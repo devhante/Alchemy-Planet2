@@ -30,14 +30,14 @@ namespace AlchemyPlanet.GameScene
             yield return new WaitForSeconds(0.5f);
 
             while (rigidbody2d.velocity.y != 0)
-                yield return new WaitForEndOfFrame();
+                yield return null;
 
             rigidbody2d.isKinematic = true;
             GetComponent<CircleCollider2D>().enabled = false;
             while (Vector3.Distance(transform.position, DropManager.Instance.DropDestination) > 0.01f)
             {
                 transform.position = Vector3.Lerp(transform.position, DropManager.Instance.DropDestination, Time.deltaTime * speed);
-                yield return new WaitForEndOfFrame();
+                yield return null;
             }
 
             Gain();

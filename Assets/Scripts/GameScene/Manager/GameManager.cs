@@ -209,7 +209,7 @@ namespace AlchemyPlanet.GameScene
 
                 while(MonsterManager.Instance.Monsters.Count > 0)
                 {
-                    yield return new WaitForEndOfFrame();
+                    yield return null;
                 }
 
                 MoveSpeed = 1;

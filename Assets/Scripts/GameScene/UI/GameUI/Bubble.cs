@@ -49,7 +49,7 @@ namespace AlchemyPlanet.GameScene
             while (true)
             {
                 transform.position += direction * Time.deltaTime * speed;
-                yield return new WaitForEndOfFrame();
+                yield return null;
             }
         }
 
@@ -65,7 +65,7 @@ namespace AlchemyPlanet.GameScene
             while(true)
             {
                 transform.position = Input.mousePosition;
-                yield return new WaitForEndOfFrame();
+                yield return null;
             }
         }
 

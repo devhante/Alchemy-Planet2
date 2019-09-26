@@ -72,14 +72,14 @@ namespace AlchemyPlanet.GameScene
                     if (!IsClickedRightMaterial) HighlightedMaterialName = RecipeManager.Instance.RecipeNameList[0];
                     else HighlightedMaterialName = RecipeManager.Instance.RecipeNameList[MaterialChain.Count + 1];
                 }
-                yield return new WaitForEndOfFrame();
+                yield return null;
             }
         }
 
         public IEnumerator CreateMaterialCoroutine()
         {
             while (RecipeManager.Instance.recipeQueue.Count <= MaxChainNumber)
-                yield return new WaitForEndOfFrame();
+                yield return null;
 
             CreateMaterial();
         }
