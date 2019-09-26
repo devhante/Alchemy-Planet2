@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-namespace AlchemyPlanet.AdvectureScene
+namespace AlchemyPlanet.AdventureScene
 {
     public class Planet : MonoBehaviour
     {
@@ -11,39 +11,27 @@ namespace AlchemyPlanet.AdvectureScene
 
         public void MoveIn(bool isClockwise)
         {
-            StartCoroutine("MoveInCoroutine", isClockwise);
+            StartCoroutine(MoveInCoroutine(isClockwise));
         }
 
         public void MoveOut(bool isClockwise)
         {
-            StartCoroutine("MoveOutCoroutine", isClockwise);
+            StartCoroutine(MoveOutCoroutine(isClockwise));
         }
 
         public IEnumerator MoveInCoroutine(bool isClockwise)
         {
             transform.localScale = Vector3.zero;
-            transform.DOScale(1, AdventureManager.Instance.animationTime).SetEase(Ease.OutQuint);
-
-            float time = 0;
 
             while (true)
             {
-                time += Time.deltaTime;
-                if (time > AdventureManager.Instance.animationTime) time = AdventureManager.Instance.animationTime;
-
-                float t = time / AdventureManager.Instance.animationTime;
-
-                t = Mathf.Pow((t - 1), 5) + 1;
+                float t = Mathf.Pow(AdventureManager.Instance.progress - 1, 5) + 1;
 
                 if (isClockwise == true) transform.position = GetPointOnBezierCurve(vertex.back.position, vertex.left2.position, vertex.left1.position, vertex.front.position, t);
                 else transform.position = GetPointOnBezierCurve(vertex.back.position, vertex.right2.position, vertex.right1.position, vertex.front.position, t);
+                transform.localScale = new Vector3(t, t);
 
-                if (time == AdventureManager.Instance.animationTime)
-                {
-                    AdventureManager.Instance.isMoving = false;
-                    break;
-                }
-
+                if (AdventureManager.Instance.progress == 1) break;
                 yield return null;
             }
         }
@@ -51,30 +39,20 @@ namespace AlchemyPlanet.AdvectureScene
         public IEnumerator MoveOutCoroutine(bool isClockwise)
         {
             transform.localScale = Vector3.one;
-            transform.DOScale(0, AdventureManager.Instance.animationTime).SetEase(Ease.OutQuint);
-
-            float time = 0;
 
             while (true)
             {
-                time += Time.deltaTime;
-                if (time > AdventureManager.Instance.animationTime) time = AdventureManager.Instance.animationTime;
-
-                float t = time / AdventureManager.Instance.animationTime;
-
-                t = Mathf.Pow((t - 1), 5) + 1;
+                float t = Mathf.Pow((AdventureManager.Instance.progress - 1), 5) + 1;
 
                 if (isClockwise == true) transform.position = GetPointOnBezierCurve(vertex.front.position, vertex.right1.position, vertex.right2.position, vertex.back.position, t);
                 else transform.position = GetPointOnBezierCurve(vertex.front.position, vertex.left1.position, vertex.left2.position, vertex.back.position, t);
+                transform.localScale = new Vector3(1 - t,1 - t);
 
-                if (time == AdventureManager.Instance.animationTime)
-                {
-                    AdventureManager.Instance.isMoving = false;
-                    Destroy(gameObject);
-                }
-
+                if (AdventureManager.Instance.progress == 1) break;
                 yield return null;
             }
+
+            Destroy(gameObject);
         }
 
         private Vector3 GetPointOnBezierCurve(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
