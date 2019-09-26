@@ -44,8 +44,8 @@ namespace AlchemyPlanet.AlchemyScene
         {
             isMaterialPointerDown = false;
             isBubblePointerDown = false;
-            StopCoroutine("MoveCoroutine");
-            StartCoroutine("Float");
+            StopCoroutine(MoveCoroutine());
+            StartCoroutine(Float());
             ChangeBubbleToUnselectedBubble();
             gameObject.transform.position = startPosition;
         }

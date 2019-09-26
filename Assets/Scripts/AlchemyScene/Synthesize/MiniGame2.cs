@@ -33,7 +33,7 @@ namespace AlchemyPlanet.AlchemyScene
             mixImage.gameObject.SetActive(false);
             synthesizeMiniGame = GetComponentInParent<SynthesizeMiniGame>();
             SetArrow();
-            StartCoroutine("GetTouchGesture");
+            StartCoroutine(GetTouchGesture());
         }
 
         void SetArrow()

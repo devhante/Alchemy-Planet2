@@ -64,7 +64,7 @@ namespace AlchemyPlanet.AlchemyScene
             if (popMaterialList.Count == materialNameList.Count)
             {
                 StopAllCoroutines();
-                StartCoroutine("SuccessMiniGame1");
+                StartCoroutine(SuccessMiniGame1());
             }
         }
 
