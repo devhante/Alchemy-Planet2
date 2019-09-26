@@ -10,15 +10,14 @@ namespace AlchemyPlanet.AlchemyScene
         [SerializeField]
         public Position position;
 
-        //private void Awake()
-        //{
-        //    if (position == Position.Top || position == Position.Bottom)
-        //        GetComponent<BoxCollider2D>().size = new Vector2(Screen.width, 10);
-        //}
+        private void Awake()
+        {
+           if (position == Position.Top || position == Position.Bottom)
+               GetComponent<BoxCollider2D>().size = new Vector2(Screen.width, 10);
+        }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            Debug.Log(collision.name);
             if (collision.tag == "Bubble")
             {
                 Vector3 direction = new Vector3();

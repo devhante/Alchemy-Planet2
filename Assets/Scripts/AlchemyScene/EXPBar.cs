@@ -23,7 +23,7 @@ namespace AlchemyPlanet.AlchemyScene
 
         void SetText()
         {
-            LevelText.text = DataManager.Instance.CurrentPlayerData.alchemyLevel.ToString();
+            LevelText.text = DataManager.Instance.CurrentPlayerData.alchemyRating.ToString();
             EXPText.text = DataManager.Instance.CurrentPlayerData.alchemyEXP.ToString() + '%';
         }
 

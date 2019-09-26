@@ -8,19 +8,20 @@ namespace AlchemyPlanet.AlchemyScene
     public class ItemCell : MonoBehaviour
     {
         public string itemName { get; private set; }
+        public int itemCount { get; private set; }
 
         [SerializeField]
         private Image itemImage;
         [SerializeField]
         private Text countText;
         
-
-        public void SetItemCell(string itemName,Sprite itemSprite, int count = 0)
+        public void SetItemCell(string name,Sprite itemSprite, int count = 0)
         {
-            this.itemName = itemName;
+            itemName = name;
+            itemCount = count;
             if (countText != null)
             {
-                if (count == 0)
+                if (count > 2)
                     countText.gameObject.SetActive(false);
                 else
                     countText.text = count.ToString();

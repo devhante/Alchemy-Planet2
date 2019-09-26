@@ -241,7 +241,7 @@ namespace AlchemyPlanet.Data
         public void LoadAlchemyData()
         {
             CurrentPlayerData.alchemyEXP = int.Parse(BackendManager.Instance.GetContent("alchemy", "alchemyEXP", "N"));
-            CurrentPlayerData.alchemyLevel = int.Parse(BackendManager.Instance.GetContent("alchemy", "alchemyLevel", "N"));
+            CurrentPlayerData.alchemyRating = int.Parse(BackendManager.Instance.GetContent("alchemy", "alchemyLevel", "N"));
             CurrentPlayerData.starPowder = int.Parse(BackendManager.Instance.GetContent("alchemy", "starPowder", "N"));
         }
 

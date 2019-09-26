@@ -34,7 +34,6 @@ namespace AlchemyPlanet.AlchemyScene
             synthesizeMiniGame = GetComponentInParent<SynthesizeMiniGame>();
             SetArrow();
             StartCoroutine("GetTouchGesture");
-            StartCoroutine("MeasureTime");
         }
 
         void SetArrow()
@@ -81,18 +80,6 @@ namespace AlchemyPlanet.AlchemyScene
             yield return null;
         }
 
-        IEnumerator MeasureTime()
-        {
-            while (completionTime < 13)
-            {
-                completionTime++;
-                yield return new WaitForSecondsRealtime(1);
-            }
-
-            SendResult();
-            yield return null;
-        }
-
         IEnumerator GetTouchCircleGesture()
         {
             float previous = 0;
@@ -100,7 +87,7 @@ namespace AlchemyPlanet.AlchemyScene
 
             mixImage.gameObject.SetActive(true);
 
-            while (circleAngle < 300)
+            while (circleAngle < 270)
             {
                 if (Input.touchCount > 0)
                 {
@@ -123,7 +110,7 @@ namespace AlchemyPlanet.AlchemyScene
                 yield return null;
             }
 
-            SendResult();
+            synthesizeMiniGame.SendResult();
             yield return null;
         }
 
@@ -135,61 +122,19 @@ namespace AlchemyPlanet.AlchemyScene
             return angle;
         }
 
-        void SendResult()
-        {
-            StopAllCoroutines();
-            foreach (var image in arrowImageList)
-            {
-                image.gameObject.SetActive(true);
-            }
-            synthesizeMiniGame.AddGreatProbability(completionTime);
-        }
-
         bool CheckGestureDirection(int type, Vector2 touchPosition)
         {
+            ArrowType arrowType;
+
             float distanceX = firstTouchPosition.x - touchPosition.x;
             float distanceY = firstTouchPosition.y - touchPosition.y;
 
-            if (type == (int)ArrowType.Right && distanceX <= 0)
-            {
-                if (distanceY < 0)
-                    distanceY *= -1;
-                distanceX *= -1;
-                if (distanceY < distanceX)
-                    return true;
-                else
-                    return false;
-            }
-            else if (type == (int)ArrowType.Down && distanceY >= 0)
-            {
-                if (distanceX < 0)
-                    distanceX *= -1;
-                if (distanceY > distanceX)
-                    return true;
-                else
-                    return false;
-            }
-            else if (type == (int)ArrowType.Left && distanceX >= 0)
-            {
-                if (distanceY < 0)
-                    distanceY *= -1;
-                if (distanceY < distanceX)
-                    return true;
-                else
-                    return false;
-            }
-            else if (type == (int)ArrowType.Up && distanceY <= 0)
-            {
-                if (distanceX < 0)
-                    distanceX *= -1;
-                distanceY *= -1;
-                if (distanceY > distanceX)
-                    return true;
-                else
-                    return false;
-            }
+            if (Mathf.Abs(distanceX) > Mathf.Abs(distanceY))
+                arrowType = distanceX < 0 ? ArrowType.Right : ArrowType.Left;
             else
-                return false;
+                arrowType = distanceY < 0 ? ArrowType.Up : ArrowType.Down;
+
+            return (int)arrowType == type;
         }
     }
 }

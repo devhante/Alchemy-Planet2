@@ -20,16 +20,6 @@ namespace AlchemyPlanet.Common
 
         private void Awake()
         {
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else if (Instance != this)
-            {
-                Destroy(gameObject);
-            }
-
             StartTouchPos = Vector3.zero;
             CurrentTouchPos = Vector3.zero;
             IsMoving = false;

@@ -33,7 +33,11 @@ namespace AlchemyPlanet.AlchemyScene
             countUpButton.onClick.AddListener(() => AddCount());
             countDownButton.onClick.AddListener(() => SubtractCount());
             cancelButton.onClick.AddListener(() => Cancel());
-            OKButton.onClick.AddListener(() => Synthesize());
+            OKButton.onClick.AddListener(() =>
+            {
+                SynthesizeManager.Instance.OpenSynthesizeMiniGame(count);
+                Destroy(gameObject);
+            });
 
             SetFomula();
             if (!CanSynthesize())
@@ -73,28 +77,11 @@ namespace AlchemyPlanet.AlchemyScene
             }
         }
 
-        void Synthesize()
-        {
-            foreach (var material in formula.formula)
-            {
-                DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(material.Key)] -= material.Value * count;
-
-                if (DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(material.Key)] > 0)
-                    BackendManager.Instance.UpdateItemNumber(BackendManager.Instance.GetInDate("item"), AlchemyManager.Instance.GetEnglishName(material.Key),
-                        DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(material.Key)]);
-                else
-                    BackendManager.Instance.DeleteItem(BackendManager.Instance.GetInDate("item"), AlchemyManager.Instance.GetEnglishName(material.Key));
-            }
-
-            SynthesizeManager.Instance.OpenSynthesizeMiniGame(count);
-        }
-
         bool CanSynthesize()
         {
             foreach (var material in formula.formula)
             {
                 if (!DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(AlchemyManager.Instance.GetEnglishName(material.Key)) ||
-                    DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(AlchemyManager.Instance.GetEnglishName(material.Key)) &&
                     DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(material.Key)] < material.Value * count)
                 {
                     return false;

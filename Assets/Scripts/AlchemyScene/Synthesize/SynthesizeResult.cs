@@ -25,21 +25,41 @@ namespace AlchemyPlanet.AlchemyScene
 
         private int greatProbability;
         private int itemCount;
+        private FormulaData formula;
 
         void Start()
         {
+            formula = AlchemyManager.Instance.formulaDictionary[SynthesizeManager.Instance.itemName];
             greatProbability = 5;
-            OpenSynthesizeSelectUIButton.onClick.AddListener(() => SynthesizeManager.Instance.OpenSynthesizeSelectUI());
+            OpenSynthesizeSelectUIButton.onClick.AddListener(() =>
+            {
+                SynthesizeManager.Instance.OpenSynthesizeSelectUI();
+                Destroy(gameObject);
+            });
             SetResult();
         }
 
         void SetResult()
         {
-            greatProbability = SynthesizeManager.Instance.completionTime;
+            if(SynthesizeManager.Instance.result == SynthesizeManager.Result.fail){
+                resultItemName.text = "실패";
+                return;
+            }
+
             itemCount = SynthesizeManager.Instance.itemCount;
-            MeasureGreatProbability();
             resultItemName.text = SynthesizeManager.Instance.itemName + " " + itemCount + " 개";
             resultItemImage.sprite = DataManager.Instance.itemInfo[AlchemyManager.Instance.GetEnglishName(SynthesizeManager.Instance.itemName)].image;
+
+            foreach (var material in formula.formula)
+            {
+                DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(material.Key)] -= material.Value * SynthesizeManager.Instance.itemCount;
+
+                if (DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(material.Key)] > 0)
+                    BackendManager.Instance.UpdateItemNumber(BackendManager.Instance.GetInDate("item"), AlchemyManager.Instance.GetEnglishName(material.Key),
+                        DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(material.Key)]);
+                else
+                    BackendManager.Instance.DeleteItem(BackendManager.Instance.GetInDate("item"), AlchemyManager.Instance.GetEnglishName(material.Key));
+            }
 
             if (DataManager.Instance.CurrentPlayerData.inventory.ContainsKey(AlchemyManager.Instance.GetEnglishName(SynthesizeManager.Instance.itemName)))
             {
@@ -52,22 +72,6 @@ namespace AlchemyPlanet.AlchemyScene
                 DataManager.Instance.CurrentPlayerData.inventory.Add(AlchemyManager.Instance.GetEnglishName(SynthesizeManager.Instance.itemName), itemCount);
                 BackendManager.Instance.AddItem(BackendManager.Instance.GetInDate("item"), AlchemyManager.Instance.GetEnglishName(SynthesizeManager.Instance.itemName),
                     DataManager.Instance.CurrentPlayerData.inventory[AlchemyManager.Instance.GetEnglishName(SynthesizeManager.Instance.itemName)]);
-            }
-        }
-
-        void MeasureGreatProbability()
-        {
-            int random = Random.Range(0, 100);
-            if (random < greatProbability)
-            {
-                if (SynthesizeManager.Instance.itemCount < 5)
-                {
-                    itemCount++;
-                }
-                else
-                {
-                    itemCount += SynthesizeManager.Instance.itemCount / 5;
-                }
             }
         }
     }

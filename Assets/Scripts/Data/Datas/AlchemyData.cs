@@ -9,11 +9,24 @@ namespace AlchemyPlanet.Data
         Abrasive, ActivePotion, PurifyPotion, Material, Event   // 연마제, 활성약, 정화약, 물질, 이벤트
     }
 
+    public enum ItemColor
+    {
+        White, Yellow, Red, Green, Blue, Purple
+    }
+
+    public enum ItemScarcity
+    {
+        Common, Rare, Unique, Legendry
+    }
+
     public class ItemData
     {
         public string item_name;
-        public ItemKind item_kind;
         public string discription;
+        public ItemKind item_kind;
+        public ItemColor item_color;
+        public ItemScarcity item_scarcity;
+        public int alchemyRating;
         public Sprite image;
 
         public ItemData(string item_name, ItemKind item_kind, string discription)

@@ -14,7 +14,7 @@ namespace AlchemyPlanet.AlchemyScene
         protected Image bubble;
         protected Button button;
         protected Animator animator;
-        private bool isBubblePointerDown;
+        protected bool isBubblePointerDown;
 
         protected virtual void Awake()
         {
