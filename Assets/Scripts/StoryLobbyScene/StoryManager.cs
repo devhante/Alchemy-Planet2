@@ -47,8 +47,8 @@ namespace AlchemyPlanet.StoryLobbyScene
             {
                 starsScript = Instantiate(stars, GameUI.Instance.transform).GetComponent<Stars>();
 
-                StartCoroutine("ChallengeCoroutine");
-                StartCoroutine("StarCoroutine");
+                StartCoroutine(ChallengeCoroutine());
+                StartCoroutine(StarCoroutine());
             }
         }
 

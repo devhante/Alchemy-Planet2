@@ -69,7 +69,7 @@ namespace AlchemyPlanet.GameScene
 
         private void SpawnBullet(float damage)
         {
-            StartCoroutine("SpawnBulletCoroutine", damage);
+            StartCoroutine(SpawnBulletCoroutine(damage));
         }
 
         IEnumerator SpawnBulletCoroutine(float damage)
@@ -118,11 +118,11 @@ namespace AlchemyPlanet.GameScene
             switch (color)
             {
                 case PopinPotionColor.Blue:
-                    StartCoroutine("PotionBlueCoroutine");
+                    StartCoroutine(PotionBlueCoroutine());
                     break;
 
                 case PopinPotionColor.Black:
-                    StartCoroutine("PotionBlackCoroutine");
+                    StartCoroutine(PotionBlackCoroutine());
                     break;
             }
         }

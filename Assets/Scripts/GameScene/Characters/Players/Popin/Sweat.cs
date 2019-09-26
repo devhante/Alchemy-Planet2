@@ -22,12 +22,12 @@ namespace AlchemyPlanet.GameScene
 
         public void StartSweatAnimation()
         {
-            StartCoroutine("SweatCoroutine");
+            StartCoroutine(SweatCoroutine());
         }
 
         public void StopSweatAnimation()
         {
-            StopCoroutine("SweatCoroutine");
+            StopCoroutine(SweatCoroutine());
             foreach (var item in sweats)
                 item.SetActive(false);
         }

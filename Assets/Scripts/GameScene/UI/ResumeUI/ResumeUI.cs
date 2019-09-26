@@ -19,7 +19,7 @@ namespace AlchemyPlanet.GameScene
 
         private void Start()
         {
-            StartCoroutine("ResumeCoroutine");
+            StartCoroutine(ResumeCoroutine());
         }
 
         private void OnClickPauseButton()

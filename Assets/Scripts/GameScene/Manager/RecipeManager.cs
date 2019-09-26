@@ -36,7 +36,7 @@ namespace AlchemyPlanet.GameScene
 
         private void Start()
         {
-            StartCoroutine("CreateRecipe");
+            StartCoroutine(CreateRecipe());
         }
 
         IEnumerator CreateRecipe()

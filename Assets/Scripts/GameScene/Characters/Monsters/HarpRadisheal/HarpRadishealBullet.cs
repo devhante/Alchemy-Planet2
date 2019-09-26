@@ -20,7 +20,7 @@ namespace AlchemyPlanet.GameScene
 
         private void Start()
         {
-            StartCoroutine("MoveCoroutine");
+            StartCoroutine(MoveCoroutine());
         }
 
         private IEnumerator MoveCoroutine()
@@ -41,7 +41,7 @@ namespace AlchemyPlanet.GameScene
         {
             if (collision.gameObject.tag == "Player")
             {
-                StopCoroutine("MoveCoroutine");
+                StopCoroutine(MoveCoroutine());
                 Player.Instance.Hit(damage);
                 Explode();
             }
@@ -49,7 +49,7 @@ namespace AlchemyPlanet.GameScene
 
         private void Explode()
         {
-            StartCoroutine("ExplodeCoroutine");
+            StartCoroutine(ExplodeCoroutine());
         }
 
         private IEnumerator ExplodeCoroutine()

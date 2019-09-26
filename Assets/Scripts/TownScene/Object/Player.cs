@@ -33,7 +33,7 @@ namespace AlchemyPlanet.TownScene
             {
                 if (TownUI.Instance.turnOnBuildBar)
                 {
-                    TownUI.Instance.StartCoroutine("MoveBar");
+                    StartCoroutine(TownUI.Instance.MoveBar());
                 }
                 animator.SetBool("Run", false);
                 talking = true;

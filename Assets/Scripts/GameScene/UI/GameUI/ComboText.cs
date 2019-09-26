@@ -33,8 +33,8 @@ namespace AlchemyPlanet.GameScene
 
         public void FadeOut()
         {
-            StopCoroutine("FadeOutCoroutine");
-            StartCoroutine("FadeOutCoroutine");
+            StopCoroutine(FadeOutCoroutine());
+            StartCoroutine(FadeOutCoroutine());
 
             Sequence sq = DOTween.Sequence();
             sq.Append(transform.DOScale(1.5f, 0.1f).SetEase(Ease.OutQuint));

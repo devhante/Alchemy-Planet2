@@ -25,9 +25,9 @@ namespace AlchemyPlanet.GameScene
         protected override void Start()
         {
             base.Start();
-            StartCoroutine("CountdownCoroutine");
-            StartCoroutine("DangerCoroutine");
-            StartCoroutine("DangerMaskCoroutine");
+            StartCoroutine(CountdownCoroutine());
+            StartCoroutine(DangerCoroutine());
+            StartCoroutine(DangerMaskCoroutine());
             Sweat.Instance.StartSweatAnimation();
         }
 
@@ -49,7 +49,7 @@ namespace AlchemyPlanet.GameScene
 
             float angle = ContAngle(destinationDirection, swipeDirection);
             if (Mathf.Abs(angle) <= 90)
-                StartCoroutine("ThrowCoroutine");
+                StartCoroutine(ThrowCoroutine());
         }
 
         IEnumerator CountdownCoroutine()
@@ -65,14 +65,14 @@ namespace AlchemyPlanet.GameScene
                 yield return new WaitForSeconds(0.1f);
             }
 
-            StartCoroutine("ExplodeCoroutine");
+            StartCoroutine(ExplodeCoroutine());
         }
 
         IEnumerator ExplodeCoroutine()
         {
-            StopCoroutine("Float");
-            StopCoroutine("DangerCoroutine");
-            StopCoroutine("DangerMaskCoroutine");
+            StopCoroutine(Float());
+            StopCoroutine(DangerCoroutine());
+            StopCoroutine(DangerMaskCoroutine());
             Sweat.Instance.StopSweatAnimation();
             button.enabled = false;
             mask.color = new Color(1, 0, 0, 0);
@@ -80,7 +80,7 @@ namespace AlchemyPlanet.GameScene
             GameUI.Instance.DangerMask.gameObject.SetActive(false);
 
             animator.SetTrigger("Explode");
-            StartCoroutine("ShakeCoroutine");
+            StartCoroutine(ShakeCoroutine());
 
             GameUI.Instance.UpdateGage(Gages.PURIFY, -30);
 
@@ -93,10 +93,10 @@ namespace AlchemyPlanet.GameScene
 
         IEnumerator ThrowCoroutine()
         {
-            StopCoroutine("Float");
-            StopCoroutine("DangerCoroutine");
-            StopCoroutine("DangerMaskCoroutine");
-            StopCoroutine("CountdownCoroutine");
+            StopCoroutine(Float());
+            StopCoroutine(DangerCoroutine());
+            StopCoroutine(DangerMaskCoroutine());
+            StopCoroutine(CountdownCoroutine());
             Sweat.Instance.StopSweatAnimation();
             button.enabled = false;
             mask.color = new Color(1, 0, 0, 0);
@@ -112,7 +112,7 @@ namespace AlchemyPlanet.GameScene
             transform.position = GameUI.Instance.BombDestination.transform.position;
 
             animator.SetTrigger("Explode");
-            StartCoroutine("ShakeCoroutine");
+            StartCoroutine(ShakeCoroutine());
 
             int count = 0;
             foreach(var item in MonsterManager.Instance.Monsters)

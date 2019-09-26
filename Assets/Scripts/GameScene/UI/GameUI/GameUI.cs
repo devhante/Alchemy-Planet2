@@ -51,9 +51,9 @@ namespace AlchemyPlanet.GameScene
         {
             IsIncreasingPurify = false;
 
-            GameManager.Instance.StartCoroutine("GainScoreByTimeCoroutine");
-            StartCoroutine("UpdatePurifyGage");
-            StartCoroutine("UpdateSkillIcon");
+            StartCoroutine(GameManager.Instance.GainScoreByTimeCoroutine());
+            StartCoroutine(UpdatePurifyGage());
+            StartCoroutine(UpdateSkillIcon());
         }
 
         public Image GetMask(Gages kind)

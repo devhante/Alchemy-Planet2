@@ -124,13 +124,12 @@ namespace AlchemyPlanet.GameScene
             {
                 if (RecipeManager.Instance.RecipeNameList[MaterialManager.Instance.MaterialChain.Count + 1] == materialName)
                 {
-                    StopCoroutine("Float");
-                    StartCoroutine("Shrink");
+                    StopCoroutine(Float());
                     ChangeBubbleToSelectedBubble();
                     MaterialManager.Instance.MaterialChain.Add(this);
                     isChainSelected = true;
                     transform.SetSiblingIndex(0);
-                    StartCoroutine("MoveCoroutine");
+                    StartCoroutine(MoveCoroutine());
                     RecipeManager.Instance.HighlightRecipe();
                 }
             }

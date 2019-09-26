@@ -22,7 +22,7 @@ public class ScoreText : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine("ScoreTextCoroutine");
+        StartCoroutine(ScoreTextCoroutine());
     }
 
     IEnumerator ScoreTextCoroutine()

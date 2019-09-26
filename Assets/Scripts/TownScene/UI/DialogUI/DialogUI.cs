@@ -133,7 +133,7 @@ namespace AlchemyPlanet.TownScene
             
             if (NPC != null)
             {
-                NPC.StartCoroutine("TalkEnd");
+                NPC.TalkEnd();
                 NPC = null;
             }
             else
@@ -170,7 +170,7 @@ namespace AlchemyPlanet.TownScene
             //NPC에게서 불러온 대화일 경우
             if (NPC != null)
             {
-                NPC.StartCoroutine("TalkEnd");
+                NPC.TalkEnd();
                 NPC = null;
             }
             //대화씬에서 불러온 대화일 경우

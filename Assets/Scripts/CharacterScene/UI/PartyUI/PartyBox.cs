@@ -26,7 +26,7 @@ namespace AlchemyPlanet.CharacterScene
             if (PartyUI.Instance.buttonLeft.gameObject.activeSelf == true)
             {
                 clickedPositionX = Input.mousePosition.x;
-                StartCoroutine("MoveCoroutine");
+                StartCoroutine(MoveCoroutine());
             }
         }
 
@@ -34,7 +34,7 @@ namespace AlchemyPlanet.CharacterScene
         {
             if (PartyUI.Instance.buttonLeft.gameObject.activeSelf == true)
             {
-                StopCoroutine("MoveCoroutine");
+                StopCoroutine(MoveCoroutine());
 
                 float distance = Input.mousePosition.x - clickedPositionX;
 

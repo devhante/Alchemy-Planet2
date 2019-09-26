@@ -28,7 +28,7 @@ namespace AlchemyPlanet.GameScene
         protected virtual void Start()
         {
             Popup();
-            StartCoroutine("Float");
+            StartCoroutine(Float());
         }
 
         protected void Popup()
@@ -72,7 +72,7 @@ namespace AlchemyPlanet.GameScene
         public void ExpandAndDestroy()
         {
             animator.SetTrigger("Pop");
-            StartCoroutine("DestroyCoroutine");
+            StartCoroutine(DestroyCoroutine());
         }
 
         IEnumerator DestroyCoroutine()
@@ -91,10 +91,10 @@ namespace AlchemyPlanet.GameScene
             if (isBubblePointerDown) return;
             else isBubblePointerDown = true;
 
-            StopCoroutine("Float");
+            StopCoroutine(Float());
             Shrink();
             ChangeBubbleToSelectedBubble();
-            StartCoroutine("MoveCoroutine");
+            StartCoroutine(MoveCoroutine());
         }
 
         public void ChangeBubbleToSelectedBubble()

@@ -22,7 +22,7 @@ namespace AlchemyPlanet.GameScene
 
         private void Start()
         {
-            StartCoroutine("DrawCoroutine");
+            StartCoroutine(DrawCoroutine());
         }
 
         private void Update()

@@ -26,7 +26,7 @@ namespace AlchemyPlanet.TownScene
                 stage = 1;
                 movingHand = false;
                 sequence.Kill();
-                TownScene.TownUI.Instance.StartCoroutine("MoveBar");
+                StartCoroutine(TownUI.Instance.MoveBar());
                 tutorialButton[1].gameObject.SetActive(true);
                 tutorialButton[0].gameObject.SetActive(false);
             });
@@ -66,7 +66,7 @@ namespace AlchemyPlanet.TownScene
                     Data.DataManager.Instance.CurrentPlayerData.interiors[1].setup,
                     Data.DataManager.Instance.CurrentPlayerData.interiors[1].flip,
                     false, System.DateTime.Now);
-                TownUI.Instance.mainCamera.GetComponent<MainCamera>().StartCoroutine("ZoomOut");
+                StartCoroutine(TownUI.Instance.mainCamera.GetComponent<MainCamera>().ZoomOut());
                 UIManager.Instance.TownUIOff();
                 UIManager.Instance.OpenMenu<BuildingPlacement>();
                 tutorialButton[2].gameObject.SetActive(true);

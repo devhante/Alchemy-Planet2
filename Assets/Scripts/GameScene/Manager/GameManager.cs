@@ -85,8 +85,8 @@ namespace AlchemyPlanet.GameScene
 
         private void Start()
         {
-            StartCoroutine("SecondCoroutine");
-            StartCoroutine("GameCoroutine");
+            StartCoroutine(SecondCoroutine());
+            StartCoroutine(GameCoroutine());
         }
 
         IEnumerator SecondCoroutine()

@@ -58,9 +58,9 @@ namespace AlchemyPlanet.GameScene
                 MaterialNumbers.Add(item.GetComponent<Material>().materialName, 0);
 
             for (int i = 0; i < Count; i++)
-                StartCoroutine("CreateMaterialCoroutine");
+                StartCoroutine(CreateMaterialCoroutine());
 
-            StartCoroutine("UpdateHighlightedMaterialNameCoroutine");
+            StartCoroutine(UpdateHighlightedMaterialNameCoroutine());
         }
 
         IEnumerator UpdateHighlightedMaterialNameCoroutine()
@@ -123,7 +123,7 @@ namespace AlchemyPlanet.GameScene
 
         public void RespawnMaterial(Material material)
         {
-            StartCoroutine("RespawnMaterialCoroutine", material);
+            StartCoroutine(RespawnMaterialCoroutine(material));
         }
 
         private IEnumerator RespawnMaterialCoroutine(Material material)

@@ -15,7 +15,7 @@ public class LoadingSceneManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine("FadeIn");
+        StartCoroutine(FadeIn());
         StartCoroutine(LoadScene());
     }
 

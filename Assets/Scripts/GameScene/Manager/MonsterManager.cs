@@ -71,7 +71,7 @@ namespace AlchemyPlanet.GameScene
 
             while (Monsters.Count > 0)
                 yield return null;
-            StartCoroutine("SpawnMonsterCoroutine");
+            SpawnMonster();
         }
 
         public void KillMonster(int key)

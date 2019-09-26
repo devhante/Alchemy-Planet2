@@ -45,13 +45,13 @@ namespace AlchemyPlanet.TownScene
                 switch (moveChoice)
                 {
                     case 0:
-                        StartCoroutine("RightMove");
+                        StartCoroutine(RightMove());
                         break;
                     case 1:
-                        StartCoroutine("LeftMove");
+                        StartCoroutine(LeftMove());
                         break;
                     case 2:
-                        StartCoroutine("StopMove");
+                        StartCoroutine(StopMove());
                         break;
                 }
             }
@@ -75,12 +75,12 @@ namespace AlchemyPlanet.TownScene
             }
         }
 
-        void TalkEnd()
+        public void TalkEnd()
         {
             talking = false;
             moveChoice = 2;
             player.SendMessage("TalkEnd");
-            StartCoroutine("StopMove");
+            StartCoroutine(StopMove());
         }
         
         private IEnumerator RightMove()
@@ -97,7 +97,7 @@ namespace AlchemyPlanet.TownScene
                     moveChoice = 2;
                     moving = true;
                     animator.SetBool("Run", false);
-                    StartCoroutine("StopMove");
+                    StartCoroutine(StopMove());
                     yield break;
                 }
                 yield return null;
@@ -123,7 +123,7 @@ namespace AlchemyPlanet.TownScene
                     moveChoice = 2;
                     moving = true;
                     animator.SetBool("Run", false);
-                    StartCoroutine("StopMove");
+                    StartCoroutine(StopMove());
                     yield break;
                 }
             }

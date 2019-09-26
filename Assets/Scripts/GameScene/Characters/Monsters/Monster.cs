@@ -22,7 +22,6 @@ namespace AlchemyPlanet.GameScene
         protected SpriteRenderer faceSpriteRenderer;
 
         protected bool isAttackCoroutinePlaying;
-        protected bool isDraggedForwardCoroutinePlaying;
 
         protected Animator animator;
         protected Image healthBar;
@@ -56,19 +55,13 @@ namespace AlchemyPlanet.GameScene
 
         protected virtual void Start()
         {
-            StartCoroutine("MoveTowardCoroutine");
+            StartCoroutine(MoveTowardCoroutine());
         }
 
         private IEnumerator MoveTowardCoroutine()
         {
             while (true)
             {
-                if(GameManager.Instance.MoveSpeed >= 3 && isDraggedForwardCoroutinePlaying == false)
-                {
-                    StopCoroutine("MoveBackwardCoroutine");
-                    StartCoroutine("DraggedForwardCoroutine");
-                }
-
                 // 피격받아서 공중에 떠있지 않을 때
                 if (rigidbody2d.velocity.y == 0)
                 {
@@ -76,7 +69,7 @@ namespace AlchemyPlanet.GameScene
                     if (GetDistanceBetweenPlayer() > attackRange + (index * 0.5f))
                     {
                         isMoving = true;
-                        StopCoroutine("AttackCoroutine");
+                        StopCoroutine(AttackCoroutine());
                         isAttackCoroutinePlaying = false;
                         MoveToward();
                     }
@@ -85,7 +78,7 @@ namespace AlchemyPlanet.GameScene
                     {
                         isMoving = false;
                         if (isAttackCoroutinePlaying == false)
-                            StartCoroutine("AttackCoroutine");
+                            StartCoroutine(AttackCoroutine());
                     }
                 }
 
@@ -140,10 +133,9 @@ namespace AlchemyPlanet.GameScene
             GameManager.Instance.GainScore(ScoreType.KillMonster, out result);
             PlayScoreAnimation(result);
 
-            StopCoroutine("MoveTowardCoroutine");
-            StopCoroutine("MoveBackwardCoroutine");
-            StopCoroutine("DraggedForwardCoroutine");
-            StartCoroutine("DieCoroutine");
+            StopCoroutine(MoveTowardCoroutine());
+            StopCoroutine(MoveBackwardCoroutine());
+            StartCoroutine(DieCoroutine());
 
             MonsterManager.Instance.DeadMonsterNumber++;
         }

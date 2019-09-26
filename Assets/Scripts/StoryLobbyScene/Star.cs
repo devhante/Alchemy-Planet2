@@ -18,7 +18,7 @@ namespace AlchemyPlanet.StoryLobbyScene
 
         private void Start()
         {
-            StartCoroutine("StarCoroutine");
+            StartCoroutine(StarCoroutine());
         }
 
         IEnumerator StarCoroutine()

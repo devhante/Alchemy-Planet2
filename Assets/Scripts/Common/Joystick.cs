@@ -20,8 +20,8 @@ namespace AlchemyPlanet.Common
 
         private void Start()
         {
-            StartCoroutine("ChangeControllerPositionCoroutine");
-            StartCoroutine("PointerDown");
+            StartCoroutine(ChangeControllerPositionCoroutine());
+            StartCoroutine(PointerDown());
         }
 
         IEnumerator PointerDown()

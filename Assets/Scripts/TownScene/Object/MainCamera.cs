@@ -50,7 +50,7 @@ public class MainCamera : MonoBehaviour {
         backgroundImage.transform.position = new Vector3(backgroundImage.transform.position.x, 2 + 2.4f * ((mainCamera.orthographicSize - 7) / 5));
     }
 
-    IEnumerator ZoomOut()
+    public IEnumerator ZoomOut()
     {
         while (mainCamera.orthographicSize < 12)
         {

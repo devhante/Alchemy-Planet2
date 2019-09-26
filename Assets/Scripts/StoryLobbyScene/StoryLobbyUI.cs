@@ -52,7 +52,7 @@ namespace AlchemyPlanet.StoryLobbyScene
             StoryManager.Instance.CurrentMaxStage = 7;
             InstantiateStageCircles(StoryManager.Instance.CurrentMaxStage);
 
-            StartCoroutine("ChallengeUpdateCoroutine");
+            StartCoroutine(ChallengeUpdateCoroutine());
         }
 
         IEnumerator ChallengeUpdateCoroutine()

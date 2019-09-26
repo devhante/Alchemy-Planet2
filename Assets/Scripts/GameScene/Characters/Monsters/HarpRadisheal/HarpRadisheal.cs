@@ -31,7 +31,7 @@ namespace AlchemyPlanet.GameScene
 
         private void SpawnBullet()
         {
-            StartCoroutine("SpawnBulletCoroutine");
+            StartCoroutine(SpawnBulletCoroutine());
         }
 
         private IEnumerator SpawnBulletCoroutine()

@@ -24,7 +24,7 @@ public class TouchController : MonoBehaviour
 		//	UpdateTouch();
 		//}
 
-		StartCoroutine("TouchCoroutine");
+		StartCoroutine(TouchCoroutine());
 	}
 
 	private void UpdateMouse()

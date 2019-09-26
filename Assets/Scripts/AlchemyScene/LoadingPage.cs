@@ -18,7 +18,7 @@ public class LoadingPage : MonoBehaviour
     void Start()
     {
         jumpTimeSeconds = new WaitForSeconds(jumptime);
-        StartCoroutine("BoundSentence");
+        StartCoroutine(BoundSentence());
     }
 
     private IEnumerator BoundSentence()

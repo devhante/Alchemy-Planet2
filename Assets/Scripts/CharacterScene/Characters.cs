@@ -29,12 +29,12 @@ namespace AlchemyPlanet.CharacterScene
 
         public void MoveLeft()
         {
-            StartCoroutine("MoveLeftCoroutine");
+            StartCoroutine(MoveLeftCoroutine());
         }
 
         public void MoveRight()
         {
-            StartCoroutine("MoveRightCoroutine");
+            StartCoroutine(MoveRightCoroutine());
         }
 
         IEnumerator MoveLeftCoroutine()

@@ -36,8 +36,8 @@ namespace AlchemyPlanet.GameScene
 
         private void Start()
         {
-            StartCoroutine("MoveBackgroundCoroutine");
-            StartCoroutine("MoveTileCoroutine");
+            StartCoroutine(MoveBackgroundCoroutine());
+            StartCoroutine(MoveTileCoroutine());
         }
 
         private void LoadStageInfo()

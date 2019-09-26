@@ -75,7 +75,7 @@ namespace AlchemyPlanet.TownScene
             turnOnBuildBar = false;
             buildingbutton.onClick.AddListener(() =>
             {
-                StartCoroutine("MoveBar");
+                StartCoroutine(MoveBar());
             });
             UIOffButton.onClick.AddListener(() =>
             {
@@ -88,7 +88,7 @@ namespace AlchemyPlanet.TownScene
                 {
                     obj.SetActive(false);
                 }
-                mainCamera.GetComponent<MainCamera>().StartCoroutine("ZoomOut");
+                StartCoroutine(mainCamera.GetComponent<MainCamera>().ZoomOut());
                 UIManager.Instance.TownUIOff();
                 UIManager.Instance.OpenMenu<BuildingPlacement>();
             });
@@ -105,7 +105,7 @@ namespace AlchemyPlanet.TownScene
             });
         }
 
-        IEnumerator MoveBar()
+        public IEnumerator MoveBar()
         {
             if (!turnOnBuildBar)
             {

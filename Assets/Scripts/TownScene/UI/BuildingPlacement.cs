@@ -195,7 +195,7 @@ namespace AlchemyPlanet.TownScene
                         clickedBuilding = null;
                     }
                     clickedBuilding = hit.collider.gameObject;
-                    StartCoroutine("MoveBuilding");
+                    StartCoroutine(MoveBuilding());
                 }
                 else if ((hit.collider == null || hit.collider != null && hit.collider.gameObject != clickedBuilding) && clickedBuilding != null &&
                     tempTouch.phase == TouchPhase.Began)
@@ -206,7 +206,7 @@ namespace AlchemyPlanet.TownScene
                     clickedBuilding = null;
                 }
                 if (clickedBuilding != null && hit.collider != null && hit.collider.gameObject == clickedBuilding)
-                    StartCoroutine("MoveBuilding");
+                    StartCoroutine(MoveBuilding());
             }
         }
 
